@@ -23,7 +23,7 @@ namespace AttackSurfaceAnalyzer.Utils
 
         private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
 
-        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1, TelemetryEnabled = true };
+        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1 };
 
         public static ConcurrentQueue<WriteObject> WriteQueue { get; private set; } = new ConcurrentQueue<WriteObject>();
 
@@ -434,32 +434,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
             Results?.DeleteMany(x => x.RunId == runId);
         }
-
-        public static bool GetOptOut()
-        {
-            //var settings = db.GetCollection<Setting>("Settings");
-            //var optout = settings.FindOne(x => x.Name == "TelemetryOptOut");
-            //return bool.Parse(optout.Value);
-            return false;
-        }
-
-        public static void SetOptOut(bool OptOut)
-        {
-            //var settings = db.GetCollection<Setting>("Settings");
-
-            //settings.Upsert(new Setting() { Name = "TelemetryOptOut", Value = OptOut.ToString() });
-        }
-
-        //public static void WriteFileMonitor(FileMonitorObject obj, string runId)
-        //{
-        //    var fme = db.GetCollection<FileMonitorEvent>();
-
-        //    fme.Insert(new FileMonitorEvent()
-        //    {
-        //        RunId = runId,
-        //        FMO = obj
-        //    });
-        //}
 
         public static AsaRun? GetRun(string RunId)
         {

@@ -13,19 +13,19 @@ references:
   commentId: T:AttackSurfaceAnalyzer.CollectCommandOptions
   fullName: AttackSurfaceAnalyzer.CollectCommandOptions
   nameWithType: CollectCommandOptions
-- uid: AttackSurfaceAnalyzer.CollectCommandOptions.CertificatesFromFiles
-  name: CertificatesFromFiles
-  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_CertificatesFromFiles
-  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.CertificatesFromFiles
-  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.CertificatesFromFiles
-  nameWithType: CollectCommandOptions.CertificatesFromFiles
-- uid: AttackSurfaceAnalyzer.CollectCommandOptions.CertificatesFromFiles*
-  name: CertificatesFromFiles
-  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_CertificatesFromFiles_
-  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.CertificatesFromFiles
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.CrawlArchives
+  name: CrawlArchives
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_CrawlArchives
+  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.CrawlArchives
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.CrawlArchives
+  nameWithType: CollectCommandOptions.CrawlArchives
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.CrawlArchives*
+  name: CrawlArchives
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_CrawlArchives_
+  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.CrawlArchives
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.CertificatesFromFiles
-  nameWithType: CollectCommandOptions.CertificatesFromFiles
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.CrawlArchives
+  nameWithType: CollectCommandOptions.CrawlArchives
 - uid: AttackSurfaceAnalyzer.CollectCommandOptions.DownloadCloud
   name: DownloadCloud
   href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_DownloadCloud
@@ -221,19 +221,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.CollectCommandOptions.Overwrite
   nameWithType: CollectCommandOptions.Overwrite
-- uid: AttackSurfaceAnalyzer.CollectCommandOptions.Parallelization
-  name: Parallelization
-  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_Parallelization
-  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.Parallelization
-  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.Parallelization
-  nameWithType: CollectCommandOptions.Parallelization
-- uid: AttackSurfaceAnalyzer.CollectCommandOptions.Parallelization*
-  name: Parallelization
-  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_Parallelization_
-  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.Parallelization
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.Parallelization
-  nameWithType: CollectCommandOptions.Parallelization
 - uid: AttackSurfaceAnalyzer.CollectCommandOptions.RunId
   name: RunId
   href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_RunId
@@ -260,19 +247,32 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SelectedDirectories
   nameWithType: CollectCommandOptions.SelectedDirectories
-- uid: AttackSurfaceAnalyzer.CollectCommandOptions.Shards
-  name: Shards
-  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_Shards
-  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.Shards
-  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.Shards
-  nameWithType: CollectCommandOptions.Shards
-- uid: AttackSurfaceAnalyzer.CollectCommandOptions.Shards*
-  name: Shards
-  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_Shards_
-  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.Shards
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.SelectedHives
+  name: SelectedHives
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_SelectedHives
+  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.SelectedHives
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SelectedHives
+  nameWithType: CollectCommandOptions.SelectedHives
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.SelectedHives*
+  name: SelectedHives
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_SelectedHives_
+  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.SelectedHives
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.Shards
-  nameWithType: CollectCommandOptions.Shards
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SelectedHives
+  nameWithType: CollectCommandOptions.SelectedHives
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread
+  name: SingleThread
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_SingleThread
+  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread
+  nameWithType: CollectCommandOptions.SingleThread
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread*
+  name: SingleThread
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_SingleThread_
+  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread
+  nameWithType: CollectCommandOptions.SingleThread
 - uid: AttackSurfaceAnalyzer.Collectors
   name: AttackSurfaceAnalyzer.Collectors
   href: api/AttackSurfaceAnalyzer.Collectors.html
@@ -285,6 +285,22 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCollector
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector
   nameWithType: BaseCollector
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: BaseCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: BaseCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: BaseCollector.BaseCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: BaseCollector.BaseCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor*
+  name: BaseCollector
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector
+  nameWithType: BaseCollector.BaseCollector
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
   name: CanRunOnPlatform()
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform
@@ -298,19 +314,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.CanRunOnPlatform
   nameWithType: BaseCollector.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
-  name: Execute()
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute()
-  nameWithType: BaseCollector.Execute()
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute*
-  name: Execute
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Execute
-  nameWithType: BaseCollector.Execute
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.ExecuteInternal
   name: ExecuteInternal()
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_ExecuteInternal
@@ -324,45 +327,32 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.ExecuteInternal
   nameWithType: BaseCollector.ExecuteInternal
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
-  name: IsRunning()
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning()
-  nameWithType: BaseCollector.IsRunning()
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning*
-  name: IsRunning
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Results
+  name: Results
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Results
+  commentId: P:AttackSurfaceAnalyzer.Collectors.BaseCollector.Results
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Results
+  nameWithType: BaseCollector.Results
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Results*
+  name: Results
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Results_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.Results
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.IsRunning
-  nameWithType: BaseCollector.IsRunning
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
-  name: NumCollected()
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected()
-  nameWithType: BaseCollector.NumCollected()
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected*
-  name: NumCollected
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Results
+  nameWithType: BaseCollector.Results
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunStatus
+  name: RunStatus
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunStatus
+  commentId: P:AttackSurfaceAnalyzer.Collectors.BaseCollector.RunStatus
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunStatus
+  nameWithType: BaseCollector.RunStatus
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunStatus*
+  name: RunStatus
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunStatus_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.RunStatus
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.NumCollected
-  nameWithType: BaseCollector.NumCollected
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId
-  name: RunId
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId
-  commentId: P:AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId
-  nameWithType: BaseCollector.RunId
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId*
-  name: RunId
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunId
-  nameWithType: BaseCollector.RunId
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.RunStatus
+  nameWithType: BaseCollector.RunStatus
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.Start
   name: Start()
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Start
@@ -389,6 +379,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
   nameWithType: BaseCollector.Stop
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute
+  name: TryExecute()
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute()
+  nameWithType: BaseCollector.TryExecute()
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute*
+  name: TryExecute
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute
+  nameWithType: BaseCollector.TryExecute
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare
   name: BaseCompare
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html
@@ -408,6 +411,24 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.BaseCompare
   nameWithType: BaseCompare.BaseCompare
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)
+  name: Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, String, String)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)
+  name.vb: Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), String, String)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable<AttackSurfaceAnalyzer.Objects.CollectObject>, System.Collections.Generic.IEnumerable<AttackSurfaceAnalyzer.Objects.CollectObject>, System.String, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable(Of AttackSurfaceAnalyzer.Objects.CollectObject), System.Collections.Generic.IEnumerable(Of AttackSurfaceAnalyzer.Objects.CollectObject), System.String, System.String)
+  nameWithType: BaseCompare.Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, String, String)
+  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), String, String)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)
+  name: Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, String, String)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)
+  name.vb: Compare(IEnumerable(Of (CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)), String, String)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable<System.ValueTuple<AttackSurfaceAnalyzer.Objects.CollectObject, System.String>>, System.Collections.Generic.IEnumerable<System.ValueTuple<AttackSurfaceAnalyzer.Objects.CollectObject, AttackSurfaceAnalyzer.Objects.CollectObject>>, System.String, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable(Of System.ValueTuple(Of AttackSurfaceAnalyzer.Objects.CollectObject, System.String)), System.Collections.Generic.IEnumerable(Of System.ValueTuple(Of AttackSurfaceAnalyzer.Objects.CollectObject, AttackSurfaceAnalyzer.Objects.CollectObject)), System.String, System.String)
+  nameWithType: BaseCompare.Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, String, String)
+  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of (CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)), String, String)
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String)
   name: Compare(String, String)
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_
@@ -576,12 +597,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.CertificateCollector
   fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector
   nameWithType: CertificateCollector
-- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String)
-  name: CertificateCollector(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(System.String)
-  nameWithType: CertificateCollector.CertificateCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: CertificateCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: CertificateCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: CertificateCollector.CertificateCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: CertificateCollector.CertificateCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor*
   name: CertificateCollector
   href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_
@@ -660,12 +684,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   nameWithType: ComObjectCollector
-- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
-  name: ComObjectCollector(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(System.String)
-  nameWithType: ComObjectCollector.ComObjectCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: ComObjectCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: ComObjectCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: ComObjectCollector.ComObjectCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: ComObjectCollector.ComObjectCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*
   name: ComObjectCollector
   href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_
@@ -699,12 +726,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ExecuteInternal
   nameWithType: ComObjectCollector.ExecuteInternal
-- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView)
-  name: ParseComObjects(RegistryKey, RegistryView)
-  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseComObjects_Microsoft_Win32_RegistryKey_Microsoft_Win32_RegistryView_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView)
-  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(Microsoft.Win32.RegistryKey, Microsoft.Win32.RegistryView)
-  nameWithType: ComObjectCollector.ParseComObjects(RegistryKey, RegistryView)
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(RegistryKey,RegistryView,System.Boolean)
+  name: ParseComObjects(RegistryKey, RegistryView, Boolean)
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseComObjects_RegistryKey_RegistryView_System_Boolean_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(RegistryKey,RegistryView,System.Boolean)
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(RegistryKey, RegistryView, System.Boolean)
+  nameWithType: ComObjectCollector.ParseComObjects(RegistryKey, RegistryView, Boolean)
 - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects*
   name: ParseComObjects
   href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseComObjects_
@@ -712,11 +739,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects
   nameWithType: ComObjectCollector.ParseComObjects
-- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView(Microsoft.Win32.RegistryView)
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView(RegistryView)
   name: ParseView(RegistryView)
-  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseView_Microsoft_Win32_RegistryView_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView(Microsoft.Win32.RegistryView)
-  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView(Microsoft.Win32.RegistryView)
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseView_RegistryView_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView(RegistryView)
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView(RegistryView)
   nameWithType: ComObjectCollector.ParseView(RegistryView)
 - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseView*
   name: ParseView
@@ -731,12 +758,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.EventLogCollector
   fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector
   nameWithType: EventLogCollector
-- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String,System.Boolean)
-  name: EventLogCollector(String, Boolean)
-  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_System_String_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(System.String,System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(System.String, System.Boolean)
-  nameWithType: EventLogCollector.EventLogCollector(String, Boolean)
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: EventLogCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: EventLogCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: EventLogCollector.EventLogCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: EventLogCollector.EventLogCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor*
   name: EventLogCollector
   href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_
@@ -815,12 +845,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   nameWithType: FileSystemCollector
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions)
-  name: FileSystemCollector(CollectCommandOptions)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions)
-  nameWithType: FileSystemCollector.FileSystemCollector(CollectCommandOptions)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: FileSystemCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: FileSystemCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: FileSystemCollector.FileSystemCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: FileSystemCollector.FileSystemCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor*
   name: FileSystemCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_
@@ -828,19 +861,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector
   nameWithType: FileSystemCollector.FileSystemCollector
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
-  name: AddRoot(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_AddRoot_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot(System.String)
-  nameWithType: FileSystemCollector.AddRoot(String)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot*
-  name: AddRoot
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_AddRoot_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.AddRoot
-  nameWithType: FileSystemCollector.AddRoot
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
   name: CanRunOnPlatform()
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_CanRunOnPlatform
@@ -854,6 +874,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.CanRunOnPlatform
   nameWithType: FileSystemCollector.CanRunOnPlatform
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClusterSizes
+  name: ClusterSizes
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_ClusterSizes
+  commentId: P:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClusterSizes
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClusterSizes
+  nameWithType: FileSystemCollector.ClusterSizes
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClusterSizes*
+  name: ClusterSizes
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_ClusterSizes_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClusterSizes
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ClusterSizes
+  nameWithType: FileSystemCollector.ClusterSizes
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ExecuteInternal
   name: ExecuteInternal()
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_ExecuteInternal
@@ -867,12 +900,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.ExecuteInternal
   nameWithType: FileSystemCollector.ExecuteInternal
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject(System.String,System.Boolean,System.Boolean)
-  name: FilePathToFileSystemObject(String, Boolean, Boolean)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_FilePathToFileSystemObject_System_String_System_Boolean_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject(System.String,System.Boolean,System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject(System.String, System.Boolean, System.Boolean)
-  nameWithType: FileSystemCollector.FilePathToFileSystemObject(String, Boolean, Boolean)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject(System.String)
+  name: FilePathToFileSystemObject(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_FilePathToFileSystemObject_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject(System.String)
+  nameWithType: FileSystemCollector.FilePathToFileSystemObject(String)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject*
   name: FilePathToFileSystemObject
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_FilePathToFileSystemObject_
@@ -880,24 +913,34 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject
   nameWithType: FileSystemCollector.FilePathToFileSystemObject
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots
+  name: Roots
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_Roots
+  commentId: P:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots
+  nameWithType: FileSystemCollector.Roots
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots*
+  name: Roots
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector_Roots_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots
+  nameWithType: FileSystemCollector.Roots
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   name: FileSystemMonitor
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   nameWithType: FileSystemMonitor
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean)
-  name: FileSystemMonitor(String, String, Boolean)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_System_String_System_String_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean)
-  nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
-  name: FileSystemMonitor(String, String, Boolean, NotifyFilters)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_System_String_System_String_System_Boolean_System_IO_NotifyFilters_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(System.String,System.String,System.Boolean,System.IO.NotifyFilters)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(System.String, System.String, System.Boolean, System.IO.NotifyFilters)
-  nameWithType: FileSystemMonitor.FileSystemMonitor(String, String, Boolean, NotifyFilters)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.FileMonitorObject})
+  name: FileSystemMonitor(MonitorCommandOptions, Action<FileMonitorObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_AttackSurfaceAnalyzer_MonitorCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_FileMonitorObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.FileMonitorObject})
+  name.vb: FileSystemMonitor(MonitorCommandOptions, Action(Of FileMonitorObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(AttackSurfaceAnalyzer.MonitorCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.FileMonitorObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(AttackSurfaceAnalyzer.MonitorCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.FileMonitorObject))
+  nameWithType: FileSystemMonitor.FileSystemMonitor(MonitorCommandOptions, Action<FileMonitorObject>)
+  nameWithType.vb: FileSystemMonitor.FileSystemMonitor(MonitorCommandOptions, Action(Of FileMonitorObject))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*
   name: FileSystemMonitor
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_
@@ -931,18 +974,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFilters
-  name: defaultFilters
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_defaultFilters
-  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFilters
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFilters
-  nameWithType: FileSystemMonitor.defaultFilters
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersWithAccessTime
-  name: defaultFiltersWithAccessTime
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_defaultFiltersWithAccessTime
-  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersWithAccessTime
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersWithAccessTime
-  nameWithType: FileSystemMonitor.defaultFiltersWithAccessTime
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersList
+  name: defaultFiltersList
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_defaultFiltersList
+  commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersList
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.defaultFiltersList
+  nameWithType: FileSystemMonitor.defaultFiltersList
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.Dispose
   name: Dispose()
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_Dispose
@@ -975,22 +1012,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.IsRunning
   nameWithType: FileSystemMonitor.IsRunning
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
-  name: SetCustomChangeHandler(Action<EventArgs>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_SetCustomChangeHandler_System_Action_System_EventArgs__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action{System.EventArgs})
-  name.vb: SetCustomChangeHandler(Action(Of EventArgs))
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action<System.EventArgs>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler(System.Action(Of System.EventArgs))
-  nameWithType: FileSystemMonitor.SetCustomChangeHandler(Action<EventArgs>)
-  nameWithType.vb: FileSystemMonitor.SetCustomChangeHandler(Action(Of EventArgs))
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler*
-  name: SetCustomChangeHandler
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_SetCustomChangeHandler_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.SetCustomChangeHandler
-  nameWithType: FileSystemMonitor.SetCustomChangeHandler
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.StartRun
   name: StartRun()
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_StartRun
@@ -1017,31 +1038,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.StopRun
   nameWithType: FileSystemMonitor.StopRun
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  name: WriteChange(FileSystemEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_System_IO_FileSystemEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs)
-  nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
-  name: WriteChange(FileSystemEventArgs, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_System_IO_FileSystemEventArgs_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs,System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange(System.IO.FileSystemEventArgs, System.String)
-  nameWithType: FileSystemMonitor.WriteChange(FileSystemEventArgs, String)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange*
-  name: WriteChange
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteChange_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteChange
-  nameWithType: FileSystemMonitor.WriteChange
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
-  name: WriteRename(RenamedEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs)
-  nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)
+  name: WriteRename(RenamedEventArgs, NotifyFilters)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_System_IO_NotifyFilters_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs, System.IO.NotifyFilters)
+  nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs, NotifyFilters)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   name: WriteRename
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_
@@ -1061,6 +1063,25 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
   nameWithType: FileSystemUtils.ElfMagicNumber
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
+  name: GetExecutableType(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
+  nameWithType: FileSystemUtils.GetExecutableType(String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String,System.IO.Stream)
+  name: GetExecutableType(String, Stream)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_String_System_IO_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String,System.IO.Stream)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String, System.IO.Stream)
+  nameWithType: FileSystemUtils.GetExecutableType(String, Stream)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType*
+  name: GetExecutableType
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType
+  nameWithType: FileSystemUtils.GetExecutableType
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
   name: GetFileHash(FileSystemInfo)
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_System_IO_FileSystemInfo_
@@ -1093,35 +1114,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions
   nameWithType: FileSystemUtils.GetFilePermissions
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String,System.Nullable{System.UInt64})
-  name: IsExecutable(String, Nullable<UInt64>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_IsExecutable_System_String_System_Nullable_System_UInt64__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String,System.Nullable{System.UInt64})
-  name.vb: IsExecutable(String, Nullable(Of UInt64))
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String, System.Nullable<System.UInt64>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable(System.String, System.Nullable(Of System.UInt64))
-  nameWithType: FileSystemUtils.IsExecutable(String, Nullable<UInt64>)
-  nameWithType.vb: FileSystemUtils.IsExecutable(String, Nullable(Of UInt64))
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable*
-  name: IsExecutable
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_IsExecutable_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
+  name: GetMacSignature(String)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
+  nameWithType: FileSystemUtils.GetMacSignature(String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature*
+  name: GetMacSignature
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_
+  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsExecutable
-  nameWithType: FileSystemUtils.IsExecutable
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsWindowsExecutable(System.String,System.UInt64)
-  name: IsWindowsExecutable(String, UInt64)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_IsWindowsExecutable_System_String_System_UInt64_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsWindowsExecutable(System.String,System.UInt64)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsWindowsExecutable(System.String, System.UInt64)
-  nameWithType: FileSystemUtils.IsWindowsExecutable(String, UInt64)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsWindowsExecutable*
-  name: IsWindowsExecutable
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_IsWindowsExecutable_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsWindowsExecutable
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.IsWindowsExecutable
-  nameWithType: FileSystemUtils.IsWindowsExecutable
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature
+  nameWithType: FileSystemUtils.GetMacSignature
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.JavaMagicNumber
   name: JavaMagicNumber
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_JavaMagicNumber
@@ -1146,12 +1151,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FirewallCollector
   fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector
   nameWithType: FirewallCollector
-- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
-  name: FirewallCollector(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(System.String)
-  nameWithType: FirewallCollector.FirewallCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: FirewallCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: FirewallCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: FirewallCollector.FirewallCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: FirewallCollector.FirewallCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor*
   name: FirewallCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_
@@ -1249,12 +1257,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   fullName: AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   nameWithType: OpenPortCollector
-- uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(System.String)
-  name: OpenPortCollector(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(System.String)
-  nameWithType: OpenPortCollector.OpenPortCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: OpenPortCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: OpenPortCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: OpenPortCollector.OpenPortCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: OpenPortCollector.OpenPortCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor*
   name: OpenPortCollector
   href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_
@@ -1307,21 +1318,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.RegistryCollector
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector
   nameWithType: RegistryCollector
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Boolean)
-  name: RegistryCollector(String, Boolean)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Boolean)
-  nameWithType: RegistryCollector.RegistryCollector(String, Boolean)
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Boolean,System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
-  name: RegistryCollector(String, List<RegistryHive>, Boolean, Action<RegistryObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__System_Boolean_System_Action_AttackSurfaceAnalyzer_Objects_RegistryObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Boolean,System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})
-  name.vb: RegistryCollector(String, List(Of RegistryHive), Boolean, Action(Of RegistryObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List<Microsoft.Win32.RegistryHive>, System.Boolean, System.Action<AttackSurfaceAnalyzer.Objects.RegistryObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(System.String, System.Collections.Generic.List(Of Microsoft.Win32.RegistryHive), System.Boolean, System.Action(Of AttackSurfaceAnalyzer.Objects.RegistryObject))
-  nameWithType: RegistryCollector.RegistryCollector(String, List<RegistryHive>, Boolean, Action<RegistryObject>)
-  nameWithType.vb: RegistryCollector.RegistryCollector(String, List(Of RegistryHive), Boolean, Action(Of RegistryObject))
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: RegistryCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: RegistryCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: RegistryCollector.RegistryCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: RegistryCollector.RegistryCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
   name: RegistryCollector
   href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_
@@ -1329,19 +1334,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector
   nameWithType: RegistryCollector.RegistryCollector
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)
-  name: AddRoot(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_AddRoot_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)
-  nameWithType: RegistryCollector.AddRoot(String)
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot*
-  name: AddRoot
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_AddRoot_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot
-  nameWithType: RegistryCollector.AddRoot
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform
   name: CanRunOnPlatform()
   href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_CanRunOnPlatform
@@ -1355,19 +1347,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform
   nameWithType: RegistryCollector.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots
-  name: ClearRoots()
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_ClearRoots
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots()
-  nameWithType: RegistryCollector.ClearRoots()
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots*
-  name: ClearRoots
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_ClearRoots_
-  commentId: Overload:AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots
-  nameWithType: RegistryCollector.ClearRoots
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.ExecuteInternal
   name: ExecuteInternal()
   href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector_ExecuteInternal
@@ -1432,11 +1411,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.Dispose
   nameWithType: RegistryMonitor.Dispose
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
   name: MyOnEntryWritten(Object, EntryWrittenEventArgs)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html#AttackSurfaceAnalyzer_Collectors_RegistryMonitor_MyOnEntryWritten_System_Object_System_Diagnostics_EntryWrittenEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,System.Diagnostics.EntryWrittenEventArgs)
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, System.Diagnostics.EntryWrittenEventArgs)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html#AttackSurfaceAnalyzer_Collectors_RegistryMonitor_MyOnEntryWritten_System_Object_EntryWrittenEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object,EntryWrittenEventArgs)
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten(System.Object, EntryWrittenEventArgs)
   nameWithType: RegistryMonitor.MyOnEntryWritten(Object, EntryWrittenEventArgs)
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryMonitor.MyOnEntryWritten*
   name: MyOnEntryWritten
@@ -1477,12 +1456,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.ServiceCollector
   fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector
   nameWithType: ServiceCollector
-- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(System.String)
-  name: ServiceCollector(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(System.String)
-  nameWithType: ServiceCollector.ServiceCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: ServiceCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: ServiceCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: ServiceCollector.ServiceCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: ServiceCollector.ServiceCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor*
   name: ServiceCollector
   href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_
@@ -1561,12 +1543,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   fullName: AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   nameWithType: UserAccountCollector
-- uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(System.String)
-  name: UserAccountCollector(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(System.String)
-  nameWithType: UserAccountCollector.UserAccountCollector(String)
+- uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: UserAccountCollector(CollectCommandOptions, Action<CollectObject>)
+  href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: UserAccountCollector(CollectCommandOptions, Action(Of CollectObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: UserAccountCollector.UserAccountCollector(CollectCommandOptions, Action<CollectObject>)
+  nameWithType.vb: UserAccountCollector.UserAccountCollector(CollectCommandOptions, Action(Of CollectObject))
 - uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor*
   name: UserAccountCollector
   href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_
@@ -1625,6 +1610,12 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics(String)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,System.IO.Stream)
+  name: GetDllCharacteristics(String, Stream)
+  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetDllCharacteristics_System_String_System_IO_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,System.IO.Stream)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String, System.IO.Stream)
+  nameWithType: WindowsFileSystemUtils.GetDllCharacteristics(String, Stream)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics*
   name: GetDllCharacteristics
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetDllCharacteristics_
@@ -1638,6 +1629,12 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus(String)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,System.IO.Stream)
+  name: GetSignatureStatus(String, Stream)
+  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_System_String_System_IO_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,System.IO.Stream)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String, System.IO.Stream)
+  nameWithType: WindowsFileSystemUtils.GetSignatureStatus(String, Stream)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus*
   name: GetSignatureStatus
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_
@@ -1658,24 +1655,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.IsLocal
   nameWithType: WindowsFileSystemUtils.IsLocal
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(AttackSurfaceAnalyzer.Objects.FileSystemObject)
-  name: NeedsSignature(FileSystemObject)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_NeedsSignature_AttackSurfaceAnalyzer_Objects_FileSystemObject_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(AttackSurfaceAnalyzer.Objects.FileSystemObject)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(AttackSurfaceAnalyzer.Objects.FileSystemObject)
-  nameWithType: WindowsFileSystemUtils.NeedsSignature(FileSystemObject)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(System.String)
   name: NeedsSignature(String)
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_NeedsSignature_System_String_
   commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(System.String)
   nameWithType: WindowsFileSystemUtils.NeedsSignature(String)
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(System.String,System.UInt64)
-  name: NeedsSignature(String, UInt64)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_NeedsSignature_System_String_System_UInt64_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(System.String,System.UInt64)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature(System.String, System.UInt64)
-  nameWithType: WindowsFileSystemUtils.NeedsSignature(String, UInt64)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.NeedsSignature*
   name: NeedsSignature
   href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_NeedsSignature_
@@ -1715,6 +1700,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.CommandOptions.Debug
   nameWithType: CommandOptions.Debug
+- uid: AttackSurfaceAnalyzer.CommandOptions.LowMemoryUsage
+  name: LowMemoryUsage
+  href: api/AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_LowMemoryUsage
+  commentId: P:AttackSurfaceAnalyzer.CommandOptions.LowMemoryUsage
+  fullName: AttackSurfaceAnalyzer.CommandOptions.LowMemoryUsage
+  nameWithType: CommandOptions.LowMemoryUsage
+- uid: AttackSurfaceAnalyzer.CommandOptions.LowMemoryUsage*
+  name: LowMemoryUsage
+  href: api/AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_LowMemoryUsage_
+  commentId: Overload:AttackSurfaceAnalyzer.CommandOptions.LowMemoryUsage
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.CommandOptions.LowMemoryUsage
+  nameWithType: CommandOptions.LowMemoryUsage
 - uid: AttackSurfaceAnalyzer.CommandOptions.Quiet
   name: Quiet
   href: api/AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Quiet
@@ -1728,6 +1726,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.CommandOptions.Quiet
   nameWithType: CommandOptions.Quiet
+- uid: AttackSurfaceAnalyzer.CommandOptions.Shards
+  name: Shards
+  href: api/AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Shards
+  commentId: P:AttackSurfaceAnalyzer.CommandOptions.Shards
+  fullName: AttackSurfaceAnalyzer.CommandOptions.Shards
+  nameWithType: CommandOptions.Shards
+- uid: AttackSurfaceAnalyzer.CommandOptions.Shards*
+  name: Shards
+  href: api/AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Shards_
+  commentId: Overload:AttackSurfaceAnalyzer.CommandOptions.Shards
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.CommandOptions.Shards
+  nameWithType: CommandOptions.Shards
 - uid: AttackSurfaceAnalyzer.CommandOptions.Verbose
   name: Verbose
   href: api/AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Verbose
@@ -1941,6 +1952,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExplodedOutput
   nameWithType: ExportCollectCommandOptions.ExplodedOutput
+- uid: AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExportSingleRun
+  name: ExportSingleRun
+  href: api/AttackSurfaceAnalyzer.ExportCollectCommandOptions.html#AttackSurfaceAnalyzer_ExportCollectCommandOptions_ExportSingleRun
+  commentId: P:AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExportSingleRun
+  fullName: AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExportSingleRun
+  nameWithType: ExportCollectCommandOptions.ExportSingleRun
+- uid: AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExportSingleRun*
+  name: ExportSingleRun
+  href: api/AttackSurfaceAnalyzer.ExportCollectCommandOptions.html#AttackSurfaceAnalyzer_ExportCollectCommandOptions_ExportSingleRun_
+  commentId: Overload:AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExportSingleRun
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.ExportCollectCommandOptions.ExportSingleRun
+  nameWithType: ExportCollectCommandOptions.ExportSingleRun
 - uid: AttackSurfaceAnalyzer.ExportCollectCommandOptions.FirstRunId
   name: FirstRunId
   href: api/AttackSurfaceAnalyzer.ExportCollectCommandOptions.html#AttackSurfaceAnalyzer_ExportCollectCommandOptions_FirstRunId
@@ -2063,19 +2087,32 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.EnableFileSystemMonitor
   nameWithType: MonitorCommandOptions.EnableFileSystemMonitor
-- uid: AttackSurfaceAnalyzer.MonitorCommandOptions.InterrogateChanges
-  name: InterrogateChanges
-  href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_InterrogateChanges
-  commentId: P:AttackSurfaceAnalyzer.MonitorCommandOptions.InterrogateChanges
-  fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.InterrogateChanges
-  nameWithType: MonitorCommandOptions.InterrogateChanges
-- uid: AttackSurfaceAnalyzer.MonitorCommandOptions.InterrogateChanges*
-  name: InterrogateChanges
-  href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_InterrogateChanges_
-  commentId: Overload:AttackSurfaceAnalyzer.MonitorCommandOptions.InterrogateChanges
+- uid: AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly
+  name: FileNamesOnly
+  href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_FileNamesOnly
+  commentId: P:AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly
+  fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly
+  nameWithType: MonitorCommandOptions.FileNamesOnly
+- uid: AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly*
+  name: FileNamesOnly
+  href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_FileNamesOnly_
+  commentId: Overload:AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly
   isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.InterrogateChanges
-  nameWithType: MonitorCommandOptions.InterrogateChanges
+  fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly
+  nameWithType: MonitorCommandOptions.FileNamesOnly
+- uid: AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes
+  name: GatherHashes
+  href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_GatherHashes
+  commentId: P:AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes
+  fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes
+  nameWithType: MonitorCommandOptions.GatherHashes
+- uid: AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes*
+  name: GatherHashes
+  href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_GatherHashes_
+  commentId: Overload:AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes
+  nameWithType: MonitorCommandOptions.GatherHashes
 - uid: AttackSurfaceAnalyzer.MonitorCommandOptions.MonitoredDirectories
   name: MonitoredDirectories
   href: api/AttackSurfaceAnalyzer.MonitorCommandOptions.html#AttackSurfaceAnalyzer_MonitorCommandOptions_MonitoredDirectories
@@ -2227,12 +2264,12 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.CertificateObject
   fullName: AttackSurfaceAnalyzer.Objects.CertificateObject
   nameWithType: CertificateObject
-- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Objects.SerializableCertificate,System.String)
-  name: CertificateObject(String, String, SerializableCertificate, String)
-  href: api/AttackSurfaceAnalyzer.Objects.CertificateObject.html#AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_System_String_System_String_AttackSurfaceAnalyzer_Objects_SerializableCertificate_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Objects.SerializableCertificate,System.String)
-  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateObject(System.String, System.String, AttackSurfaceAnalyzer.Objects.SerializableCertificate, System.String)
-  nameWithType: CertificateObject.CertificateObject(String, String, SerializableCertificate, String)
+- uid: AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Objects.SerializableCertificate)
+  name: CertificateObject(String, String, SerializableCertificate)
+  href: api/AttackSurfaceAnalyzer.Objects.CertificateObject.html#AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_System_String_System_String_AttackSurfaceAnalyzer_Objects_SerializableCertificate_
+  commentId: M:AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Objects.SerializableCertificate)
+  fullName: AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateObject(System.String, System.String, AttackSurfaceAnalyzer.Objects.SerializableCertificate)
+  nameWithType: CertificateObject.CertificateObject(String, String, SerializableCertificate)
 - uid: AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor*
   name: CertificateObject
   href: api/AttackSurfaceAnalyzer.Objects.CertificateObject.html#AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_
@@ -2460,6 +2497,45 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.CollectObject.RowKey
   nameWithType: CollectObject.RowKey
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Serialized
+  name: Serialized
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Serialized
+  commentId: P:AttackSurfaceAnalyzer.Objects.CollectObject.Serialized
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Serialized
+  nameWithType: CollectObject.Serialized
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.Serialized*
+  name: Serialized
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Serialized_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.Serialized
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.Serialized
+  nameWithType: CollectObject.Serialized
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
+  name: ShouldSerializeRowKey()
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey
+  commentId: M:AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey()
+  nameWithType: CollectObject.ShouldSerializeRowKey()
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey*
+  name: ShouldSerializeRowKey
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
+  nameWithType: CollectObject.ShouldSerializeRowKey
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
+  name: ShouldSerializeSerialized()
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeSerialized
+  commentId: M:AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized()
+  nameWithType: CollectObject.ShouldSerializeSerialized()
+- uid: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized*
+  name: ShouldSerializeSerialized
+  href: api/AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeSerialized_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
+  nameWithType: CollectObject.ShouldSerializeSerialized
 - uid: AttackSurfaceAnalyzer.Objects.ComObject
   name: ComObject
   href: api/AttackSurfaceAnalyzer.Objects.ComObject.html
@@ -2732,51 +2808,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.CompareResult.ShouldSerializeRules
   nameWithType: CompareResult.ShouldSerializeRules
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun
-  name: CompareRun
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html
-  commentId: T:AttackSurfaceAnalyzer.Objects.CompareRun
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun
-  nameWithType: CompareRun
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun.FirstRunId
-  name: FirstRunId
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html#AttackSurfaceAnalyzer_Objects_CompareRun_FirstRunId
-  commentId: P:AttackSurfaceAnalyzer.Objects.CompareRun.FirstRunId
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun.FirstRunId
-  nameWithType: CompareRun.FirstRunId
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun.FirstRunId*
-  name: FirstRunId
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html#AttackSurfaceAnalyzer_Objects_CompareRun_FirstRunId_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.CompareRun.FirstRunId
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun.FirstRunId
-  nameWithType: CompareRun.FirstRunId
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun.SecondRunId
-  name: SecondRunId
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html#AttackSurfaceAnalyzer_Objects_CompareRun_SecondRunId
-  commentId: P:AttackSurfaceAnalyzer.Objects.CompareRun.SecondRunId
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun.SecondRunId
-  nameWithType: CompareRun.SecondRunId
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun.SecondRunId*
-  name: SecondRunId
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html#AttackSurfaceAnalyzer_Objects_CompareRun_SecondRunId_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.CompareRun.SecondRunId
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun.SecondRunId
-  nameWithType: CompareRun.SecondRunId
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun.Status
-  name: Status
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html#AttackSurfaceAnalyzer_Objects_CompareRun_Status
-  commentId: P:AttackSurfaceAnalyzer.Objects.CompareRun.Status
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun.Status
-  nameWithType: CompareRun.Status
-- uid: AttackSurfaceAnalyzer.Objects.CompareRun.Status*
-  name: Status
-  href: api/AttackSurfaceAnalyzer.Objects.CompareRun.html#AttackSurfaceAnalyzer_Objects_CompareRun_Status_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.CompareRun.Status
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.CompareRun.Status
-  nameWithType: CompareRun.Status
 - uid: AttackSurfaceAnalyzer.Objects.DataRunListModel
   name: DataRunListModel
   href: api/AttackSurfaceAnalyzer.Objects.DataRunListModel.html
@@ -3203,6 +3234,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.FileMonitorObject.ExtendedResults
   nameWithType: FileMonitorObject.ExtendedResults
+- uid: AttackSurfaceAnalyzer.Objects.FileMonitorObject.FileSystemObject
+  name: FileSystemObject
+  href: api/AttackSurfaceAnalyzer.Objects.FileMonitorObject.html#AttackSurfaceAnalyzer_Objects_FileMonitorObject_FileSystemObject
+  commentId: P:AttackSurfaceAnalyzer.Objects.FileMonitorObject.FileSystemObject
+  fullName: AttackSurfaceAnalyzer.Objects.FileMonitorObject.FileSystemObject
+  nameWithType: FileMonitorObject.FileSystemObject
+- uid: AttackSurfaceAnalyzer.Objects.FileMonitorObject.FileSystemObject*
+  name: FileSystemObject
+  href: api/AttackSurfaceAnalyzer.Objects.FileMonitorObject.html#AttackSurfaceAnalyzer_Objects_FileMonitorObject_FileSystemObject_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FileMonitorObject.FileSystemObject
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FileMonitorObject.FileSystemObject
+  nameWithType: FileMonitorObject.FileSystemObject
 - uid: AttackSurfaceAnalyzer.Objects.FileMonitorObject.Identity
   name: Identity
   href: api/AttackSurfaceAnalyzer.Objects.FileMonitorObject.html#AttackSurfaceAnalyzer_Objects_FileMonitorObject_Identity
@@ -3501,6 +3545,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.LastModified
   nameWithType: FileSystemObject.LastModified
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.MacSignatureStatus
+  name: MacSignatureStatus
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_MacSignatureStatus
+  commentId: P:AttackSurfaceAnalyzer.Objects.FileSystemObject.MacSignatureStatus
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.MacSignatureStatus
+  nameWithType: FileSystemObject.MacSignatureStatus
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.MacSignatureStatus*
+  name: MacSignatureStatus
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_MacSignatureStatus_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FileSystemObject.MacSignatureStatus
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.MacSignatureStatus
+  nameWithType: FileSystemObject.MacSignatureStatus
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.Owner
   name: Owner
   href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_Owner
@@ -3631,6 +3688,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.Size
   nameWithType: FileSystemObject.Size
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.SizeOnDisk
+  name: SizeOnDisk
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_SizeOnDisk
+  commentId: P:AttackSurfaceAnalyzer.Objects.FileSystemObject.SizeOnDisk
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.SizeOnDisk
+  nameWithType: FileSystemObject.SizeOnDisk
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.SizeOnDisk*
+  name: SizeOnDisk
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_SizeOnDisk_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.FileSystemObject.SizeOnDisk
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemObject.SizeOnDisk
+  nameWithType: FileSystemObject.SizeOnDisk
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemObject.Target
   name: Target
   href: api/AttackSurfaceAnalyzer.Objects.FileSystemObject.html#AttackSurfaceAnalyzer_Objects_FileSystemObject_Target
@@ -4046,6 +4116,103 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.GroupAccountObject.Users
   nameWithType: GroupAccountObject.Users
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature
+  name: MacSignature
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html
+  commentId: T:AttackSurfaceAnalyzer.Objects.MacSignature
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature
+  nameWithType: MacSignature
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.Authorities
+  name: Authorities
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_Authorities
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.Authorities
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.Authorities
+  nameWithType: MacSignature.Authorities
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.Authorities*
+  name: Authorities
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_Authorities_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.Authorities
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.Authorities
+  nameWithType: MacSignature.Authorities
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.CandidateCDHashFull
+  name: CandidateCDHashFull
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_CandidateCDHashFull
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.CandidateCDHashFull
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.CandidateCDHashFull
+  nameWithType: MacSignature.CandidateCDHashFull
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.CandidateCDHashFull*
+  name: CandidateCDHashFull
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_CandidateCDHashFull_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.CandidateCDHashFull
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.CandidateCDHashFull
+  nameWithType: MacSignature.CandidateCDHashFull
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.CMSDigest
+  name: CMSDigest
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_CMSDigest
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.CMSDigest
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.CMSDigest
+  nameWithType: MacSignature.CMSDigest
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.CMSDigest*
+  name: CMSDigest
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_CMSDigest_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.CMSDigest
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.CMSDigest
+  nameWithType: MacSignature.CMSDigest
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.HashChoices
+  name: HashChoices
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_HashChoices
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.HashChoices
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.HashChoices
+  nameWithType: MacSignature.HashChoices
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.HashChoices*
+  name: HashChoices
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_HashChoices_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.HashChoices
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.HashChoices
+  nameWithType: MacSignature.HashChoices
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.HashType
+  name: HashType
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_HashType
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.HashType
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.HashType
+  nameWithType: MacSignature.HashType
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.HashType*
+  name: HashType
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_HashType_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.HashType
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.HashType
+  nameWithType: MacSignature.HashType
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.TeamIdentifier
+  name: TeamIdentifier
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_TeamIdentifier
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.TeamIdentifier
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.TeamIdentifier
+  nameWithType: MacSignature.TeamIdentifier
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.TeamIdentifier*
+  name: TeamIdentifier
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_TeamIdentifier_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.TeamIdentifier
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.TeamIdentifier
+  nameWithType: MacSignature.TeamIdentifier
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.Timestamp
+  name: Timestamp
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_Timestamp
+  commentId: P:AttackSurfaceAnalyzer.Objects.MacSignature.Timestamp
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.Timestamp
+  nameWithType: MacSignature.Timestamp
+- uid: AttackSurfaceAnalyzer.Objects.MacSignature.Timestamp*
+  name: Timestamp
+  href: api/AttackSurfaceAnalyzer.Objects.MacSignature.html#AttackSurfaceAnalyzer_Objects_MacSignature_Timestamp_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.MacSignature.Timestamp
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.MacSignature.Timestamp
+  nameWithType: MacSignature.Timestamp
 - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject
   name: OpenPortObject
   href: api/AttackSurfaceAnalyzer.Objects.OpenPortObject.html
@@ -4265,11 +4432,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.RegistryObject
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject
   nameWithType: RegistryObject
-- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,Microsoft.Win32.RegistryView)
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,RegistryView)
   name: RegistryObject(String, RegistryView)
-  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_Microsoft_Win32_RegistryView_
-  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,Microsoft.Win32.RegistryView)
-  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(System.String, Microsoft.Win32.RegistryView)
+  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_RegistryView_
+  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,RegistryView)
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(System.String, RegistryView)
   nameWithType: RegistryObject.RegistryObject(String, RegistryView)
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor*
   name: RegistryObject
@@ -4294,11 +4461,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.AddSubKeys
   nameWithType: RegistryObject.AddSubKeys
-- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)
+- uid: AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)
   name: GetValues(RegistryKey)
-  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_Microsoft_Win32_RegistryKey_
-  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)
-  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)
+  href: api/AttackSurfaceAnalyzer.Objects.RegistryObject.html#AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_RegistryKey_
+  commentId: M:AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)
+  fullName: AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)
   nameWithType: RegistryObject.GetValues(RegistryKey)
 - uid: AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues*
   name: GetValues
@@ -4613,12 +4780,12 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)
   fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.Security.Cryptography.X509Certificates.X509Certificate2)
   nameWithType: SerializableCertificate.SerializableCertificate(X509Certificate2)
-- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String)
-  name: SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String)
-  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_String_System_String_System_String_System_DateTime_System_DateTime_System_String_System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String)
-  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.String, System.String, System.String, System.DateTime, System.DateTime, System.String, System.String, System.String)
-  nameWithType: SerializableCertificate.SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String)
+- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String,System.String)
+  name: SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
+  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_String_System_String_System_String_System_DateTime_System_DateTime_System_String_System_String_System_String_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String,System.String)
+  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.String, System.String, System.String, System.DateTime, System.DateTime, System.String, System.String, System.String, System.String)
+  nameWithType: SerializableCertificate.SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
 - uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor*
   name: SerializableCertificate
   href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_
@@ -4678,6 +4845,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.NotBefore
   nameWithType: SerializableCertificate.NotBefore
+- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.Pkcs7
+  name: Pkcs7
+  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate_Pkcs7
+  commentId: P:AttackSurfaceAnalyzer.Objects.SerializableCertificate.Pkcs7
+  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.Pkcs7
+  nameWithType: SerializableCertificate.Pkcs7
+- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.Pkcs7*
+  name: Pkcs7
+  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate_Pkcs7_
+  commentId: Overload:AttackSurfaceAnalyzer.Objects.SerializableCertificate.Pkcs7
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.Pkcs7
+  nameWithType: SerializableCertificate.Pkcs7
 - uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.PublicKey
   name: PublicKey
   href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate_PublicKey
@@ -5100,51 +5280,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.ServiceObject.WaitHint
   nameWithType: ServiceObject.WaitHint
-- uid: AttackSurfaceAnalyzer.Objects.Setting
-  name: Setting
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html
-  commentId: T:AttackSurfaceAnalyzer.Objects.Setting
-  fullName: AttackSurfaceAnalyzer.Objects.Setting
-  nameWithType: Setting
-- uid: AttackSurfaceAnalyzer.Objects.Setting.Id
-  name: Id
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html#AttackSurfaceAnalyzer_Objects_Setting_Id
-  commentId: P:AttackSurfaceAnalyzer.Objects.Setting.Id
-  fullName: AttackSurfaceAnalyzer.Objects.Setting.Id
-  nameWithType: Setting.Id
-- uid: AttackSurfaceAnalyzer.Objects.Setting.Id*
-  name: Id
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html#AttackSurfaceAnalyzer_Objects_Setting_Id_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.Setting.Id
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.Setting.Id
-  nameWithType: Setting.Id
-- uid: AttackSurfaceAnalyzer.Objects.Setting.Name
-  name: Name
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html#AttackSurfaceAnalyzer_Objects_Setting_Name
-  commentId: P:AttackSurfaceAnalyzer.Objects.Setting.Name
-  fullName: AttackSurfaceAnalyzer.Objects.Setting.Name
-  nameWithType: Setting.Name
-- uid: AttackSurfaceAnalyzer.Objects.Setting.Name*
-  name: Name
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html#AttackSurfaceAnalyzer_Objects_Setting_Name_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.Setting.Name
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.Setting.Name
-  nameWithType: Setting.Name
-- uid: AttackSurfaceAnalyzer.Objects.Setting.Value
-  name: Value
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html#AttackSurfaceAnalyzer_Objects_Setting_Value
-  commentId: P:AttackSurfaceAnalyzer.Objects.Setting.Value
-  fullName: AttackSurfaceAnalyzer.Objects.Setting.Value
-  nameWithType: Setting.Value
-- uid: AttackSurfaceAnalyzer.Objects.Setting.Value*
-  name: Value
-  href: api/AttackSurfaceAnalyzer.Objects.Setting.html#AttackSurfaceAnalyzer_Objects_Setting_Value_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.Setting.Value
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.Setting.Value
-  nameWithType: Setting.Value
 - uid: AttackSurfaceAnalyzer.Objects.Settings
   name: Settings
   href: api/AttackSurfaceAnalyzer.Objects.Settings.html
@@ -5196,11 +5331,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.Signature
   fullName: AttackSurfaceAnalyzer.Objects.Signature
   nameWithType: Signature
-- uid: AttackSurfaceAnalyzer.Objects.Signature.#ctor(PeNet.Header.Authenticode.AuthenticodeInfo)
+- uid: AttackSurfaceAnalyzer.Objects.Signature.#ctor(AuthenticodeInfo)
   name: Signature(AuthenticodeInfo)
-  href: api/AttackSurfaceAnalyzer.Objects.Signature.html#AttackSurfaceAnalyzer_Objects_Signature__ctor_PeNet_Header_Authenticode_AuthenticodeInfo_
-  commentId: M:AttackSurfaceAnalyzer.Objects.Signature.#ctor(PeNet.Header.Authenticode.AuthenticodeInfo)
-  fullName: AttackSurfaceAnalyzer.Objects.Signature.Signature(PeNet.Header.Authenticode.AuthenticodeInfo)
+  href: api/AttackSurfaceAnalyzer.Objects.Signature.html#AttackSurfaceAnalyzer_Objects_Signature__ctor_AuthenticodeInfo_
+  commentId: M:AttackSurfaceAnalyzer.Objects.Signature.#ctor(AuthenticodeInfo)
+  fullName: AttackSurfaceAnalyzer.Objects.Signature.Signature(AuthenticodeInfo)
   nameWithType: Signature.Signature(AuthenticodeInfo)
 - uid: AttackSurfaceAnalyzer.Objects.Signature.#ctor(System.Boolean)
   name: Signature(Boolean)
@@ -5416,19 +5551,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.Transaction
   nameWithType: SqlConnectionHolder.Transaction
-- uid: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteNext
-  name: WriteNext()
-  href: api/AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html#AttackSurfaceAnalyzer_Objects_SqlConnectionHolder_WriteNext
-  commentId: M:AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteNext
-  fullName: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteNext()
-  nameWithType: SqlConnectionHolder.WriteNext()
-- uid: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteNext*
-  name: WriteNext
-  href: api/AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html#AttackSurfaceAnalyzer_Objects_SqlConnectionHolder_WriteNext_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteNext
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteNext
-  nameWithType: SqlConnectionHolder.WriteNext
 - uid: AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.WriteQueue
   name: WriteQueue
   href: api/AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html#AttackSurfaceAnalyzer_Objects_SqlConnectionHolder_WriteQueue
@@ -5818,25 +5940,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.ColObj
   nameWithType: WriteObject.ColObj
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.Equals(AttackSurfaceAnalyzer.Objects.WriteObject)
-  name: Equals(WriteObject)
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Equals_AttackSurfaceAnalyzer_Objects_WriteObject_
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.Equals(AttackSurfaceAnalyzer.Objects.WriteObject)
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Equals(AttackSurfaceAnalyzer.Objects.WriteObject)
-  nameWithType: WriteObject.Equals(WriteObject)
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.Equals(System.Object)
-  name: Equals(Object)
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Equals_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.Equals(System.Object)
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Equals(System.Object)
-  nameWithType: WriteObject.Equals(Object)
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.Equals*
-  name: Equals
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Equals_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.Equals
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Equals
-  nameWithType: WriteObject.Equals
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.FromString(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.String)
   name: FromString(String, RESULT_TYPE, String)
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_FromString_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_String_
@@ -5850,19 +5953,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.FromString
   nameWithType: WriteObject.FromString
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode
-  name: GetHashCode()
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetHashCode
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode()
-  nameWithType: WriteObject.GetHashCode()
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode*
-  name: GetHashCode
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_GetHashCode_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.GetHashCode
-  nameWithType: WriteObject.GetHashCode
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.Identity
   name: Identity
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_Identity
@@ -5876,32 +5966,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Identity
   nameWithType: WriteObject.Identity
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.op_Equality(AttackSurfaceAnalyzer.Objects.WriteObject,AttackSurfaceAnalyzer.Objects.WriteObject)
-  name: Equality(WriteObject, WriteObject)
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_op_Equality_AttackSurfaceAnalyzer_Objects_WriteObject_AttackSurfaceAnalyzer_Objects_WriteObject_
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.op_Equality(AttackSurfaceAnalyzer.Objects.WriteObject,AttackSurfaceAnalyzer.Objects.WriteObject)
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Equality(AttackSurfaceAnalyzer.Objects.WriteObject, AttackSurfaceAnalyzer.Objects.WriteObject)
-  nameWithType: WriteObject.Equality(WriteObject, WriteObject)
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.op_Equality*
-  name: Equality
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_op_Equality_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.op_Equality
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Equality
-  nameWithType: WriteObject.Equality
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.op_Inequality(AttackSurfaceAnalyzer.Objects.WriteObject,AttackSurfaceAnalyzer.Objects.WriteObject)
-  name: Inequality(WriteObject, WriteObject)
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_op_Inequality_AttackSurfaceAnalyzer_Objects_WriteObject_AttackSurfaceAnalyzer_Objects_WriteObject_
-  commentId: M:AttackSurfaceAnalyzer.Objects.WriteObject.op_Inequality(AttackSurfaceAnalyzer.Objects.WriteObject,AttackSurfaceAnalyzer.Objects.WriteObject)
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Inequality(AttackSurfaceAnalyzer.Objects.WriteObject, AttackSurfaceAnalyzer.Objects.WriteObject)
-  nameWithType: WriteObject.Inequality(WriteObject, WriteObject)
-- uid: AttackSurfaceAnalyzer.Objects.WriteObject.op_Inequality*
-  name: Inequality
-  href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_op_Inequality_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.WriteObject.op_Inequality
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.WriteObject.Inequality
-  nameWithType: WriteObject.Inequality
 - uid: AttackSurfaceAnalyzer.Objects.WriteObject.RowKey
   name: RowKey
   href: api/AttackSurfaceAnalyzer.Objects.WriteObject.html#AttackSurfaceAnalyzer_Objects_WriteObject_RowKey
@@ -7922,6 +7986,48 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
   fullName: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
   nameWithType: DLLCHARACTERISTICS.IMAGE_DLLCHARACTERISTICS_WDM_DRIVER
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE
+  name: EXECUTABLE_TYPE
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html
+  commentId: T:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE
+  nameWithType: EXECUTABLE_TYPE
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.JAVA
+  name: JAVA
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html#AttackSurfaceAnalyzer_Types_EXECUTABLE_TYPE_JAVA
+  commentId: F:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.JAVA
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.JAVA
+  nameWithType: EXECUTABLE_TYPE.JAVA
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.LINUX
+  name: LINUX
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html#AttackSurfaceAnalyzer_Types_EXECUTABLE_TYPE_LINUX
+  commentId: F:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.LINUX
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.LINUX
+  nameWithType: EXECUTABLE_TYPE.LINUX
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.MACOS
+  name: MACOS
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html#AttackSurfaceAnalyzer_Types_EXECUTABLE_TYPE_MACOS
+  commentId: F:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.MACOS
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.MACOS
+  nameWithType: EXECUTABLE_TYPE.MACOS
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.NONE
+  name: NONE
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html#AttackSurfaceAnalyzer_Types_EXECUTABLE_TYPE_NONE
+  commentId: F:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.NONE
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.NONE
+  nameWithType: EXECUTABLE_TYPE.NONE
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.UNKNOWN
+  name: UNKNOWN
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html#AttackSurfaceAnalyzer_Types_EXECUTABLE_TYPE_UNKNOWN
+  commentId: F:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.UNKNOWN
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.UNKNOWN
+  nameWithType: EXECUTABLE_TYPE.UNKNOWN
+- uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.WINDOWS
+  name: WINDOWS
+  href: api/AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html#AttackSurfaceAnalyzer_Types_EXECUTABLE_TYPE_WINDOWS
+  commentId: F:AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.WINDOWS
+  fullName: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.WINDOWS
+  nameWithType: EXECUTABLE_TYPE.WINDOWS
 - uid: AttackSurfaceAnalyzer.Types.OPERATION
   name: OPERATION
   href: api/AttackSurfaceAnalyzer.Types.OPERATION.html
@@ -8344,6 +8450,22 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters
   nameWithType: Analyzer.LoadFilters
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List{System.ValueTuple{System.String,System.String[]}})
+  name: PrintViolations(List<(String, String[])>)
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_PrintViolations_System_Collections_Generic_List_System_ValueTuple_System_String_System_String_____
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List{System.ValueTuple{System.String,System.String[]}})
+  name.vb: PrintViolations(List(Of (String, String())))
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List<System.ValueTuple<System.String, System.String[]>>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List(Of System.ValueTuple(Of System.String, System.String())))
+  nameWithType: Analyzer.PrintViolations(List<(String, String[])>)
+  nameWithType.vb: Analyzer.PrintViolations(List(Of (String, String())))
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations*
+  name: PrintViolations
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_PrintViolations_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations
+  nameWithType: Analyzer.PrintViolations
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.VerifyRules
   name: VerifyRules()
   href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_VerifyRules
@@ -8506,6 +8628,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.IsList
   nameWithType: AsaHelpers.IsList
+- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.IsValidRegex(System.String)
+  name: IsValidRegex(String)
+  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_IsValidRegex_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.AsaHelpers.IsValidRegex(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.IsValidRegex(System.String)
+  nameWithType: AsaHelpers.IsValidRegex(String)
+- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.IsValidRegex*
+  name: IsValidRegex
+  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_IsValidRegex_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaHelpers.IsValidRegex
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.IsValidRegex
+  nameWithType: AsaHelpers.IsValidRegex
 - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.MakeValidFileName(System.String)
   name: MakeValidFileName(String)
   href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_MakeValidFileName_System_String_
@@ -8545,11 +8680,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.RunIdsToCompareId
   nameWithType: AsaHelpers.RunIdsToCompareId
-- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Security.Principal.IdentityReference)
+- uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(IdentityReference)
   name: SidToName(IdentityReference)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_System_Security_Principal_IdentityReference_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Security.Principal.IdentityReference)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Security.Principal.IdentityReference)
+  href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_IdentityReference_
+  commentId: M:AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(IdentityReference)
+  fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(IdentityReference)
   nameWithType: AsaHelpers.SidToName(IdentityReference)
 - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName*
   name: SidToName
@@ -8558,164 +8693,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName
   nameWithType: AsaHelpers.SidToName
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  name: AsaTelemetry
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html
-  commentId: T:AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  nameWithType: AsaTelemetry
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  name: Enabled
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Enabled
-  commentId: P:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  nameWithType: AsaTelemetry.Enabled
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled*
-  name: Enabled
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Enabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  nameWithType: AsaTelemetry.Enabled
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  name: Flush()
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Flush
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush()
-  nameWithType: AsaTelemetry.Flush()
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush*
-  name: Flush
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Flush_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  nameWithType: AsaTelemetry.Flush
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  name: SetEnabled(Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_SetEnabled_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  nameWithType: AsaTelemetry.SetEnabled(Boolean)
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled*
-  name: SetEnabled
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_SetEnabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled
-  nameWithType: AsaTelemetry.SetEnabled
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup(System.Boolean)
-  name: Setup(Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Setup_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup(System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup(System.Boolean)
-  nameWithType: AsaTelemetry.Setup(Boolean)
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup*
-  name: Setup
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Setup_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup
-  nameWithType: AsaTelemetry.Setup
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
-  name: TrackEvent(String, Dictionary<String, String>)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackEvent_System_String_System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: TrackEvent(String, Dictionary(Of String, String))
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary<System.String, System.String>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary(Of System.String, System.String))
-  nameWithType: AsaTelemetry.TrackEvent(String, Dictionary<String, String>)
-  nameWithType.vb: AsaTelemetry.TrackEvent(String, Dictionary(Of String, String))
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent*
-  name: TrackEvent
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackEvent_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent
-  nameWithType: AsaTelemetry.TrackEvent
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
-  name: TrackTrace(SeverityLevel, Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackTrace_Microsoft_ApplicationInsights_DataContracts_SeverityLevel_System_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel,System.Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel, System.Exception)
-  nameWithType: AsaTelemetry.TrackTrace(SeverityLevel, Exception)
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace*
-  name: TrackTrace
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackTrace_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace
-  nameWithType: AsaTelemetry.TrackTrace
-- uid: AttackSurfaceAnalyzer.Utils.Comparison
-  name: Comparison
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html
-  commentId: T:AttackSurfaceAnalyzer.Utils.Comparison
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison
-  nameWithType: Comparison
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: Comparison(String, String, RUN_STATUS)
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison__ctor_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Comparison.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.Comparison(System.String, System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: Comparison.Comparison(String, String, RUN_STATUS)
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.#ctor*
-  name: Comparison
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison__ctor_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Comparison.#ctor
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.Comparison
-  nameWithType: Comparison.Comparison
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.FirstRunId
-  name: FirstRunId
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_FirstRunId
-  commentId: P:AttackSurfaceAnalyzer.Utils.Comparison.FirstRunId
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.FirstRunId
-  nameWithType: Comparison.FirstRunId
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.FirstRunId*
-  name: FirstRunId
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_FirstRunId_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Comparison.FirstRunId
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.FirstRunId
-  nameWithType: Comparison.FirstRunId
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.Id
-  name: Id
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_Id
-  commentId: P:AttackSurfaceAnalyzer.Utils.Comparison.Id
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.Id
-  nameWithType: Comparison.Id
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.Id*
-  name: Id
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_Id_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Comparison.Id
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.Id
-  nameWithType: Comparison.Id
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.SecondRunId
-  name: SecondRunId
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_SecondRunId
-  commentId: P:AttackSurfaceAnalyzer.Utils.Comparison.SecondRunId
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.SecondRunId
-  nameWithType: Comparison.SecondRunId
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.SecondRunId*
-  name: SecondRunId
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_SecondRunId_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Comparison.SecondRunId
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.SecondRunId
-  nameWithType: Comparison.SecondRunId
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.Status
-  name: Status
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_Status
-  commentId: P:AttackSurfaceAnalyzer.Utils.Comparison.Status
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.Status
-  nameWithType: Comparison.Status
-- uid: AttackSurfaceAnalyzer.Utils.Comparison.Status*
-  name: Status
-  href: api/AttackSurfaceAnalyzer.Utils.Comparison.html#AttackSurfaceAnalyzer_Utils_Comparison_Status_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.Comparison.Status
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.Comparison.Status
-  nameWithType: Comparison.Status
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers
   name: CryptoHelpers
   href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html
@@ -8731,12 +8708,12 @@ references:
   fullName.vb: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte())
   nameWithType: CryptoHelpers.CreateHash(Byte[])
   nameWithType.vb: CryptoHelpers.CreateHash(Byte())
-- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
-  name: CreateHash(FileStream)
-  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_IO_FileStream_
-  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
-  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.FileStream)
-  nameWithType: CryptoHelpers.CreateHash(FileStream)
+- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
+  name: CreateHash(Stream)
+  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_IO_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
+  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
+  nameWithType: CryptoHelpers.CreateHash(Stream)
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.String)
   name: CreateHash(String)
   href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_String_
@@ -8866,6 +8843,12 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy()
   nameWithType: DatabaseManager.Destroy()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy(System.String)
+  name: Destroy(String)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy(System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy(System.String)
+  nameWithType: DatabaseManager.Destroy(String)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Destroy*
   name: Destroy
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Destroy_
@@ -8964,18 +8947,18 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted
   nameWithType: DatabaseManager.GetComparisonCompleted
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  name: GetComparisonResults(String, RESULT_TYPE)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String, AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  nameWithType: DatabaseManager.GetComparisonResults(String, RESULT_TYPE)
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.Int32,System.Int32,System.Int32)
-  name: GetComparisonResults(String, Int32, Int32, Int32)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_Int32_System_Int32_System_Int32_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.Int32,System.Int32,System.Int32)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String, System.Int32, System.Int32, System.Int32)
-  nameWithType: DatabaseManager.GetComparisonResults(String, Int32, Int32, Int32)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  name: GetComparisonResults(String, String, RESULT_TYPE)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_String_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.String,AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String, System.String, AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  nameWithType: DatabaseManager.GetComparisonResults(String, String, RESULT_TYPE)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.String,System.Int32,System.Int32,System.Int32)
+  name: GetComparisonResults(String, String, Int32, Int32, Int32)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_System_String_System_String_System_Int32_System_Int32_System_Int32_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String,System.String,System.Int32,System.Int32,System.Int32)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults(System.String, System.String, System.Int32, System.Int32, System.Int32)
+  nameWithType: DatabaseManager.GetComparisonResults(String, String, Int32, Int32, Int32)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults*
   name: GetComparisonResults
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResults_
@@ -8983,12 +8966,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResults
   nameWithType: DatabaseManager.GetComparisonResults
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String,System.Int32)
-  name: GetComparisonResultsCount(String, Int32)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_System_String_System_Int32_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String,System.Int32)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String, System.Int32)
-  nameWithType: DatabaseManager.GetComparisonResultsCount(String, Int32)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String,System.String,System.Int32)
+  name: GetComparisonResultsCount(String, String, Int32)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_System_String_System_String_System_Int32_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String,System.String,System.Int32)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount(System.String, System.String, System.Int32)
+  nameWithType: DatabaseManager.GetComparisonResultsCount(String, String, Int32)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount*
   name: GetComparisonResultsCount
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonResultsCount_
@@ -8996,6 +8979,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonResultsCount
   nameWithType: DatabaseManager.GetComparisonResultsCount
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCurrentSettings
+  name: GetCurrentSettings()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCurrentSettings
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCurrentSettings
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCurrentSettings()
+  nameWithType: DatabaseManager.GetCurrentSettings()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCurrentSettings*
+  name: GetCurrentSettings
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetCurrentSettings_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCurrentSettings
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCurrentSettings
+  nameWithType: DatabaseManager.GetCurrentSettings
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetLatestRunIds(System.Int32,AttackSurfaceAnalyzer.Types.RUN_TYPE)
   name: GetLatestRunIds(Int32, RUN_TYPE)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetLatestRunIds_System_Int32_AttackSurfaceAnalyzer_Types_RUN_TYPE_
@@ -9185,11 +9181,11 @@ references:
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
   nameWithType: DatabaseManager.GetTelemetryEnabled
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
-  name: HasElements()
+  name: HasElements
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements()
-  nameWithType: DatabaseManager.HasElements()
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
+  nameWithType: DatabaseManager.HasElements
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements*
   name: HasElements
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements_
@@ -9236,6 +9232,12 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertRun
   nameWithType: DatabaseManager.InsertRun
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.LOW_MEMORY_CUTOFF
+  name: LOW_MEMORY_CUTOFF
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_LOW_MEMORY_CUTOFF
+  commentId: F:AttackSurfaceAnalyzer.Utils.DatabaseManager.LOW_MEMORY_CUTOFF
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.LOW_MEMORY_CUTOFF
+  nameWithType: DatabaseManager.LOW_MEMORY_CUTOFF
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.MainConnection
   name: MainConnection
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_MainConnection
@@ -9275,6 +9277,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.PopulateConnections
   nameWithType: DatabaseManager.PopulateConnections
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.QueueSize
+  name: QueueSize
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_QueueSize
+  commentId: P:AttackSurfaceAnalyzer.Utils.DatabaseManager.QueueSize
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.QueueSize
+  nameWithType: DatabaseManager.QueueSize
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.QueueSize*
+  name: QueueSize
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_QueueSize_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.QueueSize
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.QueueSize
+  nameWithType: DatabaseManager.QueueSize
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.RollBack
   name: RollBack()
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_RollBack
@@ -9340,6 +9355,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SqliteFilename
   nameWithType: DatabaseManager.SqliteFilename
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled
+  name: StallIfHighMemoryUsageAndLowMemoryModeEnabled()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_StallIfHighMemoryUsageAndLowMemoryModeEnabled
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled()
+  nameWithType: DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled*
+  name: StallIfHighMemoryUsageAndLowMemoryModeEnabled
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_StallIfHighMemoryUsageAndLowMemoryModeEnabled_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled
+  nameWithType: DatabaseManager.StallIfHighMemoryUsageAndLowMemoryModeEnabled
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest
   name: TrimToLatest()
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_TrimToLatest
@@ -9379,6 +9407,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Vacuum
   nameWithType: DatabaseManager.Vacuum
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed
+  name: WaitUntilFlushed()
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_WaitUntilFlushed
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed()
+  nameWithType: DatabaseManager.WaitUntilFlushed()
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed*
+  name: WaitUntilFlushed
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_WaitUntilFlushed_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed
+  nameWithType: DatabaseManager.WaitUntilFlushed
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
   name: Write(CollectObject, String)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_
@@ -9463,6 +9504,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DBSettings.LockingMode
   nameWithType: DBSettings.LockingMode
+- uid: AttackSurfaceAnalyzer.Utils.DBSettings.LowMemoryUsage
+  name: LowMemoryUsage
+  href: api/AttackSurfaceAnalyzer.Utils.DBSettings.html#AttackSurfaceAnalyzer_Utils_DBSettings_LowMemoryUsage
+  commentId: P:AttackSurfaceAnalyzer.Utils.DBSettings.LowMemoryUsage
+  fullName: AttackSurfaceAnalyzer.Utils.DBSettings.LowMemoryUsage
+  nameWithType: DBSettings.LowMemoryUsage
+- uid: AttackSurfaceAnalyzer.Utils.DBSettings.LowMemoryUsage*
+  name: LowMemoryUsage
+  href: api/AttackSurfaceAnalyzer.Utils.DBSettings.html#AttackSurfaceAnalyzer_Utils_DBSettings_LowMemoryUsage_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.DBSettings.LowMemoryUsage
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.DBSettings.LowMemoryUsage
+  nameWithType: DBSettings.LowMemoryUsage
 - uid: AttackSurfaceAnalyzer.Utils.DBSettings.PageSize
   name: PageSize
   href: api/AttackSurfaceAnalyzer.Utils.DBSettings.html#AttackSurfaceAnalyzer_Utils_DBSettings_PageSize
@@ -9502,25 +9556,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DBSettings.Synchronous
   nameWithType: DBSettings.Synchronous
-- uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker
-  name: DirectoryWalker
-  href: api/AttackSurfaceAnalyzer.Utils.DirectoryWalker.html
-  commentId: T:AttackSurfaceAnalyzer.Utils.DirectoryWalker
-  fullName: AttackSurfaceAnalyzer.Utils.DirectoryWalker
-  nameWithType: DirectoryWalker
-- uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker.WalkDirectory(System.String)
-  name: WalkDirectory(String)
-  href: api/AttackSurfaceAnalyzer.Utils.DirectoryWalker.html#AttackSurfaceAnalyzer_Utils_DirectoryWalker_WalkDirectory_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DirectoryWalker.WalkDirectory(System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.DirectoryWalker.WalkDirectory(System.String)
-  nameWithType: DirectoryWalker.WalkDirectory(String)
-- uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker.WalkDirectory*
-  name: WalkDirectory
-  href: api/AttackSurfaceAnalyzer.Utils.DirectoryWalker.html#AttackSurfaceAnalyzer_Utils_DirectoryWalker_WalkDirectory_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.DirectoryWalker.WalkDirectory
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.DirectoryWalker.WalkDirectory
-  nameWithType: DirectoryWalker.WalkDirectory
 - uid: AttackSurfaceAnalyzer.Utils.Elevation
   name: Elevation
   href: api/AttackSurfaceAnalyzer.Utils.Elevation.html
@@ -9604,15 +9639,15 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String,System.Boolean)
   fullName: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String, System.Boolean)
   nameWithType: ExternalCommandRunner.RunExternalCommand(String, String, Boolean)
-- uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String[])
-  name: RunExternalCommand(String, String[])
-  href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_System_String_System_String___
-  commentId: M:AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String[])
-  name.vb: RunExternalCommand(String, String())
-  fullName: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String[])
-  fullName.vb: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String())
-  nameWithType: ExternalCommandRunner.RunExternalCommand(String, String[])
-  nameWithType.vb: ExternalCommandRunner.RunExternalCommand(String, String())
+- uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String,System.String@,System.String@)
+  name: RunExternalCommand(String, String, out String, out String)
+  href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_System_String_System_String_System_String__System_String__
+  commentId: M:AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String,System.String,System.String@,System.String@)
+  name.vb: RunExternalCommand(String, String, ByRef String, ByRef String)
+  fullName: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String, out System.String, out System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand(System.String, System.String, ByRef System.String, ByRef System.String)
+  nameWithType: ExternalCommandRunner.RunExternalCommand(String, String, out String, out String)
+  nameWithType.vb: ExternalCommandRunner.RunExternalCommand(String, String, ByRef String, ByRef String)
 - uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.RunExternalCommand*
   name: RunExternalCommand
   href: api/AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html#AttackSurfaceAnalyzer_Utils_ExternalCommandRunner_RunExternalCommand_
@@ -9772,6 +9807,32 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.Logger
   fullName: AttackSurfaceAnalyzer.Utils.Logger
   nameWithType: Logger
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Debug
+  name: Debug
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Debug
+  commentId: P:AttackSurfaceAnalyzer.Utils.Logger.Debug
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Debug
+  nameWithType: Logger.Debug
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Debug*
+  name: Debug
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Debug_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Logger.Debug
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Debug
+  nameWithType: Logger.Debug
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Quiet
+  name: Quiet
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Quiet
+  commentId: P:AttackSurfaceAnalyzer.Utils.Logger.Quiet
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Quiet
+  nameWithType: Logger.Quiet
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Quiet*
+  name: Quiet
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Quiet_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Logger.Quiet
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Quiet
+  nameWithType: Logger.Quiet
 - uid: AttackSurfaceAnalyzer.Utils.Logger.Setup
   name: Setup()
   href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Setup
@@ -9797,6 +9858,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Logger.Setup
   nameWithType: Logger.Setup
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Verbose
+  name: Verbose
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Verbose
+  commentId: P:AttackSurfaceAnalyzer.Utils.Logger.Verbose
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Verbose
+  nameWithType: Logger.Verbose
+- uid: AttackSurfaceAnalyzer.Utils.Logger.Verbose*
+  name: Verbose
+  href: api/AttackSurfaceAnalyzer.Utils.Logger.html#AttackSurfaceAnalyzer_Utils_Logger_Verbose_
+  commentId: Overload:AttackSurfaceAnalyzer.Utils.Logger.Verbose
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.Utils.Logger.Verbose
+  nameWithType: Logger.Verbose
 - uid: AttackSurfaceAnalyzer.Utils.ProcessPort
   name: ProcessPort
   href: api/AttackSurfaceAnalyzer.Utils.ProcessPort.html
@@ -9874,11 +9948,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.RegistryWalker
   fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker
   nameWithType: RegistryWalker
-- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView)
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(RegistryKey,RegistryView)
   name: RegistryKeyToRegistryObject(RegistryKey, RegistryView)
-  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_RegistryKeyToRegistryObject_Microsoft_Win32_RegistryKey_Microsoft_Win32_RegistryView_
-  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView)
-  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey, Microsoft.Win32.RegistryView)
+  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_RegistryKeyToRegistryObject_RegistryKey_RegistryView_
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(RegistryKey,RegistryView)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(RegistryKey, RegistryView)
   nameWithType: RegistryWalker.RegistryKeyToRegistryObject(RegistryKey, RegistryView)
 - uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject*
   name: RegistryKeyToRegistryObject
@@ -9887,11 +9961,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject
   nameWithType: RegistryWalker.RegistryKeyToRegistryObject
-- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,Microsoft.Win32.RegistryView,System.String)
+- uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,RegistryView,System.String)
   name: WalkHive(RegistryHive, RegistryView, String)
-  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_Microsoft_Win32_RegistryHive_Microsoft_Win32_RegistryView_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,Microsoft.Win32.RegistryView,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive, Microsoft.Win32.RegistryView, System.String)
+  href: api/AttackSurfaceAnalyzer.Utils.RegistryWalker.html#AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_RegistryHive_RegistryView_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,RegistryView,System.String)
+  fullName: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive, RegistryView, System.String)
   nameWithType: RegistryWalker.WalkHive(RegistryHive, RegistryView, String)
 - uid: AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive*
   name: WalkHive

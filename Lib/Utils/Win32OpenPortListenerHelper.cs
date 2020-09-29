@@ -123,7 +123,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         catch (Exception e)
                         {
                             Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
-                            AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                         }
                     }
                 }

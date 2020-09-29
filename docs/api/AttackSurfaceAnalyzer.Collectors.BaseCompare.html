@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class BaseCompare
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -115,10 +115,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare__ctor.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare__ctor.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L24">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L24">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare__ctor_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.#ctor*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare__ctor" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.#ctor">BaseCompare()</h4>
@@ -132,10 +132,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Results.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Results%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Results.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Results%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L22">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L22">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Results_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Results*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Results" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Results">Results</h4>
@@ -143,7 +143,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ConcurrentDictionary&lt;string, ConcurrentQueue&lt;CompareResult&gt;&gt; Results { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public ConcurrentDictionary&lt;(RESULT_TYPE, CHANGE_TYPE), List&lt;CompareResult&gt;&gt; Results { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -155,7 +155,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Concurrent.ConcurrentDictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Collections.Concurrent.ConcurrentQueue</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a>&gt;&gt;</td>
+        <td><span class="xref">System.Collections.Concurrent.ConcurrentDictionary</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <a class="xref" href="AttackSurfaceAnalyzer.Types.CHANGE_TYPE.html">CHANGE_TYPE</a>&gt;, <span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -164,10 +164,104 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable%7BAttackSurfaceAnalyzer.Objects.CollectObject%7D%2CSystem.Collections.Generic.IEnumerable%7BAttackSurfaceAnalyzer.Objects.CollectObject%7D%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L41">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L39">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)">Compare(IEnumerable&lt;CollectObject&gt;, IEnumerable&lt;CollectObject&gt;, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Compare(IEnumerable&lt;CollectObject&gt; FirstRunObjects, IEnumerable&lt;CollectObject&gt; SecondRunObjects, string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="parametername">FirstRunObjects</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="parametername">SecondRunObjects</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable%7BSystem.ValueTuple%7BAttackSurfaceAnalyzer.Objects.CollectObject%2CSystem.String%7D%7D%2CSystem.Collections.Generic.IEnumerable%7BSystem.ValueTuple%7BAttackSurfaceAnalyzer.Objects.CollectObject%2CAttackSurfaceAnalyzer.Objects.CollectObject%7D%7D%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L92">View Source</a>
+  </span>
+  <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*"></a>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)">Compare(IEnumerable&lt;(CollectObject, String)&gt;, IEnumerable&lt;(CollectObject, CollectObject)&gt;, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Compare(IEnumerable&lt;(CollectObject, string)&gt; differentObjects, IEnumerable&lt;(CollectObject, CollectObject)&gt; modifiedObjects, string firstRunId, string secondRunId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="parametername">differentObjects</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>, <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;&gt;</td>
+        <td><span class="parametername">modifiedObjects</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">firstRunId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">secondRunId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L65">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String)">Compare(String, String)</h4>
@@ -204,10 +298,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_PropertyInfo_System_Object_System_Object_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo%2CSystem.Object%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_PropertyInfo_System_Object_System_Object_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo%2CSystem.Object%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L227">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L263">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_PropertyInfo_System_Object_System_Object_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)">GetDiffs(PropertyInfo, Object, Object)</h4>
@@ -265,10 +359,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_IsRunning.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_IsRunning.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L261">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L297">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_IsRunning_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_IsRunning" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning">IsRunning()</h4>
@@ -297,10 +391,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Start.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Start%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Start.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Start%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L269">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L305">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Start_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Start*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Start" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Start">Start()</h4>
@@ -313,10 +407,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Stop.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_Stop.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L278">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L314">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Stop_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_Stop" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop">Stop()</h4>
@@ -329,14 +423,14 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L247">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L283">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String,System.String)">TryCompare(String, String)</h4>
-  <div class="markdown level1 summary"><p>Compare but with a Try/Catch block for exceptions.</p>
+  <div class="markdown level1 summary"><p>Compare but with Start/Stop automatic</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -390,10 +484,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_BaseCompare.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.BaseCompare%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/BaseCompare.cs/#L20" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/BaseCompare.cs/#L20" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

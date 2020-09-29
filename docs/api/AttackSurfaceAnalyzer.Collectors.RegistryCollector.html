@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class RegistryCollector
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -89,22 +89,19 @@
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunId">BaseCollector.RunId</a>
+      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Results">BaseCollector.Results</a>
     </div>
     <div>
-      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Execute">BaseCollector.Execute()</a>
+      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute">BaseCollector.TryExecute()</a>
     </div>
     <div>
-      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_IsRunning">BaseCollector.IsRunning()</a>
+      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_RunStatus">BaseCollector.RunStatus</a>
     </div>
     <div>
       <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Start">BaseCollector.Start()</a>
     </div>
     <div>
       <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_Stop">BaseCollector.Stop()</a>
-    </div>
-    <div>
-      <a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_NumCollected">BaseCollector.NumCollected()</a>
     </div>
     <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
@@ -138,18 +135,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.%23ctor(System.String%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.%23ctor(AttackSurfaceAnalyzer.CollectCommandOptions%2CSystem.Action%7BAttackSurfaceAnalyzer.Objects.CollectObject%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L33">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/RegistryCollector.cs/#L29">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Boolean_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Boolean)">RegistryCollector(String, Boolean)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})">RegistryCollector(CollectCommandOptions, Action&lt;CollectObject&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RegistryCollector(string RunId, bool Parallelize)</code></pre>
+    <pre><code class="lang-csharp hljs">public RegistryCollector(CollectCommandOptions opts = null, Action&lt;CollectObject&gt; changeHandler = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -162,60 +159,13 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">RunId</span></td>
+        <td><a class="xref" href="AttackSurfaceAnalyzer.CollectCommandOptions.html">CollectCommandOptions</a></td>
+        <td><span class="parametername">opts</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">Parallelize</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__System_Boolean_System_Action_AttackSurfaceAnalyzer_Objects_RegistryObject__.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.%23ctor(System.String%2CSystem.Collections.Generic.List%7BMicrosoft.Win32.RegistryHive%7D%2CSystem.Boolean%2CSystem.Action%7BAttackSurfaceAnalyzer.Objects.RegistryObject%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L35">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_System_String_System_Collections_Generic_List_Microsoft_Win32_RegistryHive__System_Boolean_System_Action_AttackSurfaceAnalyzer_Objects_RegistryObject__" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(System.String,System.Collections.Generic.List{Microsoft.Win32.RegistryHive},System.Boolean,System.Action{AttackSurfaceAnalyzer.Objects.RegistryObject})">RegistryCollector(String, List&lt;RegistryHive&gt;, Boolean, Action&lt;RegistryObject&gt;)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public RegistryCollector(string RunId, List&lt;RegistryHive&gt; Hives, bool Parallelize, Action&lt;RegistryObject&gt; customHandler = null)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">RunId</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">Microsoft.Win32.RegistryHive</span>&gt;</td>
-        <td><span class="parametername">Hives</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td><span class="parametername">Parallelize</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.RegistryObject.html">RegistryObject</a>&gt;</td>
-        <td><span class="parametername">customHandler</span></td>
+        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="parametername">changeHandler</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -224,42 +174,10 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector_AddRoot_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L46">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_AddRoot_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_AddRoot_System_String_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.AddRoot(System.String)">AddRoot(String)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void AddRoot(string root)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">root</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L56">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/RegistryCollector.cs/#L55">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_CanRunOnPlatform_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_CanRunOnPlatform" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform">CanRunOnPlatform()</h4>
@@ -288,25 +206,10 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector_CanRunOnPlatform">BaseCollector.CanRunOnPlatform()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector_ClearRoots.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L51">View Source</a>
-  </span>
-  <a id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_ClearRoots_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_ClearRoots" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.ClearRoots">ClearRoots()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void ClearRoots()</code></pre>
-  </div>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector_ExecuteInternal.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector.ExecuteInternal%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L61">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/RegistryCollector.cs/#L60">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_ExecuteInternal_" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.ExecuteInternal*"></a>
   <h4 id="AttackSurfaceAnalyzer_Collectors_RegistryCollector_ExecuteInternal" data-uid="AttackSurfaceAnalyzer.Collectors.RegistryCollector.ExecuteInternal">ExecuteInternal()</h4>
@@ -330,10 +233,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Collectors_RegistryCollector.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Collectors.RegistryCollector%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Collectors/RegistryCollector.cs/#L18" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Collectors/RegistryCollector.cs/#L18" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

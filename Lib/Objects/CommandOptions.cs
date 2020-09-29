@@ -186,9 +186,6 @@ namespace AttackSurfaceAnalyzer
         [Option("reset-database", Required = false, HelpText = "Delete the output database")]
         public bool ResetDatabase { get; set; }
 
-        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting")]
-        public bool TelemetryOptOut { get; set; }
-
         [Option("delete-run", Required = false, HelpText = "Delete a specific run from the database")]
         public string? DeleteRunId { get; set; }
 

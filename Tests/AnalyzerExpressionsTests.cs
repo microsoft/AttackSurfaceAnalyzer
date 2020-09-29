@@ -19,7 +19,6 @@ namespace AttackSurfaceAnalyzer.Tests
         {
             Logger.Setup(false, true);
             Utils.Strings.Setup();
-            AsaTelemetry.Setup(test: true);
             DatabaseManager.Setup(Path.GetTempFileName());
         }
 

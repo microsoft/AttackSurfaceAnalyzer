@@ -62,7 +62,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="firstRunId">The Base run id.</param>
         /// <param name="secondRunId">The Compare run id.</param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Collecting telemetry on exceptions.")]
         public void Compare(string? firstRunId, string secondRunId)
         {
             if (firstRunId == null)
@@ -236,9 +235,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                             catch (Exception e)
                             {
                                 Log.Debug(e, "Generic exception. Tell a programmer.");
-                                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                                AsaTelemetry.TrackEvent("CompareException", ExceptionEvent);
                             }
                         }
                     }

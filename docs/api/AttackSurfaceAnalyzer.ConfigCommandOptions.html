@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ConfigCommandOptions
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -87,6 +87,12 @@
       <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_DatabaseFilename">CommandOptions.DatabaseFilename</a>
     </div>
     <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Shards">CommandOptions.Shards</a>
+    </div>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_LowMemoryUsage">CommandOptions.LowMemoryUsage</a>
+    </div>
+    <div>
       <a class="xref" href="AttackSurfaceAnalyzer.CommandOptions.html#AttackSurfaceAnalyzer_CommandOptions_Debug">CommandOptions.Debug</a>
     </div>
     <div>
@@ -121,17 +127,16 @@
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="AttackSurfaceAnalyzer_ConfigCommandOptions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Verb(&quot;config&quot;, HelpText = &quot;Configure and query the database&quot;)]
-public class ConfigCommandOptions : CommandOptions</code></pre>
+    <pre><code class="lang-csharp hljs">public class ConfigCommandOptions : CommandOptions</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_DeleteRunId.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.DeleteRunId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_DeleteRunId.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.DeleteRunId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L178">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CommandOptions.cs/#L192">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_ConfigCommandOptions_DeleteRunId_" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.DeleteRunId*"></a>
   <h4 id="AttackSurfaceAnalyzer_ConfigCommandOptions_DeleteRunId" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.DeleteRunId">DeleteRunId</h4>
@@ -139,8 +144,7 @@ public class ConfigCommandOptions : CommandOptions</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(&quot;delete-run&quot;, Required = false, HelpText = &quot;Delete a specific run from the database&quot;)]
-public string DeleteRunId { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string DeleteRunId { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -159,10 +163,10 @@ public string DeleteRunId { get; set; }</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_ListRuns.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.ListRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_ListRuns.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.ListRuns%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L169">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CommandOptions.cs/#L183">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_ConfigCommandOptions_ListRuns_" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.ListRuns*"></a>
   <h4 id="AttackSurfaceAnalyzer_ConfigCommandOptions_ListRuns" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.ListRuns">ListRuns</h4>
@@ -170,8 +174,7 @@ public string DeleteRunId { get; set; }</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(&quot;list-runs&quot;, Required = false, HelpText = &quot;List runs in the database&quot;)]
-public bool ListRuns { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool ListRuns { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -190,10 +193,10 @@ public bool ListRuns { get; set; }</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_ResetDatabase.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.ResetDatabase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_ResetDatabase.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.ResetDatabase%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L172">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CommandOptions.cs/#L186">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_ConfigCommandOptions_ResetDatabase_" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.ResetDatabase*"></a>
   <h4 id="AttackSurfaceAnalyzer_ConfigCommandOptions_ResetDatabase" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.ResetDatabase">ResetDatabase</h4>
@@ -201,8 +204,7 @@ public bool ListRuns { get; set; }</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(&quot;reset-database&quot;, Required = false, HelpText = &quot;Delete the output database&quot;)]
-public bool ResetDatabase { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool ResetDatabase { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -221,10 +223,10 @@ public bool ResetDatabase { get; set; }</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L175">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CommandOptions.cs/#L189">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut_" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut*"></a>
   <h4 id="AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut">TelemetryOptOut</h4>
@@ -232,8 +234,7 @@ public bool ResetDatabase { get; set; }</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(&quot;telemetry-opt-out&quot;, Required = false, HelpText = &quot;Change your telemetry opt out setting&quot;)]
-public bool TelemetryOptOut { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool TelemetryOptOut { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -252,10 +253,10 @@ public bool TelemetryOptOut { get; set; }</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_TrimToLatest.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.TrimToLatest%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions_TrimToLatest.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions.TrimToLatest%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L181">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CommandOptions.cs/#L195">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_ConfigCommandOptions_TrimToLatest_" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.TrimToLatest*"></a>
   <h4 id="AttackSurfaceAnalyzer_ConfigCommandOptions_TrimToLatest" data-uid="AttackSurfaceAnalyzer.ConfigCommandOptions.TrimToLatest">TrimToLatest</h4>
@@ -263,8 +264,7 @@ public bool TelemetryOptOut { get; set; }</code></pre>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">[Option(&quot;trim-to-latest&quot;, HelpText = &quot;Delete all runs except the latest.&quot;)]
-public bool TrimToLatest { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public bool TrimToLatest { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -289,10 +289,10 @@ public bool TrimToLatest { get; set; }</code></pre>
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_ConfigCommandOptions.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.ConfigCommandOptions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CommandOptions.cs/#L166" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CommandOptions.cs/#L180" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

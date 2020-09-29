@@ -609,9 +609,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 }
                 catch (Exception e)
                 {
-                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                    AsaTelemetry.TrackEvent("ApplyDeletedModifiedException", ExceptionEvent);
+                    Log.Debug(e,"Failed to convert object to values");
                 }
             }
             else
@@ -953,9 +951,6 @@ namespace AttackSurfaceAnalyzer.Utils
             catch (Exception e)
             {
                 Log.Debug(e, $"Hit while parsing {JsonConvert.SerializeObject(clause)} onto {JsonConvert.SerializeObject(compareResult)}");
-                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                AsaTelemetry.TrackEvent("ApplyOverallException", ExceptionEvent);
             }
 
             return false;
@@ -1000,11 +995,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
                 config = new RuleFile();
                 Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
-
-                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
-                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
             }
         }
 

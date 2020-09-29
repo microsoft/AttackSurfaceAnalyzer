@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class CertificateObject
    ">
-    <meta name="generator" content="docfx 2.51.0.0">
+    <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -90,6 +90,15 @@
       <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_RowKey">CollectObject.RowKey</a>
     </div>
     <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Serialized">CollectObject.Serialized</a>
+    </div>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey">CollectObject.ShouldSerializeRowKey()</a>
+    </div>
+    <div>
+      <a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeSerialized">CollectObject.ShouldSerializeSerialized()</a>
+    </div>
+    <div>
       <span class="xref">System.Object.Equals(System.Object)</span>
     </div>
     <div>
@@ -121,18 +130,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_System_String_System_String_AttackSurfaceAnalyzer_Objects_SerializableCertificate_System_String_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.%23ctor(System.String%2CSystem.String%2CAttackSurfaceAnalyzer.Objects.SerializableCertificate%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_System_String_System_String_AttackSurfaceAnalyzer_Objects_SerializableCertificate_.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.%23ctor(System.String%2CSystem.String%2CAttackSurfaceAnalyzer.Objects.SerializableCertificate)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L34">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L34">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor*"></a>
-  <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_System_String_System_String_AttackSurfaceAnalyzer_Objects_SerializableCertificate_System_String_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Objects.SerializableCertificate,System.String)">CertificateObject(String, String, SerializableCertificate, String)</h4>
+  <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject__ctor_System_String_System_String_AttackSurfaceAnalyzer_Objects_SerializableCertificate_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.#ctor(System.String,System.String,AttackSurfaceAnalyzer.Objects.SerializableCertificate)">CertificateObject(String, String, SerializableCertificate)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public CertificateObject(string StoreLocation, string StoreName, SerializableCertificate Certificate, string Pkcs7 = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public CertificateObject(string StoreLocation, string StoreName, SerializableCertificate Certificate)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -159,21 +168,16 @@
         <td><span class="parametername">Certificate</span></td>
         <td></td>
       </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">Pkcs7</span></td>
-        <td></td>
-      </tr>
     </tbody>
   </table>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Certificate.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Certificate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Certificate.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Certificate%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L32">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L32">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_Certificate_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Certificate*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_Certificate" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Certificate">Certificate</h4>
@@ -201,10 +205,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_CertificateHashString.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_CertificateHashString.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L20">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L20">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_CertificateHashString_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_CertificateHashString" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.CertificateHashString">CertificateHashString</h4>
@@ -232,10 +236,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Identity.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Identity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Identity.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Identity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L46">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L45">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_Identity_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Identity*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_Identity" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Identity">Identity</h4>
@@ -265,10 +269,10 @@
   <div><a class="xref" href="AttackSurfaceAnalyzer.Objects.CollectObject.html#AttackSurfaceAnalyzer_Objects_CollectObject_Identity">CollectObject.Identity</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Pkcs7.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Pkcs7.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L28">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L28">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_Pkcs7_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_Pkcs7" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7">Pkcs7</h4>
@@ -277,7 +281,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string Pkcs7 { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string Pkcs7 { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -296,10 +300,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_StoreLocation.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_StoreLocation.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L12">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L12">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_StoreLocation_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_StoreLocation" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation">StoreLocation</h4>
@@ -327,10 +331,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_StoreName.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_StoreName.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L16">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L16">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_StoreName_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_StoreName" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.StoreName">StoreName</h4>
@@ -358,10 +362,10 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Subject.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Subject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject_Subject.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject.Subject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L24">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L24">View Source</a>
   </span>
   <a id="AttackSurfaceAnalyzer_Objects_CertificateObject_Subject_" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Subject*"></a>
   <h4 id="AttackSurfaceAnalyzer_Objects_CertificateObject_Subject" data-uid="AttackSurfaceAnalyzer.Objects.CertificateObject.Subject">Subject</h4>
@@ -395,10 +399,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/new/gfs/UpdateDocs/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.2/apiSpec/new?filename=AttackSurfaceAnalyzer_Objects_CertificateObject.md&amp;value=---%0Auid%3A%20AttackSurfaceAnalyzer.Objects.CertificateObject%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/gfs/UpdateDocs/Lib/Objects/CertificateObject.cs/#L7" class="contribution-link">View Source</a>
+                    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.2/Lib/Objects/CertificateObject.cs/#L7" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
