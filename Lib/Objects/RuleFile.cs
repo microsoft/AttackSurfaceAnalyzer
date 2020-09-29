@@ -134,11 +134,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 || e is NullReferenceException)
             {
                 Log.Debug("Could not load filters {0} {1}", "Embedded", e.GetType().ToString());
-
-                // This is interesting. We shouldn't hit exceptions when loading the embedded resource.
-                Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                AsaTelemetry.TrackEvent("EmbeddedAnalysesFilterLoadException", ExceptionEvent);
             }
             return new RuleFile();
         }

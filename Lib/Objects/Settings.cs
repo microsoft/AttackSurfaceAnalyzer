@@ -12,10 +12,5 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         ///     How many database files to use/shard data across.
         /// </summary>
         public int ShardingFactor { get; set; }
-
-        /// <summary>
-        ///     Should telemetry be sent.
-        /// </summary>
-        public bool TelemetryEnabled { get; set; }
     }
 }

@@ -510,7 +510,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
         private static bool WriterStarted = false;
-        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1, TelemetryEnabled = true };
+        private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1 };
         //public static IEnumerable<WriteObject> GetMissingFromFirst2(string firstRunId, string secondRunId)
         //{
         //    var col = db.GetCollection<WriteObject>("WriteObjects");

@@ -541,16 +541,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return records;
         }
 
-        public static bool GetTelemetryEnabled()
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                return settings.TelemetryEnabled;
-            }
-            return true;
-        }
-
         public static bool HasElements()
         {
             return Connections.Any(x => !x.WriteQueue.IsEmpty);
@@ -610,7 +600,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 {
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
-                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
             else
@@ -677,16 +666,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return PLATFORM.UNKNOWN;
         }
 
-        public static void SetTelemetryEnabled(bool Enabled)
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                settings.TelemetryEnabled = Enabled;
-                SetSettings(settings);
-            }
-        }
-
         public static bool Setup(string filename, DBSettings? dbSettingsIn = null)
         {
             dbSettings = (dbSettingsIn == null) ? new DBSettings() : dbSettingsIn;
@@ -727,8 +706,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     }
 
                     dbSettings.ShardingFactor = settings.ShardingFactor;
-
-                    AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
                 }
                 else
                 {
@@ -780,7 +757,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         {
                             SchemaVersion = SCHEMA_VERSION,
                             ShardingFactor = dbSettings.ShardingFactor,
-                            TelemetryEnabled = true
                         });
 
                         Connections.AsParallel().ForAll(cxn =>

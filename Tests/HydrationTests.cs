@@ -15,7 +15,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             Logger.Setup(false, true);
             Strings.Setup();
-            AsaTelemetry.SetEnabled(enabled: false);
         }
 
         [TestMethod]

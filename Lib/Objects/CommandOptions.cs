@@ -191,9 +191,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         [Option("reset-database", Required = false, HelpText = "Delete the output database")]
         public bool ResetDatabase { get; set; }
 
-        [Option("telemetry-opt-out", Required = false, HelpText = "Change your telemetry opt out setting")]
-        public bool TelemetryOptOut { get; set; }
-
         [Option("trim-to-latest", HelpText = "Delete all runs except the latest.")]
         public bool TrimToLatest { get; set; }
     }
