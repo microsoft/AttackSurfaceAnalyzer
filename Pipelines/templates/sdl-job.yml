@@ -22,6 +22,12 @@ jobs:
     continueOnError: true
     inputs:
       outputformat: 'text'
+  - task: PoliCheck@1
+    inputs:
+      inputType: 'Basic'
+      targetType: 'F'
+      targetArgument: '$(Build.SourcesDirectory)'
+      result: 'PoliCheck.xml'
   - task: SdtReport@2
     inputs:
       GdnExportAllTools: true
