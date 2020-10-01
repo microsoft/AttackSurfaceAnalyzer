@@ -1996,19 +1996,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.ResetDatabase
   nameWithType: ConfigCommandOptions.ResetDatabase
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  name: TelemetryOptOut
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut
-  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  nameWithType: ConfigCommandOptions.TelemetryOptOut
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut*
-  name: TelemetryOptOut
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  nameWithType: ConfigCommandOptions.TelemetryOptOut
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.TrimToLatest
   name: TrimToLatest
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ConfigCommandOptions_TrimToLatest
@@ -7641,19 +7628,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.ShardingFactor
   nameWithType: Settings.ShardingFactor
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  name: TelemetryEnabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Settings_TelemetryEnabled
-  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  nameWithType: Settings.TelemetryEnabled
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled*
-  name: TelemetryEnabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Settings_TelemetryEnabled_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  nameWithType: Settings.TelemetryEnabled
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature
   name: Signature
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.html
@@ -11072,80 +11046,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName
   nameWithType: AsaHelpers.SidToName
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  name: AsaTelemetry
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html
-  commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  nameWithType: AsaTelemetry
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  name: Enabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_Enabled
-  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  nameWithType: AsaTelemetry.Enabled
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled*
-  name: Enabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_Enabled_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  nameWithType: AsaTelemetry.Enabled
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  name: Flush()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_Flush
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush()
-  nameWithType: AsaTelemetry.Flush()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush*
-  name: Flush
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_Flush_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  nameWithType: AsaTelemetry.Flush
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  name: SetEnabled(Boolean)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_SetEnabled_System_Boolean_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  nameWithType: AsaTelemetry.SetEnabled(Boolean)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled*
-  name: SetEnabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_SetEnabled_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled
-  nameWithType: AsaTelemetry.SetEnabled
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
-  name: TrackEvent(String, Dictionary<String, String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackEvent_System_String_System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: TrackEvent(String, Dictionary(Of String, String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary<System.String, System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary(Of System.String, System.String))
-  nameWithType: AsaTelemetry.TrackEvent(String, Dictionary<String, String>)
-  nameWithType.vb: AsaTelemetry.TrackEvent(String, Dictionary(Of String, String))
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent*
-  name: TrackEvent
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackEvent_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent
-  nameWithType: AsaTelemetry.TrackEvent
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(SeverityLevel,System.Exception)
-  name: TrackTrace(SeverityLevel, Exception)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackTrace_SeverityLevel_System_Exception_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(SeverityLevel,System.Exception)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(SeverityLevel, System.Exception)
-  nameWithType: AsaTelemetry.TrackTrace(SeverityLevel, Exception)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace*
-  name: TrackTrace
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackTrace_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace
-  nameWithType: AsaTelemetry.TrackTrace
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers
   name: CryptoHelpers
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html
@@ -11607,19 +11507,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetSettings
   nameWithType: DatabaseManager.GetSettings
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  name: GetTelemetryEnabled()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled()
-  nameWithType: DatabaseManager.GetTelemetryEnabled()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled*
-  name: GetTelemetryEnabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  nameWithType: DatabaseManager.GetTelemetryEnabled
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
   name: HasElements
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements
@@ -11750,19 +11637,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetSettings
   nameWithType: DatabaseManager.SetSettings
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)
-  name: SetTelemetryEnabled(Boolean)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_System_Boolean_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)
-  nameWithType: DatabaseManager.SetTelemetryEnabled(Boolean)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled*
-  name: SetTelemetryEnabled
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled
-  nameWithType: DatabaseManager.SetTelemetryEnabled
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup
   name: Setup()
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup
