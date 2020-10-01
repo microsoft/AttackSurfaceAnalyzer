@@ -92,6 +92,8 @@
     name: FirewallObject
   - uid: AttackSurfaceAnalyzer.Objects.GroupAccountObject
     name: GroupAccountObject
+  - uid: AttackSurfaceAnalyzer.Objects.MacSignature
+    name: MacSignature
   - uid: AttackSurfaceAnalyzer.Objects.OpenPortObject
     name: OpenPortObject
   - uid: AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult
@@ -136,6 +138,8 @@
     name: CHANGE_TYPE
   - uid: AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS
     name: DLLCHARACTERISTICS
+  - uid: AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE
+    name: EXECUTABLE_TYPE
   - uid: AttackSurfaceAnalyzer.Types.OPERATION
     name: OPERATION
   - uid: AttackSurfaceAnalyzer.Types.PLATFORM
@@ -155,16 +159,12 @@
     name: Analyzer
   - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers
     name: AsaHelpers
-  - uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry
-    name: AsaTelemetry
   - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers
     name: CryptoHelpers
   - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager
     name: DatabaseManager
   - uid: AttackSurfaceAnalyzer.Utils.DBSettings
     name: DBSettings
-  - uid: AttackSurfaceAnalyzer.Utils.DirectoryWalker
-    name: DirectoryWalker
   - uid: AttackSurfaceAnalyzer.Utils.Elevation
     name: Elevation
   - uid: AttackSurfaceAnalyzer.Utils.ExternalCommandRunner

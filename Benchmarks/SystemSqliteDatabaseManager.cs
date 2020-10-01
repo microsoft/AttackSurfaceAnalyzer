@@ -150,7 +150,6 @@ namespace AttackSurfaceAnalyzer.Utils
 
                     dbSettings.ShardingFactor = settings.ShardingFactor;
 
-                    AsaTelemetry.SetEnabled(settings.TelemetryEnabled);
                 }
                 else
                 {
@@ -202,7 +201,6 @@ namespace AttackSurfaceAnalyzer.Utils
                         {
                             SchemaVersion = SCHEMA_VERSION,
                             ShardingFactor = dbSettings.ShardingFactor,
-                            TelemetryEnabled = true
                         });
 
                         Connections.AsParallel().ForAll(cxn =>
@@ -618,7 +616,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
-                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
             else
@@ -765,27 +762,7 @@ namespace AttackSurfaceAnalyzer.Utils
                 truncateCollectTable.ExecuteNonQuery();
             });
         }
-
-        public static bool GetTelemetryEnabled()
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                return settings.TelemetryEnabled;
-            }
-            return true;
-        }
-
-        public static void SetTelemetryEnabled(bool Enabled)
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                settings.TelemetryEnabled = Enabled;
-                SetSettings(settings);
-            }
-        }
-
+        
         public static void WriteFileMonitor(FileMonitorObject fmo, string RunId)
         {
             if (fmo == null)

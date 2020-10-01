@@ -59,9 +59,6 @@ namespace AttackSurfaceAnalyzer.Collectors
                     catch (Exception e)
                     {
                         Log.Debug(e, "Exception hit while processing Firewall rules");
-                        Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                        ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                        AsaTelemetry.TrackEvent("WindowsFirewallObjectCreationException", ExceptionEvent);
                     }
                 }
             }

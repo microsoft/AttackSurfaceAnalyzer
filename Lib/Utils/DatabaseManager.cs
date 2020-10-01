@@ -650,16 +650,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return records;
         }
 
-        public static bool GetTelemetryEnabled()
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                return settings.TelemetryEnabled;
-            }
-            return true;
-        }
-
         public static void InsertAnalyzed(CompareResult objIn)
         {
             if (objIn != null && MainConnection != null)
@@ -719,7 +709,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
-                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
             else
@@ -774,16 +763,6 @@ namespace AttackSurfaceAnalyzer.Utils
             return PLATFORM.UNKNOWN;
         }
 
-        public static void SetTelemetryEnabled(bool Enabled)
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                settings.TelemetryEnabled = Enabled;
-                SetSettings(settings);
-            }
-        }
-
         public static ASA_ERROR Setup(string filename, DBSettings? dbSettingsIn = null)
         {
             // Clean up if we were already open.
@@ -822,8 +801,6 @@ namespace AttackSurfaceAnalyzer.Utils
                 {
                     Log.Information(Strings.Get("InvalidShardingRequest"), dbSettingsIn.ShardingFactor, dbSettings.ShardingFactor);
                 }
-
-                AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
             }
             else
             {
@@ -875,7 +852,6 @@ namespace AttackSurfaceAnalyzer.Utils
                     {
                         SchemaVersion = SCHEMA_VERSION,
                         ShardingFactor = dbSettings.ShardingFactor,
-                        TelemetryEnabled = true
                     });
 
                     Connections.AsParallel().ForAll(cxn =>

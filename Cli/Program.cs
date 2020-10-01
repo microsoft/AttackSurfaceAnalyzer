@@ -137,7 +137,6 @@ namespace AttackSurfaceAnalyzer.Cli
 #else
             Logger.Setup(opts.Debug, opts.Verbose, opts.Quiet);
 #endif
-            AsaTelemetry.Setup();
 
             var server = WebHost.CreateDefaultBuilder(Array.Empty<string>())
                     .UseStartup<Startup>()
@@ -166,7 +165,6 @@ namespace AttackSurfaceAnalyzer.Cli
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static int RunConfigCommand(ConfigCommandOptions opts)
         {
-            AsaTelemetry.Setup();
 
             if (opts.ResetDatabase)
             {
@@ -176,8 +174,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             else
             {
-                CheckFirstRun();
-
                 SetupDatabase(opts);
 
                 if (opts.ListRuns)
@@ -242,9 +238,6 @@ namespace AttackSurfaceAnalyzer.Cli
                     }
                 }
 
-                AsaTelemetry.SetEnabled(opts.TelemetryOptOut);
-                Log.Information(Strings.Get("TelemetryOptOut"), opts.TelemetryOptOut ? "Opted out" : "Opted in");
-
                 if (opts.DeleteRunId != null)
                 {
                     DatabaseManager.DeleteRun(opts.DeleteRunId);
@@ -270,9 +263,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
                 return 0;
             }
-
-            CheckFirstRun();
-            AsaTelemetry.Setup();
 
             if (opts.ExportSingleRun)
             {
@@ -311,11 +301,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
-
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString(CultureInfo.InvariantCulture));
-
-            AsaTelemetry.TrackEvent("{0} Export Compare", StartEvent);
 
             CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
@@ -458,17 +443,6 @@ namespace AttackSurfaceAnalyzer.Cli
 
         }
 
-        private static void CheckFirstRun()
-        {
-            if (DatabaseManager.FirstRun)
-            {
-                string exeStr = $"config --telemetry-opt-out";
-                Log.Information(Strings.Get("ApplicationHasTelemetry"));
-                Log.Information(Strings.Get("ApplicationHasTelemetry2"), "https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/master/PRIVACY.md");
-                Log.Information(Strings.Get("ApplicationHasTelemetry3"), exeStr);
-            }
-        }
-
         private static int RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
 #if DEBUG
@@ -482,9 +456,6 @@ namespace AttackSurfaceAnalyzer.Cli
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
                 return 0;
             }
-
-            CheckFirstRun();
-            AsaTelemetry.Setup();
 
             if (opts.RunId is null)
             {
@@ -502,11 +473,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             Log.Information("{0} {1}", Strings.Get("Exporting"), opts.RunId);
-
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("OutputPathSet", (opts.OutputPath != null).ToString(CultureInfo.InvariantCulture));
-
-            AsaTelemetry.TrackEvent("Begin Export Monitor", StartEvent);
 
             WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath ?? "monitor.json");
 
@@ -547,15 +513,6 @@ namespace AttackSurfaceAnalyzer.Cli
             Logger.Setup(opts.Debug, opts.Verbose);
 #endif
             AdminOrQuit();
-
-            AsaTelemetry.Setup();
-
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Files", opts.EnableFileSystemMonitor.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
-            AsaTelemetry.TrackEvent("Begin monitoring", StartEvent);
-
-            CheckFirstRun();
 
             if (opts.RunId is string)
             {
@@ -793,7 +750,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
 
             DatabaseManager.Commit();
-            AsaTelemetry.TrackEvent("End Command", EndEvent);
             return c.Results;
         }
 
@@ -862,7 +818,6 @@ namespace AttackSurfaceAnalyzer.Cli
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Acceptable tradeoff with telemetry (to identify issues) to lessen severity of individual collector crashes.")]
         public static int RunCollectCommand(CollectCommandOptions opts)
         {
             if (opts == null) { return -1; }
@@ -874,24 +829,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             collectors.Clear();
 
-            AsaTelemetry.Setup();
-
-            Dictionary<string, string> StartEvent = new Dictionary<string, string>();
-            StartEvent.Add("Files", opts.EnableAllCollectors ? "True" : opts.EnableFileSystemCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Ports", opts.EnableNetworkPortCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Users", opts.EnableUserCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Certificates", opts.EnableCertificateCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Registry", opts.EnableRegistryCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Service", opts.EnableServiceCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Firewall", opts.EnableFirewallCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("ComObject", opts.EnableComObjectCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("EventLog", opts.EnableEventLogCollector.ToString(CultureInfo.InvariantCulture));
-            StartEvent.Add("Admin", AsaHelpers.IsAdmin().ToString(CultureInfo.InvariantCulture));
-            AsaTelemetry.TrackEvent("Run Command", StartEvent);
-
             AdminOrQuit();
-
-            CheckFirstRun();
 
             int returnValue = (int)ASA_ERROR.NONE;
             opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
@@ -1033,15 +971,9 @@ namespace AttackSurfaceAnalyzer.Cli
                 catch (Exception e)
                 {
                     Log.Error(Strings.Get("Err_CollectingFrom"), c.GetType().Name, e.Message, e.StackTrace);
-                    Dictionary<string, string> ExceptionEvent = new Dictionary<string, string>();
-                    ExceptionEvent.Add("Exception Type", e.GetType().ToString());
-                    ExceptionEvent.Add("Stack Trace", e.StackTrace ?? string.Empty);
-                    ExceptionEvent.Add("Message", e.Message);
-                    AsaTelemetry.TrackEvent("CollectorCrashRogueException", ExceptionEvent);
                     returnValue = 1;
                 }
             }
-            AsaTelemetry.TrackEvent("End Command", EndEvent);
 
             DatabaseManager.Commit();
             return returnValue;

@@ -181,13 +181,6 @@ namespace AttackSurfaceAnalyzer.Gui.Controllers
             return View();
         }
 
-        public ActionResult ChangeTelemetryState(bool EnableTelemetry)
-        {
-            AsaTelemetry.SetEnabled(EnableTelemetry);
-
-            return Json(true);
-        }
-
         public ActionResult StartMonitoring(string RunId, string Directory)
         {
             if (RunId != null)

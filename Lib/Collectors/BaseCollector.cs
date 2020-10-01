@@ -92,7 +92,6 @@ namespace AttackSurfaceAnalyzer.Collectors
             var EndEvent = new Dictionary<string, string>();
             EndEvent.Add("Scanner", GetType().Name);
             EndEvent.Add("Duration", watch?.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture) ?? "");
-            AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);
         }
     }
 }

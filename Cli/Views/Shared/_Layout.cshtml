@@ -1,6 +1,4 @@
-﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
-@using Microsoft.ApplicationInsights.Extensibility;
-@using AttackSurfaceAnalyzer.Utils;
+﻿@using AttackSurfaceAnalyzer.Utils;
 @using System.Runtime.InteropServices;
 
 <!DOCTYPE html>
@@ -15,12 +13,6 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="localizations" href="~/American-English.json" type="application/vnd.oftn.l10n+json" />
-    @{
-        if (AsaTelemetry.Enabled)
-        {
-            Html.Raw(snippet.FullScript);
-        }
-    }
 
     <script src="~/lib/jquery-3.4.1.min.js"></script>
     <script src="~/lib/fontawesome.js"></script>
