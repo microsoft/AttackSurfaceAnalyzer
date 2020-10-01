@@ -96,16 +96,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public abstract Settings? GetSettings();
 
-        public bool GetTelemetryEnabled()
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                return settings.TelemetryEnabled;
-            }
-            return true;
-        }
-
         public abstract void InsertAnalyzed(CompareResult objIn);
 
         public abstract void InsertCompareRun(string? firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus);
@@ -119,16 +109,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public abstract PLATFORM RunIdToPlatform(string runid);
 
         public abstract void SetSettings(Settings settings);
-
-        public void SetTelemetryEnabled(bool Enabled)
-        {
-            var settings = GetSettings();
-            if (settings != null)
-            {
-                settings.TelemetryEnabled = Enabled;
-                SetSettings(settings);
-            }
-        }
 
         public abstract ASA_ERROR Setup();
 

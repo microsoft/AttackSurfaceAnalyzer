@@ -44,10 +44,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                     t.Seconds,
                                     t.Milliseconds);
             Log.Information(Strings.Get("Completed"), GetType().Name, answer);
-            var EndEvent = new Dictionary<string, string>();
-            EndEvent.Add("Scanner", GetType().Name);
-            EndEvent.Add("Duration", watch?.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture) ?? "");
-            AsaTelemetry.TrackEvent("EndScanFunction", EndEvent);
         }
 
         public void TryExecute(CancellationToken? token = null)

@@ -174,9 +174,6 @@
   <data name="MonitorStartedFor" xml:space="preserve">
     <value>Monitor started for</value>
   </data>
-  <data name="TelemetryOptOut" xml:space="preserve">
-    <value>Your telemetry opt out setting is now {0}.</value>
-  </data>
   <data name="WelcomeHeader" xml:space="preserve">
     <value>Welcome to Attack Surface Analyzer</value>
   </data>
@@ -407,15 +404,6 @@
   </data>
   <data name="OutputWrittenTo" xml:space="preserve">
     <value>Output written to: {0}</value>
-  </data>
-  <data name="ApplicationHasTelemetry" xml:space="preserve">
-    <value>This application collects usage data to help us improve Attack Surface Analyzer.</value>
-  </data>
-  <data name="ApplicationHasTelemetry2" xml:space="preserve">
-    <value>For our privacy policy visit: {0}.</value>
-  </data>
-  <data name="ApplicationHasTelemetry3" xml:space="preserve">
-    <value>To disable telemetry run Attack Surface Analyzer with these arguments: '{0}'.</value>
   </data>
   <data name="DumpingDataFromDatabase" xml:space="preserve">
     <value>Dumping data from database located at {0}.</value>

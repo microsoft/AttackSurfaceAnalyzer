@@ -830,7 +830,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 {
                     Log.Warning(e.StackTrace);
                     Log.Warning(e.Message);
-                    AsaTelemetry.TrackTrace(Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Error, e);
                 }
             }
             else
@@ -940,8 +939,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 }
 
                 dbSettings.ShardingFactor = settingsFromDb.ShardingFactor;
-
-                AsaTelemetry.SetEnabled(settingsFromDb.TelemetryEnabled);
             }
             else
             {
@@ -990,7 +987,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     {
                         SchemaVersion = SCHEMA_VERSION,
                         ShardingFactor = dbSettings.ShardingFactor,
-                        TelemetryEnabled = true
                     });
 
                     Connections.AsParallel().ForAll(cxn =>
