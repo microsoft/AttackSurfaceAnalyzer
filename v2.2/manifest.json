@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html",
-          "hash": "sqVce//YJj/cwWpluml8Lw=="
+          "hash": "V6Dl388TSLD3KPxsKsQZOg=="
         }
       },
       "is_incremental": false,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html",
-          "hash": "AtLO/Knifyx3zpj7hEtsjQ=="
+          "hash": "vXD7vHKupHVVLeV77/ezyQ=="
         }
       },
       "is_incremental": false,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.ConfigCommandOptions.html",
-          "hash": "nXDNYwIk1iHl6+AcBNgR1g=="
+          "hash": "HHdiDDBvC8r2vTZtdjzcsQ=="
         }
       },
       "is_incremental": false,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.GuiCommandOptions.html",
-          "hash": "h36UBv9UQsIJwY7nCIeFow=="
+          "hash": "QUFBtu5+E5V5QhS+Wozhkw=="
         }
       },
       "is_incremental": false,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Objects.Settings.html",
-          "hash": "g8ktYaADH3H4lzTYFxBzyQ=="
+          "hash": "BE6FoYac65ZA9Ce34M+2cA=="
         }
       },
       "is_incremental": false,
@@ -873,7 +873,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.Analyzer.html",
-          "hash": "cH2ZJP9fDBPNWfu321/OJw=="
+          "hash": "G+7uy4e24zdOZtiMfl31CA=="
         }
       },
       "is_incremental": false,
@@ -886,18 +886,6 @@
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html",
           "hash": "VwohZqZYAZq7rElVgxBKGg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html",
-          "hash": "PesQVIpwRvYMkg4y/5JzNA=="
         }
       },
       "is_incremental": false,
@@ -921,7 +909,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.DBSettings.html",
-          "hash": "8+8XaenVf18kB6ziSBdY1Q=="
+          "hash": "CfP9tVDRM8bFseGxULPpzg=="
         }
       },
       "is_incremental": false,
@@ -933,7 +921,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html",
-          "hash": "+c0dUXyj05+TC98PenblDA=="
+          "hash": "DLpAGLNNq84+9ywjhkpD1A=="
         }
       },
       "is_incremental": false,
@@ -1005,7 +993,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.ProcessPort.html",
-          "hash": "idX4BjDAb595gJMaT65D7w=="
+          "hash": "ZtWVyA8pK9BJN6WqDljCAg=="
         }
       },
       "is_incremental": false,
@@ -1065,7 +1053,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.html",
-          "hash": "lsNtJ/Yb1GmMJg+PDb0baA=="
+          "hash": "gljrxillywK3DD1YFMPNbw=="
         }
       },
       "is_incremental": false,
@@ -1077,7 +1065,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.VerifyOptions.html",
-          "hash": "XKqi4DKM+Z3Mu9KIs5AixQ=="
+          "hash": "TdakUsNF8k61Cie4Rm5h8A=="
         }
       },
       "is_incremental": false,
@@ -1113,7 +1101,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "hqxtYxayO3cKS9twMAKWqw=="
+          "hash": "Of/tabclyPb7mJfATVUaXg=="
         }
       },
       "is_incremental": false,
@@ -1164,7 +1152,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 91,
+          "total_file_count": 90,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

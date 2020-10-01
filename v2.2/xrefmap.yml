@@ -1881,19 +1881,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.ConfigCommandOptions.ResetDatabase
   nameWithType: ConfigCommandOptions.ResetDatabase
-- uid: AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  name: TelemetryOptOut
-  href: api/AttackSurfaceAnalyzer.ConfigCommandOptions.html#AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut
-  commentId: P:AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  fullName: AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  nameWithType: ConfigCommandOptions.TelemetryOptOut
-- uid: AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut*
-  name: TelemetryOptOut
-  href: api/AttackSurfaceAnalyzer.ConfigCommandOptions.html#AttackSurfaceAnalyzer_ConfigCommandOptions_TelemetryOptOut_
-  commentId: Overload:AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.ConfigCommandOptions.TelemetryOptOut
-  nameWithType: ConfigCommandOptions.TelemetryOptOut
 - uid: AttackSurfaceAnalyzer.ConfigCommandOptions.TrimToLatest
   name: TrimToLatest
   href: api/AttackSurfaceAnalyzer.ConfigCommandOptions.html#AttackSurfaceAnalyzer_ConfigCommandOptions_TrimToLatest
@@ -5312,19 +5299,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Objects.Settings.ShardingFactor
   nameWithType: Settings.ShardingFactor
-- uid: AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  name: TelemetryEnabled
-  href: api/AttackSurfaceAnalyzer.Objects.Settings.html#AttackSurfaceAnalyzer_Objects_Settings_TelemetryEnabled
-  commentId: P:AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  fullName: AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  nameWithType: Settings.TelemetryEnabled
-- uid: AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled*
-  name: TelemetryEnabled
-  href: api/AttackSurfaceAnalyzer.Objects.Settings.html#AttackSurfaceAnalyzer_Objects_Settings_TelemetryEnabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Objects.Settings.TelemetryEnabled
-  nameWithType: Settings.TelemetryEnabled
 - uid: AttackSurfaceAnalyzer.Objects.Signature
   name: Signature
   href: api/AttackSurfaceAnalyzer.Objects.Signature.html
@@ -8693,93 +8667,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName
   nameWithType: AsaHelpers.SidToName
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  name: AsaTelemetry
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html
-  commentId: T:AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry
-  nameWithType: AsaTelemetry
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  name: Enabled
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Enabled
-  commentId: P:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  nameWithType: AsaTelemetry.Enabled
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled*
-  name: Enabled
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Enabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Enabled
-  nameWithType: AsaTelemetry.Enabled
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  name: Flush()
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Flush
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush()
-  nameWithType: AsaTelemetry.Flush()
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush*
-  name: Flush
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Flush_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Flush
-  nameWithType: AsaTelemetry.Flush
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  name: SetEnabled(Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_SetEnabled_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled(System.Boolean)
-  nameWithType: AsaTelemetry.SetEnabled(Boolean)
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled*
-  name: SetEnabled
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_SetEnabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.SetEnabled
-  nameWithType: AsaTelemetry.SetEnabled
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup(System.Boolean)
-  name: Setup(Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Setup_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup(System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup(System.Boolean)
-  nameWithType: AsaTelemetry.Setup(Boolean)
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup*
-  name: Setup
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_Setup_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.Setup
-  nameWithType: AsaTelemetry.Setup
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
-  name: TrackEvent(String, Dictionary<String, String>)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackEvent_System_String_System_Collections_Generic_Dictionary_System_String_System_String__
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String,System.Collections.Generic.Dictionary{System.String,System.String})
-  name.vb: TrackEvent(String, Dictionary(Of String, String))
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary<System.String, System.String>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent(System.String, System.Collections.Generic.Dictionary(Of System.String, System.String))
-  nameWithType: AsaTelemetry.TrackEvent(String, Dictionary<String, String>)
-  nameWithType.vb: AsaTelemetry.TrackEvent(String, Dictionary(Of String, String))
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent*
-  name: TrackEvent
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackEvent_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackEvent
-  nameWithType: AsaTelemetry.TrackEvent
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(SeverityLevel,System.Exception)
-  name: TrackTrace(SeverityLevel, Exception)
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackTrace_SeverityLevel_System_Exception_
-  commentId: M:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(SeverityLevel,System.Exception)
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace(SeverityLevel, System.Exception)
-  nameWithType: AsaTelemetry.TrackTrace(SeverityLevel, Exception)
-- uid: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace*
-  name: TrackTrace
-  href: api/AttackSurfaceAnalyzer.Utils.AsaTelemetry.html#AttackSurfaceAnalyzer_Utils_AsaTelemetry_TrackTrace_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.AsaTelemetry.TrackTrace
-  nameWithType: AsaTelemetry.TrackTrace
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers
   name: CryptoHelpers
   href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html
@@ -9254,19 +9141,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetSerializedMonitorResults
   nameWithType: DatabaseManager.GetSerializedMonitorResults
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  name: GetTelemetryEnabled()
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled()
-  nameWithType: DatabaseManager.GetTelemetryEnabled()
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled*
-  name: GetTelemetryEnabled
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetTelemetryEnabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetTelemetryEnabled
-  nameWithType: DatabaseManager.GetTelemetryEnabled
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.HasElements
   name: HasElements
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_HasElements
@@ -9403,19 +9277,6 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.RunIdToPlatform
   nameWithType: DatabaseManager.RunIdToPlatform
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)
-  name: SetTelemetryEnabled(Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled(System.Boolean)
-  nameWithType: DatabaseManager.SetTelemetryEnabled(Boolean)
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled*
-  name: SetTelemetryEnabled
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_SetTelemetryEnabled_
-  commentId: Overload:AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled
-  isSpec: "True"
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.SetTelemetryEnabled
-  nameWithType: DatabaseManager.SetTelemetryEnabled
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Setup(System.String,AttackSurfaceAnalyzer.Utils.DBSettings)
   name: Setup(String, DBSettings)
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Setup_System_String_AttackSurfaceAnalyzer_Utils_DBSettings_
