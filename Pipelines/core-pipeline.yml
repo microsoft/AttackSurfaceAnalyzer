@@ -78,7 +78,7 @@ stages:
   dependsOn:
   - SDL
   - Build
-  condition: and(succeeded(), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI'))
+  condition: succeeded()
   jobs:
   - job: sign_hash_release
     displayName: Code Sign, Generate Hashes, Publish Public Releases
@@ -108,7 +108,7 @@ stages:
     - task: ExtractFiles@1
       displayName: Extract Artifacts for Signing
       inputs:
-        archiveFilePatterns: '$(Build.BinariesDirectory)\*.zip'
+        archiveFilePatterns: '$(Build.BinariesDirectory)\Unsigned_Binaries\*.zip'
         destinationFolder: '$(Build.BinariesDirectory)'
         cleanDestinationFolder: false
     - task: AntiMalware@3
