@@ -23,6 +23,7 @@ jobs:
     inputs:
       outputformat: 'text'
   - task: PoliCheck@1
+    continueOnError: true
     inputs:
       inputType: 'Basic'
       targetType: 'F'
