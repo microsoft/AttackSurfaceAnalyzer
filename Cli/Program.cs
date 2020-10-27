@@ -474,7 +474,7 @@ namespace AttackSurfaceAnalyzer.Cli
 
             Log.Information("{0} {1}", Strings.Get("Exporting"), opts.RunId);
 
-            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath ?? "monitor.json");
+            WriteMonitorJson(opts.RunId, (int)RESULT_TYPE.FILE, opts.OutputPath ?? string.Empty);
 
             return 0;
         }
@@ -490,7 +490,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 Converters = new List<JsonConverter>() { new StringEnumConverter() }
             });
-            var output = new Dictionary<string, Object>();
+            var output = new Dictionary<string, object>();
             output["results"] = records;
             output["metadata"] = AsaHelpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
@@ -543,7 +543,10 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x, opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x =>
+                {
+                    DatabaseManager.WriteFileMonitor(x, opts.RunId);
+                }));
             }
 
             //if (opts.EnableRegistryMonitor)
@@ -554,8 +557,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (monitors.Count == 0)
             {
-                Log.Warning(Strings.Get("Err_NoMonitors"));
-                returnValue = (int)ASA_ERROR.NO_COLLECTORS;
+                Log.Fatal(Strings.Get("Err_NoMonitors"));
+                return (int)ASA_ERROR.NO_COLLECTORS;
             }
 
             using var exitEvent = new ManualResetEvent(false);
@@ -761,7 +764,7 @@ namespace AttackSurfaceAnalyzer.Cli
             }
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.Write(x,opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x,opts.RunId)));
             }
 
             if (monitors.Count == 0)

@@ -33,14 +33,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
 
-        public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler) { }
-
-        public override bool CanRunOnPlatform()
-        {
-            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-        }
-
-        public override void ExecuteInternal()
+        public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
             if (!string.IsNullOrEmpty(opts.SelectedDirectories))
             {
@@ -68,7 +61,15 @@ namespace AttackSurfaceAnalyzer.Collectors
                     Roots.Add("/");
                 }
             }
+        }
 
+        public override bool CanRunOnPlatform()
+        {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+        }
+
+        public override void ExecuteInternal()
+        {
             void TryIterateOnDirectory(string Path)
             {
                 try
@@ -188,14 +189,14 @@ namespace AttackSurfaceAnalyzer.Collectors
             return fso;
         }
 
-            /// <summary>
-            /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
-            /// </summary>
-            /// <param name="fileInfo">A reference to a file on disk.</param>
-            /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
-            /// <param name="includeContentHash">If we should generate a hash of the file.</param>
-            /// <returns></returns>
-            public FileSystemObject FilePathToFileSystemObject(string path)
+        /// <summary>
+        /// Converts a FileSystemInfo into a FileSystemObject by reading in data about the file
+        /// </summary>
+        /// <param name="fileInfo">A reference to a file on disk.</param>
+        /// <param name="downloadCloud">If the file is hosted in the cloud, the user has the option to include cloud files or not.</param>
+        /// <param name="includeContentHash">If we should generate a hash of the file.</param>
+        /// <returns></returns>
+        public FileSystemObject FilePathToFileSystemObject(string path)
         {
             FileSystemObject obj = new FileSystemObject(path);
 

@@ -639,7 +639,6 @@ namespace AttackSurfaceAnalyzer.Utils
                             if (reader["serialized"].ToString() is string serialized)
                             {
                                 obj = JsonConvert.DeserializeObject<FileMonitorEvent>(serialized);
-                                obj.ChangeType = (CHANGE_TYPE)int.Parse(reader["change_type"].ToString() ?? "0", CultureInfo.InvariantCulture);
                                 records.Add(obj);
                             }
                         }
@@ -990,7 +989,7 @@ namespace AttackSurfaceAnalyzer.Utils
         private const string GET_RESULT_COUNT_MONITORED = "select count(*) from file_system_monitored where run_id=@run_id;";
 
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
-        private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
+        private const string GET_SERIALIZED_RESULTS = "select serialized from file_system_monitored where run_id = @run_id";
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, status) values (@base_run_id, @compare_run_id, @status);";
         private const int SCHEMA_VERSION = 10;
         private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id";
