@@ -554,8 +554,8 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (monitors.Count == 0)
             {
-                Log.Warning(Strings.Get("Err_NoMonitors"));
-                returnValue = (int)ASA_ERROR.NO_COLLECTORS;
+                Log.Fatal(Strings.Get("Err_NoMonitors"));
+                return (int)ASA_ERROR.NO_COLLECTORS;
             }
 
             using var exitEvent = new ManualResetEvent(false);
