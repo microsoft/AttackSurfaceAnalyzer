@@ -543,7 +543,10 @@ namespace AttackSurfaceAnalyzer.Cli
 
             if (opts.EnableFileSystemMonitor)
             {
-                monitors.Add(new FileSystemMonitor(opts, x => DatabaseManager.WriteFileMonitor(x, opts.RunId)));
+                monitors.Add(new FileSystemMonitor(opts, x =>
+                {
+                    DatabaseManager.WriteFileMonitor(x, opts.RunId);
+                }));
             }
 
             //if (opts.EnableRegistryMonitor)
