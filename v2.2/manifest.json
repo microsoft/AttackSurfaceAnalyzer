@@ -93,7 +93,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html",
-          "hash": "tpg4HXNTuV+a1gF0MkalyA=="
+          "hash": "EMxbXZM7swL/1TQH90tYVw=="
         }
       },
       "is_incremental": false,
@@ -909,7 +909,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.DBSettings.html",
-          "hash": "CfP9tVDRM8bFseGxULPpzg=="
+          "hash": "aIaSBbtZ6FXGvgfMwj8PNg=="
         }
       },
       "is_incremental": false,
@@ -921,7 +921,7 @@
       "output": {
         ".html": {
           "relative_path": "api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html",
-          "hash": "DLpAGLNNq84+9ywjhkpD1A=="
+          "hash": "SJpDY8HII8Zthl+QzGbzYw=="
         }
       },
       "is_incremental": false,
