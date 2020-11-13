@@ -46,7 +46,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    Roots.Add("/");
+                    if (!directory.Equals("/proc") && !directory.Equals("/sys"))
+                    {
+                        Roots.Add(directory);
+                    }
+                    else
+                    {
+                        Log.Debug("Default settings skip directories /proc and /sys because they tend to have non-files which stall the collector.");
+                    }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
