@@ -35,7 +35,7 @@ namespace AttackSurfaceAnalyzer.Collectors
 
         public FileSystemCollector(CollectCommandOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
-            if (!string.IsNullOrEmpty(opts.SelectedDirectories))
+            if (!string.IsNullOrEmpty(opts?.SelectedDirectories))
             {
                 Roots.AddRange(opts.SelectedDirectories.Split('^'));
             }
@@ -54,7 +54,13 @@ namespace AttackSurfaceAnalyzer.Collectors
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    Roots.Add("/");
+                    foreach(var directory in Directory.EnumerateDirectories("/"))
+                    {
+                        if (!directory.Equals("/proc") && !directory.Equals("/sys"))
+                        {
+                            Roots.Add(directory);
+                        }
+                    }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
