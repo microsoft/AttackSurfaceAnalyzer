@@ -341,17 +341,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            foreach (var Root in Roots)
+            foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.Equals(y))))
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
-
-
                 var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
                 {
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
                     RecurseSubdirectories = true
-                });
+                }).Where(x => !opts.SkipDirectories.Any(y => y.Equals(x)));
 
                 // Process files in the root
                 TryIterateOnDirectory(Root);
