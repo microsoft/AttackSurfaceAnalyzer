@@ -145,7 +145,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Verbose("Finished parsing {0}", Path);
             }
 
-            foreach (var Root in Roots)
+            foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.Equals(y))))
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
                 var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
@@ -153,7 +153,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
                     RecurseSubdirectories = true
-                });
+                }).Where(x => !opts.SkipDirectories.Any(y => y.Equals(x)));
 
                 //First do root
                 TryIterateOnDirectory(Root);
