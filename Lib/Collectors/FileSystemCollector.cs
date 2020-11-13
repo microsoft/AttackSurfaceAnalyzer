@@ -57,7 +57,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
         public List<string> Roots { get; } = new List<string>();
-
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
@@ -336,6 +335,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
 
+
                 var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
                 {
                     ReturnSpecialDirectories = false,
@@ -473,6 +473,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         private void TryIterateOnDirectory(string path)
         {
+            if (opts.SkipDirectories.Any(x => x.Equals(path)))
+            {
+                return;
+            }
             try
             {
                 Log.Verbose("Started parsing {0}", path);
