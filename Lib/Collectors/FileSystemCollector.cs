@@ -60,6 +60,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Roots.Add(directory);
                         }
+                        else
+                        {
+                            Log.Debug("Default settings skip directories /proc and /sys because they tend to have non-files which stall the collector.");
+                        }
                     }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -78,6 +82,10 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             void TryIterateOnDirectory(string Path)
             {
+                if (opts.SkipDirectories.Any(x => x.Equals(Path)))
+                {
+                    return;
+                }
                 try
                 {
                     Log.Verbose("Started parsing {0}", Path);
