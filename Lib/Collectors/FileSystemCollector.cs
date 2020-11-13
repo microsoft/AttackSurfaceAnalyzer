@@ -341,7 +341,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.Equals(y))))
+            foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y))))
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
                 var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
@@ -349,7 +349,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
                     RecurseSubdirectories = true
-                }).Where(x => !opts.SkipDirectories.Any(y => y.Equals(x)));
+                }).Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y)));
 
                 // Process files in the root
                 TryIterateOnDirectory(Root);
@@ -481,10 +481,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         private void TryIterateOnDirectory(string path)
         {
-            if (opts.SkipDirectories.Any(x => x.Equals(path)))
-            {
-                return;
-            }
             try
             {
                 Log.Verbose("Started parsing {0}", path);
