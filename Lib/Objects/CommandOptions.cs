@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 using CommandLine;
+using System.Collections.Generic;
 
 namespace AttackSurfaceAnalyzer
 {
@@ -136,6 +137,9 @@ namespace AttackSurfaceAnalyzer
 
         [Option("directories", Required = false, HelpText = "^ separated list of paths to scan with FileSystemCollector")]
         public string? SelectedDirectories { get; set; }
+
+        [Option("skip-directories", Required = false, HelpText = ", separated list of paths to skip with FileSystemCollector", Separator = ',')]
+        public IEnumerable<string> SkipDirectories { get; set; } = new List<string>();
 
         [Option("hives", Required = false, HelpText = "^ separated list of hives and subkeys to search.")]
         public string? SelectedHives { get; set; }

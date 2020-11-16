@@ -60,6 +60,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                         {
                             Roots.Add(directory);
                         }
+                        else
+                        {
+                            Log.Debug("Default settings skip directories /proc and /sys because they tend to have non-files which stall the collector.");
+                        }
                     }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
@@ -137,7 +141,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                 Log.Verbose("Finished parsing {0}", Path);
             }
 
-            foreach (var Root in Roots)
+            foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y))))
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
                 var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
@@ -145,7 +149,7 @@ namespace AttackSurfaceAnalyzer.Collectors
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
                     RecurseSubdirectories = true
-                });
+                }).Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y)));
 
                 //First do root
                 TryIterateOnDirectory(Root);
