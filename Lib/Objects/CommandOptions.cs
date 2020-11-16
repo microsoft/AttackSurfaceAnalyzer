@@ -118,10 +118,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         [Option(HelpText = "Identifies which run this is.")]
         public string? RunId { get; set; }
 
-        [Option("directories", Required = false, HelpText = ", separated list of paths to scan with FileSystemCollector", Separator = ',')]
+        [Option("directories", Required = false, HelpText = "comma separated list of paths to scan with FileSystemCollector", Separator = ',')]
         public List<string> SelectedDirectories { get; set; } = new List<string>();
 
-        [Option("hives", Required = false, HelpText = ", separated list of hives and subkeys to search.", Separator = ',')]
+        [Option("skip-directories", Required = false, HelpText = "comma separated list of paths to skip with FileSystemCollector", Separator = ',')]
+        public List<string> SkipDirectories { get; set; } = new List<string>();
+
+        [Option("hives", Required = false, HelpText = "comma separated list of hives and subkeys to search.", Separator = ',')]
         public List<string> SelectedHives { get; set; } = new List<string>();
 
         [Option(HelpText = "Force singlethreaded collectors.")]

@@ -46,7 +46,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {
-                    Roots.Add("/");
+                    foreach (var directory in Directory.EnumerateDirectories("/"))
+                    {
+                        if (!directory.Equals("/proc") && !directory.Equals("/sys"))
+                        {
+                            Roots.Add(directory);
+                        }
+                        else
+                        {
+                            Log.Debug("Default settings skip directories /proc and /sys because they tend to have non-files which stall the collector.");
+                        }
+                    }
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                 {
@@ -57,7 +67,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public static ConcurrentDictionary<string, uint> ClusterSizes { get; set; } = new ConcurrentDictionary<string, uint>();
         public List<string> Roots { get; } = new List<string>();
-
         public override bool CanRunOnPlatform()
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
@@ -332,16 +341,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            foreach (var Root in Roots)
+            foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y))))
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
-
                 var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
                 {
                     ReturnSpecialDirectories = false,
                     IgnoreInaccessible = true,
                     RecurseSubdirectories = true
-                });
+                }).Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y)));
 
                 // Process files in the root
                 TryIterateOnDirectory(Root);
