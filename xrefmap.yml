@@ -370,6 +370,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SingleThread
   nameWithType: CollectorOptions.SingleThread
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SkipDirectories
+  name: SkipDirectories
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_SkipDirectories
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SkipDirectories
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SkipDirectories
+  nameWithType: CollectorOptions.SkipDirectories
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SkipDirectories*
+  name: SkipDirectories
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_SkipDirectories_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SkipDirectories
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.SkipDirectories
+  nameWithType: CollectorOptions.SkipDirectories
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors
   name: Microsoft.CST.AttackSurfaceAnalyzer.Collectors
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.html
