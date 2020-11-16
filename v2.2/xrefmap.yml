@@ -273,6 +273,19 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SingleThread
   nameWithType: CollectCommandOptions.SingleThread
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.SkipDirectories
+  name: SkipDirectories
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_SkipDirectories
+  commentId: P:AttackSurfaceAnalyzer.CollectCommandOptions.SkipDirectories
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SkipDirectories
+  nameWithType: CollectCommandOptions.SkipDirectories
+- uid: AttackSurfaceAnalyzer.CollectCommandOptions.SkipDirectories*
+  name: SkipDirectories
+  href: api/AttackSurfaceAnalyzer.CollectCommandOptions.html#AttackSurfaceAnalyzer_CollectCommandOptions_SkipDirectories_
+  commentId: Overload:AttackSurfaceAnalyzer.CollectCommandOptions.SkipDirectories
+  isSpec: "True"
+  fullName: AttackSurfaceAnalyzer.CollectCommandOptions.SkipDirectories
+  nameWithType: CollectCommandOptions.SkipDirectories
 - uid: AttackSurfaceAnalyzer.Collectors
   name: AttackSurfaceAnalyzer.Collectors
   href: api/AttackSurfaceAnalyzer.Collectors.html
