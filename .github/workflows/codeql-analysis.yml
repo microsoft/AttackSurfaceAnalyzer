@@ -1,4 +1,4 @@
-name: "Code Scanning - ASA"
+name: "CodeQL"
 
 on:
   push:
