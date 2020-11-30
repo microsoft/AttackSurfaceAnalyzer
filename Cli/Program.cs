@@ -578,9 +578,10 @@ namespace AttackSurfaceAnalyzer.Cli
                 aTimer.Enabled = true;
             }
 
+            DatabaseManager.BeginTransaction();
+
             foreach (FileSystemMonitor c in monitors)
             {
-
                 Log.Information(Strings.Get("Begin"), c.GetType().Name);
 
                 try

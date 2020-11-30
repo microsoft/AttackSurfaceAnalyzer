@@ -43,7 +43,6 @@ namespace AttackSurfaceAnalyzer.Collectors
         {
             watchers.ForEach(x => x.EnableRaisingEvents = true);
             RunStatus = RUN_STATUS.RUNNING;
-
         }
 
         public override void StopRun()
