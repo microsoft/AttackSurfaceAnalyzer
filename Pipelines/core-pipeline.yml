@@ -34,7 +34,7 @@ stages:
   jobs:
   - template: templates/dotnet-test-job.yml
     parameters:
-      dotnetVersion: 3.1.x
+      dotnetVersion: 5.0.x
       projectPath: 'Tests/Tests.csproj'
 
 - stage: SDL
@@ -49,14 +49,14 @@ stages:
   jobs:
   - template: templates/dotnet-publish-linux-mac-job.yml
     parameters:
-      dotnetVersion: '3.1.x'
+      dotnetVersion: '5.0.x'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       preBuild:
       - template: templates/nbgv-set-version-steps.yml
   - template: templates/dotnet-publish-win-netcore-job.yml
     parameters:
-      dotnetVersion: '3.1.x'
+      dotnetVersion: '5.0.x'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       preBuild:
@@ -64,13 +64,13 @@ stages:
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_lib'
-      dotnetVersion: '3.1.x'
+      dotnetVersion: '5.0.x'
       projectPath: 'Lib/Lib.csproj'
       projectName: 'ASA_Lib'
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_cli'
-      dotnetVersion: '3.1.x'
+      dotnetVersion: '5.0.x'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA_CLI'
 
@@ -88,7 +88,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '3.1.x'
+        version: '5.0.x'
     - script: 'dotnet tool install -g nbgv'
       displayName: 'Install GitVersioning'
     - task: PowerShell@2
