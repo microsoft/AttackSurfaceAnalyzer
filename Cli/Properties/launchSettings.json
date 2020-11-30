@@ -36,8 +36,7 @@
     },
     "Gui": {
       "commandName": "Project",
-      "commandLineArgs": "gui",
-      "environmentVariables": {}
+      "commandLineArgs": "gui"
     },
     "Asa": {
       "commandName": "Project",
@@ -47,6 +46,10 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
+    },
+    "monitor": {
+      "commandName": "Project",
+      "commandLineArgs": "monitor -f --verbose"
     }
   }
 }

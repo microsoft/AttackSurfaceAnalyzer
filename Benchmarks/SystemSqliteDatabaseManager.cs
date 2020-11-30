@@ -769,14 +769,20 @@ namespace AttackSurfaceAnalyzer.Utils
             {
                 return;
             }
-            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
-            using var cmd = new SQLiteCommand(SQL_INSERT, MainConnection.Connection, MainConnection.Transaction);
-            cmd.Parameters.AddWithValue("@run_id", RunId);
-            cmd.Parameters.AddWithValue("@path", fmo.Path);
-            cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
-            cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(fmo));
+            if (MainConnection is { })
+            {
+                using var cmd = new SQLiteCommand(SQL_INSERT, MainConnection.Connection, MainConnection.Transaction);
+                cmd.Parameters.AddWithValue("@run_id", RunId);
+                cmd.Parameters.AddWithValue("@path", fmo.Path);
+                cmd.Parameters.AddWithValue("@timestamp", fmo.Timestamp);
+                cmd.Parameters.AddWithValue("@serialized", JsonConvert.SerializeObject(fmo));
 
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                Log.Debug("Main connection is null.  Failed to write file monitor data.");
+            }
         }
 
         public static AsaRun? GetRun(string RunId)
