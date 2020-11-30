@@ -80,35 +80,11 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">CompareResult</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="AttackSurfaceAnalyzer.Objects.html">AttackSurfaceAnalyzer.Objects</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="AttackSurfaceAnalyzer_Objects_CompareResult_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class CompareResult</code></pre>
+    <pre><code class="lang-csharp hljs">public class CompareResult : object</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -202,7 +178,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string BaseRowKey { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? BaseRowKey { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -214,7 +190,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -232,7 +208,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string BaseRunId { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? BaseRunId { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -244,7 +220,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -322,7 +298,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string CompareRowKey { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? CompareRowKey { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -334,7 +310,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -352,7 +328,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string CompareRunId { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? CompareRunId { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -364,7 +340,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -394,7 +370,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.Diff.html">Diff</a>&gt;</td>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.Diff.html">Diff</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -484,7 +460,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.Rule.html">Rule</a>&gt;</td>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="AttackSurfaceAnalyzer.Objects.Rule.html">Rule</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>

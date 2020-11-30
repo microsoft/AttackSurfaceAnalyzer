@@ -298,15 +298,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.BaseCollector
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector
   nameWithType: BaseCollector
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: BaseCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: BaseCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: BaseCollector.BaseCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: BaseCollector.BaseCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: BaseCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: BaseCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: BaseCollector.BaseCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: BaseCollector.BaseCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor*
   name: BaseCollector
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCollector.html#AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_
@@ -424,30 +424,33 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.BaseCompare
   nameWithType: BaseCompare.BaseCompare
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)
-  name: Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, String, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)
-  name.vb: Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), String, String)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable<AttackSurfaceAnalyzer.Objects.CollectObject>, System.Collections.Generic.IEnumerable<AttackSurfaceAnalyzer.Objects.CollectObject>, System.String, System.String)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable(Of AttackSurfaceAnalyzer.Objects.CollectObject), System.Collections.Generic.IEnumerable(Of AttackSurfaceAnalyzer.Objects.CollectObject), System.String, System.String)
-  nameWithType: BaseCompare.Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, String, String)
-  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), String, String)
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)
-  name: Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, String, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)
-  name.vb: Compare(IEnumerable(Of (CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)), String, String)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable<System.ValueTuple<AttackSurfaceAnalyzer.Objects.CollectObject, System.String>>, System.Collections.Generic.IEnumerable<System.ValueTuple<AttackSurfaceAnalyzer.Objects.CollectObject, AttackSurfaceAnalyzer.Objects.CollectObject>>, System.String, System.String)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable(Of System.ValueTuple(Of AttackSurfaceAnalyzer.Objects.CollectObject, System.String)), System.Collections.Generic.IEnumerable(Of System.ValueTuple(Of AttackSurfaceAnalyzer.Objects.CollectObject, AttackSurfaceAnalyzer.Objects.CollectObject)), System.String, System.String)
-  nameWithType: BaseCompare.Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, String, String)
-  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of (CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)), String, String)
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String)
-  name: Compare(String, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String, System.String)
-  nameWithType: BaseCompare.Compare(String, String)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Nullable{System.String},System.String)
+  name: Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, Nullable<String>, String)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__IEnumerable_AttackSurfaceAnalyzer_Objects_CollectObject__System_Nullable_System_String__System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},IEnumerable{AttackSurfaceAnalyzer.Objects.CollectObject},System.Nullable{System.String},System.String)
+  name.vb: Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), Nullable(Of String), String)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable<AttackSurfaceAnalyzer.Objects.CollectObject>, IEnumerable<AttackSurfaceAnalyzer.Objects.CollectObject>, System.Nullable<System.String>, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable(Of AttackSurfaceAnalyzer.Objects.CollectObject), IEnumerable(Of AttackSurfaceAnalyzer.Objects.CollectObject), System.Nullable(Of System.String), System.String)
+  nameWithType: BaseCompare.Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, Nullable<String>, String)
+  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), Nullable(Of String), String)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.Nullable{System.String},System.String)
+  name: Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, Nullable<String>, String)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___IEnumerable_System_ValueTuple_AttackSurfaceAnalyzer_Objects_CollectObject_AttackSurfaceAnalyzer_Objects_CollectObject___System_Nullable_System_String__System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},IEnumerable{System.ValueTuple{AttackSurfaceAnalyzer.Objects.CollectObject,AttackSurfaceAnalyzer.Objects.CollectObject}},System.Nullable{System.String},System.String)
+  name.vb: Compare(IEnumerable(Of (CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)), Nullable(Of String), String)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable<System.ValueTuple<AttackSurfaceAnalyzer.Objects.CollectObject, System.String>>, IEnumerable<System.ValueTuple<AttackSurfaceAnalyzer.Objects.CollectObject, AttackSurfaceAnalyzer.Objects.CollectObject>>, System.Nullable<System.String>, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable(Of System.ValueTuple(Of AttackSurfaceAnalyzer.Objects.CollectObject, System.String)), IEnumerable(Of System.ValueTuple(Of AttackSurfaceAnalyzer.Objects.CollectObject, AttackSurfaceAnalyzer.Objects.CollectObject)), System.Nullable(Of System.String), System.String)
+  nameWithType: BaseCompare.Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, Nullable<String>, String)
+  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of (CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)), Nullable(Of String), String)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable{System.String},System.String)
+  name: Compare(Nullable<String>, String)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Nullable_System_String__System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable{System.String},System.String)
+  name.vb: Compare(Nullable(Of String), String)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable<System.String>, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable(Of System.String), System.String)
+  nameWithType: BaseCompare.Compare(Nullable<String>, String)
+  nameWithType.vb: BaseCompare.Compare(Nullable(Of String), String)
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*
   name: Compare
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_
@@ -455,12 +458,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare
   nameWithType: BaseCompare.Compare
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)
-  name: GetDiffs(PropertyInfo, Object, Object)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_System_Reflection_PropertyInfo_System_Object_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo,System.Object,System.Object)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(System.Reflection.PropertyInfo, System.Object, System.Object)
-  nameWithType: BaseCompare.GetDiffs(PropertyInfo, Object, Object)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Nullable{System.Object},System.Nullable{System.Object})
+  name: GetDiffs(PropertyInfo, Nullable<Object>, Nullable<Object>)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_PropertyInfo_System_Nullable_System_Object__System_Nullable_System_Object__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Nullable{System.Object},System.Nullable{System.Object})
+  name.vb: GetDiffs(PropertyInfo, Nullable(Of Object), Nullable(Of Object))
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo, System.Nullable<System.Object>, System.Nullable<System.Object>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo, System.Nullable(Of System.Object), System.Nullable(Of System.Object))
+  nameWithType: BaseCompare.GetDiffs(PropertyInfo, Nullable<Object>, Nullable<Object>)
+  nameWithType.vb: BaseCompare.GetDiffs(PropertyInfo, Nullable(Of Object), Nullable(Of Object))
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*
   name: GetDiffs
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_
@@ -520,12 +526,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop
   nameWithType: BaseCompare.Stop
-- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String,System.String)
-  name: TryCompare(String, String)
-  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String,System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String, System.String)
-  nameWithType: BaseCompare.TryCompare(String, String)
+- uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable{System.String},System.String)
+  name: TryCompare(Nullable<String>, String)
+  href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_Nullable_System_String__System_String_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable{System.String},System.String)
+  name.vb: TryCompare(Nullable(Of String), String)
+  fullName: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable<System.String>, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable(Of System.String), System.String)
+  nameWithType: BaseCompare.TryCompare(Nullable<String>, String)
+  nameWithType.vb: BaseCompare.TryCompare(Nullable(Of String), String)
 - uid: AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare*
   name: TryCompare
   href: api/AttackSurfaceAnalyzer.Collectors.BaseCompare.html#AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_
@@ -610,15 +619,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.CertificateCollector
   fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector
   nameWithType: CertificateCollector
-- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: CertificateCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: CertificateCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: CertificateCollector.CertificateCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: CertificateCollector.CertificateCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: CertificateCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: CertificateCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: CertificateCollector.CertificateCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: CertificateCollector.CertificateCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor*
   name: CertificateCollector
   href: api/AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_
@@ -697,15 +706,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   nameWithType: ComObjectCollector
-- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: ComObjectCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: ComObjectCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: ComObjectCollector.ComObjectCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: ComObjectCollector.ComObjectCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: ComObjectCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: ComObjectCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: ComObjectCollector.ComObjectCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: ComObjectCollector.ComObjectCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*
   name: ComObjectCollector
   href: api/AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_
@@ -771,15 +780,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.EventLogCollector
   fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector
   nameWithType: EventLogCollector
-- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: EventLogCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: EventLogCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: EventLogCollector.EventLogCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: EventLogCollector.EventLogCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: EventLogCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: EventLogCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: EventLogCollector.EventLogCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: EventLogCollector.EventLogCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor*
   name: EventLogCollector
   href: api/AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_
@@ -858,15 +867,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   nameWithType: FileSystemCollector
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: FileSystemCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: FileSystemCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: FileSystemCollector.FileSystemCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: FileSystemCollector.FileSystemCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: FileSystemCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: FileSystemCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: FileSystemCollector.FileSystemCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: FileSystemCollector.FileSystemCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor*
   name: FileSystemCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_
@@ -945,13 +954,13 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   nameWithType: FileSystemMonitor
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.FileMonitorObject})
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(AttackSurfaceAnalyzer.MonitorCommandOptions,Action{AttackSurfaceAnalyzer.Objects.FileMonitorObject})
   name: FileSystemMonitor(MonitorCommandOptions, Action<FileMonitorObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_AttackSurfaceAnalyzer_MonitorCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_FileMonitorObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.FileMonitorObject})
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_AttackSurfaceAnalyzer_MonitorCommandOptions_Action_AttackSurfaceAnalyzer_Objects_FileMonitorObject__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(AttackSurfaceAnalyzer.MonitorCommandOptions,Action{AttackSurfaceAnalyzer.Objects.FileMonitorObject})
   name.vb: FileSystemMonitor(MonitorCommandOptions, Action(Of FileMonitorObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(AttackSurfaceAnalyzer.MonitorCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.FileMonitorObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(AttackSurfaceAnalyzer.MonitorCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.FileMonitorObject))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(AttackSurfaceAnalyzer.MonitorCommandOptions, Action<AttackSurfaceAnalyzer.Objects.FileMonitorObject>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(AttackSurfaceAnalyzer.MonitorCommandOptions, Action(Of AttackSurfaceAnalyzer.Objects.FileMonitorObject))
   nameWithType: FileSystemMonitor.FileSystemMonitor(MonitorCommandOptions, Action<FileMonitorObject>)
   nameWithType.vb: FileSystemMonitor.FileSystemMonitor(MonitorCommandOptions, Action(Of FileMonitorObject))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*
@@ -974,11 +983,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.CanRunOnPlatform
   nameWithType: FileSystemMonitor.CanRunOnPlatform
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
   name: ChangeTypeToChangeType(WatcherChangeTypes)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_System_IO_WatcherChangeTypes_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_WatcherChangeTypes_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*
   name: ChangeTypeToChangeType
@@ -1051,11 +1060,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.StopRun
   nameWithType: FileSystemMonitor.StopRun
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs,NotifyFilters)
   name: WriteRename(RenamedEventArgs, NotifyFilters)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_System_IO_NotifyFilters_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs, System.IO.NotifyFilters)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_RenamedEventArgs_NotifyFilters_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs,NotifyFilters)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs, NotifyFilters)
   nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs, NotifyFilters)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   name: WriteRename
@@ -1076,18 +1085,21 @@ references:
   commentId: F:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
   nameWithType: FileSystemUtils.ElfMagicNumber
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable{System.String},Stream)
+  name: GetExecutableType(Nullable<String>, Stream)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_Nullable_System_String__Stream_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable{System.String},Stream)
+  name.vb: GetExecutableType(Nullable(Of String), Stream)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable<System.String>, Stream)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable(Of System.String), Stream)
+  nameWithType: FileSystemUtils.GetExecutableType(Nullable<String>, Stream)
+  nameWithType.vb: FileSystemUtils.GetExecutableType(Nullable(Of String), Stream)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
   name: GetExecutableType(String)
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_String_
   commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
   nameWithType: FileSystemUtils.GetExecutableType(String)
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String,System.IO.Stream)
-  name: GetExecutableType(String, Stream)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_String_System_IO_Stream_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String,System.IO.Stream)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String, System.IO.Stream)
-  nameWithType: FileSystemUtils.GetExecutableType(String, Stream)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType*
   name: GetExecutableType
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_
@@ -1095,11 +1107,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType
   nameWithType: FileSystemUtils.GetExecutableType
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
   name: GetFileHash(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
   nameWithType: FileSystemUtils.GetFileHash(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.String)
   name: GetFileHash(String)
@@ -1114,11 +1126,11 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash
   nameWithType: FileSystemUtils.GetFileHash
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_FileSystemInfo_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
   nameWithType: FileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -1127,12 +1139,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions
   nameWithType: FileSystemUtils.GetFilePermissions
-- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
-  name: GetMacSignature(String)
-  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
-  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
-  nameWithType: FileSystemUtils.GetMacSignature(String)
+- uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable{System.String})
+  name: GetMacSignature(Nullable<String>)
+  href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_System_Nullable_System_String__
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable{System.String})
+  name.vb: GetMacSignature(Nullable(Of String))
+  fullName: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable<System.String>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable(Of System.String))
+  nameWithType: FileSystemUtils.GetMacSignature(Nullable<String>)
+  nameWithType.vb: FileSystemUtils.GetMacSignature(Nullable(Of String))
 - uid: AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature*
   name: GetMacSignature
   href: api/AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_
@@ -1164,15 +1179,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.FirewallCollector
   fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector
   nameWithType: FirewallCollector
-- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: FirewallCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: FirewallCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: FirewallCollector.FirewallCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: FirewallCollector.FirewallCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: FirewallCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: FirewallCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: FirewallCollector.FirewallCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: FirewallCollector.FirewallCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor*
   name: FirewallCollector
   href: api/AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_
@@ -1270,15 +1285,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   fullName: AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   nameWithType: OpenPortCollector
-- uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: OpenPortCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: OpenPortCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: OpenPortCollector.OpenPortCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: OpenPortCollector.OpenPortCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: OpenPortCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: OpenPortCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: OpenPortCollector.OpenPortCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: OpenPortCollector.OpenPortCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor*
   name: OpenPortCollector
   href: api/AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_
@@ -1331,15 +1346,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.RegistryCollector
   fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector
   nameWithType: RegistryCollector
-- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: RegistryCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: RegistryCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: RegistryCollector.RegistryCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: RegistryCollector.RegistryCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: RegistryCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: RegistryCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: RegistryCollector.RegistryCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: RegistryCollector.RegistryCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
   name: RegistryCollector
   href: api/AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_
@@ -1469,15 +1484,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.ServiceCollector
   fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector
   nameWithType: ServiceCollector
-- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: ServiceCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: ServiceCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: ServiceCollector.ServiceCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: ServiceCollector.ServiceCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: ServiceCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: ServiceCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: ServiceCollector.ServiceCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: ServiceCollector.ServiceCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor*
   name: ServiceCollector
   href: api/AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_
@@ -1556,15 +1571,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   fullName: AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   nameWithType: UserAccountCollector
-- uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name: UserAccountCollector(CollectCommandOptions, Action<CollectObject>)
-  href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Action_AttackSurfaceAnalyzer_Objects_CollectObject__
-  commentId: M:AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Action{AttackSurfaceAnalyzer.Objects.CollectObject})
-  name.vb: UserAccountCollector(CollectCommandOptions, Action(Of CollectObject))
-  fullName: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action<AttackSurfaceAnalyzer.Objects.CollectObject>)
-  fullName.vb: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Action(Of AttackSurfaceAnalyzer.Objects.CollectObject))
-  nameWithType: UserAccountCollector.UserAccountCollector(CollectCommandOptions, Action<CollectObject>)
-  nameWithType.vb: UserAccountCollector.UserAccountCollector(CollectCommandOptions, Action(Of CollectObject))
+- uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name: UserAccountCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_AttackSurfaceAnalyzer_CollectCommandOptions_System_Nullable_Action_AttackSurfaceAnalyzer_Objects_CollectObject___
+  commentId: M:AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(AttackSurfaceAnalyzer.CollectCommandOptions,System.Nullable{Action{AttackSurfaceAnalyzer.Objects.CollectObject}})
+  name.vb: UserAccountCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
+  fullName: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable<Action<AttackSurfaceAnalyzer.Objects.CollectObject>>)
+  fullName.vb: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(AttackSurfaceAnalyzer.CollectCommandOptions, System.Nullable(Of Action(Of AttackSurfaceAnalyzer.Objects.CollectObject)))
+  nameWithType: UserAccountCollector.UserAccountCollector(CollectCommandOptions, Nullable<Action<CollectObject>>)
+  nameWithType.vb: UserAccountCollector.UserAccountCollector(CollectCommandOptions, Nullable(Of Action(Of CollectObject)))
 - uid: AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor*
   name: UserAccountCollector
   href: api/AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_
@@ -1623,11 +1638,11 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics(String)
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,System.IO.Stream)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,Stream)
   name: GetDllCharacteristics(String, Stream)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetDllCharacteristics_System_String_System_IO_Stream_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,System.IO.Stream)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String, System.IO.Stream)
+  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetDllCharacteristics_System_String_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,Stream)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String, Stream)
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics(String, Stream)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics*
   name: GetDllCharacteristics
@@ -1642,11 +1657,11 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus(String)
-- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,System.IO.Stream)
+- uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,Stream)
   name: GetSignatureStatus(String, Stream)
-  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_System_String_System_IO_Stream_
-  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,System.IO.Stream)
-  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String, System.IO.Stream)
+  href: api/AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_System_String_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,Stream)
+  fullName: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String, Stream)
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus(String, Stream)
 - uid: AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus*
   name: GetSignatureStatus
@@ -1771,12 +1786,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.CompareCommandOptions
   fullName: AttackSurfaceAnalyzer.CompareCommandOptions
   nameWithType: CompareCommandOptions
-- uid: AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.String,System.String)
-  name: CompareCommandOptions(String, String)
-  href: api/AttackSurfaceAnalyzer.CompareCommandOptions.html#AttackSurfaceAnalyzer_CompareCommandOptions__ctor_System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.String,System.String)
-  fullName: AttackSurfaceAnalyzer.CompareCommandOptions.CompareCommandOptions(System.String, System.String)
-  nameWithType: CompareCommandOptions.CompareCommandOptions(String, String)
+- uid: AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.Nullable{System.String},System.String)
+  name: CompareCommandOptions(Nullable<String>, String)
+  href: api/AttackSurfaceAnalyzer.CompareCommandOptions.html#AttackSurfaceAnalyzer_CompareCommandOptions__ctor_System_Nullable_System_String__System_String_
+  commentId: M:AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.Nullable{System.String},System.String)
+  name.vb: CompareCommandOptions(Nullable(Of String), String)
+  fullName: AttackSurfaceAnalyzer.CompareCommandOptions.CompareCommandOptions(System.Nullable<System.String>, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.CompareCommandOptions.CompareCommandOptions(System.Nullable(Of System.String), System.String)
+  nameWithType: CompareCommandOptions.CompareCommandOptions(Nullable<String>, String)
+  nameWithType.vb: CompareCommandOptions.CompareCommandOptions(Nullable(Of String), String)
 - uid: AttackSurfaceAnalyzer.CompareCommandOptions.#ctor*
   name: CompareCommandOptions
   href: api/AttackSurfaceAnalyzer.CompareCommandOptions.html#AttackSurfaceAnalyzer_CompareCommandOptions__ctor_
@@ -2164,13 +2182,13 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.AsaRun
   fullName: AttackSurfaceAnalyzer.Objects.AsaRun
   nameWithType: AsaRun
-- uid: AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,System.DateTime,System.String,AttackSurfaceAnalyzer.Types.PLATFORM,System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.RESULT_TYPE},AttackSurfaceAnalyzer.Types.RUN_TYPE)
+- uid: AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,DateTime,System.String,AttackSurfaceAnalyzer.Types.PLATFORM,List{AttackSurfaceAnalyzer.Types.RESULT_TYPE},AttackSurfaceAnalyzer.Types.RUN_TYPE)
   name: AsaRun(String, DateTime, String, PLATFORM, List<RESULT_TYPE>, RUN_TYPE)
-  href: api/AttackSurfaceAnalyzer.Objects.AsaRun.html#AttackSurfaceAnalyzer_Objects_AsaRun__ctor_System_String_System_DateTime_System_String_AttackSurfaceAnalyzer_Types_PLATFORM_System_Collections_Generic_List_AttackSurfaceAnalyzer_Types_RESULT_TYPE__AttackSurfaceAnalyzer_Types_RUN_TYPE_
-  commentId: M:AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,System.DateTime,System.String,AttackSurfaceAnalyzer.Types.PLATFORM,System.Collections.Generic.List{AttackSurfaceAnalyzer.Types.RESULT_TYPE},AttackSurfaceAnalyzer.Types.RUN_TYPE)
+  href: api/AttackSurfaceAnalyzer.Objects.AsaRun.html#AttackSurfaceAnalyzer_Objects_AsaRun__ctor_System_String_DateTime_System_String_AttackSurfaceAnalyzer_Types_PLATFORM_List_AttackSurfaceAnalyzer_Types_RESULT_TYPE__AttackSurfaceAnalyzer_Types_RUN_TYPE_
+  commentId: M:AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,DateTime,System.String,AttackSurfaceAnalyzer.Types.PLATFORM,List{AttackSurfaceAnalyzer.Types.RESULT_TYPE},AttackSurfaceAnalyzer.Types.RUN_TYPE)
   name.vb: AsaRun(String, DateTime, String, PLATFORM, List(Of RESULT_TYPE), RUN_TYPE)
-  fullName: AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, System.DateTime, System.String, AttackSurfaceAnalyzer.Types.PLATFORM, System.Collections.Generic.List<AttackSurfaceAnalyzer.Types.RESULT_TYPE>, AttackSurfaceAnalyzer.Types.RUN_TYPE)
-  fullName.vb: AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, System.DateTime, System.String, AttackSurfaceAnalyzer.Types.PLATFORM, System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE), AttackSurfaceAnalyzer.Types.RUN_TYPE)
+  fullName: AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, DateTime, System.String, AttackSurfaceAnalyzer.Types.PLATFORM, List<AttackSurfaceAnalyzer.Types.RESULT_TYPE>, AttackSurfaceAnalyzer.Types.RUN_TYPE)
+  fullName.vb: AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, DateTime, System.String, AttackSurfaceAnalyzer.Types.PLATFORM, List(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE), AttackSurfaceAnalyzer.Types.RUN_TYPE)
   nameWithType: AsaRun.AsaRun(String, DateTime, String, PLATFORM, List<RESULT_TYPE>, RUN_TYPE)
   nameWithType.vb: AsaRun.AsaRun(String, DateTime, String, PLATFORM, List(Of RESULT_TYPE), RUN_TYPE)
 - uid: AttackSurfaceAnalyzer.Objects.AsaRun.#ctor*
@@ -2930,12 +2948,15 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.Diff
   fullName: AttackSurfaceAnalyzer.Objects.Diff
   nameWithType: Diff
-- uid: AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Object,System.Object)
-  name: Diff(String, Object, Object)
-  href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff__ctor_System_String_System_Object_System_Object_
-  commentId: M:AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Object,System.Object)
-  fullName: AttackSurfaceAnalyzer.Objects.Diff.Diff(System.String, System.Object, System.Object)
-  nameWithType: Diff.Diff(String, Object, Object)
+- uid: AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Nullable{System.Object},System.Nullable{System.Object})
+  name: Diff(String, Nullable<Object>, Nullable<Object>)
+  href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff__ctor_System_String_System_Nullable_System_Object__System_Nullable_System_Object__
+  commentId: M:AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Nullable{System.Object},System.Nullable{System.Object})
+  name.vb: Diff(String, Nullable(Of Object), Nullable(Of Object))
+  fullName: AttackSurfaceAnalyzer.Objects.Diff.Diff(System.String, System.Nullable<System.Object>, System.Nullable<System.Object>)
+  fullName.vb: AttackSurfaceAnalyzer.Objects.Diff.Diff(System.String, System.Nullable(Of System.Object), System.Nullable(Of System.Object))
+  nameWithType: Diff.Diff(String, Nullable<Object>, Nullable<Object>)
+  nameWithType.vb: Diff.Diff(String, Nullable(Of Object), Nullable(Of Object))
 - uid: AttackSurfaceAnalyzer.Objects.Diff.#ctor*
   name: Diff
   href: api/AttackSurfaceAnalyzer.Objects.Diff.html#AttackSurfaceAnalyzer_Objects_Diff__ctor_
@@ -3357,11 +3378,11 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   fullName: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   nameWithType: FileSystemMonitorResult
-- uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(System.IO.FileSystemEventArgs)
+- uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(FileSystemEventArgs)
   name: FileSystemMonitorResult(FileSystemEventArgs)
-  href: api/AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html#AttackSurfaceAnalyzer_Objects_FileSystemMonitorResult__ctor_System_IO_FileSystemEventArgs_
-  commentId: M:AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(System.IO.FileSystemEventArgs)
-  fullName: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.FileSystemMonitorResult(System.IO.FileSystemEventArgs)
+  href: api/AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html#AttackSurfaceAnalyzer_Objects_FileSystemMonitorResult__ctor_FileSystemEventArgs_
+  commentId: M:AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(FileSystemEventArgs)
+  fullName: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.FileSystemMonitorResult(FileSystemEventArgs)
   nameWithType: FileSystemMonitorResult.FileSystemMonitorResult(FileSystemEventArgs)
 - uid: AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor*
   name: FileSystemMonitorResult
@@ -4726,15 +4747,15 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Objects.RuleFile.#ctor
   fullName: AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile()
   nameWithType: RuleFile.RuleFile()
-- uid: AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE},System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Rule})
-  name: RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>, List<Rule>)
-  href: api/AttackSurfaceAnalyzer.Objects.RuleFile.html#AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Collections_Generic_Dictionary_AttackSurfaceAnalyzer_Types_RESULT_TYPE_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__System_Collections_Generic_List_AttackSurfaceAnalyzer_Objects_Rule__
-  commentId: M:AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Collections.Generic.Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE},System.Collections.Generic.List{AttackSurfaceAnalyzer.Objects.Rule})
-  name.vb: RuleFile(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE), List(Of Rule))
-  fullName: AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Collections.Generic.Dictionary<AttackSurfaceAnalyzer.Types.RESULT_TYPE, AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>, System.Collections.Generic.List<AttackSurfaceAnalyzer.Objects.Rule>)
-  fullName.vb: AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Collections.Generic.Dictionary(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE, AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE), System.Collections.Generic.List(Of AttackSurfaceAnalyzer.Objects.Rule))
-  nameWithType: RuleFile.RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>, List<Rule>)
-  nameWithType.vb: RuleFile.RuleFile(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE), List(Of Rule))
+- uid: AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{List{AttackSurfaceAnalyzer.Objects.Rule}})
+  name: RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<List<Rule>>)
+  href: api/AttackSurfaceAnalyzer.Objects.RuleFile.html#AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Nullable_Dictionary_AttackSurfaceAnalyzer_Types_RESULT_TYPE_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE___System_Nullable_List_AttackSurfaceAnalyzer_Objects_Rule___
+  commentId: M:AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{AttackSurfaceAnalyzer.Types.RESULT_TYPE,AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{List{AttackSurfaceAnalyzer.Objects.Rule}})
+  name.vb: RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of List(Of Rule)))
+  fullName: AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable<Dictionary<AttackSurfaceAnalyzer.Types.RESULT_TYPE, AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>>, System.Nullable<List<AttackSurfaceAnalyzer.Objects.Rule>>)
+  fullName.vb: AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable(Of Dictionary(Of AttackSurfaceAnalyzer.Types.RESULT_TYPE, AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)), System.Nullable(Of List(Of AttackSurfaceAnalyzer.Objects.Rule)))
+  nameWithType: RuleFile.RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<List<Rule>>)
+  nameWithType.vb: RuleFile.RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of List(Of Rule)))
 - uid: AttackSurfaceAnalyzer.Objects.RuleFile.#ctor*
   name: RuleFile
   href: api/AttackSurfaceAnalyzer.Objects.RuleFile.html#AttackSurfaceAnalyzer_Objects_RuleFile__ctor_
@@ -4774,18 +4795,18 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Objects.SerializableCertificate
   fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate
   nameWithType: SerializableCertificate
-- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)
-  name: SerializableCertificate(X509Certificate2)
-  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_Security_Cryptography_X509Certificates_X509Certificate2_
-  commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)
-  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.Security.Cryptography.X509Certificates.X509Certificate2)
-  nameWithType: SerializableCertificate.SerializableCertificate(X509Certificate2)
-- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String,System.String)
+- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,DateTime,DateTime,System.String,System.String,System.String,System.String)
   name: SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
-  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_String_System_String_System_String_System_DateTime_System_DateTime_System_String_System_String_System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String,System.String)
-  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.String, System.String, System.String, System.DateTime, System.DateTime, System.String, System.String, System.String, System.String)
+  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_String_System_String_System_String_DateTime_DateTime_System_String_System_String_System_String_System_String_
+  commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,DateTime,DateTime,System.String,System.String,System.String,System.String)
+  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.String, System.String, System.String, DateTime, DateTime, System.String, System.String, System.String, System.String)
   nameWithType: SerializableCertificate.SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
+- uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(X509Certificate2)
+  name: SerializableCertificate(X509Certificate2)
+  href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_X509Certificate2_
+  commentId: M:AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(X509Certificate2)
+  fullName: AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(X509Certificate2)
+  nameWithType: SerializableCertificate.SerializableCertificate(X509Certificate2)
 - uid: AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor*
   name: SerializableCertificate
   href: api/AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_
@@ -8333,12 +8354,15 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,AttackSurfaceAnalyzer.Objects.RuleFile)
   fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, AttackSurfaceAnalyzer.Objects.RuleFile)
   nameWithType: Analyzer.Analyzer(PLATFORM, RuleFile)
-- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
-  name: Analyzer(PLATFORM, String)
-  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer__ctor_AttackSurfaceAnalyzer_Types_PLATFORM_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.String)
-  nameWithType: Analyzer.Analyzer(PLATFORM, String)
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.Nullable{System.String})
+  name: Analyzer(PLATFORM, Nullable<String>)
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer__ctor_AttackSurfaceAnalyzer_Types_PLATFORM_System_Nullable_System_String__
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.#ctor(AttackSurfaceAnalyzer.Types.PLATFORM,System.Nullable{System.String})
+  name.vb: Analyzer(PLATFORM, Nullable(Of String))
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.Nullable<System.String>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Analyzer.Analyzer(AttackSurfaceAnalyzer.Types.PLATFORM, System.Nullable(Of System.String))
+  nameWithType: Analyzer.Analyzer(PLATFORM, Nullable<String>)
+  nameWithType.vb: Analyzer.Analyzer(PLATFORM, Nullable(Of String))
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.#ctor*
   name: Analyzer
   href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer__ctor_
@@ -8437,13 +8461,13 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.Analyzer.LoadFilters
   nameWithType: Analyzer.LoadFilters
-- uid: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List{System.ValueTuple{System.String,System.String[]}})
+- uid: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(List{System.ValueTuple{System.String,System.String[]}})
   name: PrintViolations(List<(String, String[])>)
-  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_PrintViolations_System_Collections_Generic_List_System_ValueTuple_System_String_System_String_____
-  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List{System.ValueTuple{System.String,System.String[]}})
+  href: api/AttackSurfaceAnalyzer.Utils.Analyzer.html#AttackSurfaceAnalyzer_Utils_Analyzer_PrintViolations_List_System_ValueTuple_System_String_System_String_____
+  commentId: M:AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(List{System.ValueTuple{System.String,System.String[]}})
   name.vb: PrintViolations(List(Of (String, String())))
-  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List<System.ValueTuple<System.String, System.String[]>>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(System.Collections.Generic.List(Of System.ValueTuple(Of System.String, System.String())))
+  fullName: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(List<System.ValueTuple<System.String, System.String[]>>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations(List(Of System.ValueTuple(Of System.String, System.String())))
   nameWithType: Analyzer.PrintViolations(List<(String, String[])>)
   nameWithType.vb: Analyzer.PrintViolations(List(Of (String, String())))
 - uid: AttackSurfaceAnalyzer.Utils.Analyzer.PrintViolations*
@@ -8642,11 +8666,11 @@ references:
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.MakeValidFileName
   nameWithType: AsaHelpers.MakeValidFileName
 - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser(System.Uri)
-  name: OpenBrowser(Uri)
+  name: OpenBrowser(System.Uri)
   href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_OpenBrowser_System_Uri_
   commentId: M:AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser(System.Uri)
   fullName: AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser(System.Uri)
-  nameWithType: AsaHelpers.OpenBrowser(Uri)
+  nameWithType: AsaHelpers.OpenBrowser(System.Uri)
 - uid: AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser*
   name: OpenBrowser
   href: api/AttackSurfaceAnalyzer.Utils.AsaHelpers.html#AttackSurfaceAnalyzer_Utils_AsaHelpers_OpenBrowser_
@@ -8686,6 +8710,12 @@ references:
   commentId: T:AttackSurfaceAnalyzer.Utils.CryptoHelpers
   fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers
   nameWithType: CryptoHelpers
+- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
+  name: CreateHash(Stream)
+  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_Stream_
+  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
+  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
+  nameWithType: CryptoHelpers.CreateHash(Stream)
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte[])
   name: CreateHash(Byte[])
   href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_Byte___
@@ -8695,12 +8725,6 @@ references:
   fullName.vb: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte())
   nameWithType: CryptoHelpers.CreateHash(Byte[])
   nameWithType.vb: CryptoHelpers.CreateHash(Byte())
-- uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
-  name: CreateHash(Stream)
-  href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_IO_Stream_
-  commentId: M:AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
-  fullName: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
-  nameWithType: CryptoHelpers.CreateHash(Stream)
 - uid: AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.String)
   name: CreateHash(String)
   href: api/AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_String_
@@ -8921,12 +8945,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCommonResultTypes
   nameWithType: DatabaseManager.GetCommonResultTypes
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String,System.String)
-  name: GetComparisonCompleted(String, String)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_String_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String, System.String)
-  nameWithType: DatabaseManager.GetComparisonCompleted(String, String)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable{System.String},System.String)
+  name: GetComparisonCompleted(Nullable<String>, String)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_Nullable_System_String__System_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable{System.String},System.String)
+  name.vb: GetComparisonCompleted(Nullable(Of String), String)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable<System.String>, System.String)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable(Of System.String), System.String)
+  nameWithType: DatabaseManager.GetComparisonCompleted(Nullable<String>, String)
+  nameWithType.vb: DatabaseManager.GetComparisonCompleted(Nullable(Of String), String)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted*
   name: GetComparisonCompleted
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_
@@ -9180,12 +9207,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed
   nameWithType: DatabaseManager.InsertAnalyzed
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: InsertCompareRun(String, String, RUN_STATUS)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String, System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: DatabaseManager.InsertCompareRun(String, String, RUN_STATUS)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable{System.String},System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name: InsertCompareRun(Nullable<String>, String, RUN_STATUS)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_Nullable_System_String__System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable{System.String},System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name.vb: InsertCompareRun(Nullable(Of String), String, RUN_STATUS)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable<System.String>, System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable(Of System.String), System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  nameWithType: DatabaseManager.InsertCompareRun(Nullable<String>, String, RUN_STATUS)
+  nameWithType.vb: DatabaseManager.InsertCompareRun(Nullable(Of String), String, RUN_STATUS)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun*
   name: InsertCompareRun
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_
@@ -9342,12 +9372,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest
   nameWithType: DatabaseManager.TrimToLatest
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: UpdateCompareRun(String, String, RUN_STATUS)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_String_System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String,System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String, System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: DatabaseManager.UpdateCompareRun(String, String, RUN_STATUS)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable{System.String},System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name: UpdateCompareRun(Nullable<String>, String, RUN_STATUS)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_Nullable_System_String__System_String_AttackSurfaceAnalyzer_Types_RUN_STATUS_
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable{System.String},System.String,AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name.vb: UpdateCompareRun(Nullable(Of String), String, RUN_STATUS)
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable<System.String>, System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable(Of System.String), System.String, AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  nameWithType: DatabaseManager.UpdateCompareRun(Nullable<String>, String, RUN_STATUS)
+  nameWithType.vb: DatabaseManager.UpdateCompareRun(Nullable(Of String), String, RUN_STATUS)
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun*
   name: UpdateCompareRun
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_
@@ -9381,12 +9414,15 @@ references:
   isSpec: "True"
   fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed
   nameWithType: DatabaseManager.WaitUntilFlushed
-- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
-  name: Write(CollectObject, String)
-  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject, System.String)
-  nameWithType: DatabaseManager.Write(CollectObject, String)
+- uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.Nullable{System.String})
+  name: Write(CollectObject, Nullable<String>)
+  href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_AttackSurfaceAnalyzer_Objects_CollectObject_System_Nullable_System_String__
+  commentId: M:AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject,System.Nullable{System.String})
+  name.vb: Write(CollectObject, Nullable(Of String))
+  fullName: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject, System.Nullable<System.String>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(AttackSurfaceAnalyzer.Objects.CollectObject, System.Nullable(Of System.String))
+  nameWithType: DatabaseManager.Write(CollectObject, Nullable<String>)
+  nameWithType.vb: DatabaseManager.Write(CollectObject, Nullable(Of String))
 - uid: AttackSurfaceAnalyzer.Utils.DatabaseManager.Write*
   name: Write
   href: api/AttackSurfaceAnalyzer.Utils.DatabaseManager.html#AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_
@@ -9628,28 +9664,28 @@ references:
   commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor
   fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher()
   nameWithType: FileWatcher.FileWatcher()
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
   name: FileWatcher(String)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String)
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String)
   nameWithType: FileWatcher.FileWatcher(String)
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs))
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
+- uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
-  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_IO_NotifyFilters_System_Boolean_
-  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
+  href: api/AttackSurfaceAnalyzer.Utils.FileWatcher.html#AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__NotifyFilters_System_Boolean_
+  commentId: M:AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
-  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.IO.NotifyFilters, System.Boolean)
-  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.IO.NotifyFilters, System.Boolean)
+  fullName: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, System.Boolean)
+  fullName.vb: AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, System.Boolean)
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
 - uid: AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor*
