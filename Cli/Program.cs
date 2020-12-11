@@ -772,7 +772,7 @@ namespace AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
             }
-
+            DatabaseManager.BeginTransaction();
             foreach (var c in monitors)
             {
                 c.StartRun();
