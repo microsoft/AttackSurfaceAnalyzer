@@ -1,11 +1,14 @@
-﻿
-<Router AppAssembly="@typeof(AttackSurfaceAnalyzerClient).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-    </Found>
-    <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p>Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿<BFUTheme>
+    <BFULayerHost Style="display:flex; flex-direction: row;width:100vw">
+        <Router AppAssembly="@typeof(AttackSurfaceAnalyzerClient).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            </Found>
+            <NotFound>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p>Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </BFULayerHost>
+</BFUTheme>

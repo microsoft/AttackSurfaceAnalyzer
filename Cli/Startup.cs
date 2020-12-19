@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlazorFluentUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             services.AddServerSideBlazor();
             services.AddSingleton<AppData>();
             services.AddFileReaderService();
+            services.AddBlazorFluentUI();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
