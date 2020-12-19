@@ -7,73 +7,73 @@
         </button>
         <a class="navbar-brand pl-3" href="#">Attack Surface Analyzer</a>
     </div>
-
-    <div class="navbar-nav mr-auto @NavMenuCssClass" @onclick="ToggleNavMenu">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="oi oi-home" aria-hidden="true"></span> Home
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="guided">
-                    <span class="oi oi-compass" aria-hidden="true"></span> Guided Mode
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="scan">
-                    <span class="oi oi-target" aria-hidden="true"></span> Scan
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="monitor">
-                    <span class="oi oi-pulse" aria-hidden="true"></span> Monitor
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="analyze">
-                    <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Analyze
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="report">
-                    <span class="oi oi-document" aria-hidden="true"></span> Report
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="author">
-                    <span class="oi oi-pencil" aria-hidden="true"></span> Author
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="sandbox">
-                    <span class="oi oi-pencil" aria-hidden="true"></span> Sandbox
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink class="nav-link" href="configure">
-                    <span class="oi oi-cog" aria-hidden="true"></span> Configure
-                </NavLink>
-            </li>
-        </ul>
-    </div>
-    <div>
-        <a class="nav-link" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
+    <div class="navbar-end">
+        <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
             <img title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32.png" />
         </a>
-        <a class="nav-link" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
-    </div>
-    
-    <div class="lv-container">
-        <img class="logo" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
-        <div class="version">v.@AsaHelpers.GetVersionString()</div>
+        <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
+        <img class="logo pl-4 pr-2" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
     </div>
 </nav>
 
+<div class="navbar-nav @NavMenuFlex @NavMenuCssClass pl-3" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="guided">
+                <span class="oi oi-compass" aria-hidden="true"></span> Guided Mode
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="scan">
+                <span class="oi oi-target" aria-hidden="true"></span> Scan
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="monitor">
+                <span class="oi oi-pulse" aria-hidden="true"></span> Monitor
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="analyze">
+                <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Analyze
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="report">
+                <span class="oi oi-document" aria-hidden="true"></span> Report
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="author">
+                <span class="oi oi-pencil" aria-hidden="true"></span> Author
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="sandbox">
+                <span class="oi oi-pencil" aria-hidden="true"></span> Sandbox
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="configure">
+                <span class="oi oi-cog" aria-hidden="true"></span> Configure
+            </NavLink>
+        </li>
+        <li class="nav-item">
+            <span class="version">v.@AsaHelpers.GetVersionString()</span>
+        </li>
+    </ul>
+</div>
+
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenu = false;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string NavMenuFlex => !collapseNavMenu ? "d-inline-flex" : null;
 
     private void ToggleNavMenu()
     {
