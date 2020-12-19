@@ -5,24 +5,31 @@ html, body {
 }
 
 .logo {
-    height: 90px;
-    width: 201px;
-}
-
-.lv-container {
-    justify-content: flex-end;
+    height: 26px;
+    width: auto;
 }
 
 .navbar-brand {
     font-weight: bold;
 }
 
+.navbar-end {
+    justify-content: flex-end;
+
+}
+
+.navbar-end a {
+    color: white;
+}
+
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+
 .version {
-    color: white;
+    font-size: smaller;
+    color: black;
 }
 
 #blazor-error-ui {
