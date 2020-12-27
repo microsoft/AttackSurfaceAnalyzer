@@ -1,22 +1,22 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
-<nav class="navbar navbar-dark bg-dark">
-    <div>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="pl-3 mr-auto">
         <button class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand pl-3" href="#">Attack Surface Analyzer</a>
+        <a class="navbar-brand" href="#">Attack Surface Analyzer</a>
     </div>
-    <div class="navbar-end">
+    <div class="navbar-end pr-3">
         <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
             <img title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32.png" />
         </a>
         <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
-        <img class="logo pl-4 pr-2" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
+        <img class="logo pl-4" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
     </div>
 </nav>
 
-<div class="navbar-nav @NavMenuFlex @NavMenuCssClass pl-3" @onclick="ToggleNavMenu">
+<div class="navbar-nav @NavMenuCssClass pl-3" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -70,10 +70,9 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = false;
+    private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-    private string NavMenuFlex => !collapseNavMenu ? "d-inline-flex" : null;
 
     private void ToggleNavMenu()
     {
