@@ -35,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BlazorFluentUI.AllComponents" Version="4.0.2" />
     <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.0.70" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="2.0.0.20242" />
     <PackageReference Include="Tewr.Blazor.FileReader.Wasm" Version="0.11.19128" />
