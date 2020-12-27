@@ -4,18 +4,20 @@ html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
+.content {
+    padding-top: 8vh;
+}
+
 .logo {
     height: 26px;
     width: auto;
 }
 
 .navbar-brand {
-    font-weight: bold;
+    
 }
 
 .navbar-end {
-    justify-content: flex-end;
-
 }
 
 .navbar-end a {
