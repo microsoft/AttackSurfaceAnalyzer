@@ -4,6 +4,20 @@ html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
+body {
+    overflow: hidden;
+}
+
+main {
+    position: absolute;
+    top: 70px;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+.content {
+}
+
 .hover-underline:hover {
     border-bottom: thin;
     border-bottom-style: solid;
@@ -12,12 +26,24 @@ html, body {
     box-shadow: inset 0px 0px 8px 3px rgba(255, 255, 255, 0.7);
     border-radius: 5px;
 }
+.hover-shadow-circle:hover {
+    box-shadow: 0px 0px 6px 3px rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+}
 
 .jt-cards {
+    align-items: center;
+    text-align: center;
     border-radius: 15px;
     background: #d9d9d9;
-    padding: 1.5vw 1vw 1.5vw 1vw;
-    margin: .7vw;
+    padding: 2vh 1.5vw 2vh 1.5vw;
+    margin: -1.5vh .5vw 0 .5vw;
+}
+
+.gh-logo {
+    border: solid;
+    border-color: gray;
+    border-radius: 50%;
 }
 
 .logo {
@@ -27,10 +53,10 @@ html, body {
 
 .navbar {
     justify-content: space-between;
-    margin-bottom: 2vh;
+    height: 70px;
 }
 
-.navbar-brand:hover {
+.navbar-brand:hover { 
     border-bottom: thin;
     border-bottom-style: solid;
 }
@@ -40,6 +66,7 @@ html, body {
 }
 .navbar-quickmenu .item{
     display: flex;
+    position: relative;
     width: 5.3vw;
     flex-direction: column;
     color: white;
