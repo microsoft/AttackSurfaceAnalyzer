@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
+
+@page "/"
 
 <div class="jumbotron">
     <div class="container">
@@ -6,21 +8,22 @@
         <p>ASA is an open source security tool that analyzes the attack surface of a target system and reports on potential security vulnerabilities introduced during the installation of software or system misconfiguration.</p>
         <p>Documentation is available on the <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Github Wiki</a>.</p>
         <p>Learn about writing rules on the <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Authoring-Analysis-Rules" target="_blank">Authoring Rules</a> page.</p>
+        <p class="version">@version</p>
     </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="d-flex flex-column col-md-4">
+    <div class="row flex-nowrap justify-content-center">
+        <div class="d-flex flex-column col-md-4 jt-cards">
             <h2><img class="pr-2" src="images/box-seam.png" />Guided Mode</h2>
             <p>Follow a simple guide to run collectors, monitor changes, and analyze results.</p>
             <p class="mt-auto"><a class="btn btn-primary" href="guided" role="button">Try it!</a></p>
         </div>
-        <div class="d-flex flex-column col-md-4">
+        <div class="d-flex flex-column col-md-4 jt-cards">
             <h2><img class="pr-2" src="images/pencil-square.png" />Author</h2>
             <p>Write, validate, and import/export rules.</p>
             <p class="mt-auto"><a class="btn btn-primary" href="author" role="button">Try it!</a></p>
         </div>
-        <div class="d-flex flex-column col-md-4">
+        <div class="d-flex flex-column col-md-4 jt-cards">
             <h2><img class="pr-2" src="images/card-checklist.png" />Sandbox</h2>
             <p>Create objects and test authored rules against them.</p>
             <p class="mt-auto"><a class="btn btn-primary" href="sandbox" role="button">Try it!</a></p>
@@ -29,5 +32,5 @@
 </div>
 
 @code{
-
+    string version = "v" + AsaHelpers.GetVersionString();
 }
