@@ -1,15 +1,47 @@
-﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
-
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <div class="pl-3 mr-auto">
+﻿<nav class="navbar static-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="pl-3">
         <button class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#">Attack Surface Analyzer</a>
     </div>
+    <div class="navbar-quickmenu">
+        <div class="item hover-shadow">
+            <a href="guided"><span class="oi oi-compass"></span></a>
+            <p>Guided</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="scan"><span class="oi oi-target"></span></a>
+            <p>Scan</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="monitor"><span class="oi oi-pulse"></span></a>
+            <p>Monitor</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="analyze"><span class="oi oi-magnifying-glass"></span></a>
+            <p>Analyze</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="report"><span class="oi oi-document"></span></a>
+            <p>Report</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="author"><span class="oi oi-pencil"></span></a>
+            <p>Author</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="sandbox"><span class="oi oi-spreadsheet"></span></a>
+            <p>Sandbox</p>
+        </div>
+        <div class="item hover-shadow">
+            <a href="configure"><span class="oi oi-cog"></span></a>
+            <p>Configure</p>
+        </div>
+    </div>
     <div class="navbar-end pr-3">
         <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
-            <img title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32.png" />
+            <img class="hover-underline" title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32-wh.png" />
         </a>
         <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
         <img class="logo pl-4" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
@@ -62,9 +94,6 @@
             <NavLink class="nav-link" href="configure">
                 <span class="oi oi-cog" aria-hidden="true"></span> Configure
             </NavLink>
-        </li>
-        <li class="nav-item">
-            <span class="version">v.@AsaHelpers.GetVersionString()</span>
         </li>
     </ul>
 </div>
