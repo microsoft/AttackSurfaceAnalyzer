@@ -6,48 +6,48 @@
     <div class="navbar-quickmenu">
         <div class="item hover-shadow">
             <a class="stretched-link" href="guided"><span class="oi oi-compass"></span></a>
-            <p>Guided</p>
+            <p class="label">Guided</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="scan"><span class="oi oi-target"></span></a>
-            <p>Scan</p>
+            <p class="label">Scan</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="monitor"><span class="oi oi-pulse"></span></a>
-            <p>Monitor</p>
+            <p  class="label">Monitor</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="analyze"><span class="oi oi-magnifying-glass"></span></a>
-            <p>Analyze</p>
+            <p class="label">Analyze</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="report"><span class="oi oi-document"></span></a>
-            <p>Report</p>
+            <p class="label">Report</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="author"><span class="oi oi-pencil"></span></a>
-            <p>Author</p>
+            <p class="label">Author</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="sandbox"><span class="oi oi-spreadsheet"></span></a>
-            <p>Sandbox</p>
+            <p class="label">Sandbox</p>
         </div>
         <div class="item hover-shadow">
             <a class="stretched-link" href="configure"><span class="oi oi-cog"></span></a>
-            <p>Configure</p>
+            <p class="label">Configure</p>
         </div>
     </div>
-    <div class="navbar-end pr-3">
-        <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
+    <div class="navbar-end">
+        <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
             <img class="gh-logo hover-shadow-circle" title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32-wh.png" />
         </a>
-        <a class="px-2" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
-        <img class="logo pl-4" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
+        <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
+        <img class="logo" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
     </div>
 </nav>
 
-<div class="navbar-nav @NavMenuCssClass pl-3" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="navbar-nav flex-column">
         <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home

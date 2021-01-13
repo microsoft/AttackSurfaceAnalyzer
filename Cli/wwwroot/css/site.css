@@ -8,10 +8,12 @@ body {
     overflow: hidden;
 }
 
-main {
+main { /*
     position: absolute;
     top: 70px;
+           */
     bottom: 0;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 
@@ -56,11 +58,12 @@ main {
     height: 70px;
     padding: 0 2vw 0 2vw;
 }
-
 .navbar-custom {
     background-color: #1c1c1c;
 }
 .navbar-brand {
+    margin: 0;
+    font-size: 1.2rem;
 }
 .navbar-brand:hover { 
     border-bottom: thin;
@@ -69,7 +72,6 @@ main {
 .navbar-text {
 
 }
-
 .navbar-quickmenu {
     display: flex;
 }
@@ -81,28 +83,25 @@ main {
     color: white;
     padding: .7vh 1vw .7vh 1vw;
 }
-.navbar-quickmenu a {
-    color: white;
-    align-self: center;
-}
-.navbar-quickmenu span {
+.navbar-quickmenu .oi {
     font-size: 1.5rem;
 }
-.navbar-quickmenu p {
+.navbar-quickmenu .label {
     font-size: .75rem;
     align-self: center;
     margin-bottom: 0;
 }
-
+.navbar-quickmenu a {
+    color: white;
+    align-self: center;
+}
 .navbar-end {
 }
 .navbar-end a {
     color: white;
 }
-
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
-    margin-right: 3vh;
 }
 
 .version {
