@@ -54,15 +54,14 @@ main {
 .navbar {
     justify-content: space-between;
     height: 70px;
+    padding: 0 2vw 0 2vw;
 }
 
 .navbar-custom {
     background-color: #1c1c1c;
 }
 .navbar-brand {
-
 }
-
 .navbar-brand:hover { 
     border-bottom: thin;
     border-bottom-style: solid;
