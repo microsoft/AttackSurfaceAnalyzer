@@ -4,8 +4,20 @@ html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
-.content {
-    padding-top: 8vh;
+.hover-underline:hover {
+    border-bottom: thin;
+    border-bottom-style: solid;
+}
+.hover-shadow:hover {
+    box-shadow: inset 0px 0px 8px 3px rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+}
+
+.jt-cards {
+    border-radius: 15px;
+    background: #d9d9d9;
+    padding: 1.5vw 1vw 1.5vw 1vw;
+    margin: .7vw;
 }
 
 .logo {
@@ -13,25 +25,54 @@ html, body {
     width: auto;
 }
 
-.navbar-brand {
-    
+.navbar {
+    justify-content: space-between;
+    margin-bottom: 2vh;
+}
+
+.navbar-brand:hover {
+    border-bottom: thin;
+    border-bottom-style: solid;
+}
+
+.navbar-quickmenu {
+    display: flex;
+}
+.navbar-quickmenu .item{
+    display: flex;
+    width: 5.3vw;
+    flex-direction: column;
+    color: white;
+    padding: .7vh 1vw .7vh 1vw;
+}
+.navbar-quickmenu a {
+    color: white;
+    align-self: center;
+}
+.navbar-quickmenu span {
+    font-size: 1.5rem;
+}
+.navbar-quickmenu p {
+    font-size: .75rem;
+    align-self: center;
+    margin-bottom: 0;
 }
 
 .navbar-end {
 }
-
 .navbar-end a {
     color: white;
 }
 
 .navbar-toggler {
     background-color: rgba(255, 255, 255, 0.1);
+    margin-right: 3vh;
 }
-
 
 .version {
     font-size: smaller;
     color: black;
+    font-weight: bold;
 }
 
 #blazor-error-ui {
@@ -51,6 +92,4 @@ html, body {
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
-}
-
 }
