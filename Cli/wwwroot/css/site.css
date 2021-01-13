@@ -56,9 +56,19 @@ main {
     height: 70px;
 }
 
+.navbar-custom {
+    background-color: #1c1c1c;
+}
+.navbar-brand {
+
+}
+
 .navbar-brand:hover { 
     border-bottom: thin;
     border-bottom-style: solid;
+}
+.navbar-text {
+
 }
 
 .navbar-quickmenu {
