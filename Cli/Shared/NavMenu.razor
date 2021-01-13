@@ -4,35 +4,35 @@
     </button>
     <a class="navbar-brand" href="#">Attack Surface Analyzer</a>
     <div class="navbar-quickmenu">
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="guided"><span class="oi oi-compass"></span></a>
             <p class="label">Guided</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="scan"><span class="oi oi-target"></span></a>
             <p class="label">Scan</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="monitor"><span class="oi oi-pulse"></span></a>
             <p  class="label">Monitor</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="analyze"><span class="oi oi-magnifying-glass"></span></a>
             <p class="label">Analyze</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="report"><span class="oi oi-document"></span></a>
             <p class="label">Report</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="author"><span class="oi oi-pencil"></span></a>
             <p class="label">Author</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="sandbox"><span class="oi oi-spreadsheet"></span></a>
             <p class="label">Sandbox</p>
         </div>
-        <div class="item hover-shadow">
+        <div class="nav-item hover-shadow">
             <a class="stretched-link" href="configure"><span class="oi oi-cog"></span></a>
             <p class="label">Configure</p>
         </div>
@@ -46,7 +46,7 @@
     </div>
 </nav>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+<div class="navbar-dropmenu @NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="navbar-nav flex-column">
         <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
@@ -85,7 +85,7 @@
         </li>
         <li class="nav-item">
             <NavLink class="nav-link" href="sandbox">
-                <span class="oi oi-pencil" aria-hidden="true"></span> Sandbox
+                <span class="oi oi-spreadsheet" aria-hidden="true"></span> Sandbox
             </NavLink>
         </li>
         <li class="nav-item">

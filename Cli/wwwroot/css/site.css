@@ -72,10 +72,36 @@ main { /*
 .navbar-text {
 
 }
+.navbar-dropmenu {
+    background-color: #323130;
+}
+.navbar-dropmenu .nav-item {
+    font-size: 0.9rem;
+    padding-bottom: .5rem;
+}
+.navbar-dropmenu .nav-item:first-of-type {
+    padding-top: 1rem;
+}
+.navbar-dropmenu .nav-item:last-of-type {
+    padding-bottom: 1rem;
+}
+.navbar-dropmenu .nav-item a {
+    display: flex;
+    align-items: center;
+    color: white;
+    border-radius: 4px;
+    height: 3rem;
+    line-height: 3rem;
+}
+.navbar-dropmenu .oi {
+    font-size: 1.1rem;
+    width: 2rem;
+    position: unset;
+}
 .navbar-quickmenu {
     display: flex;
 }
-.navbar-quickmenu .item{
+.navbar-quickmenu .nav-item{
     display: flex;
     position: relative;
     width: 5.3vw;
