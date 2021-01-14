@@ -3,7 +3,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">Attack Surface Analyzer</a>
-    <div class="navbar-quickmenu d-none d-md-flex">
+    <div class="navbar-quickmenu d-none d-lg-flex">
         <div class="nav-item hover-shadow">
             <a class="stretched-link" href="guided"><span class="oi oi-compass"></span></a>
             <p class="label">Guided</p>
@@ -14,7 +14,7 @@
         </div>
         <div class="nav-item hover-shadow">
             <a class="stretched-link" href="monitor"><span class="oi oi-pulse"></span></a>
-            <p  class="label">Monitor</p>
+            <p class="label">Monitor</p>
         </div>
         <div class="nav-item hover-shadow">
             <a class="stretched-link" href="analyze"><span class="oi oi-magnifying-glass"></span></a>
@@ -37,11 +37,11 @@
             <p class="label">Configure</p>
         </div>
     </div>
-    <div class="navbar-end d-none d-md-flex">
-        <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
+    <div class="navbar-end">
+        <a class="d-none d-sm-flex" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
             <img class="gh-logo hover-shadow-circle" title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32-wh.png" />
         </a>
-        <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
+        <a class="d-none d-sm-flex" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
         <img class="logo d-none d-xl-inline" src="images/microsoft.png" alt="Microsoft Corporation Logo" />
         <img class="logo-sm d-xl-none" src="images/microsoft-sm.png" alt="Microsoft Corporation Logo" />
     </div>
@@ -92,6 +92,14 @@
         <li class="nav-item">
             <NavLink class="nav-link" href="configure">
                 <span class="oi oi-cog" aria-hidden="true"></span> Configure
+            </NavLink>
+        </li>
+        <li>
+            <hr class="rule"/>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">
+                <span class="oi oi-book" aria-hidden="true"></span> Docs
             </NavLink>
         </li>
     </ul>

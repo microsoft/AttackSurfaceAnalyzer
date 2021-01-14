@@ -109,15 +109,22 @@ main { /*
 .navbar-dropmenu .nav-item a:hover {
     background-color: rgba(255,255,255,0.15);
 }
-.navbar-dropmenu .oi {
+.navbar-dropmenu .nav-item .oi {
     font-size: 1.1rem;
     width: 1.65rem;
     position: unset;
     margin-left: 1rem;
 }
+.navbar-dropmenu .rule {
+    width: 13rem;
+    border-width: 2px;
+    border-color: white;
+}
 
 .navbar-quickmenu {
-    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .navbar-quickmenu .nav-item{
     display: flex;
@@ -128,10 +135,10 @@ main { /*
     padding: .5rem 0 .5rem 0;
 }
 .navbar-quickmenu .oi {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 .navbar-quickmenu .label {
-    font-size: .75rem;
+    font-size: .8rem;
     align-self: center;
     margin-bottom: 0;
 }
@@ -144,6 +151,7 @@ main { /*
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 16.5rem;
 }
 .navbar-end a {
     color: white;
@@ -190,26 +198,28 @@ main { /*
     top: 0.5rem;
 }
 
+/* Large devices and below */
+@media (max-width: 1199.98px) {
+    .navbar-quickmenu .nav-item {
+        width: 3.9rem;
+    }
+    .navbar-end {
+        width: 8.5rem;
+    }
+}
+
 /* Medium devices and below */
 @media (max-width: 991.98px) {
     .navbar-brand {
-        font-size: 1rem;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
-    .navbar-quickmenu .nav-item {
-        width: 3rem;
-        padding: .5rem 0 .5rem 0;
-    }
-    .navbar-quickmenu .oi {
-        font-size: 1rem;
-    }
-    .navbar-quickmenu .label {
-        font-size: .6rem;
-    }
+}
+
+/* Small devices and below */
+@media (max-width: 576px) {
     .navbar-end {
-        width: 8rem;
-    }
-    .navbar-end .gh-logo {
-        height: 24px;
-        width: auto;
+        width: 2rem;
     }
 }
