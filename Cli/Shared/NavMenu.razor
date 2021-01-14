@@ -3,7 +3,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="#">Attack Surface Analyzer</a>
-    <div class="navbar-quickmenu">
+    <div class="navbar-quickmenu d-none d-md-flex">
         <div class="nav-item hover-shadow">
             <a class="stretched-link" href="guided"><span class="oi oi-compass"></span></a>
             <p class="label">Guided</p>
@@ -37,17 +37,18 @@
             <p class="label">Configure</p>
         </div>
     </div>
-    <div class="navbar-end">
+    <div class="navbar-end d-none d-md-flex">
         <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
             <img class="gh-logo hover-shadow-circle" title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32-wh.png" />
         </a>
         <a href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
-        <img class="logo" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
+        <img class="logo d-none d-xl-inline" src="images/microsoft.png" alt="Microsoft Corporation Logo" />
+        <img class="logo-sm d-xl-none" src="images/microsoft-sm.png" alt="Microsoft Corporation Logo" />
     </div>
 </nav>
 
 <div class="navbar-dropmenu @NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="navbar-nav flex-column">
+    <ul class="navbar-nav dropmenu-list flex-column">
         <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
