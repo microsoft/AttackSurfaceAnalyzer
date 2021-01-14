@@ -10,11 +10,17 @@ body {
 
 main { /*
     position: absolute;
-    top: 70px;
+    top: 4.5rem;
            */
     bottom: 0;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .content {
@@ -38,31 +44,20 @@ main { /*
     text-align: center;
     border-radius: 15px;
     background: #d9d9d9;
-    padding: 2vh 1.5vw 2vh 1.5vw;
-    margin: -1.5vh .5vw 0 .5vw;
-}
-
-.gh-logo {
-    border: solid;
-    border-color: gray;
-    border-radius: 50%;
-}
-
-.logo {
-    height: 26px;
-    width: auto;
+    padding: 1.5rem 2rem 1.5rem 2rem;
+    margin: -1.3rem .3rem 0 .3rem;
+    position: inherit;
 }
 
 .navbar {
     justify-content: space-between;
-    height: 70px;
-    padding: 0 2vw 0 2vw;
+    height: 4.5rem;
+    padding: 0 2rem 0 2rem;
 }
 .navbar-custom {
     background-color: #1c1c1c;
 }
 .navbar-brand {
-    margin: 0;
     font-size: 1.2rem;
 }
 .navbar-brand:hover { 
@@ -72,12 +67,26 @@ main { /*
 .navbar-text {
 
 }
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 .navbar-dropmenu {
+    width: 15rem;
+    position: relative;
+}
+.navbar-dropmenu .dropmenu-list {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
     background-color: #323130;
 }
 .navbar-dropmenu .nav-item {
     font-size: 0.9rem;
     padding-bottom: .5rem;
+    width: 95%;
+    align-self: center;
 }
 .navbar-dropmenu .nav-item:first-of-type {
     padding-top: 1rem;
@@ -89,25 +98,34 @@ main { /*
     display: flex;
     align-items: center;
     color: white;
-    border-radius: 4px;
+    border-radius: 8px;
     height: 3rem;
     line-height: 3rem;
 }
+.navbar-dropmenu .nav-item a.active {
+    background-color: rgba(255,255,255,0.30);
+    font-weight: bold;
+}
+.navbar-dropmenu .nav-item a:hover {
+    background-color: rgba(255,255,255,0.15);
+}
 .navbar-dropmenu .oi {
     font-size: 1.1rem;
-    width: 2rem;
+    width: 1.65rem;
     position: unset;
+    margin-left: 1rem;
 }
+
 .navbar-quickmenu {
     display: flex;
 }
 .navbar-quickmenu .nav-item{
     display: flex;
     position: relative;
-    width: 5.3vw;
+    width: 4.5rem;
     flex-direction: column;
     color: white;
-    padding: .7vh 1vw .7vh 1vw;
+    padding: .5rem 0 .5rem 0;
 }
 .navbar-quickmenu .oi {
     font-size: 1.5rem;
@@ -121,13 +139,30 @@ main { /*
     color: white;
     align-self: center;
 }
+
 .navbar-end {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .navbar-end a {
     color: white;
 }
-.navbar-toggler {
-    background-color: rgba(255, 255, 255, 0.1);
+.navbar-end .gh-logo {
+    border: solid;
+    border-color: gray;
+    border-radius: 50%;
+}
+.navbar-end .logo {
+    height: 32px;
+    width: auto;
+}
+.navbar-end .logo-sm {
+    height: 32px;
+    width: auto;
+    border: thin;
+    border-style: outset;
+    border-color: lightgray;
 }
 
 .version {
@@ -153,4 +188,28 @@ main { /*
     position: absolute;
     right: 0.75rem;
     top: 0.5rem;
+}
+
+/* Medium devices and below */
+@media (max-width: 991.98px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+    .navbar-quickmenu .nav-item {
+        width: 3rem;
+        padding: .5rem 0 .5rem 0;
+    }
+    .navbar-quickmenu .oi {
+        font-size: 1rem;
+    }
+    .navbar-quickmenu .label {
+        font-size: .6rem;
+    }
+    .navbar-end {
+        width: 8rem;
+    }
+    .navbar-end .gh-logo {
+        height: 24px;
+        width: auto;
+    }
 }
