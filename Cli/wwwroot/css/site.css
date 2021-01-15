@@ -23,6 +23,7 @@ main {
 }
 
 .content {
+    padding: 1rem 1rem 1rem 1rem;
 }
 
 .hover-shadow-circle:hover {
