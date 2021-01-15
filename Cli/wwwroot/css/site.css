@@ -43,7 +43,7 @@ main {
 .navbar {
     justify-content: space-between;
     height: 4.5rem;
-    padding: 0 2rem 0 2rem;
+    padding: 0 1.75rem 0 1.75rem;
 }
 .navbar-custom {
     background-color: #1c1c1c;
@@ -130,6 +130,7 @@ main {
     width: 4.5rem;
     flex-direction: column;
     color: white;
+    margin: 0 .2rem 0 .2rem;
 }
 .navbar-quickmenu .nav-item a.active {
     background-color: rgba(255,255,255,0.3);
@@ -157,7 +158,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 16.5rem;
+    width: 15.5rem;
 }
 .navbar-end a {
     color: white;
@@ -206,6 +207,9 @@ main {
 
 /* Large devices and below */
 @media (max-width: 1199.98px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
     .navbar-quickmenu .nav-item {
         width: 3.9rem;
     }
