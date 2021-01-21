@@ -1,8 +1,4 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<div class="options-card">
-    <div class="first-entry">
-        <input id="enableFirewallCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFirewallCollector" />
-        <label for="enableFirewallCollectionCheckbox">Enable Firewall Collector</label>
-    </div>
-</div>
+<input id="enableFirewallCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFirewallCollector" />
+<label for="enableFirewallCollectionCheckbox">Enable Firewall Collector</label>

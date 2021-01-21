@@ -1,13 +1,7 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<div class="options-card">
-    <div class="first-entry">
-        <input id="enableWifiCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableWifiCollector" />
-        <label for="enableWifiCollectionCheckbox">Enable Wi-Fi Collector</label>
-    </div>
-    <hr class="options-hr" />
-    <div class="options-entry">
-        <input id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherWifiPasswords" />
-        <label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
-    </div>
-</div>
+<input id="enableWifiCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableWifiCollector" />
+<label for="enableWifiCollectionCheckbox">Enable Wi-Fi Collector</label>
+
+<input id="enableWifiPasswordCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherWifiPasswords" />
+<label for="enableWifiPasswordCollectionCheckbox">Enable Password Collection</label>
