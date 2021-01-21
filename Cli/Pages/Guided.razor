@@ -1,37 +1,46 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.States
 @using Microsoft.CST.AttackSurfaceAnalyzer.Types
-@using System.Threading; 
+@using System.Threading;
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
 @using Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 @page "/guided"
 
+<h3>Guided Mode</h3>
 @switch (pageState)
 {
     case PageState.Options:
         <div class="runid-box">
             <label for="RunId">Run ID:</label>
             <input id="RunId" type="text" @bind="RunIdInput" />
-            <input id="UseTimestampCheckbox" type="checkbox" @bind="UseTimestamp"/>
+            <input id="UseTimestampCheckbox" type="checkbox" @bind="UseTimestamp" />
             <label for="UseTimestampCheckbox">Use Timestamp</label>
             <button class="start-scan-button" @onclick="BeginGuided">Start Guided Scan</button>
         </div>
-        <div class="options-pane">
-            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Collector Options
-            <hr />
-            <CollectorOptionsRazor />
-        </div>
-        <div class="options-pane">
-            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Monitor Options
-            <hr />
-            <MonitorOptionsRazor />
-        </div>
-        <div class="options-pane">
-            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Analysis Options
-            <hr />
-            <AnalyzeOptionsRazor />
+
+        <ul class="nav nav-tabs options-tabs" id="options-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="collectors-tab" data-toggle="tab" href="#collectors" role="tab" aria-controls="collectors" aria-selected="true">Collectors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="monitor-tab" data-toggle="tab" href="#monitor" role="tab" aria-controls="monitor" aria-selected="false">Monitor</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="analyze-tab" data-toggle="tab" href="#analyze" role="tab" aria-controls="analyze" aria-selected="false">Analyze</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="options-tabs-content">
+            <div class="tab-pane fade show active" id="collectors" role="tabpanel" aria-labelledby="collectors-tab">
+                <CollectorOptionsRazor />
+            </div>
+            <div class="tab-pane fade" id="monitor" role="tabpanel" aria-labelledby="monitor-tab">
+                <MonitorOptionsRazor />
+            </div>
+            <div class="tab-pane fade" id="analyze" role="tabpanel" aria-labelledby="analyze-tab">
+                <AnalyzeOptionsRazor />
+            </div>
         </div>
         break;
     case PageState.Scanning:
@@ -47,7 +56,7 @@
         <Analyzing />
         break;
     case PageState.Results:
-        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId"/>
+        <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
         break;
     case PageState.Error:
         <p>An Error Occured while collecting.</p>

@@ -181,6 +181,15 @@ main {
     border-color: lightgray;
 }
 
+.options-tabs {
+    margin: 0 0 1rem 0;
+}
+
+.runid-box {
+    padding: 1rem 0 1rem 0;
+    font-weight: bold;
+}
+
 .version {
     font-size: smaller;
     color: black;
