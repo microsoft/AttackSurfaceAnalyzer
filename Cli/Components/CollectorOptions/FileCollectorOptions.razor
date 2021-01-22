@@ -28,19 +28,31 @@
     </div>
     <div class="form-group">
         <label for="selectedDirectoriesString">Add Path to Scan:</label>
-        <input type="text" class="form-control" id="selectedDirectoriesString" placeholder="/my/path/" @bind="SelectedDirectoryInput" />
+        <div class="form-row">
+            <div class="col-9 mb-1">
+                <input type="text" class="form-control" id="selectedDirectoriesString" placeholder="/my/path/" @bind="SelectedDirectoryInput" />
+            </div>
+            <div class="col">
+               <button class="btn btn-primary" @onclick="PushInputToList">Add</button>
+           </div>
+        </div>
     </div>
-    <button class="btn btn-primary" @onclick="PushInputToList">Add</button>
     <div class="form-group">
         <label for="selectedDirectoriesList">Selected Directories:</label>
-        <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-            @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
-            {
-                <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
-            }
-        </select>
+        <div class="form-row">
+            <div class="col-9 mb-1">
+                <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+                    @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
+                    {
+                        <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" @onclick="RemoveInputFromList">Remove</button>
+            </div>
+        </div>
     </div>
-    <button class="btn btn-primary" @onclick="RemoveInputFromList">Remove</button>
 </div>
 
 @code{
