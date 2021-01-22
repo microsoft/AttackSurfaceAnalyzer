@@ -13,11 +13,7 @@
             <label for="UseTimestampCheckbox">Use Timestamp</label>
             <button class="start-scan-button" @onclick="BeginScan">Start Scan</button>
         </div>
-        <div class="options-pane">
-            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Collector Options
-            <hr />
-            <CollectorOptionsRazor />
-        </div>
+        <CollectorOptionsRazor />
         break;
     case PageState.Scanning:
         <Scanning />
