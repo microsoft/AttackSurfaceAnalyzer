@@ -1,4 +1,6 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableNetworkPortCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableNetworkPortCollector" />
-<label for="enableNetworkPortCollectionCheckbox">Enable NetworkPort Collector</label>
+<form action="javascript:void(0);">
+    <input id="enableNetworkPortCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableNetworkPortCollector" />
+    <label for="enableNetworkPortCollectionCheckbox">Enable NetworkPort Collector</label>
+</form>

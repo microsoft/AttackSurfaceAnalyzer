@@ -1,19 +1,21 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" />
-<label for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
+<form action="javascript:void(0);">
+    <input id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" />
+    <label for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
 
-<label for="selectedPathsString">Add Path to Scan (e.g. "LocalMachine\\SOFTWARE\Microsoft")</label>
-<input id="selectedPathsString" type="text" @bind="SelectedHiveInput" /><button @onclick="PushInputToList">Add</button>
+    <label for="selectedPathsString">Add Path to Scan (e.g. "LocalMachine\\SOFTWARE\Microsoft")</label>
+    <input id="selectedPathsString" type="text" @bind="SelectedHiveInput" /><button @onclick="PushInputToList">Add</button>
 
-<label for="selectedPathsList">Selected Paths</label>
-<select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedPathsList" @bind="SelectedHiveTop">
-    @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count; i++)
-    {
-        <option value="@i">@appData.CollectOptions.SelectedHives[i]</option>
-    }
-</select>
-<button @onclick="RemoveInputFromList">Remove</button>
+    <label for="selectedPathsList">Selected Paths</label>
+    <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedPathsList" @bind="SelectedHiveTop">
+        @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count; i++)
+        {
+            <option value="@i">@appData.CollectOptions.SelectedHives[i]</option>
+        }
+    </select>
+    <button @onclick="RemoveInputFromList">Remove</button>
+</form>
 
 @code{
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();

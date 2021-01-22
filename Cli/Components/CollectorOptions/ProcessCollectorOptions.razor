@@ -1,4 +1,6 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableProcessCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableProcessCollector" />
-<label for="enableProcessCollectionCheckbox">Enable Process Collector</label>
+<form action="javascript:void(0);">
+    <input id="enableProcessCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableProcessCollector" />
+    <label for="enableProcessCollectionCheckbox">Enable Process Collector</label>
+</form>

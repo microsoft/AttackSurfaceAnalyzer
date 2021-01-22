@@ -1,4 +1,6 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableTpmCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableTpmCollector" />
-<label for="enableTpmCollectionCheckbox">Enable TPM Collector</label>
+<form action="javascript:void(0);">
+    <input id="enableTpmCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableTpmCollector" />
+    <label for="enableTpmCollectionCheckbox">Enable TPM Collector</label>
+</form>

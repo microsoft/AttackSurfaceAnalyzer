@@ -1,23 +1,25 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
-<label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
+<form action="javascript:void(0);">
+    <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
+    <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
 
-<input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
-<label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
+    <input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
+    <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
 
-<label for="selectedDirectoriesString">Add Path to Scan</label>
-<input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
+    <label for="selectedDirectoriesString">Add Path to Scan</label>
+    <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
 
-<label for="selectedDirectoriesList">Selected Directories</label>
-<select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-    @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
-    {
-        <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
-    }
-</select>
-<button @onclick="RemoveInputFromList">Remove</button>
+    <label for="selectedDirectoriesList">Selected Directories</label>
+    <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+        @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
+        {
+            <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
+        }
+    </select>
+    <button @onclick="RemoveInputFromList">Remove</button>
+</form>
 
 @code{
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();

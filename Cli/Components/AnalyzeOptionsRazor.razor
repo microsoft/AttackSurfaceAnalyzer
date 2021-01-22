@@ -1,8 +1,10 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<input id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
-<label for="enableAnalysisCheckbox">Enable Analysis</label>
+<form action="javascript:void(0);">
+    <input id="enableAnalysisCheckbox" type="checkbox" @bind="EnableAnalysis" />
+    <label for="enableAnalysisCheckbox">Enable Analysis</label>
+</form>
 
 @code{
     bool EnableAnalysis

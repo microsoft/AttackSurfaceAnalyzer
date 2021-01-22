@@ -1,4 +1,10 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableComObjectCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableComObjectCollector" />
-<label for="enableComObjectCollectionCheckbox">Enable ComObject Collector</label>
+<form action="javascript:void(0);">
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableComObjectCollectionCheckbox" @bind="appData.CollectOptions.EnableComObjectCollector" />
+            <label class="form-check-label" for="enableComObjectCollectionCheckbox">Enable ComObject Collector</label>
+        </div>
+    </div>
+</form>

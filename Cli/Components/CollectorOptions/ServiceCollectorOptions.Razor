@@ -1,4 +1,6 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableServiceCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableServiceCollector" />
-<label for="enableServiceCollectionCheckbox">Enable Service Collector</label>
+<form action="javascript:void(0);">
+    <input id="enableServiceCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableServiceCollector" />
+    <label for="enableServiceCollectionCheckbox">Enable Service Collector</label>
+</form>

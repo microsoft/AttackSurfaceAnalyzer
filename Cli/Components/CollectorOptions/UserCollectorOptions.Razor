@@ -1,4 +1,6 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<input id="enableUserCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableUserCollector" />
-<label for="enableUserCollectionCheckbox">Enable User Collector</label>
+<form action="javascript:void(0);">
+    <input id="enableUserCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableUserCollector" />
+    <label for="enableUserCollectionCheckbox">Enable User Collector</label>
+</form>
