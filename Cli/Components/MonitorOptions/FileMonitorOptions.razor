@@ -1,7 +1,7 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<form action="javascript:void(0);">
+<div>
     <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
     <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
 
@@ -19,7 +19,7 @@
         }
     </select>
     <button @onclick="RemoveInputFromList">Remove</button>
-</form>
+</div>
 
 @code{
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();

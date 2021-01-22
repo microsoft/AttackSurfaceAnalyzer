@@ -1,6 +1,6 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<form action="javascript:void(0);">
+<div>
     <input id="enableRegistryCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableRegistryCollector" />
     <label for="enableRegistryCollectionCheckbox">Enable Registry Collector</label>
 
@@ -15,7 +15,7 @@
         }
     </select>
     <button @onclick="RemoveInputFromList">Remove</button>
-</form>
+</div>
 
 @code{
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
