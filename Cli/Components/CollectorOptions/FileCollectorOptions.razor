@@ -1,29 +1,47 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<input id="enableFileSystemCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFileSystemCollector" />
-<label for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
-
-<input id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherHashes" />
-<label for="enableGatherHashesCheckbox">Gather File Hashes</label>
-
-<input id="enableCrawlArchivesCheckbox" type="checkbox" @bind="appData.CollectOptions.CrawlArchives" />
-<label for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
-
-<input id="enableDownloadCloudCheckbox" type="checkbox" @bind="appData.CollectOptions.DownloadCloud" />
-<label for="enableDownloadCloudCheckbox">Download Cloud Files</label>
-
-<label for="selectedDirectoriesString">Add Path to Scan</label>
-<input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
-
-<label for="selectedDirectoriesList">Selected Directories</label>
-<select class="@directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-    @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
-    {
-        <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
-    }
-</select>
-<button @onclick="RemoveInputFromList">Remove</button>
+<form action="javascript:void(0);">
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableFileSystemCollectionCheckbox" @bind="appData.CollectOptions.EnableFileSystemCollector" />
+            <label class="form-check-label" for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableGatherHashesCheckbox" @bind="appData.CollectOptions.GatherHashes" />
+            <label class="form-check-label" for="enableGatherHashesCheckbox">Gather File Hashes</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableCrawlArchivesCheckbox" @bind="appData.CollectOptions.CrawlArchives" />
+            <label class="form-check-label" for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableDownloadCloudCheckbox" @bind="appData.CollectOptions.DownloadCloud" />
+            <label class="form-check-label" for="enableDownloadCloudCheckbox">Download Cloud Files</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="selectedDirectoriesString">Add Path to Scan:</label>
+        <input type="text" class="form-control" id="selectedDirectoriesString" placeholder="/my/path/" @bind="SelectedDirectoryInput" />
+    </div>
+    <button class="btn btn-primary" @onclick="PushInputToList">Add</button>
+    <div class="form-group">
+        <label for="selectedDirectoriesList">Selected Directories:</label>
+        <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+            @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
+            {
+                <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
+            }
+        </select>
+    </div>
+    <button class="btn btn-primary" @onclick="RemoveInputFromList">Remove</button>
+</form>
 
 @code{
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
