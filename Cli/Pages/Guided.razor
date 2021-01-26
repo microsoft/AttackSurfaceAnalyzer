@@ -9,11 +9,11 @@
 @page "/guided"
 
 <h4>Guided Mode</h4>
-<div class="container-fluid bg-custom py-1">
+<div class="container-fluid bg-custom my-1 pb-1">
     @switch (pageState)
     {
         case PageState.Options:
-            <div class="run-box">
+            <div class="run-box bg-custom">
                 <div class="form-inline">
                     <label class="mr-1" for="RunId">Run ID:</label>
                     <input type="text" class="form-control mx-1" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
