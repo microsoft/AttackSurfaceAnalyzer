@@ -1,21 +1,28 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.CollectorOptions
 
 <div class="row">
-    <div class="col-4">
+    <div class="col-6">
         <FileCollectorOptions />
     </div>
+    <div class="col-6">
+        <RegistryCollectorOptions />
+    </div>
+</div>
+<hr />
+<div class="row">
     <div class="col-4">
         <CertificateCollectorOptions />
         <ComObjectCollector />
         <CryptographicKeyCollectorOptions />
         <DriverCollectorOptions />
+    </div>
+    <div class="col-4">
         <EventLogCollector />
         <FilewallCollectorOptions />
         <OpenPortCollectorOptions />
+        <ProcessCollectorOptions />
     </div>
     <div class="col-4">
-        <ProcessCollectorOptions />
-        <RegistryCollectorOptions />
         <ServiceCollectorOptions />
         <TpmCollectorOptions />
         <UserCollectorOptions />
