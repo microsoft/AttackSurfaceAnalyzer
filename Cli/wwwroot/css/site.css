@@ -4,6 +4,24 @@ html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
+a {
+    color: #fff;
+}
+a:hover {
+    color: #db7500;
+}
+a.dotted:link {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+}
+a.dotted:hover {
+    text-decoration: underline solid;
+}
+
+hr {
+    background-color: white;
+}
+
 body {
     overflow: hidden;
 }
@@ -14,16 +32,26 @@ main {
     bottom: 0;
     overflow-x: hidden;
     overflow-y: auto;
-}
-
-.btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #121212;
 }
 
 .content {
     padding: 1rem 1rem 1rem 1rem;
+}
+
+.bg-custom {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.bg-custom-secondary{
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #0078d4;
+    border-color: #0078d4;
 }
 
 .hover-shadow-circle:hover {
@@ -34,11 +62,13 @@ main {
 .jt-cards {
     align-items: center;
     text-align: center;
-    border-radius: 15px;
-    background: #d9d9d9;
+    border-radius: 8px;
     padding: 1.5rem 2rem 1.5rem 2rem;
     margin: -1.3rem .3rem 0 .3rem;
     position: inherit;
+}
+.jt-cards img {
+    filter:invert(100%);
 }
 
 .navbar {
@@ -47,7 +77,7 @@ main {
     padding: 0 1.75rem 0 1.75rem;
 }
 .navbar-custom {
-    background-color: #1c1c1c;
+    background-color: #222222;
 }
 .navbar-brand {
     font-size: 1.2rem;
@@ -161,9 +191,6 @@ main {
     align-items: center;
     width: 15.5rem;
 }
-.navbar-end a {
-    color: white;
-}
 .navbar-end .gh-logo {
     border: solid;
     border-color: gray;
@@ -185,14 +212,12 @@ main {
     margin: 0 0 1rem 0;
 }
 
-.runid-box {
+.run-box {
     padding: 1rem 0 1rem 0;
-    font-weight: bold;
 }
 
 .version {
     font-size: smaller;
-    color: black;
     font-weight: bold;
 }
 
