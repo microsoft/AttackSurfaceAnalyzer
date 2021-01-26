@@ -18,7 +18,7 @@
 @inject IFileReaderService fileReaderService;
 @inject IJSRuntime JSRuntime
 
-<h2>State</h2>
+<h4>State</h4>
 <p>Load in JSON serialized Sandbox State.</p>
 <FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
 
@@ -34,7 +34,7 @@
     </div>
 }
 
-<h3>Settings</h3>
+<h4>Settings</h4>
 <label for="typeToCreate">Type to Create:</label>
 <select id="typeToCreate" @bind="typeToInvoke">
     @foreach (var type in Types.Keys)
