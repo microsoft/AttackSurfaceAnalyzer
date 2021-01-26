@@ -1,16 +1,23 @@
 ﻿@page "/report"
-
-<h3>Report</h3>
-<div class="runid-box">
-    <label for="RunId">Run ID:</label>
-    <select id="RunId" @bind="RunIdInput">
-        @for (int i = 0; i < Runs.Count; i++)
-        {
-            <option value="@i">@Runs[i]</option>
-        }
-    </select>
-</div>
-<Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" AnalysesFile="@Runs[RunIdInput].analysesHash" MonitorRunId="@Runs[RunIdInput].secondRunId"/>
+@if (Runs.Count > 0)
+{
+    <h3>Report</h3>
+    <div class="runid-box">
+        <label for="RunId">Run ID:</label>
+        <select id="RunId" @bind="RunIdInput">
+            @for (int i = 0; i < Runs.Count; i++)
+            {
+                <option value="@i">@Runs[i]</option>
+            }
+        </select>
+    </div>
+    <Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" AnalysesFile="@Runs[RunIdInput].analysesHash" MonitorRunId="@Runs[RunIdInput].secondRunId" />
+}
+else
+{
+    <h3>No Results</h3>
+    <p>Please run comparisons before viewing results.</p>
+}
 @code {
 
     List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
