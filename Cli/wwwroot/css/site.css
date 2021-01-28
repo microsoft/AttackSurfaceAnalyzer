@@ -54,6 +54,11 @@ main {
     background-color: #0078d4;
     border-color: #0078d4;
 }
+.btn-secondary {
+    color: #fff;
+    background-color: #db7500;
+    border-color: #db7500;
+}
 
 .hover-shadow-circle:hover {
     box-shadow: 0px 0px 6px 3px rgba(255, 255, 255, 0.7);
