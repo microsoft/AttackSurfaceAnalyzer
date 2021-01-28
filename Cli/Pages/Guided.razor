@@ -15,13 +15,13 @@
         case PageState.Options:
             <div class="run-box bg-custom">
                 <div class="form-inline">
-                    <label class="mr-1" for="RunId">Run ID:</label>
-                    <input type="text" class="form-control mx-1" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
-                    <div class="form-check mx-1">
+                    <label class="mr-2" for="RunId">Run ID:</label>
+                    <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
+                    <div class="form-check mr-2">
                         <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
                         <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
                     </div>
-                    <button class="btn btn-primary mx-1" @onclick="BeginGuided">Start Guided Scan</button>
+                    <button class="btn btn-primary" @onclick="BeginGuided">Start Guided Scan</button>
                 </div>
             </div>
             <ul class="nav nav-tabs options-tabs" id="options-tabs" role="tablist">
