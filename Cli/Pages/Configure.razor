@@ -1,24 +1,32 @@
 ﻿@page "/configure"
 
 <h4>Manage Runs</h4>
-<label for="CollectionRunsSelect">Collection Runs</label>
-<select id="CollectionRunsSelect" @bind="SelectedRun">
-    @for (int i = 0; i < Runs.Count; i++)
-    {
-        <option value="@i">@Runs[i]</option>
-    }
-</select>
-<button @onclick="DeleteSelected">Delete Selected Run</button>
-<br />
-<label for="CompareRunsSelect">Comparison Runs</label>
-<select id="CompareRunsSelect" @bind="SelectedCompareRun">
-    @for (int i = 0; i < CompareRuns.Count; i++)
-    {
-        <option value="@i">@CompareRuns[i]</option>
-    }
-</select>
-<button @onclick="DeleteSelectedCompare">Delete Selected Run</button>
-<br />
+
+<div class="container-fluid bg-custom py-1">
+    <div class="form-inline py-1">
+        <label class="mr-2" for="CollectionRunsSelect">Collection Runs:</label>
+        <select class="form-control mr-3" id="CollectionRunsSelect" @bind="SelectedRun">
+            @for (int i = 0; i < Runs.Count; i++)
+            {
+                <option value="@i">@Runs[i]</option>
+            }
+        </select>
+        <button class="btn btn-primary" @onclick="DeleteSelected">Delete Run</button>
+    </div>
+    <div class="form-inline py-1">
+        <label class="mr-2" for="CompareRunsSelect">Comparison Runs:</label>
+        <select class="form-control mr-3" id="CompareRunsSelect" @bind="SelectedCompareRun">
+            @for (int i = 0; i < CompareRuns.Count; i++)
+            {
+                <option value="@i">@CompareRuns[i]</option>
+            }
+        </select>
+        <button class="btn btn-primary" @onclick="DeleteSelectedCompare">Delete Run</button>
+    </div>
+</div>
+
+
+
 
 @code {
     public int SelectedRun { get; set; }
