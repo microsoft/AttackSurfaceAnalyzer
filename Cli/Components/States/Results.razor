@@ -8,21 +8,16 @@
         <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
     }
 </select>
-<button @onclick="MoreAnalysisResults">More results</button>
+<button class="btn btn-primary" @onclick="MoreAnalysisResults">More results</button>
         
 @foreach (var result in analysisResults) {
-<div class="results-card">
-    <div class="results-entry">
-        <div class="results-label">@result.Analysis:</div> @result.Identity
-    </div>
-
+<div>
+    <div>@result.Analysis : @result.Identity</div>
     <br />
-    
+
     @foreach (var rule in result.Rules)
     {
-    <div class="results-entry">
-        <div class="rule-label">@rule.Name:</div> @rule.Description
-    </div>
+        <div>@rule.Name : @rule.Description</div>
     }
 </div>
 }
