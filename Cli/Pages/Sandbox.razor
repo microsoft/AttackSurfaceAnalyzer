@@ -11,100 +11,105 @@
 @using Microsoft.CST.OAT;
 @using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 @using Microsoft.CST.OAT.Blazor.Components.Inputs;
-@using Microsoft.CST.OAT.Blazor.Components; 
+@using Microsoft.CST.OAT.Blazor.Components;
 
 @inject NavigationManager NavigationManager;
 @inject AppData AppState;
 @inject IFileReaderService fileReaderService;
 @inject IJSRuntime JSRuntime
 
-<h4>State</h4>
-<p>Load in JSON serialized Sandbox State.</p>
-<FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
+<h4>Sandbox</h4>
 
-<button @onclick="SaveSandboxState">Save Sandbox State</button>
+<div class="container-fluid bg-custom my-1 pb-1">
+    <h5>State</h5>
+    <p>Load in JSON serialized Sandbox State.</p>
+    <FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
+    <button class="btn btn-primary" @onclick="SaveSandboxState">Save Sandbox State</button>
 
-@if (SandBoxErrors.Any())
-{
-    <div class="alert alert-warning" role="alert">
-        @foreach (var error in SandBoxErrors)
-        {
-            <p>@error</p>
-        }
-    </div>
-}
-
-<h4>Settings</h4>
-<label for="typeToCreate">Type to Create:</label>
-<select id="typeToCreate" @bind="typeToInvoke">
-    @foreach (var type in Types.Keys)
+    @if (SandBoxErrors.Any())
     {
-        <option value="@type.FullName">@type.FullName</option>
-    }
-</select>
-<br />
-
-<label for="constructorToUse">Constructor to Create:</label>
-<select id="constructorToUse" @bind="constructorToInvoke">
-    @{
-        var constructors = Types.Where(x => x.Key.FullName == typeToInvoke).FirstOrDefault().Value;
-        if (constructors != null)
-        {
-            @for (int i = 0; i < constructors.Count; i++)
+        <div class="alert alert-warning" role="alert">
+            @foreach (var error in SandBoxErrors)
             {
-                <option value="@i">@constructors[i].ToString()</option>
+                <p>@error</p>
+            }
+        </div>
+    }
+</div>
+
+<div class="container-fluid bg-custom my-1 pb-1">
+    <h5>Settings</h5>
+    <label for="typeToCreate">Type to Create:</label>
+    <select id="typeToCreate" @bind="typeToInvoke">
+        @foreach (var type in Types.Keys)
+        {
+            <option value="@type.FullName">@type.FullName</option>
+        }
+    </select>
+    <br />
+
+    <label for="constructorToUse">Constructor to Create:</label>
+    <select id="constructorToUse" @bind="constructorToInvoke">
+        @{
+            var constructors = Types.Where(x => x.Key.FullName == typeToInvoke).FirstOrDefault().Value;
+            if (constructors != null)
+            {
+                @for (int i = 0; i < constructors.Count; i++)
+                {
+                    <option value="@i">@constructors[i].ToString()</option>
+                }
             }
         }
-    }
-</select>
-<br />
-
-@if (ScaffoldedObject != null)
-{
-    <ScaffoldInput Scaffold="ScaffoldedObject" />
+    </select>
     <br />
-}
 
-@if (ParseErrors.Any())
-{
-    <div class="alert alert-warning" role="alert">
-    @foreach (var parseError in ParseErrors)
+    @if (ScaffoldedObject != null)
     {
-        @parseError
-    }
-    </div>
-}
-
-
-@if (@Types.Any())
-{
-    var types = Types.Where(x => x.Key.FullName == typeToInvoke);
-    if (types.Any())
-    {
-        var type = types.FirstOrDefault();
-        var constructor = type.Value[constructorToInvoke];
-        <button @onclick="AddObject">Add @type.Key.FullName</button>
-    }
-}
-<button @onclick="RemoveLastObject" disabled=@removeDisabled>Remove Last Object</button>
-<button @onclick="RefreshState">Re-Run Rules</button>
-<br />
-
-@for (int i = 0; i < AppState.TestObjects.Count; i++)
-{
-    var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]);
-    <div class="card">
-        <span>@results.Count() rules applied.</span>
+        <ScaffoldInput Scaffold="ScaffoldedObject" />
         <br />
-        @foreach (var result in results)
+    }
+
+    @if (ParseErrors.Any())
+    {
+        <div class="alert alert-warning" role="alert">
+            @foreach (var parseError in ParseErrors)
+            {
+                @parseError
+            }
+        </div>
+    }
+
+
+    @if (@Types.Any())
+    {
+        var types = Types.Where(x => x.Key.FullName == typeToInvoke);
+        if (types.Any())
         {
-            <b>@result.Name</b>
-            <br />
+            var type = types.FirstOrDefault();
+            var constructor = type.Value[constructorToInvoke];
+            <button class="btn btn-primary" @onclick="AddObject">Add @type.Key.FullName</button>
         }
-        <br />
-        <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
-    </div>
-}
+    }
+    <button class="btn btn-primary" @onclick="RemoveLastObject" disabled=@removeDisabled>Remove Last Object</button>
+    <button class="btn btn-primary" @onclick="RefreshState">Re-Run Rules</button>
+    <br />
+
+    @for (int i = 0; i < AppState.TestObjects.Count; i++)
+    {
+        var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]);
+        <div>
+            <span>@results.Count() rules applied.</span>
+            <br />
+            @foreach (var result in results)
+            {
+                <b>@result.Name</b>
+                <br />
+            }
+            <br />
+            <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
+        </div>
+    }
+</div>
 
 @code {
     Func<Stream, Task> LoadSandbox;
@@ -493,4 +498,4 @@
             Newtonsoft.Json.JsonConvert.SerializeObject(state)
         );
     }
- }
+}
