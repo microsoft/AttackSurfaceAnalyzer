@@ -1,7 +1,9 @@
 ﻿@page "/report"
+
+<h4>Report</h4>
+
 @if (Runs.Count > 0)
 {
-    <h4>Report</h4>
     <div class="runid-box">
         <label for="RunId">Run ID:</label>
         <select id="RunId" @bind="RunIdInput">
@@ -15,9 +17,10 @@
 }
 else
 {
-    <h3>No Results</h3>
+    <p>No results available.</p>
     <p>Please run comparisons before viewing results.</p>
 }
+
 @code {
 
     List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
