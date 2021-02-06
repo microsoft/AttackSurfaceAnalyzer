@@ -266,7 +266,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     {
                         foreach (var result in Queue)
                         {
-                            DatabaseManager.InsertAnalyzed(result);
+                            DatabaseManager.InsertAnalyzed(result, AnalysesHash);
                         }
                     }
                 }

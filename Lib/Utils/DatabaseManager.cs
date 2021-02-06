@@ -96,7 +96,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public abstract Settings? GetSettings();
 
-        public abstract void InsertAnalyzed(CompareResult objIn);
+        public abstract void InsertAnalyzed(CompareResult objIn, string AnalysesHash);
 
         public abstract void InsertCompareRun(string? firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus);
 
