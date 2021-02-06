@@ -854,6 +854,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                     res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                     res.Analysis = res.Rules.Count
                                                    > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
+                                    res.AnalysesHash = opts.AnalysesFile.GetHash();
                                 });
                             }
                         }
