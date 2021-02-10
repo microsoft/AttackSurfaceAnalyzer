@@ -1,6 +1,4 @@
-﻿
-
-@page "/scan"
+﻿@page "/scan"
 
 <h4>Scan</h4>
 <div class="container-fluid bg-custom my-1 pb-1">
@@ -24,7 +22,7 @@
             <Scanning />
             break;
         case PageState.Finished:
-            <button @onclick="GoToOptions">Scan Again</button>
+            <button class="btn btn-primary" @onclick="GoToOptions">Scan Again</button>
             break;
         case PageState.Error:
             <p>An Error Occured while collecting.</p>
