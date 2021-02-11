@@ -22,6 +22,7 @@
             <Scanning />
             break;
         case PageState.Finished:
+            <p>Scanning complete.</p>
             <button class="btn btn-primary" @onclick="GoToOptions">Scan Again</button>
             break;
         case PageState.Error:
