@@ -135,6 +135,7 @@
     async Task<ASA_ERROR> BeginMonitor()
     {
         pageState = PageState.Monitoring;
+        this.StateHasChanged();
         return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions));
     }
 
