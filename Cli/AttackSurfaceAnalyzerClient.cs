@@ -211,10 +211,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var shellResult = new CompareResult()
                 {
                     Compare = monitorResult,
-                    CompareRunId = opts.SecondRunId
+                    CompareRunId = opts.SecondRunId,
                 };
 
                 shellResult.Rules = analyzer.Analyze(ruleFile.Rules, shellResult).ToList();
+                shellResult.AnalysesHash = ruleFile.GetHash();
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -232,7 +233,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
 
                 shellResult.Analysis = shellResult.Rules.Count > 0 ? shellResult.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[shellResult.ResultType];
-
                 results.TryAdd((monitorResult.ResultType, monitorResult.ChangeType), new List<CompareResult>());
                 results[(monitorResult.ResultType, monitorResult.ChangeType)].Add(shellResult);
             });
