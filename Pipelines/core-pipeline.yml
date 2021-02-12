@@ -34,7 +34,6 @@ stages:
   jobs:
   - template: templates/dotnet-test-job.yml
     parameters:
-      dotnetVersion: '5.x'
       projectPath: 'Tests/Tests.csproj'
 
 - stage: SDL
@@ -49,14 +48,12 @@ stages:
   jobs:
   - template: templates/dotnet-publish-linux-mac-job.yml
     parameters:
-      dotnetVersion: '5.x'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       preBuild:
       - template: templates/nbgv-set-version-steps.yml
   - template: templates/dotnet-publish-win-netcore-job.yml
     parameters:
-      dotnetVersion: '5.x'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       preBuild:
@@ -64,13 +61,11 @@ stages:
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_lib'
-      dotnetVersion: '5.x'
       projectPath: 'Lib/Lib.csproj'
       projectName: 'ASA_Lib'
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_cli'
-      dotnetVersion: '5.x'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA_CLI'
 
