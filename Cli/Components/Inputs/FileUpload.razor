@@ -1,0 +1,105 @@
+﻿@using System.IO;
+@using System.Reflection.Metadata;
+@using Tewr.Blazor.FileReader;
+@using System.Diagnostics;
+@inject IFileReaderService fileReaderService;
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime;
+
+<input type="file" @ref=inputElement />
+<button @onclick=ReadFile class="btn btn-primary">@ReadLabel</button>
+<button @onclick=ClearFile class="btn btn-primary">@ClearLabel</button>
+<button @onclick=CancelFile disabled=@IsCancelDisabled class="btn btn-primary">Cancel</button>
+<br />
+<progress max="@max" value="@value" />
+<br />
+@code {
+    private static string nl = Environment.NewLine;
+    [Parameter]
+    public int BufferSize { get; set; } = 20480;
+
+    [Parameter]
+    public Func<Stream,Task>? ProcessFile { get; set; }
+
+    [Parameter]
+    public Action? ClearAction { get; set; }
+
+    [Parameter]
+    public string ReadLabel { get; set; } = "Read";
+
+    [Parameter]
+    public string ClearLabel { get; set; } = "Clear";
+
+    public long max;
+    public long value;
+    ElementReference inputElement;
+    public System.Threading.CancellationTokenSource? cancellationTokenSource;
+
+    public bool CanCancel { get; set; }
+    public bool IsCancelDisabled => !CanCancel;
+
+    public async Task ClearFile()
+    {
+        if (ClearAction != null)
+        {
+            ClearAction();
+        }
+
+        await fileReaderService.CreateReference(inputElement).ClearValue();
+    }
+
+    public async Task ReadFile()
+    {
+        max = 0;
+        value = 0;
+        this.StateHasChanged();
+        var files = await fileReaderService.CreateReference(inputElement).EnumerateFilesAsync();
+
+        foreach (var file in files)
+        {
+            var fileInfo = await file.ReadFileInfoAsync();
+            max = fileInfo.Size;
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            this.StateHasChanged();
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = new System.Threading.CancellationTokenSource();
+            CanCancel = true;
+
+            const int onlyReportProgressAfterThisPercentDelta = 10;
+
+            // Subscribe to progress (change of position)
+            fileInfo.PositionInfo.PositionChanged += (s, e) =>
+            {
+                // (optional) Only report progress in console / progress bar if percentage has moved over 10% since last call to Acknowledge()
+                if (e.PercentageDeltaSinceAcknowledge > onlyReportProgressAfterThisPercentDelta)
+                {
+                    stopwatch.Stop();
+                    this.InvokeAsync(this.StateHasChanged);
+                    e.Acknowledge();
+                    value = e.Position;
+                    stopwatch.Start();
+                }
+            };
+
+            if (ProcessFile != null)
+            {
+
+                using var stream = await file.OpenReadAsync();
+                await ProcessFile(stream);
+            }
+
+            CanCancel = false;
+
+            value = max;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public async Task CancelFile()
+    {
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(1);
+        cancellationTokenSource?.Cancel();
+    }
+}

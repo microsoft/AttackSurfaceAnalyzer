@@ -1,0 +1,151 @@
+﻿@using Microsoft.CST.OAT; 
+@using Microsoft.CST.OAT.Utils;
+@using Newtonsoft.Json;
+
+<hr class="hr-th mt-3" />
+<div class="form-row">
+    <div class="form-group col-6">
+        <label for="clauseLabel">Label:</label>
+        <StringInput id="clauseLabel" Object="Rule?.Clauses[Clause]" SubPath="Label" placeholder="Label" />
+    </div>
+    <div class="form-group col-6">
+        @if (Types.Any())
+        {
+            <label for="clauseField">Field:</label>
+            <select class="form-control" id="clauseField" @bind="FieldProperty">
+                <option value="">Use full Target</option>
+                @if (TypeIndex != null)
+                {
+                    @foreach (string path in Helpers.GetAllNestedFieldsAndProperties(Types[TypeIndex.Value]))
+                    {
+                        <option value="@path">@path</option>
+                    }
+                }
+            </select>
+        }
+        else
+        {
+            <label for="clauseField">Field:</label>
+            <StringInput id="clauseField" Object="Rule?.Clauses[Clause]" SubPath="Field" placeholder="Field" />
+        }
+    </div>
+</div>
+<div class="form-check">
+    <BoolInput id="captureinput" Object="Rule?.Clauses[Clause]" SubPath="Capture" />
+    <label class="form-check-label" for="captureinput">Capture</label>
+</div>
+<div class="form-check">
+    <BoolInput id="invertinput" Object="Rule?.Clauses[Clause]" SubPath="Invert" />
+    <label class="form-check-label" for="invertinput">Invert</label>
+</div>
+
+
+<tbody>
+    <tr>
+        <td>
+            <label for="operationInput">Operation:</label>
+        </td>
+        <td>
+            <EnumInput id="operationInput" Object="Rule?.Clauses[Clause]" SubPath="Operation" OnChange="RefreshThis" />
+        </td>
+    </tr>
+    @if (Rule is Rule && Rule.Clauses[Clause].Operation == Operation.Custom)
+    {
+        <tr>
+            <td>
+                <label for="customOperationInput">CustomOperation:</label>
+            </td>
+            <td>
+                <StringInput id="customOperationInput" Object="Rule.Clauses[Clause]" SubPath="CustomOperation" />
+            </td>
+        </tr>
+    }
+    @if (Rule is Rule && Rule.Clauses[Clause].Operation == Operation.Script)
+    {
+        <tr>
+            <td>
+                <label for="customScriptInput">Script:</label>
+            </td>
+            <td>
+                <StringBoxInput id="customScriptInput" Object="Rule.Clauses[Clause]" SubPath="Script.Code" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="customOperationImports">Imports:</label>
+            </td>
+            <td>
+                <ListStringInput id="customOperationImports" Object="Rule.Clauses[Clause]" SubPath="Script.Imports" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="customOperationReferences">References:</label>
+            </td>
+            <td>
+                <ListStringInput id="customOperationReferences" Object="Rule.Clauses[Clause]" SubPath="Script.References" />
+            </td>
+        </tr>
+    }
+    @if (Rule is Rule)
+    {
+        <tr>
+            <td>
+                <label for="clauseArguments">Arguments:</label>
+            </td>
+            <td>
+                <ListStringInput buttonText="Argument" id="clauseArguments" Object="Rule.Clauses[Clause]" SubPath="Arguments" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="clauseData">Data:</label>
+            </td>
+            <td>
+                <ListStringInput buttonText="Data" id="clauseData" Object="Rule.Clauses[Clause]" SubPath="Data" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="clauseDictData">Dictionary Data:</label>
+            </td>
+            <td>
+                <ListKvpStringStringInput buttonText="KeyValuePair" id="clauseDictData" Object="Rule.Clauses[Clause]" SubPath="DictData" />
+            </td>
+        </tr>
+    }
+</tbody>
+
+@code {
+    [Parameter]
+    public Rule? Rule { get; set; }
+
+    [Parameter]
+    public int Clause { get; set; }
+
+    [Parameter]
+    public Type[] Types { get; set; } = Array.Empty<Type>();
+
+    [Parameter]
+    public IntHolder? TypeIndex { get; set; }
+
+    string FieldProperty
+    {
+        get
+        {
+            return Rule?.Clauses[Clause].Field ?? string.Empty;
+        }
+        set
+        {
+            if (Rule != null)
+            {
+                Rule.Clauses[Clause].Field = value;
+            }
+        }
+    }
+
+    public void RefreshThis()
+    {
+        this.StateHasChanged();
+    }
+}

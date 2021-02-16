@@ -1,0 +1,32 @@
+﻿@using Microsoft.CST.OAT.Utils;
+@using System;
+
+<input id="@id" type="text" @bind="SubProperty"/>
+@code {
+    [Parameter]
+    public object? Object { get; set; }
+
+    [Parameter]
+    public string? SubPath { get; set; }
+
+    [Parameter]
+    public string id { get; set; } = string.Empty;
+
+    public string SubProperty
+    {
+        get
+        {
+            //This is Int.ToString();
+            if (Helpers.GetValueByPropertyOrFieldName(Object, SubPath) is int val)
+                return val.ToString();
+            return new int().ToString();
+        }
+        set
+        {
+            if (int.TryParse(value, out int intVal))
+            {
+                Helpers.SetValueByPropertyOrFieldName(Object, SubPath, intVal);
+            }
+        }
+    }
+}
