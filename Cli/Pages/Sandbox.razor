@@ -48,24 +48,9 @@
     </select>
     <br />
 
-    <label for="constructorToUse">Constructor to Create:</label>
-    <select id="constructorToUse" @bind="constructorToInvoke">
-        @{
-            var constructors = Types.Where(x => x.Key.FullName == typeToInvoke).FirstOrDefault().Value;
-            if (constructors != null)
-            {
-                @for (int i = 0; i < constructors.Count; i++)
-                {
-                    <option value="@i">@constructors[i].ToString()</option>
-                }
-            }
-        }
-    </select>
-    <br />
-
     @if (ScaffoldedObject != null)
     {
-        <ScaffoldInput Scaffold="ScaffoldedObject" />
+        <ScaffoldInput Object="this" SubPath="ScaffoldedObject" />
         <br />
     }
 
@@ -305,7 +290,7 @@
     string _typeToInvoke = string.Empty;
 
     public bool removeDisabled => AppState.TestObjects.Count == 0;
-    Scaffold ScaffoldedObject;
+    public Scaffold ScaffoldedObject;
 
     int _constructorToInvoke;
 
