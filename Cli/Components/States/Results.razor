@@ -52,7 +52,7 @@
     string SelectedResultType
     {
         get { return _selectedResultType; }
-        set { _selectedResultType = value; offset = 0; GetAnalysisResults(); }
+        set { _selectedResultType = value; offset = 0; GetAnalysisResults(); ParseOptsToResultTypes(); this.StateHasChanged(); }
     }
 
     string _selectedResultType = "FILEMONITOR";
@@ -73,12 +73,13 @@
 
     public void ParseOptsToResultTypes()
     {
+        foundResultTypes.Clear();
         foreach (var resultType in Enum.GetValues(typeof(RESULT_TYPE)))
         {
-            var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(appData.FirstRunId, appData.SecondRunId, AnalysesHash, (int)resultType);
+            var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
             if (found == 0)
             {
-                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(null, appData.MonitorRunId, AnalysesHash, (int)resultType);
+                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(null, MonitorRunId, AnalysesHash, (int)resultType);
             }
             foundResultTypes.Add((RESULT_TYPE)resultType, found);
         }

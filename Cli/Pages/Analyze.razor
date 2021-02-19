@@ -104,8 +104,9 @@
     async Task<ASA_ERROR> AnalyzeIt()
     {
         timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        var firstRunId = Runs[RunIdInput];
-        var secondRunId = Runs[RunIdInput2];
+        var firstRunId = RunIdInput != -1 ? Runs[RunIdInput] : string.Empty;
+        var secondRunId = RunIdInput2 != -1 ? Runs[RunIdInput2] : string.Empty;
+
         appData.ExportCollectCommandOptions.FirstRunId = string.IsNullOrEmpty(secondRunId) ? secondRunId : firstRunId;
         appData.ExportCollectCommandOptions.SecondRunId = string.IsNullOrEmpty(secondRunId) ? firstRunId : secondRunId;
         pageState = PageState.Analyzing;
