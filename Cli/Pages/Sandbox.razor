@@ -264,6 +264,14 @@
         }
     }
 
+    List<ConstructorInfo> constructors
+    {
+        get
+        {
+            return Types.Where(x => x.Key.FullName == typeToInvoke).FirstOrDefault().Value;
+        }
+    }
+
     string typeToInvoke
     {
         get
@@ -273,7 +281,6 @@
         set
         {
             _typeToInvoke = value;
-            var constructors = Types.Where(x => x.Key.FullName == value).FirstOrDefault().Value;
             if (constructors.Any())
             {
                 var constructorToUse = constructors[constructorToInvoke];
@@ -316,11 +323,12 @@
                 var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
                 foreach (var constructorItr in constructors)
                 {
-                    if (Helpers.ConstructedOfBasicTypes(constructorItr))
+                    if (Helpers.ConstructedOfLoadedTypes(constructorItr, Assembly.GetExecutingAssembly().GetReferencedAssemblies().Select(x => System.Reflection.Assembly.Load(x.ToString()))))
                     {
                         allowedConstructors.Add(constructorItr);
                     }
                 }
+
                 if (allowedConstructors.Any())
                 {
                     results.Add(type, allowedConstructors);
@@ -332,6 +340,7 @@
                 //Console.WriteLine($"Failed to get constructor:{e.Message}");
             }
         }
+
         Types = results;
         RefreshState();
     }
