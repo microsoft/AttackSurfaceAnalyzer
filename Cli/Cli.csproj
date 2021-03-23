@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CST.OAT" Version="1.0.82" />
+    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.0.82" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="3.0.0.20340" />
     <PackageReference Include="Tewr.Blazor.FileReader.Wasm" Version="0.11.19128" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
