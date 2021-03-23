@@ -71,7 +71,6 @@
         if (types.Any())
         {
             var type = types.FirstOrDefault();
-            var constructor = type.Value[constructorToInvoke];
             <button class="btn btn-primary" @onclick="AddObject">Add @type.Key.FullName</button>
         }
     }
