@@ -26,6 +26,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Components\ComponentCollapsedState.cs" />
+    <Compile Remove="Components\Scaffold.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Lib\Lib.csproj" />
   </ItemGroup>
 
@@ -35,12 +40,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.82" />
-    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.0.82" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="3.0.0.20340" />
     <PackageReference Include="Tewr.Blazor.FileReader.Wasm" Version="0.11.19128" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OAT">
+      <HintPath>..\..\OAT\OAT.Blazor.Components\bin\Debug\netstandard2.0\OAT.dll</HintPath>
+    </Reference>
+    <Reference Include="OAT.Blazor.Components">
+      <HintPath>..\..\OAT\OAT.Blazor.Components\bin\Debug\netstandard2.0\OAT.Blazor.Components.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

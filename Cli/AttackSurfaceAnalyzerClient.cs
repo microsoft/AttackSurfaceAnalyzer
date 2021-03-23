@@ -211,7 +211,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var shellResult = new CompareResult()
                 {
                     Compare = monitorResult,
-                    CompareRunId = opts.SecondRunId,
+                    CompareRunId = opts.SecondRunId
                 };
 
                 shellResult.Rules = analyzer.Analyze(ruleFile.Rules, shellResult).ToList();
