@@ -693,7 +693,7 @@ namespace AttackSurfaceAnalyzer.Cli
                 }
                 else
                 {
-                    if (c.Results.Count > 0)
+                    if (!c.Results.IsEmpty)
                     {
                         foreach (var key in c.Results.Keys)
                         {
@@ -701,8 +701,11 @@ namespace AttackSurfaceAnalyzer.Cli
                             {
                                 queue.AsParallel().ForAll(res =>
                                 {
-                                    res.Rules = analyzer.Analyze(res);
-                                    res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];
+                                    if (res is not null)
+                                    {
+                                        res.Rules = analyzer.Analyze(res);
+                                        res.Analysis = res.Rules.Count > 0 ? res.Rules.Max(x => x.Flag) : analyzer.DefaultLevels[res.ResultType];
+                                    }
                                 });
                             }
                         }
