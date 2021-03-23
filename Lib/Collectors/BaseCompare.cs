@@ -168,10 +168,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                                     var firstVal = prop.GetValue(first);
                                     var secondVal = prop.GetValue(second);
 
-                                    if (firstVal is List<string> && secondVal is List<string>)
+                                    if (firstVal is List<string> firstList && secondVal is List<string> secondList)
                                     {
-                                        added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                                        removed = ((List<string>)firstVal).Except((List<string>?)prop.GetValue(second));
+                                        added = secondList.Except(firstList);
+                                        removed = firstList.Except(secondList);
                                         if (!((IEnumerable<string>)added).Any())
                                         {
                                             added = null;
@@ -181,10 +181,10 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             removed = null;
                                         }
                                     }
-                                    else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
+                                    else if (firstVal is List<KeyValuePair<string, string>> firstListKvp && secondVal is List<KeyValuePair<string, string>> secondListKvp)
                                     {
-                                        added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
-                                        removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
+                                        added = secondListKvp.Except(firstListKvp);
+                                        removed = firstListKvp.Except(secondListKvp);
                                         if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                                         {
                                             added = null;
@@ -194,14 +194,14 @@ namespace AttackSurfaceAnalyzer.Collectors
                                             removed = null;
                                         }
                                     }
-                                    else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
+                                    else if (firstVal is Dictionary<string, string> firstDict && secondVal is Dictionary<string, string> secondDict)
                                     {
-                                        added = ((Dictionary<string, string>)secondVal)
-                                            .Except((Dictionary<string, string>)firstVal)
+                                        added = secondDict
+                                            .Except(firstDict)
                                             .ToDictionary(x => x.Key, x => x.Value);
 
-                                        removed = ((Dictionary<string, string>)firstVal)
-                                            .Except((Dictionary<string, string>)secondVal)
+                                        removed = firstDict
+                                            .Except(secondDict)
                                             .ToDictionary(x => x.Key, x => x.Value);
                                         if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                                         {
