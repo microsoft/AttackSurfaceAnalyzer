@@ -1,5 +1,5 @@
-﻿@using Microsoft.CST.OAT.Utils;
-@using System.Reflection;
+﻿@using System.Reflection;
+@using Microsoft.CST.OAT.Utils;
 
 @if (ShowConstructorSelect)
 {
@@ -24,7 +24,7 @@
     <label for="@PathFromKey(parameter.Key)">@parameter.Key</label>
     if (parameter.Value is Scaffold)
     {
-        <ScaffoldInput Object="@Object" SubPath="@PathFromKey(parameter.Key)" ShowConstructorSelect="ShowSubConstructorSelect" ShowSubConstructorSelect="ShowSubConstructorSelect" />
+        <ScaffoldInput Object="@Object" SubPath="@PathFromKey(parameter.Key)" ShowConstructorSelect="ShowSubConstructorSelect" ShowSubConstructorSelect="ShowSubConstructorSelect" Assemblies="Assemblies" />
     }
     else
     {
@@ -58,7 +58,7 @@
             _constructorToInvoke = value;
             if (constructors.Any())
             {
-                Scaffold = new Scaffold(constructors[value]);
+                Scaffold = new Scaffold(constructors[value], Assemblies);
             }
 
         }
@@ -70,7 +70,7 @@
     {
         get
         {
-            return Scaffold?.Constructor.DeclaringType?.GetConstructors().Where(x => Helpers.ConstructedOfBasicTypes(x)).ToList() ?? new List<ConstructorInfo>();
+            return Scaffold?.Constructor.DeclaringType.GetConstructors().Where(x => Helpers.ConstructedOfLoadedTypes(x, Assemblies)).ToList() ?? new List<ConstructorInfo>();
         }
     }
 
@@ -90,5 +90,8 @@
 
     [Parameter]
     public bool ShowSubConstructorSelect { get; set; } = true;
+
+    [Parameter]
+    public IEnumerable<Assembly>? Assemblies { get; set; } = null;
 
 }

@@ -116,7 +116,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public void Compare(IEnumerable<(CollectObject, string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string? firstRunId, string secondRunId)
         {
-            differentObjects.AsParallel().ForAll(different =>
+            differentObjects?.AsParallel().ForAll(different =>
             {
                 var colObj = different.Item1;
                 var obj = new CompareResult()
@@ -138,7 +138,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
             });
 
-            modifiedObjects.AsParallel().ForAll(modified =>
+            modifiedObjects?.AsParallel().ForAll(modified =>
             {
                 var compareLogic = new CompareLogic();
                 compareLogic.Config.IgnoreCollectionOrder = true;

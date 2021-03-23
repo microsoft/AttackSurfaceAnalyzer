@@ -50,7 +50,7 @@
 
     @if (ScaffoldedObject != null)
     {
-        <ScaffoldInput Object="this" SubPath="ScaffoldedObject" />
+        <ScaffoldInput Object="this" SubPath="ScaffoldedObject" Assemblies="Assemblies" />
         <br />
     }
 
@@ -145,7 +145,7 @@
                                     var ctorFailed = false;
                                     foreach (var param in ctor.GetParameters())
                                     {
-                                        if (!Helpers.IsBasicType(param.ParameterType))
+                                        if (!Helpers.ConstructedOfLoadedTypes(param.ParameterType, Assemblies))
                                         {
                                             ctorFailed = true;
                                             break;
@@ -277,7 +277,7 @@
             if (constructors.Any())
             {
                 var constructorToUse = constructors[constructorToInvoke];
-                ScaffoldedObject = new Scaffold(constructorToUse);
+                ScaffoldedObject = new Scaffold(constructorToUse, Assemblies);
                 if (constructors[constructorToInvoke].DeclaringType == typeof(CertificateObject))
                 {
                     ScaffoldedObject.Parameters["Certificate"] = new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault());
@@ -296,6 +296,8 @@
 
     Dictionary<Type, List<ConstructorInfo>> Types { get; set; } = new Dictionary<Type, List<ConstructorInfo>>();
 
+    IEnumerable<Assembly> Assemblies { get; set; } = Array.Empty<Assembly>();
+
     protected override async Task OnInitializedAsync()
     {
         UpdateTypes();
@@ -306,6 +308,8 @@
 
     void UpdateTypes()
     {
+        Assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies().Select(x => Assembly.Load(x)).Union(new Assembly[] { Assembly.GetExecutingAssembly() });
+
         var types = TypesList;
         var results = new Dictionary<Type, List<ConstructorInfo>>();
         foreach (var type in types)
@@ -316,7 +320,7 @@
                 var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
                 foreach (var constructorItr in constructors)
                 {
-                    if (Helpers.ConstructedOfBasicTypes(constructorItr))
+                    if (Helpers.ConstructedOfLoadedTypes(constructorItr, Assemblies))
                     {
                         allowedConstructors.Add(constructorItr);
                     }

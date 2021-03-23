@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Inputs
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
 {
     public class Scaffold
     {
         public Dictionary<string, object?> Parameters { get; } = new Dictionary<string, object?>();
         public ConstructorInfo Constructor { get; }
 
-        public Scaffold(ConstructorInfo constructorToUse)
+        public Scaffold(ConstructorInfo constructorToUse, IEnumerable<Assembly>? assemblies = null)
         {
             Constructor = constructorToUse;
 
@@ -29,9 +29,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Inputs
                     }
                     else
                     {
-                        if (parameter.ParameterType.GetConstructors().Where(x => Helpers.ConstructedOfBasicTypes(x)).FirstOrDefault() is ConstructorInfo constructor)
+                        if (parameter.ParameterType.GetConstructors().Where(x => Helpers.ConstructedOfLoadedTypes(x, assemblies)).FirstOrDefault() is ConstructorInfo constructor)
                         {
-                            Parameters.Add(parameter.Name, new Scaffold(constructor));
+                            Parameters.Add(parameter.Name, new Scaffold(constructor, assemblies));
                         }
                         else
                         {
