@@ -1,17 +1,19 @@
 ﻿@page "/report"
 
 <h4>Report</h4>
-
+<div class="container-fluid bg-custom my-1 pb-1">
 @if (Runs.Count > 0)
 {
-    <div class="runid-box">
-        <label for="RunId">Run ID:</label>
-        <select id="RunId" @bind="RunIdInput">
+    <div class="run-box bg-custom">
+        <div class="form-inline">
+            <label class="mr-2" for="RunId">Run ID:</label>
+            <select class="form-control mr-3" id="RunId" @bind="RunIdInput">
             @for (int i = 0; i < Runs.Count; i++)
             {
                 <option value="@i">@Runs[i]</option>
             }
-        </select>
+            </select>
+        </div>
     </div>
     <Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" AnalysesHash="@Runs[RunIdInput].analysesHash" MonitorRunId="@Runs[RunIdInput].secondRunId" />
 }
@@ -20,6 +22,7 @@ else
     <p>No results available.</p>
     <p>Please run comparisons before viewing results.</p>
 }
+</div>
 
 @code {
 
