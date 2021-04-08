@@ -9,17 +9,47 @@
     }
 </select>
 <button class="btn btn-primary" @onclick="MoreAnalysisResults">More results</button>
-        
+
+<select @bind="maxResults" @onclick="GetAnalysisResults">
+    <option value="50">50</option>
+    <option selected value="100">100</option>
+    <option value="250">250</option>
+    <option value="500">500</option>
+</select>
+       
+@if (pageCount > 0)
+{
+<nav aria-label="Paged results navigation">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= pageCount; i++)
+        {
+            <li class="page-item"><a class="page-link" href="#">@i</a></li>
+        }
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+}
+ 
 @foreach (var result in analysisResults) {
 <div>
-    <div>@result.Analysis : @result.Identity</div>
-    <br />
-
+    <div style="color: red;">@result.Analysis : @result.Identity</div>
     @foreach (var rule in result.Rules)
     {
         <div>@rule.Name : @rule.Description</div>
     }
 </div>
+<br />
 }
 
 @code {
@@ -42,17 +72,24 @@
 
     void MoreAnalysisResults()
     {
-        offset += count;
+        offset += maxResults;
         GetAnalysisResults();
     }
 
     int offset = 0;
-    int count = 100;
+    int maxResults = 100;
+    int pageCount = 0;
 
     string SelectedResultType
     {
         get { return _selectedResultType; }
-        set { _selectedResultType = value; offset = 0; GetAnalysisResults(); ParseOptsToResultTypes(); this.StateHasChanged(); }
+        set
+        {
+            _selectedResultType = value;
+            offset = 0;
+            GetAnalysisResults();
+            this.StateHasChanged();
+        }
     }
 
     string _selectedResultType = "FILEMONITOR";
@@ -60,13 +97,18 @@
     public void GetAnalysisResults()
     {
         var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
+        int found;
         switch (resultType)
         {
             case RESULT_TYPE.FILEMONITOR:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType, offset, count);
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType, offset, maxResults);
+                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(string.Empty, MonitorRunId, AnalysesHash, (int)resultType);
+                pageCount = (int)Math.Ceiling((double)found / maxResults);
                 break;
             default:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, count);
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, maxResults);
+                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
+                pageCount = (int)Math.Ceiling((double)found / maxResults);
                 break;
         }
     }
