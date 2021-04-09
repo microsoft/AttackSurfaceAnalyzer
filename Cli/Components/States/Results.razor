@@ -21,7 +21,7 @@
 <nav aria-label="Paged results navigation">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link btn-secondary" aria-label="Previous">
+            <a class="page-link btn-secondary" aria-label="Previous page" @onclick="() => NavigateResultsPage(-1)">
                 <span aria-hidden="true">&lt;</span>
                 <span class="sr-only">Previous</span>
             </a>
@@ -29,10 +29,10 @@
         @for (int i = 1; i <= pageCount; i++)
         {
             var pageNum = i;
-            <li class="page-item"><a class="page-link btn-secondary" aria-label="Page-@pageNum" @onclick="() => MoreAnalysisResults(pageNum)">@pageNum</a></li>
+            <li class="page-item"><a class="page-link btn-secondary" aria-label="Page-@pageNum" @onclick="() => GetResultsPage(pageNum)">@pageNum</a></li>
         }
         <li class="page-item">
-            <a class="page-link btn-secondary" aria-label="Next">
+            <a class="page-link btn-secondary" aria-label="Next page" @onclick="() => NavigateResultsPage(1)">
                 <span aria-hidden="true">&gt;</span>
                 <span class="sr-only">Next</span>
             </a>
@@ -70,16 +70,26 @@
         base.OnInitialized();
     }
 
-    void MoreAnalysisResults(int multiple = 1)
+    int offset = 0;
+    int page = 1;
+    int pageCount = 0;
+    int maxResults = 100;
+
+    void GetResultsPage(int selectedPage)
     {
-        offset = maxResults * (multiple - 1);
+        page = selectedPage;
+        offset = maxResults * (page - 1);
         GetAnalysisResults();
         this.StateHasChanged();
     }
 
-    int offset = 0;
-    int maxResults = 100;
-    int pageCount = 0;
+    void NavigateResultsPage(int pageOffset)
+    {
+        page += pageOffset;
+        if (page < 1) { page = 1;}
+        else if (page > pageCount) { page = pageCount; }
+        GetResultsPage(page);
+    }
 
     string SelectedResultType
     {
@@ -88,6 +98,7 @@
         {
             _selectedResultType = value;
             offset = 0;
+            page = 1;
             GetAnalysisResults();
             this.StateHasChanged();
         }
