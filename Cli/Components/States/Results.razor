@@ -8,7 +8,6 @@
         <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
     }
 </select>
-<button class="btn btn-primary" @onclick="MoreAnalysisResults">More results</button>
 
 <select @bind="maxResults" @onclick="GetAnalysisResults">
     <option value="50">50</option>
@@ -22,34 +21,35 @@
 <nav aria-label="Paged results navigation">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
+            <a class="page-link btn-secondary" aria-label="Previous">
                 <span aria-hidden="true">&lt;</span>
                 <span class="sr-only">Previous</span>
             </a>
         </li>
         @for (int i = 1; i <= pageCount; i++)
         {
-            <li class="page-item"><a class="page-link" href="#">@i</a></li>
+            var pageNum = i;
+            <li class="page-item"><a class="page-link btn-secondary" aria-label="Page-@pageNum" @onclick="() => MoreAnalysisResults(pageNum)">@pageNum</a></li>
         }
         <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
+            <a class="page-link btn-secondary" aria-label="Next">
                 <span aria-hidden="true">&gt;</span>
                 <span class="sr-only">Next</span>
             </a>
         </li>
     </ul>
-</nav>
-}
- 
-@foreach (var result in analysisResults) {
-<div>
-    <div style="color: red;">@result.Analysis : @result.Identity</div>
-    @foreach (var rule in result.Rules)
+    @foreach (var result in analysisResults)
     {
-        <div>@rule.Name : @rule.Description</div>
+        <div>
+            <div style="color: red;">@result.Analysis : @result.Identity</div>
+            @foreach (var rule in result.Rules)
+            {
+                <div>@rule.Name : @rule.Description</div>
+            }
+        </div>
+        <br />
     }
-</div>
-<br />
+</nav>
 }
 
 @code {
@@ -70,10 +70,11 @@
         base.OnInitialized();
     }
 
-    void MoreAnalysisResults()
+    void MoreAnalysisResults(int multiple = 1)
     {
-        offset += maxResults;
+        offset = maxResults * (multiple - 1);
         GetAnalysisResults();
+        this.StateHasChanged();
     }
 
     int offset = 0;
