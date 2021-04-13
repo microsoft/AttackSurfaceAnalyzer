@@ -2,26 +2,28 @@
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<select @bind="SelectedResultType">
-    @foreach (var resultType in foundResultTypes)
-    {
-        <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
-    }
-</select>
+<div class="pb-2">
+    <select @bind="SelectedResultType">
+        @foreach (var resultType in foundResultTypes)
+        {
+            <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
+        }
+    </select>
 
-<select @bind="maxResults" @onclick="GetAnalysisResults">
-    <option value="50">50</option>
-    <option selected value="100">100</option>
-    <option value="250">250</option>
-    <option value="500">500</option>
-</select>
-       
+    <select @bind="MaxResults">
+        <option value="50">50</option>
+        <option selected value="100">100</option>
+        <option value="250">250</option>
+        <option value="500">500</option>
+    </select>
+</div>
+
 @if (pageCount > 0)
 {
 <nav aria-label="Paged results navigation">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link btn-secondary" aria-label="Previous page" @onclick="() => NavigateResultsPage(-1)">
+            <a class="page-link page-step" aria-label="Previous page" @onclick="() => TraverseResultsPage(-1)">
                 <span aria-hidden="true">&lt;</span>
                 <span class="sr-only">Previous</span>
             </a>
@@ -29,15 +31,17 @@
         @for (int i = 1; i <= pageCount; i++)
         {
             var pageNum = i;
-            <li class="page-item"><a class="page-link btn-secondary" aria-label="Page-@pageNum" @onclick="() => GetResultsPage(pageNum)">@pageNum</a></li>
+            <li class="page-item @GetPageState(i)"><a class="page-link" aria-label="Page-@pageNum" @onclick="() => GetResultsPage(pageNum)">@pageNum</a></li>
         }
         <li class="page-item">
-            <a class="page-link btn-secondary" aria-label="Next page" @onclick="() => NavigateResultsPage(1)">
+            <a class="page-link page-step" aria-label="Next page" @onclick="() => TraverseResultsPage(1)">
                 <span aria-hidden="true">&gt;</span>
                 <span class="sr-only">Next</span>
             </a>
         </li>
     </ul>
+</nav>
+
     @foreach (var result in analysisResults)
     {
         <div>
@@ -49,7 +53,6 @@
         </div>
         <br />
     }
-</nav>
 }
 
 @code {
@@ -66,61 +69,110 @@
     protected override void OnInitialized()
     {
         ParseOptsToResultTypes();
-        GetAnalysisResults();
+        UpdatePageCount();
+        GetResultsPage(1);
         base.OnInitialized();
     }
 
+    Dictionary<RESULT_TYPE, int> foundResultTypes = new Dictionary<RESULT_TYPE, int>();
+    public List<CompareResult> analysisResults = new List<CompareResult>();
     int offset = 0;
-    int page = 1;
+    int currentPage = 1;
     int pageCount = 0;
-    int maxResults = 100;
+    List<string> pageStates = new List<string>();
 
-    void GetResultsPage(int selectedPage)
+    int _maxResults = 100;
+    int MaxResults
     {
-        page = selectedPage;
-        offset = maxResults * (page - 1);
-        GetAnalysisResults();
-        this.StateHasChanged();
+        get { return _maxResults; }
+        set
+        {
+            _maxResults = value;
+            UpdatePageCount();
+            GetResultsPage(1);
+        }
     }
 
-    void NavigateResultsPage(int pageOffset)
-    {
-        page += pageOffset;
-        if (page < 1) { page = 1;}
-        else if (page > pageCount) { page = pageCount; }
-        GetResultsPage(page);
-    }
-
+    string _selectedResultType = "FILEMONITOR";
     string SelectedResultType
     {
         get { return _selectedResultType; }
         set
         {
             _selectedResultType = value;
-            offset = 0;
-            page = 1;
-            GetAnalysisResults();
-            this.StateHasChanged();
+            UpdatePageCount();
+            GetResultsPage(1);
         }
     }
 
-    string _selectedResultType = "FILEMONITOR";
+    void GetResultsPage(int selectedPage)
+    {
+        if (pageCount < 1) { return; }
+        SetPageState(selectedPage);
+        offset = MaxResults * (currentPage - 1);
+        GetAnalysisResults();
+        this.StateHasChanged();
+    }
 
-    public void GetAnalysisResults()
+    void TraverseResultsPage(int pageOffset)
+    {
+        var selectedPage = currentPage + pageOffset;
+        if (selectedPage < 1) { selectedPage = 1;}
+        else if (selectedPage > pageCount) { selectedPage = pageCount; }
+        GetResultsPage(selectedPage);
+    }
+
+    string GetPageState(int selectedPage)
+    {
+        return pageStates[selectedPage - 1];
+    }
+
+    void SetPageState(int selectedPage)
+    {
+        pageStates[currentPage - 1] = "";
+        pageStates[selectedPage - 1] = "active";
+        currentPage = selectedPage;
+    }
+
+    void InitPageState()
+    {
+        currentPage = 1;
+        pageStates.Clear();
+        for (int i = 0; i < pageCount; i++)
+        {
+            pageStates.Add("");
+        }
+    }
+
+    public void UpdatePageCount()
     {
         var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
         int found;
         switch (resultType)
         {
             case RESULT_TYPE.FILEMONITOR:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType, offset, maxResults);
                 found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(string.Empty, MonitorRunId, AnalysesHash, (int)resultType);
-                pageCount = (int)Math.Ceiling((double)found / maxResults);
+                pageCount = (int)Math.Ceiling((double)found / MaxResults);
+                InitPageState();
                 break;
             default:
-                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, maxResults);
                 found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
-                pageCount = (int)Math.Ceiling((double)found / maxResults);
+                pageCount = (int)Math.Ceiling((double)found / MaxResults);
+                InitPageState();
+                break;
+        }
+    }
+
+    public void GetAnalysisResults()
+    {
+        var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
+        switch (resultType)
+        {
+            case RESULT_TYPE.FILEMONITOR:
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType, offset, MaxResults);
+                break;
+            default:
+                analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, MaxResults);
                 break;
         }
     }
@@ -133,12 +185,11 @@
             var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
             if (found == 0)
             {
-                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(null, MonitorRunId, AnalysesHash, (int)resultType);
+                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(string.Empty, MonitorRunId, AnalysesHash, (int)resultType);
             }
             foundResultTypes.Add((RESULT_TYPE)resultType, found);
         }
     }
 
-    Dictionary<RESULT_TYPE, int> foundResultTypes = new Dictionary<RESULT_TYPE, int>();
-    public List<CompareResult> analysisResults = new List<CompareResult>();
+
 }
