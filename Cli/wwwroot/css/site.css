@@ -230,7 +230,7 @@ main {
     border-color: black;
 }
 .page-item .page-link:hover {
-    color: orange !important;
+    color: white !important;
 }
 .page-item.active .page-link {
     background-color: gray;
@@ -243,7 +243,7 @@ main {
     color: white !important;
 }
 .page-item .page-step:hover {
-    color: orange !important;
+    color: #db7500 !important;
 }
 
 .run-box {

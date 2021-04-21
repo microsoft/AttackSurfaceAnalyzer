@@ -23,7 +23,7 @@
 <nav aria-label="Paged results navigation">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link page-step" aria-label="Previous page" @onclick="() => TraverseResultsPage(-1)">
+            <a class="page-link page-step" aria-label="Previous page" @onclick="() => GetResultsPageByOffset(-1)">
                 <span aria-hidden="true">&lt;</span>
                 <span class="sr-only">Previous</span>
             </a>
@@ -34,7 +34,7 @@
             <li class="page-item @GetPageState(i)"><a class="page-link" aria-label="Page-@pageNum" @onclick="() => GetResultsPage(pageNum)">@pageNum</a></li>
         }
         <li class="page-item">
-            <a class="page-link page-step" aria-label="Next page" @onclick="() => TraverseResultsPage(1)">
+            <a class="page-link page-step" aria-label="Next page" @onclick="() => GetResultsPageByOffset(1)">
                 <span aria-hidden="true">&gt;</span>
                 <span class="sr-only">Next</span>
             </a>
@@ -114,7 +114,7 @@
         this.StateHasChanged();
     }
 
-    void TraverseResultsPage(int pageOffset)
+    void GetResultsPageByOffset(int pageOffset)
     {
         var selectedPage = currentPage + pageOffset;
         if (selectedPage < 1) { selectedPage = 1;}
