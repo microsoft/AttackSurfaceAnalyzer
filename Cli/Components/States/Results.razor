@@ -2,15 +2,17 @@
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
-<div class="pb-2">
-    <select @bind="SelectedResultType">
+<div class="form-inline pb-3">
+    <label class="mr-2" for="ResultType">Result Type:</label>
+    <select class="form-control mr-2" id="ResultType" @bind="SelectedResultType">
         @foreach (var resultType in foundResultTypes)
         {
             <option value="@resultType.Key">@resultType.Key : @resultType.Value </option>
         }
     </select>
 
-    <select @bind="MaxResults">
+    <label class="mr-2" for="MaxResults">View:</label>
+    <select class="form-control" id="MaxResults" @bind="MaxResults">
         <option value="50">50</option>
         <option selected value="100">100</option>
         <option value="250">250</option>
@@ -42,16 +44,20 @@
     </ul>
 </nav>
 
-    @foreach (var result in analysisResults)
+    @for (int i = 0; i < analysisResults.Count; i++)
     {
-        <div>
-            <div style="color: red;">@result.Analysis : @result.Identity</div>
+        var result = analysisResults[i];
+        var resultNumber = offset + i + 1;
+        <div class="pb-3">
+            <div>
+                <span>@resultNumber. </span>
+                <span style="color:red;">@result.Analysis : @result.Identity</span>
+            </div>
             @foreach (var rule in result.Rules)
             {
                 <div>@rule.Name : @rule.Description</div>
             }
         </div>
-        <br />
     }
 }
 
