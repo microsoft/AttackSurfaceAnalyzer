@@ -85,7 +85,6 @@
     int offset = 0;
     int currentPage = 1;
     int pageCount = 0;
-    List<string> pageStates = new List<string>();
 
     int _maxResults = 100;
     int MaxResults
@@ -114,8 +113,8 @@
     void GetResultsPage(int selectedPage)
     {
         if (pageCount < 1) { return; }
-        SetPageState(selectedPage);
-        offset = MaxResults * (currentPage - 1);
+        currentPage = selectedPage;
+        offset = MaxResults * (selectedPage - 1);
         GetAnalysisResults();
         this.StateHasChanged();
     }
@@ -130,24 +129,7 @@
 
     string GetPageState(int selectedPage)
     {
-        return pageStates[selectedPage - 1];
-    }
-
-    void SetPageState(int selectedPage)
-    {
-        pageStates[currentPage - 1] = "";
-        pageStates[selectedPage - 1] = "active";
-        currentPage = selectedPage;
-    }
-
-    void InitPageState()
-    {
-        currentPage = 1;
-        pageStates.Clear();
-        for (int i = 0; i < pageCount; i++)
-        {
-            pageStates.Add("");
-        }
+        return selectedPage == currentPage ? "active" : "";
     }
 
     public void UpdatePageCount()
@@ -159,12 +141,12 @@
             case RESULT_TYPE.FILEMONITOR:
                 found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(string.Empty, MonitorRunId, AnalysesHash, (int)resultType);
                 pageCount = (int)Math.Ceiling((double)found / MaxResults);
-                InitPageState();
+                currentPage = 1;
                 break;
             default:
                 found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
                 pageCount = (int)Math.Ceiling((double)found / MaxResults);
-                InitPageState();
+                currentPage = 1;
                 break;
         }
     }
