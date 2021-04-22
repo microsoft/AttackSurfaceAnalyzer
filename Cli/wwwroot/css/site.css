@@ -251,6 +251,16 @@ main {
     margin: 0 -15px 1rem -15px;
 }
 
+.result-number {
+}
+
+.result-text {
+    color: red;
+}
+
+.rule-text {
+}
+
 .version {
     font-size: smaller;
     font-weight: bold;

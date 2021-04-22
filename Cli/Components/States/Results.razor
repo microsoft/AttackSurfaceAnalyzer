@@ -50,12 +50,12 @@
         var resultNumber = offset + i + 1;
         <div class="pb-3">
             <div>
-                <span>@resultNumber. </span>
-                <span style="color:red;">@result.Analysis : @result.Identity</span>
+                <span class="result-number">@resultNumber. </span>
+                <span class="result-text">@result.Analysis: @result.Identity</span>
             </div>
             @foreach (var rule in result.Rules)
             {
-                <div>@rule.Name : @rule.Description</div>
+                <div class="rule-text">@rule.Name: @rule.Description</div>
             }
         </div>
     }
