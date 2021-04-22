@@ -22,6 +22,7 @@
 
 @if (pageCount > 0)
 {
+<p>@foundResultTypes[(RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType)] results found for type @SelectedResultType.</p>
 <nav aria-label="Paged results navigation">
     <ul class="pagination">
         <li class="page-item">
@@ -59,6 +60,10 @@
             }
         </div>
     }
+}
+else 
+{ 
+    <p>0 results found for type @SelectedResultType.</p>
 }
 
 @code {
@@ -135,20 +140,9 @@
     public void UpdatePageCount()
     {
         var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
-        int found;
-        switch (resultType)
-        {
-            case RESULT_TYPE.FILEMONITOR:
-                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(string.Empty, MonitorRunId, AnalysesHash, (int)resultType);
-                pageCount = (int)Math.Ceiling((double)found / MaxResults);
-                currentPage = 1;
-                break;
-            default:
-                found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
-                pageCount = (int)Math.Ceiling((double)found / MaxResults);
-                currentPage = 1;
-                break;
-        }
+        var found = foundResultTypes[resultType];      
+        pageCount = (int)Math.Ceiling((double)found / MaxResults);
+        currentPage = 1;
     }
 
     public void GetAnalysisResults()
@@ -178,6 +172,4 @@
             foundResultTypes.Add((RESULT_TYPE)resultType, found);
         }
     }
-
-
 }
