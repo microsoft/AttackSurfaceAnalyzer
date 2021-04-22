@@ -213,10 +213,6 @@ main {
     border-color: lightgray;
 }
 
-.options-tabs {
-    margin: 0 0 1rem 0;
-}
-
 .page-item {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
