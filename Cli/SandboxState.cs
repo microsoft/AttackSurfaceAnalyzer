@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
     public class SandboxState
     {
