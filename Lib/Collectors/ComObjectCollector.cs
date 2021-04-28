@@ -28,6 +28,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// <param name="View"> The View of the registry to use </param>
         public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) { return new List<CollectObject>(); }
             if (SearchKey == null) { return new List<CollectObject>(); }
             List<ComObject> comObjects = new List<ComObject>();
             var fsc = new FileSystemCollector(new CollectorOptions() { SingleThread = SingleThreaded });
@@ -153,8 +154,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
-            ParseView(RegistryView.Registry64, cancellationToken);
-            ParseView(RegistryView.Registry32, cancellationToken);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                ParseView(RegistryView.Registry64, cancellationToken);
+                ParseView(RegistryView.Registry32, cancellationToken);
+            }
         }
 
         internal void ParseView(RegistryView view, CancellationToken cancellationToken)
