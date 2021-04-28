@@ -26,11 +26,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Components\ComponentCollapsedState.cs" />
-    <Compile Remove="Components\Scaffold.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Lib\Lib.csproj" />
   </ItemGroup>
 
