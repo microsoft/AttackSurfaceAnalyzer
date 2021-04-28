@@ -68,7 +68,6 @@
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="Microsoft.TSS" Version="2.1.1" />
     <PackageReference Include="PeNet" Version="2.6.1" />
-    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.82" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />
@@ -79,5 +78,10 @@
     <None Include="..\README.md" Link="README.md" />
 	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="OAT">
+      <HintPath>..\..\OAT\OAT\bin\Debug\net5.0\OAT.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
