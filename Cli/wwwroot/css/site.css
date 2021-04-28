@@ -213,13 +213,48 @@ main {
     border-color: lightgray;
 }
 
-.options-tabs {
-    margin: 0 0 1rem 0;
+.page-item {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: black;
+}
+.page-item .page-link {
+    background-color: #bdbdbd;
+    border-color: black;
+}
+.page-item .page-link:hover {
+    color: white !important;
+}
+.page-item.active .page-link {
+    background-color: gray;
+    border-color: black;
+    color: white;
+}
+.page-item .page-step {
+    background-color: #0078d4;
+    border-color: black;
+    color: white !important;
+}
+.page-item .page-step:hover {
+    color: #db7500 !important;
 }
 
 .run-box {
     padding: .5rem 1rem .5rem 1rem;
     margin: 0 -15px 1rem -15px;
+}
+
+.result-number {
+}
+
+.result-text {
+    color: red;
+}
+
+.rule-text {
 }
 
 .version {

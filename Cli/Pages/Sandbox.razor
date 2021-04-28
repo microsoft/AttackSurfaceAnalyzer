@@ -10,8 +10,8 @@
 @using Microsoft.CST.OAT.Utils;
 @using Microsoft.CST.OAT;
 @using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components;
-@using Microsoft.CST.AttackSurfaceAnalyzer.Cli.Components.Inputs;
+@using Microsoft.CST.OAT.Blazor.Components;
+@using Microsoft.CST.OAT.Blazor.Components.Inputs;
 
 @inject NavigationManager NavigationManager;
 @inject AppData AppState;
@@ -21,79 +21,83 @@
 <h4>Sandbox</h4>
 
 <div class="container-fluid bg-custom my-1 pb-1">
-    <h5>State</h5>
-    <p>Load in JSON serialized Sandbox State.</p>
-    <FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
-    <button class="btn btn-primary" @onclick="SaveSandboxState">Save Sandbox State</button>
+    <ul class="nav nav-tabs pt-2 mb-3" id="sandbox-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="sandbox-create-tab" data-toggle="tab" href="#sandbox-create" role="tab" aria-controls="sandbox-create" aria-selected="true">Create</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="sandbox-view-tab" data-toggle="tab" href="#sandbox-view" role="tab" aria-controls="sandbox-view" aria-selected="false">View</a>
+        </li>
+    </ul>
+    <div class="tab-content mb-3" id="sandbox-tabs-content">
+        <div class="tab-pane fade show active" id="sandbox-create" role="tabpanel" aria-labelledby="sandbox-create-tab">
+            <div class="form-inline mb-3">
+                <label class="mr-2" for="typeToCreate">Type to Create:</label>
+                <select class="form-control mr-2" id="typeToCreate" @bind="typeToInvoke">
+                    @foreach (var type in Types.Keys)
+                    {
+                        <option value="@type.FullName">@type.FullName</option>
+                    }
+                </select>
+                <button class="btn btn-primary mr-2" @onclick="RemoveLastObject" disabled=@removeDisabled>Remove Last Object</button>
+                <button class="btn btn-primary" @onclick="RefreshState">Re-Run Rules</button>
+            </div>
+            <div class="form-group">
+                @if (ParseErrors.Any())
+                {
+                    <div class="alert alert-warning" role="alert">
+                        @foreach (var parseError in ParseErrors)
+                        {
+                            @parseError
+                        }
+                    </div>
+                }
+                @if (@Types.Any())
+                {
+                    var types = Types.Where(x => x.Key.FullName == typeToInvoke);
+                    if (types.Any())
+                    {
+                        var type = types.FirstOrDefault();
+                        <button class="btn btn-primary mb-1" @onclick="AddObject">Add @type.Key.FullName</button>
+                    }
+                }
+                @if (ScaffoldedObject != null)
+                {
+                    <ScaffoldInput Object="this" SubPath="ScaffoldedObject" Assemblies="Assemblies" />
+                }
+            </div>
+        </div>
 
-    @if (SandBoxErrors.Any())
-    {
-        <div class="alert alert-warning" role="alert">
-            @foreach (var error in SandBoxErrors)
+        <div class="tab-pane fade" id="sandbox-view" role="tabpanel" aria-labelledby="sandbox-view-tab">
+            <h5>State</h5>
+            <p>Load in JSON serialized Sandbox State.</p>
+            <FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
+            <button class="btn btn-primary" @onclick="SaveSandboxState">Save Sandbox State</button>
+
+            @if (SandBoxErrors.Any())
             {
-                <p>@error</p>
+                <div class="alert alert-warning" role="alert">
+                    @foreach (var error in SandBoxErrors)
+                    {
+                        <p>@error</p>
+                    }
+                </div>
+            }
+
+            @for (int i = 0; i < AppState.TestObjects.Count; i++)
+            {
+                var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]);
+                <div>
+                    <span>@results.Count() rules applied.</span>
+                    @foreach (var result in results)
+                    {
+                        <b>@result.Name</b>
+                    }
+                    <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
+                </div>
             }
         </div>
-    }
-</div>
-
-<div class="container-fluid bg-custom my-1 pb-1">
-    <h5>Settings</h5>
-    <label for="typeToCreate">Type to Create:</label>
-    <select id="typeToCreate" @bind="typeToInvoke">
-        @foreach (var type in Types.Keys)
-        {
-            <option value="@type.FullName">@type.FullName</option>
-        }
-    </select>
-    <br />
-
-    @if (ScaffoldedObject != null)
-    {
-        <ScaffoldInput Object="this" SubPath="ScaffoldedObject" />
-        <br />
-    }
-
-    @if (ParseErrors.Any())
-    {
-        <div class="alert alert-warning" role="alert">
-            @foreach (var parseError in ParseErrors)
-            {
-                @parseError
-            }
-        </div>
-    }
-
-
-    @if (@Types.Any())
-    {
-        var types = Types.Where(x => x.Key.FullName == typeToInvoke);
-        if (types.Any())
-        {
-            var type = types.FirstOrDefault();
-            var constructor = type.Value[constructorToInvoke];
-            <button class="btn btn-primary" @onclick="AddObject">Add @type.Key.FullName</button>
-        }
-    }
-    <button class="btn btn-primary" @onclick="RemoveLastObject" disabled=@removeDisabled>Remove Last Object</button>
-    <button class="btn btn-primary" @onclick="RefreshState">Re-Run Rules</button>
-    <br />
-
-    @for (int i = 0; i < AppState.TestObjects.Count; i++)
-    {
-        var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]);
-        <div>
-            <span>@results.Count() rules applied.</span>
-            <br />
-            @foreach (var result in results)
-            {
-                <b>@result.Name</b>
-                <br />
-            }
-            <br />
-            <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
-        </div>
-    }
+    </div>
 </div>
 
 @code {
@@ -145,7 +149,7 @@
                                     var ctorFailed = false;
                                     foreach (var param in ctor.GetParameters())
                                     {
-                                        if (!Helpers.IsBasicType(param.ParameterType))
+                                        if (!Helpers.ConstructedOfLoadedTypes(param.ParameterType, Assemblies))
                                         {
                                             ctorFailed = true;
                                             break;
@@ -284,7 +288,7 @@
             if (constructors.Any())
             {
                 var constructorToUse = constructors[constructorToInvoke];
-                ScaffoldedObject = new Scaffold(constructorToUse);
+                ScaffoldedObject = new Scaffold(constructorToUse, Assemblies);
                 if (constructors[constructorToInvoke].DeclaringType == typeof(CertificateObject))
                 {
                     ScaffoldedObject.Parameters["Certificate"] = new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault());
@@ -303,6 +307,8 @@
 
     Dictionary<Type, List<ConstructorInfo>> Types { get; set; } = new Dictionary<Type, List<ConstructorInfo>>();
 
+    IEnumerable<Assembly> Assemblies { get; set; } = Array.Empty<Assembly>();
+
     protected override async Task OnInitializedAsync()
     {
         UpdateTypes();
@@ -313,6 +319,8 @@
 
     void UpdateTypes()
     {
+        Assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies().Select(x => Assembly.Load(x)).Union(new Assembly[] { Assembly.GetExecutingAssembly() });
+
         var types = TypesList;
         var results = new Dictionary<Type, List<ConstructorInfo>>();
         foreach (var type in types)
@@ -323,7 +331,7 @@
                 var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
                 foreach (var constructorItr in constructors)
                 {
-                    if (Helpers.ConstructedOfLoadedTypes(constructorItr, Assembly.GetExecutingAssembly().GetReferencedAssemblies().Select(x => System.Reflection.Assembly.Load(x.ToString()))))
+                    if (Helpers.ConstructedOfLoadedTypes(constructorItr, Assemblies))
                     {
                         allowedConstructors.Add(constructorItr);
                     }

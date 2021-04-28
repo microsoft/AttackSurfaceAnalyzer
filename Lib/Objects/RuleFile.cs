@@ -57,7 +57,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                     var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
                     if (config.Source is null)
                         config.Source = "Stream";
-                    Log.Information(Strings.Get("LoadedAnalyses"), config.Source);
                     return config;
                 }
             }
@@ -92,7 +91,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                         var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
                         if (config.Source is null)
                             config.Source = filterLoc;
-                        Log.Information(Strings.Get("LoadedAnalyses"), config.Source);
                         return config;
                     }
                 }
@@ -121,7 +119,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 using Stream stream = assembly.GetManifestResourceStream(resourceName) ?? throw new NullReferenceException($"assembly.GetManifestResourceStream couldn't load {resourceName}");
                 var file = FromStream(stream);
                 file.Source = "Embedded Rules";
-                Log.Information(Strings.Get("LoadedAnalyses"), "Embedded");
                 return file;
             }
             catch (Exception e) when (
