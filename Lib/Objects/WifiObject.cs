@@ -20,6 +20,5 @@
         }
 
         public string? Password { get; set; }
-        public string SSID { get; }
-    }
+        public string SSID { get; set; }
 }
