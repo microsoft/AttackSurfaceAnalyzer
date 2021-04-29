@@ -193,7 +193,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                     if (firstVal is List<string> && secondVal is List<string>)
                                     {
                                         added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                                        removed = ((List<string>)firstVal).Except((List<string>?)prop.GetValue(second));
+                                        removed = ((List<string>)firstVal).Except((List<string>)secondVal);
                                         if (!((IEnumerable<string>)added).Any())
                                         {
                                             added = null;
