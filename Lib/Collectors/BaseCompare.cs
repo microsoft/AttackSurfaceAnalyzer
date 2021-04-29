@@ -234,6 +234,24 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                             removed = null;
                                         }
                                     }
+                                    else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>>)
+                                    {
+                                        added = ((Dictionary<string, List<string>>)secondVal)
+                                            .Except(firstDictionary)
+                                            .ToDictionary(x => x.Key, x => x.Value);
+
+                                        removed = firstDictionary
+                                            .Except((Dictionary<string, List<string>>)secondVal)
+                                            .ToDictionary(x => x.Key, x => x.Value);
+                                        if (!((IEnumerable<KeyValuePair<string, List<string>>>)added).Any())
+                                        {
+                                            added = null;
+                                        }
+                                        if (!((IEnumerable<KeyValuePair<string, List<string>>>)removed).Any())
+                                        {
+                                            removed = null;
+                                        }
+                                    }
                                     else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
                                     {
                                         added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
