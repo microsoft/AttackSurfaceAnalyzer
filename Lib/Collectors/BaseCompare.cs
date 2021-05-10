@@ -234,20 +234,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                             removed = null;
                                         }
                                     }
-                                    else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>>)
+                                    else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
                                     {
-                                        added = ((Dictionary<string, List<string>>)secondVal)
+                                        added = secondDictionary
                                             .Except(firstDictionary)
                                             .ToDictionary(x => x.Key, x => x.Value);
 
                                         removed = firstDictionary
-                                            .Except((Dictionary<string, List<string>>)secondVal)
+                                            .Except(secondDictionary)
                                             .ToDictionary(x => x.Key, x => x.Value);
-                                        if (!((IEnumerable<KeyValuePair<string, List<string>>>)added).Any())
+                                        if (!((Dictionary<string, List<string>>)added).Any())
                                         {
                                             added = null;
                                         }
-                                        if (!((IEnumerable<KeyValuePair<string, List<string>>>)removed).Any())
+                                        if (!((Dictionary<string, List<string>>)removed).Any())
                                         {
                                             removed = null;
                                         }
