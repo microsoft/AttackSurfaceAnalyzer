@@ -301,7 +301,7 @@
 
     Dictionary<Type, List<ConstructorInfo>> Types { get; set; } = new Dictionary<Type, List<ConstructorInfo>>();
 
-    IEnumerable<Assembly> Assemblies { get; set; } = Array.Empty<Assembly>();
+    List<Assembly> Assemblies { get; set; } = new List<Assembly>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -313,7 +313,8 @@
 
     void UpdateTypes()
     {
-        Assemblies = Assembly.GetExecutingAssembly().GetReferencedAssemblies().Select(x => Assembly.Load(x)).Union(new Assembly[] { Assembly.GetExecutingAssembly() });
+        Assemblies.Add(Assembly.Load("AsaLib"));
+        Assemblies.Add(Assembly.Load("Microsoft.Win32.Registry"));
 
         var types = TypesList;
         var results = new Dictionary<Type, List<ConstructorInfo>>();
