@@ -367,6 +367,11 @@
         {
             if (ScaffoldedObject.Construct() is CollectObject colObj)
             {
+                if (colObj is ComObject comObject)
+                {
+                    comObject.x86_Binary = new FileSystemObject(string.Empty);
+                    comObject.x64_Binary = new FileSystemObject(string.Empty);
+                }
                 AppState.TestObjects.Add(colObj);
             }
         }
