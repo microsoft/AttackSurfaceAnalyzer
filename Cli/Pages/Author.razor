@@ -7,53 +7,61 @@
 @using Microsoft.CST.OAT;
 @using System.Runtime.Loader;
 @using System.Diagnostics;
-@using Microsoft.CST.OAT.Blazor.Components.Inputs;
 @using Microsoft.CST.OAT.Blazor.Components;
+@using Microsoft.CST.OAT.Blazor.Components.Inputs;
 
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData AppState;
 @inject IFileReaderService fileReaderService;
 @inject IJSRuntime JSRuntime
 
-<h2>Rules</h2>
-<p>Load in JSON serialized rules.</p>
-<FileUpload ProcessFile="LoadRules" ReadLabel="Load Rules" ClearAction="ClearRules" ClearLabel="Clear Rules" />
-<button @onclick="AddRule">Add Rule</button>
-<button @onclick="RemoveLastRule" disabled=@removeDisabled>Remove Last Rule</button>
-<button @onclick="ValidateRules">Validate Rules</button>
-<button @onclick="DownloadRules">Export Rules to JSON</button>
-<button @onclick="LoadDefaultRules">Load Embedded Rules</button>
-<br />
-@foreach (var rule in AppState.Rules)
-{
-    <div class="card">
-        @if (issues.ContainsKey(rule))
-        {
-            @foreach (var problem in issues[rule])
-            {
-                <div class="problem">
-                    <span class="oi oi-warning"></span>
-                    @problem.Description
-                </div>
-            }
-            @if (issues[rule].Count() > 0)
-            {
-                <br />
-            }
-        }
-        else
-        {
-            <p>Processing Issues for Rule...</p>
-        }
+<h4>Author</h4>
 
-        <RuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="Types" />
+<div class="container-fluid bg-custom my-1 pb-1">
+    <div class="run-box bg-custom">
+        <h5>Load in JSON serialized rules.</h5>
+        <FileUpload ProcessFile="LoadRules" ReadLabel="Load Rules" ClearAction="ClearRules" ClearLabel="Clear Rules" />
+        <hr />
+        <button class="btn btn-primary" @onclick="AddRule">Add Rule</button>
+        <button class="btn btn-primary" @onclick="RemoveLastRule" disabled=@removeDisabled>Remove Last Rule</button>
+        <button class="btn btn-primary" @onclick="ValidateRules">Validate Rules</button>
+        <button class="btn btn-primary" @onclick="DownloadRules">Export Rules to JSON</button>
+        <button class="btn btn-primary" @onclick="LoadDefaultRules">Load Embedded Rules</button>
     </div>
-}
+
+    @foreach (var rule in AppState.Rules)
+    {
+        <div>
+            @if (issues.ContainsKey(rule))
+            {
+                @foreach (var problem in issues[rule])
+                {
+                    <div>
+                        <span class="oi oi-warning"></span>
+                        @problem.Description
+                    </div>
+                }
+                @if (issues[rule].Count() > 0)
+                {
+                    <br />
+                }
+            }
+            else
+            {
+                <p>Processing Issues for Rule...</p>
+            }
+
+            <RuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="Types" />
+        </div>
+    }
+</div>
+
 @code
 {
 
     void ClearRules()
     {
         AppState.Rules.Clear();
+        this.StateHasChanged();
     }
 
     public bool removeDisabled => AppState.Rules.Count == 0;

@@ -1,37 +1,65 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<div class="options-card">
-    <div class="first-entry">
-        <input id="enableFileSystemCollectionCheckbox" type="checkbox" @bind="appData.CollectOptions.EnableFileSystemCollector" />
-        <label for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
+<div>
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableFileSystemCollectionCheckbox" @bind="appData.CollectOptions.EnableFileSystemCollector" />
+            <label class="form-check-label" for="enableFileSystemCollectionCheckbox">Enable FileSystem Collector</label>
+        </div>
     </div>
-    <hr class="options-hr" />
-    <div class="options-entry">
-        <input id="enableGatherHashesCheckbox" type="checkbox" @bind="appData.CollectOptions.GatherHashes" />
-        <label for="enableGatherHashesCheckbox">Gather File Hashes</label>
+    <div class="form-group">
+        <label for="selectedDirectoriesString">Add Directory to Scan:</label>
+        <div class="form-row">
+            <div class="col-9 mb-1">
+                <input type="text" class="form-control" id="selectedDirectoriesString" placeholder="/my/path/" @bind="SelectedDirectoryInput" />
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary" @onclick="PushInputToList">Add</button>
+            </div>
+        </div>
     </div>
-    <div class="options-entry">
-        <input id="enableCrawlArchivesCheckbox" type="checkbox" @bind="appData.CollectOptions.CrawlArchives" />
-        <label for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
+    <div class="form-group">
+        <label for="selectedDirectoriesList">Selected Directories:</label>
+        <div class="form-row">
+            <div class="col-9 mb-1">
+                <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+                    @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
+                    {
+                        <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary" @onclick="RemoveInputFromList">Remove</button>
+            </div>
+        </div>
     </div>
-    <div class="options-entry">
-        <input id="enableDownloadCloudCheckbox" type="checkbox" @bind="appData.CollectOptions.DownloadCloud" />
-        <label for="enableDownloadCloudCheckbox">Download Cloud Files</label>
-    </div>
-    <div class="options-entry">
-        <label for="selectedDirectoriesString">Add Path to Scan</label>
-        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
-    </div>
-    <div class="options-entry">
-        <label for="selectedDirectoriesList">Selected Directories</label>
-        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-            @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count; i++)
-            {
-                <option value="@i">@appData.CollectOptions.SelectedDirectories[i]</option>
-            }
-        </select>
-        <button @onclick="RemoveInputFromList">Remove</button>
+    <div class="row">
+        <div class="col-auto">
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="enableGatherHashesCheckbox" @bind="appData.CollectOptions.GatherHashes" />
+                    <label class="form-check-label" for="enableGatherHashesCheckbox">Gather File Hashes</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="enableCrawlArchivesCheckbox" @bind="appData.CollectOptions.CrawlArchives" />
+                    <label class="form-check-label" for="enableCrawlArchivesCheckbox">Crawl into Archives</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="enableDownloadCloudCheckbox" @bind="appData.CollectOptions.DownloadCloud" />
+                    <label class="form-check-label" for="enableDownloadCloudCheckbox">Download Cloud Files</label>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -1,29 +1,45 @@
 ﻿@inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 @using Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
-<div class="options-card">
-    <div class="first-entry">
-        <input id="enableFileSystemMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
-        <label for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
+<div>
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableFileSystemMonitorCheckbox" @bind="appData.MonitorOptions.EnableFileSystemMonitor" />
+            <label class="form-check-label" for="enableFileSystemMonitorCheckbox">Enable FileSystem Monitor</label>
+        </div>
     </div>
-    <hr class="options-hr" />
-    <div class="options-entry">
-        <input id="enableGatherHashesMonitorCheckbox" type="checkbox" @bind="appData.MonitorOptions.GatherHashes" />
-        <label for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
+    <div class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enableGatherHashesMonitorCheckbox" @bind="appData.MonitorOptions.GatherHashes" />
+            <label class="form-check-label" for="enableGatherHashesMonitorCheckbox">Gather File Hashes</label>
+        </div>
     </div>
-    <div class="options-entry">
-        <label for="selectedDirectoriesString">Add Path to Scan</label>
-        <input id="selectedDirectoriesString" type="text" @bind="SelectedDirectoryInput" /><button @onclick="PushInputToList">Add</button>
+    <div class="form-group">
+        <label for="selectedDirectoriesString">Add Directory to Monitor:</label>
+        <div class="form-row">
+            <div class="col-9 mb-1">
+                <input type="text" class="form-control" id="selectedDirectoriesString" placeholder="/my/path/" @bind="SelectedDirectoryInput" />
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary" @onclick="PushInputToList">Add</button>
+            </div>
+        </div>
     </div>
-    <div class="options-entry">
-        <label for="selectedDirectoriesList">Selected Directories</label>
-        <select class="@directorySelectElementGlowClass.ClassName" style="width:200px" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-            @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
-            {
-                <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
-            }
-        </select>
-        <button @onclick="RemoveInputFromList">Remove</button>
+    <div class="form-group">
+        <label for="selectedDirectoriesList">Selected Directories:</label>
+        <div class="form-row">
+            <div class="col-9 mb-1">
+                <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
+                    @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
+                    {
+                        <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary" @onclick="RemoveInputFromList">Remove</button>
+            </div>
+        </div>
     </div>
 </div>
 

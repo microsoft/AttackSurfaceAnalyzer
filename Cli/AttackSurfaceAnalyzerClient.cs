@@ -215,6 +215,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 };
 
                 shellResult.Rules = analyzer.Analyze(ruleFile.Rules, shellResult).ToList();
+                shellResult.AnalysesHash = ruleFile.GetHash();
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -232,7 +233,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
 
                 shellResult.Analysis = shellResult.Rules.Count > 0 ? shellResult.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.DefaultLevels[shellResult.ResultType];
-
                 results.TryAdd((monitorResult.ResultType, monitorResult.ChangeType), new List<CompareResult>());
                 results[(monitorResult.ResultType, monitorResult.ChangeType)].Add(shellResult);
             });
@@ -854,6 +854,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                     res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                     res.Analysis = res.Rules.Count
                                                    > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
+                                    res.AnalysesHash = opts.AnalysesFile.GetHash();
                                 });
                             }
                         }

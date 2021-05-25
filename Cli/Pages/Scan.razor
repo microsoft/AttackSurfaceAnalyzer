@@ -1,34 +1,36 @@
-﻿
+﻿@page "/scan"
 
-@page "/scan"
-
-<h3>Scan</h3>
-@switch (pageState)
-{
-    case PageState.Options:
-        <div class="runid-box">
-            <label for="RunId">Run ID:</label>
-            <input id="RunId" type="text" @bind="RunIdInput" />
-            <input id="UseTimestampCheckbox" type="checkbox" @bind="UseTimestamp" />
-            <label for="UseTimestampCheckbox">Use Timestamp</label>
-            <button class="start-scan-button" @onclick="BeginScan">Start Scan</button>
-        </div>
-        <div class="options-pane">
-            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Collector Options
-            <hr />
+<h4>Scan</h4>
+<div class="container-fluid bg-custom my-1 pb-1">
+    @switch (pageState)
+    {
+        case PageState.Options:
+            <div class="run-box bg-custom">
+                <div class="form-inline">
+                    <label class="mr-2" for="RunId">Run ID:</label>
+                    <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
+                    <div class="form-check mr-2">
+                        <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
+                        <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+                    </div>
+                    <button class="btn btn-primary" @onclick="BeginScan">Start Scan</button>
+                </div>
+            </div>
             <CollectorOptionsRazor />
-        </div>
-        break;
-    case PageState.Scanning:
-        <Scanning />
-        break;
-    case PageState.Finished:
-        <button @onclick="GoToOptions">Scan Again</button>
-        break;
-    case PageState.Error:
-        <p>An Error Occured while collecting.</p>
-        break;
-}
+            break;
+        case PageState.Scanning:
+            <Scanning />
+            break;
+        case PageState.Finished:
+            <p>Scanning complete.</p>
+            <button class="btn btn-primary" @onclick="GoToOptions">Scan Again</button>
+            break;
+        case PageState.Error:
+            <p>An Error Occured while collecting.</p>
+            break;
+    }
+</div>
+
 @code {
     enum PageState
     {
@@ -38,7 +40,7 @@
         Error
     }
     bool UseTimestamp = true;
-    string RunIdInput = "Enter Run ID";
+    string RunIdInput = "";
 
     PageState pageState = PageState.Options;
 

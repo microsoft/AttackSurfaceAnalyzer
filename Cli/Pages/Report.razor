@@ -1,23 +1,29 @@
 ﻿@page "/report"
+
+<h4>Report</h4>
+<div class="container-fluid bg-custom my-1 pb-1">
 @if (Runs.Count > 0)
 {
-    <h3>Report</h3>
-    <div class="runid-box">
-        <label for="RunId">Run ID:</label>
-        <select id="RunId" @bind="RunIdInput">
+    <div class="run-box bg-custom">
+        <div class="form-inline">
+            <label class="mr-2" for="RunId">Run ID:</label>
+            <select class="form-control mr-3" id="RunId" @bind="RunIdInput">
             @for (int i = 0; i < Runs.Count; i++)
             {
                 <option value="@i">@Runs[i]</option>
             }
-        </select>
+            </select>
+        </div>
     </div>
-    <Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" AnalysesFile="@Runs[RunIdInput].analysesHash" MonitorRunId="@Runs[RunIdInput].secondRunId" />
+    <Results FirstRunId="@Runs[RunIdInput].firstRunId" SecondRunId="@Runs[RunIdInput].secondRunId" AnalysesHash="@Runs[RunIdInput].analysesHash" MonitorRunId="@Runs[RunIdInput].secondRunId" />
 }
 else
 {
-    <h3>No Results</h3>
+    <p>No results available.</p>
     <p>Please run comparisons before viewing results.</p>
 }
+</div>
+
 @code {
 
     List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
@@ -43,7 +49,7 @@ else
 
     protected override void OnInitialized()
     {
-        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+        //timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
         base.OnInitialized();
     }
 }

@@ -1,7 +1,85 @@
 ﻿@page "/monitor"
 
-<h3>Monitor</h3>
+<h4>Monitor</h4>
+
+<div class="container-fluid bg-custom my-1 pb-1">
+    @switch (pageState)
+    {
+        case PageState.Options:
+            <div class="run-box bg-custom">
+                <div class="form-inline">
+                    <label class="mr-2" for="RunId">Run ID:</label>
+                    <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
+                    <div class="form-check mr-2">
+                        <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
+                        <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+                    </div>
+                    <button class="btn btn-primary" @onclick="BeginMonitor">Start Monitor</button>
+                </div>
+            </div>
+            <MonitorOptionsRazor />
+            break;
+        case PageState.Monitoring:
+            <Monitoring Continue="@FinishMonitor" />
+            break;
+        case PageState.MonitorFlushing:
+            <MonitorFlushing />
+            break;
+        case PageState.Finished:
+            <p>Monitoring complete.</p>
+            <button class="btn btn-primary" @onclick="GoToOptions">Monitor Again</button>
+            break;
+        case PageState.Error:
+            <p>An Error Occured while monitoring.</p>
+            break;
+    }
+</div>
 
 @code {
+    enum PageState
+    {
+        Options,
+        Monitoring,
+        MonitorFlushing,
+        Finished,
+        Error
+    }
 
+    bool UseTimestamp = true;
+    string RunIdInput = "";
+
+    PageState pageState = PageState.Options;
+
+    System.Threading.Timer timer;
+
+    async void BeginMonitor()
+    {
+        appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
+        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+        appData.MonitorOptions.RunId = appData.MonitorRunId;
+
+        pageState = PageState.Monitoring;
+        this.StateHasChanged();
+
+        if (await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions)) != Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.NONE)
+        {
+            pageState = PageState.Error;
+        }
+
+        this.StateHasChanged();
+    }
+
+    void FinishMonitor()
+    {
+        pageState = PageState.MonitorFlushing;
+        this.StateHasChanged();
+        AttackSurfaceAnalyzerClient.StopMonitors();
+        pageState = PageState.Finished;
+        this.StateHasChanged();
+    }
+
+    void GoToOptions()
+    {
+        pageState = PageState.Options;
+    }
 }

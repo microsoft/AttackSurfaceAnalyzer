@@ -1,19 +1,9 @@
 ﻿@inherits LayoutComponentBase
 @using Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
-<div class="sidebar">
-    <NavMenu />
-</div>
-
-<div class="main">
-    <div class="top-row">
-        <a class="top-link" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
-            <img title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32.png" />
-        </a>
-        <a class="top-link" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
-    </div>
-
+<NavMenu />
+<main class="container-fluid">
     <div class="content">
         @Body
     </div>
-</div>
+</main>

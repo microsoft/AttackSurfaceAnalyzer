@@ -783,6 +783,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     cmd.Parameters.AddWithValue("@identity", objIn.Identity);
                     cmd.Parameters.AddWithValue("@first_serialized", JsonConvert.SerializeObject(objIn.Base));
                     cmd.Parameters.AddWithValue("@second_serialized", JsonConvert.SerializeObject(objIn.Compare));
+                    cmd.Parameters.AddWithValue("@analyses_hash", objIn.AnalysesHash);
                     // Remove these because they don't deserialize properly
                     objIn.Base = null;
                     objIn.Compare = null;

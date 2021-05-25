@@ -3,6 +3,7 @@ using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
@@ -53,6 +54,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 throw new ArgumentNullException(nameof(key));
             }
             Dictionary<string, string> values = new Dictionary<string, string>();
+
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return values;
+            }
             // Write values under key and commit
             foreach (var value in key.GetValueNames())
             {
@@ -62,22 +68,22 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 switch (rvk)
                 {
                     case RegistryValueKind.MultiString:
-                        str = string.Join(Environment.NewLine, (string[])key.GetValue(value));
+                        str = string.Join(Environment.NewLine, (string[]?)key.GetValue(value) ?? new string[] { });
                         break;
 
                     case RegistryValueKind.Binary:
-                        str = Convert.ToBase64String((byte[])key.GetValue(value));
+                        str = Convert.ToBase64String((byte[]?)key.GetValue(value) ?? new byte[] { });
                         break;
 
                     case RegistryValueKind.ExpandString:
                     case RegistryValueKind.String:
-                        str = (string)key.GetValue(value);
+                        str = (string?)key.GetValue(value) ?? string.Empty;
                         break;
 
                     case RegistryValueKind.DWord:
                     case RegistryValueKind.QWord:
                     default:
-                        str = key.GetValue(value).ToString() ?? string.Empty;
+                        str = key.GetValue(value)?.ToString() ?? string.Empty;
                         break;
                 }
                 values.Add(value, str);

@@ -95,6 +95,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         }
 
         public List<Rule> Rules { get; set; } = new List<Rule>();
+        public string AnalysesHash { get; set; }
 
         public bool ShouldSerializeDiffs()
         {

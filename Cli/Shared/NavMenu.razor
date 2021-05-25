@@ -1,65 +1,126 @@
-﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
-
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Attack Surface Analyzer</a>
+﻿<nav class="navbar sticky-top navbar-expand-lg navbar-dark navbar-custom">
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
-</div>
+    <a class="navbar-brand" href="#">Attack Surface Analyzer</a>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
+    <div class="navbar-quickmenu d-none d-lg-flex">
+        <div class="nav-item">
+            <NavLink class="nav-link" href="guided">
+                <span class="oi oi-compass" aria-hidden="true"></span>
+                <p class="label">Guided</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="scan">
+                <span class="oi oi-target" aria-hidden="true"></span>
+                <p class="label">Scan</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="monitor">
+                <span class="oi oi-pulse" aria-hidden="true"></span>
+                <p class="label">Monitor</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="analyze">
+                <span class="oi oi-magnifying-glass" aria-hidden="true"></span>
+                <p class="label">Analyze</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="report">
+                <span class="oi oi-document" aria-hidden="true"></span>
+                <p class="label">Report</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="author">
+                <span class="oi oi-pencil" aria-hidden="true"></span>
+                <p class="label">Author</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="sandbox">
+                <span class="oi oi-spreadsheet" aria-hidden="true"></span>
+                <p class="label">Sandbox</p>
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="configure">
+                <span class="oi oi-cog" aria-hidden="true"></span>
+                <p class="label">Configure</p>
+            </NavLink>
+        </div>
+    </div>
+
+    <div class="navbar-end">
+        <a class="d-none d-sm-flex" href="https://github.com/Microsoft/AttackSurfaceAnalyzer" target="_blank">
+            <img class="gh-logo hover-shadow-circle" title="Visit us on GitHub!" alt="Visit us on GitHub!" src="images/github-32-wh.png" />
+        </a>
+        <a class="d-none d-sm-flex dotted" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">Docs</a>
+        <img class="logo d-none d-xl-inline" src="images/microsoft.png" alt="Microsoft Corporation Logo" />
+        <img class="logo-sm d-xl-none" src="images/microsoft-sm.png" alt="Microsoft Corporation Logo" />
+    </div>
+</nav>
+
+<div class="navbar-dropmenu @NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="navbar-nav dropmenu-list flex-column">
+        <li class="nav-item">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="guided">
                 <span class="oi oi-compass" aria-hidden="true"></span> Guided Mode
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="scan">
                 <span class="oi oi-target" aria-hidden="true"></span> Scan
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="monitor">
                 <span class="oi oi-pulse" aria-hidden="true"></span> Monitor
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="analyze">
                 <span class="oi oi-magnifying-glass" aria-hidden="true"></span> Analyze
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="report">
                 <span class="oi oi-document" aria-hidden="true"></span> Report
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="author">
                 <span class="oi oi-pencil" aria-hidden="true"></span> Author
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="sandbox">
-                <span class="oi oi-pencil" aria-hidden="true"></span> Sandbox
+                <span class="oi oi-spreadsheet" aria-hidden="true"></span> Sandbox
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li class="nav-item">
             <NavLink class="nav-link" href="configure">
                 <span class="oi oi-cog" aria-hidden="true"></span> Configure
             </NavLink>
         </li>
+        <li>
+            <hr class="rule"/>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki" target="_blank">
+                <span class="oi oi-book" aria-hidden="true"></span> Docs
+            </NavLink>
+        </li>
     </ul>
-</div>
-
-<div class="bottom-row pl-4 navbar">
-    <div class="version">v.@AsaHelpers.GetVersionString()</div>
-    <img class="logo" src="images/microsoft-logo.png" alt="Microsoft Corporation Logo" />
 </div>
 
 @code {

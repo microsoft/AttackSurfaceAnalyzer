@@ -1,45 +1,44 @@
 ﻿@page "/analyze"
 
-<h3>Analyze</h3>
-@switch (pageState)
-{
-    case PageState.Options:
-    <div class="runid-box">
-    <label for="RunId">Run ID:</label>
-    <select id="RunId" @bind="RunIdInput">
-        <option value="-1"></option>
-        @for (int i = 0; i < Runs.Count; i++)
-        {
-            <option value="@i">@Runs[i]</option>
-        }
-    </select>
-    <br/>
-    <label for="SecondRunId">Second Run ID: (optional)</label>
-    <select id="SecondRunId" @bind="RunIdInput2">
-        <option value="-1"></option>
-        @for (int i = 0; i < Runs.Count; i++)
-        {
-            <option value="@i">@Runs[i]</option>
-        }
-    </select>
-    <button class="start-scan-button" @onclick="BeginAnalyze">Start Analysis Scan</button>
-</div>
-        <div class="options-pane">
-            <span class="oi oi-wrench options-icon" aria-hidden="true"></span>  Analysis Options
-            <hr />
+<h4>Analyze</h4>
+<div class="container-fluid bg-custom my-1 pb-1">
+    @switch (pageState)
+    {
+        case PageState.Options:
+            <div class="run-box bg-custom">
+                <div class="form-inline">
+                    <label class="mr-2" for="RunId">Run ID:</label>
+                    <select class="form-control mr-3" id="RunId" @bind="RunIdInput">
+                        <option value="-1"></option>
+                        @for (int i = 0; i < Runs.Count; i++)
+                        {
+                            <option value="@i">@Runs[i]</option>
+                        }
+                    </select>
+                    <label class="mr-2" for="SecondRunId">Second Run ID (Optional):</label>
+                    <select class="form-control mr-2" id="SecondRunId" @bind="RunIdInput2">
+                        <option value="-1"></option>
+                        @for (int i = 0; i < Runs.Count; i++)
+                        {
+                            <option value="@i">@Runs[i]</option>
+                        }
+                    </select>
+                    <button class="btn btn-primary" @onclick="BeginAnalyze">Start Analysis Scan</button>
+                </div>
+            </div>
             <AnalyzeOptionsRazor />
-        </div>
-        break;
-    case PageState.Analyzing:
-        <Analyzing />
-        break;
-    case PageState.Finished:
-        <button @onclick="GoToOptions">Analyze Again.</button>
-        break;
-    case PageState.Error:
-        <p>An Error Occured while Analyzing.</p>
-        break;
-}
+            break;
+        case PageState.Analyzing:
+            <Analyzing />
+            break;
+        case PageState.Finished:
+            <button class="btn btn-primary" @onclick="GoToOptions">Analyze Again.</button>
+            break;
+        case PageState.Error:
+            <p>An Error Occured while Analyzing.</p>
+            break;
+    }
+</div>
 
 @code{
     enum PageState
@@ -105,8 +104,9 @@
     async Task<ASA_ERROR> AnalyzeIt()
     {
         timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        var firstRunId = Runs[RunIdInput];
-        var secondRunId = Runs[RunIdInput2];
+        var firstRunId = RunIdInput != -1 ? Runs[RunIdInput] : string.Empty;
+        var secondRunId = RunIdInput2 != -1 ? Runs[RunIdInput2] : string.Empty;
+
         appData.ExportCollectCommandOptions.FirstRunId = string.IsNullOrEmpty(secondRunId) ? secondRunId : firstRunId;
         appData.ExportCollectCommandOptions.SecondRunId = string.IsNullOrEmpty(secondRunId) ? firstRunId : secondRunId;
         pageState = PageState.Analyzing;
