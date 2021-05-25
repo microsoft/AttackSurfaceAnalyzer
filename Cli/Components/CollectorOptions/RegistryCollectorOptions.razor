@@ -23,9 +23,9 @@
         <div class="form-row">
             <div class="col-9 mb-1">
                 <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedPathsList" @bind="SelectedHiveTop">
-                    @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count; i++)
+                    @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count(); i++)
                     {
-                        <option value="@i">@appData.CollectOptions.SelectedHives[i]</option>
+                        <option value="@i">@appData.CollectOptions.SelectedHives.ToList()[i]</option>
                     }
                 </select>
             </div>
@@ -44,14 +44,14 @@
 
     void RemoveInputFromList()
     {
-        appData.CollectOptions.SelectedHives.RemoveAt(SelectedHiveTop);
+        appData.CollectOptions.SelectedHives = appData.CollectOptions.SelectedDirectories.Except(appData.CollectOptions.SelectedDirectories.Skip(SelectedHiveTop-1).Take(1));
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
     }
 
     void PushInputToList()
     {
-        appData.CollectOptions.SelectedHives.Add(SelectedHiveInput);
-        SelectedHiveTop = appData.CollectOptions.SelectedHives.Count - 1;
+        appData.CollectOptions.SelectedHives = appData.CollectOptions.SelectedHives.Union(new string[] { SelectedHiveInput });
+        SelectedHiveTop = appData.CollectOptions.SelectedHives.Count() - 1;
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
         SelectedHiveInput = string.Empty;
     }
