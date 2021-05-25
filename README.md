@@ -16,14 +16,12 @@ Documentation is available on the [Wiki](https://github.com/Microsoft/AttackSurf
 
 Documentation for the [API](https://microsoft.github.io/AttackSurfaceAnalyzer/api/) is available on GitHub Pages.
 
-## New Features in 2.2
+## New Features in 2.3
 
-- Expanded analysis engine allowing users to define arbitrary boolean expressions across clauses and access sub properties of objects. See [Authoring Rules](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Authoring-Analysis-Rules) on the wiki for more information on creating rules.
-- Significantly improved collection and analysis performance.
-- MacOS binary signature checking
-- Support for C# 8 [nullable reference types](https://docs.microsoft.com/en-us/dotnet/csharp/nullable-references)
-- Improved database independent API
-- Updated [API documentation](https://microsoft.github.io/AttackSurfaceAnalyzer/api/index.html) and [Developer guide](https://github.com/microsoft/AttackSurfaceAnalyzer/wiki/Using-AsaLib)
+- New Blazor GUI with Rule Authoring and Testing Sandbox
+- New Collectors
+- Improved collection and analysis performance.
+- Support for C# 9/.NET 5
 
 ## Overview
 
@@ -49,6 +47,10 @@ Attack Surface Analyzer currently reports on changes to the following operating 
 - COM Objects
 - Event Logs
 - Firewall Settings
+- Wifi Networks
+- Cryptographic Keys
+- Processes
+- TPM Information
 
 All data collected is stored in a set of local SQLite databases.
 
@@ -74,9 +76,9 @@ Detailed information on how to use Attack Surface Analyzer can be found on our
 To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/BUILD.md).
 
 ## Versions
-The latest stable version of Attack Surface Analyzer is 2.2 (see [Release\v2.2](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.2)).  
+The latest public version of Attack Surface Analyzer with public builds is 2.3 (see [Release\v2.3](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.3)).  
 
-2.3 is now in development on the `main` branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.3+).
+2.4 is now in development on the `main` branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.4+).
 
 ## Contributing
 
