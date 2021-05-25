@@ -37,6 +37,7 @@
     <PackageReference Include="MedallionShell" Version="1.6.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.86" />
     <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="1.0.64" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.73.0" />
@@ -78,10 +79,5 @@
     <None Include="..\README.md" Link="README.md" />
 	<None Include="..\icon-128.png" Pack="true" PackagePath="" />
 	<None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="OAT">
-      <HintPath>..\..\OAT\OAT\bin\Debug\net5.0\OAT.dll</HintPath>
-    </Reference>
   </ItemGroup>
 </Project>
