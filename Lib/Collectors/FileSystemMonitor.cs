@@ -83,17 +83,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 GatherHashes = options.GatherHashes,
             });
 
-            foreach (var dir in options?.MonitoredDirectories.Any() is true ? options.MonitoredDirectories : fsc.Roots.ToList())
+            foreach (var dir in options.MonitoredDirectories.Count > 0 ? options.MonitoredDirectories : fsc.Roots.ToList())
             {
                 foreach (var filter in defaultFiltersList)
                 {
-                    var watcher = new FileSystemWatcher();
-
-                    watcher.Path = dir;
-
-                    watcher.NotifyFilter = filter;
-
-                    watcher.IncludeSubdirectories = true;
+                    var watcher = new FileSystemWatcher
+                    {
+                        Path = dir,
+                        NotifyFilter = filter,
+                        IncludeSubdirectories = true
+                    };
 
                     // Changed, Created and Deleted can share a handler, because they throw the same type of event
                     watcher.Changed += GetFunctionForFilterType(filter);
@@ -110,68 +109,34 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         private RenamedEventHandler? GetRenamedFunctionForFilterType(NotifyFilters filter)
         {
-            switch (filter)
+            return filter switch
             {
-                case NotifyFilters.Attributes:
-                    return WriteAttributesRename;
-
-                case NotifyFilters.CreationTime:
-                    return WriteCreationTimeRename;
-
-                case NotifyFilters.DirectoryName:
-                    return WriteDirectoryNameRename;
-
-                case NotifyFilters.FileName:
-                    return WriteFileNameRename;
-
-                case NotifyFilters.LastAccess:
-                    return WriteLastAccessRename;
-
-                case NotifyFilters.LastWrite:
-                    return WriteLastWriteRename;
-
-                case NotifyFilters.Security:
-                    return WriteSecurityRename;
-
-                case NotifyFilters.Size:
-                    return WriteSizeRename;
-
-                default:
-                    return null;
-            }
+                NotifyFilters.Attributes => WriteAttributesRename,
+                NotifyFilters.CreationTime => WriteCreationTimeRename,
+                NotifyFilters.DirectoryName => WriteDirectoryNameRename,
+                NotifyFilters.FileName => WriteFileNameRename,
+                NotifyFilters.LastAccess => WriteLastAccessRename,
+                NotifyFilters.LastWrite => WriteLastWriteRename,
+                NotifyFilters.Security => WriteSecurityRename,
+                NotifyFilters.Size => WriteSizeRename,
+                _ => null,
+            };
         }
 
         private FileSystemEventHandler? GetFunctionForFilterType(NotifyFilters filter)
         {
-            switch (filter)
+            return filter switch
             {
-                case NotifyFilters.Attributes:
-                    return WriteAttributesChange;
-
-                case NotifyFilters.CreationTime:
-                    return WriteCreationTimeChange;
-
-                case NotifyFilters.DirectoryName:
-                    return WriteDirectoryNameChange;
-
-                case NotifyFilters.FileName:
-                    return WriteFileNameChange;
-
-                case NotifyFilters.LastAccess:
-                    return WriteLastAccessChange;
-
-                case NotifyFilters.LastWrite:
-                    return WriteLastWriteChange;
-
-                case NotifyFilters.Security:
-                    return WriteSecurityChange;
-
-                case NotifyFilters.Size:
-                    return WriteSizeChange;
-
-                default:
-                    return null;
-            }
+                NotifyFilters.Attributes => WriteAttributesChange,
+                NotifyFilters.CreationTime => WriteCreationTimeChange,
+                NotifyFilters.DirectoryName => WriteDirectoryNameChange,
+                NotifyFilters.FileName => WriteFileNameChange,
+                NotifyFilters.LastAccess => WriteLastAccessChange,
+                NotifyFilters.LastWrite => WriteLastWriteChange,
+                NotifyFilters.Security => WriteSecurityChange,
+                NotifyFilters.Size => WriteSizeChange,
+                _ => null,
+            };
         }
 
         public bool IsRunning()
