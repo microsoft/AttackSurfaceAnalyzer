@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class ComObjectCollector
    ">
-    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="generator" content="docfx 2.57.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -101,28 +101,7 @@
       <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector_Stop">BaseCollector.Stop()</a>
     </div>
     <div>
-      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute_System_Nullable_System_Threading_CancellationToken__">BaseCollector.TryExecute(Nullable&lt;CancellationToken&gt;)</a>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
+      <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute_System_Nullable_CancellationToken__">BaseCollector.TryExecute(Nullable&lt;CancellationToken&gt;)</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.html">Microsoft.CST.AttackSurfaceAnalyzer.Collectors</a></h6>
@@ -135,18 +114,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/main/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.%23ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions%2CSystem.Action%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/main/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.%23ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions%2CSystem.Nullable%7BAction%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/main/Lib/Collectors/ComObjectCollector.cs/#L20">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})">ComObjectCollector(CollectorOptions, Action&lt;CollectObject&gt;)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})">ComObjectCollector(CollectorOptions, Nullable&lt;Action&lt;CollectObject&gt;&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ComObjectCollector(CollectorOptions opts = null, Action&lt;CollectObject&gt; changeHandler = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public ComObjectCollector(CollectorOptions opts = null, Action&lt;CollectObject&gt;? changeHandler = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -164,7 +143,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Action</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;&gt;</td>
         <td><span class="parametername">changeHandler</span></td>
         <td></td>
       </tr>
@@ -177,7 +156,7 @@
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/main/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector_CanRunOnPlatform.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/main/Lib/Collectors/ComObjectCollector.cs/#L145">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/main/Lib/Collectors/ComObjectCollector.cs/#L146">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector_CanRunOnPlatform_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform*"></a>
   <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector_CanRunOnPlatform" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform">CanRunOnPlatform()</h4>
@@ -260,7 +239,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>

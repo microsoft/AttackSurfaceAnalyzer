@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class MacSignature
    ">
-    <meta name="generator" content="docfx 2.56.6.0">
+    <meta name="generator" content="docfx 2.57.2.0">
     
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -80,35 +80,11 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">MacSignature</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.html">Microsoft.CST.AttackSurfaceAnalyzer.Objects</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_MacSignature_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class MacSignature</code></pre>
+    <pre><code class="lang-csharp hljs">public class MacSignature : object</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -125,7 +101,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;string&gt; Authorities { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt;? Authorities { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -137,7 +113,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">List</span>&lt;<span class="xref">System.String</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -155,7 +131,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string CandidateCDHashFull { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? CandidateCDHashFull { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -167,7 +143,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -185,7 +161,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string CMSDigest { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? CMSDigest { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -197,7 +173,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -215,7 +191,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string HashChoices { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? HashChoices { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -227,7 +203,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -245,7 +221,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string HashType { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? HashType { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -257,7 +233,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -275,7 +251,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string TeamIdentifier { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? TeamIdentifier { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -287,7 +263,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -317,7 +293,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.DateTime</span></td>
+        <td><span class="xref">DateTime</span></td>
         <td></td>
       </tr>
     </tbody>
