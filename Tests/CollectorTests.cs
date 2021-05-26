@@ -507,7 +507,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             {
                 Assert.IsTrue(AsaHelpers.IsAdmin());
                 var user = System.Guid.NewGuid().ToString().Substring(0, 10);
-                var password = $"${CryptoHelpers.GetRandomString(8)}a_";
+                var password = $"$A4%b^6a_";
 
                 var cmd = string.Format("user /add {0} {1}", user, password);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
