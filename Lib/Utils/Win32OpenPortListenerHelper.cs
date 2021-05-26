@@ -29,7 +29,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private static List<ProcessPort> CachedProcessPortMap = new List<ProcessPort>();
+        private static List<ProcessPort>? CachedProcessPortMap = null;
 
         /// <summary>
         ///     This method distills the output from netstat -a -n -o into a list of ProcessPorts that provide

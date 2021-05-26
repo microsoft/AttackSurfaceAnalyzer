@@ -189,6 +189,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Official documentation for this functionality does not specify what exceptions it throws. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.eventlogentrycollection?view=netcore-3.0")]
         public void ExecuteWindows(CancellationToken cancellationToken)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return;
+            }
             void ParseWindowsLog(EventLogEntry entry)
             {
                 if (opts.GatherVerboseLogs || entry.EntryType.ToString() == "Warning" || entry.EntryType.ToString() == "Error")
