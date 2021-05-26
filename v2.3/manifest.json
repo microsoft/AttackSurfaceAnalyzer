@@ -21,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.html",
-          "hash": "67NblndbcUQWuTyRZZ8S67Nx7vnmaNA39N+OPUKxM9M="
+          "hash": "VoscBGMUrKb+tz99YO4EkIgOiaFJu9QoPUhnB7crvgM="
         }
       },
       "is_incremental": false,
@@ -393,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html",
-          "hash": "Ftsr8Rs8Yf5lqcdbUIlNCgmf9kR1nlvcNF+Dw41AxXY="
+          "hash": "3z8vr45//Q03V9QTbr3vgOE6HzYBOxlEFVWjKxbY56g="
         }
       },
       "is_incremental": false,
@@ -405,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html",
-          "hash": "eHD4R6sohqCiZoHB/AuzWXOLnc6HPBmWAvcgqaqzIEA="
+          "hash": "WyY/yURTsE6wWz2pPA7P8A/TsP+rZAOBt8YClZs5qAg="
         }
       },
       "is_incremental": false,
