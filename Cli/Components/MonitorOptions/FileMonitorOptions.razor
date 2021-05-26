@@ -30,9 +30,9 @@
         <div class="form-row">
             <div class="col-9 mb-1">
                 <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-                    @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count; i++)
+                    @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count(); i++)
                     {
-                        <option value="@i">@appData.MonitorOptions.MonitoredDirectories[i]</option>
+                        <option value="@i">@appData.MonitorOptions.MonitoredDirectories.ToList()[i]</option>
                     }
                 </select>
             </div>
@@ -51,14 +51,14 @@
 
     void RemoveInputFromList()
     {
-        appData.MonitorOptions.MonitoredDirectories.RemoveAt(SelectedDirectoryTop);
+        appData.MonitorOptions.MonitoredDirectories = appData.MonitorOptions.MonitoredDirectories.Except(appData.MonitorOptions.MonitoredDirectories.Skip(SelectedDirectoryTop-1).Take(1));
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
     }
 
     void PushInputToList()
     {
-        appData.MonitorOptions.MonitoredDirectories.Add(SelectedDirectoryInput);
-        SelectedDirectoryTop = appData.MonitorOptions.MonitoredDirectories.Count - 1;
+        appData.MonitorOptions.MonitoredDirectories = appData.MonitorOptions.MonitoredDirectories.Union(new string[] { SelectedDirectoryInput });
+        SelectedDirectoryTop = appData.MonitorOptions.MonitoredDirectories.Count() - 1;
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
         SelectedDirectoryInput = string.Empty;
     }

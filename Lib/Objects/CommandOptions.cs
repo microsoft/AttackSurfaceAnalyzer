@@ -119,13 +119,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public string? RunId { get; set; }
 
         [Option("directories", Required = false, HelpText = "comma separated list of paths to scan with FileSystemCollector", Separator = ',')]
-        public List<string> SelectedDirectories { get; set; } = new List<string>();
+        public IEnumerable<string> SelectedDirectories { get; set; } = new List<string>();
 
         [Option("skip-directories", Required = false, HelpText = "comma separated list of paths to skip with FileSystemCollector", Separator = ',')]
-        public List<string> SkipDirectories { get; set; } = new List<string>();
+        public IEnumerable<string> SkipDirectories { get; set; } = new List<string>();
 
         [Option("hives", Required = false, HelpText = "comma separated list of hives and subkeys to search.", Separator = ',')]
-        public List<string> SelectedHives { get; set; } = new List<string>();
+        public IEnumerable<string> SelectedHives { get; set; } = new List<string>();
 
         [Option(HelpText = "Force singlethreaded collectors.")]
         public bool SingleThread { get; set; }
@@ -276,7 +276,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public bool FileNamesOnly { get; set; }
 
         [Option(HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public List<string> MonitoredDirectories { get; set; } = new List<string>();
+        public IEnumerable<string> MonitoredDirectories { get; set; } = new List<string>();
 
         [Option(HelpText = "Directory to output to.")]
         public string? OutputPath { get; set; }
@@ -304,7 +304,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public bool GatherHashes { get; set; }
 
         [Option('d', "directories", Required = false, HelpText = "Comma-separated list of directories to monitor.", Separator = ',')]
-        public List<string> MonitoredDirectories { get; set; } = new List<string>();
+        public IEnumerable<string> MonitoredDirectories { get; set; } = new List<string>();
 
         //[Option('r', "registry", Required = false, HelpText = "Monitor the registry for changes. (Windows Only)")]
         //public bool EnableRegistryMonitor { get; set; }
