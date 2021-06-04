@@ -68,7 +68,7 @@ jobs:
   - task: DotNetCoreCLI@2
     displayName: Build .NET Core App
     inputs:
-      command: 'build'
+      command: 'publish'
       arguments: '${{ parameters.projectPath }} -c ${{ parameters.buildConfiguration }} -o bin/netcoreapp/${{ parameters.projectName }}_netcoreapp_$(ReleaseVersion)'
       publishWebProjects: false
       zipAfterPublish: false
