@@ -291,6 +291,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
             var server = Host.CreateDefaultBuilder(Array.Empty<string>())
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
