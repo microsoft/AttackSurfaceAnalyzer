@@ -14,14 +14,14 @@
 Run these commands in the appropriate project directory.  For example, ```Cli``` for the Cli and Gui.
 
 ### Building a Debug version
-Note that debugging is only supported with the Debug configuration
+Note that `dotnet build` is only supported with the Debug configuration.
 
 ```
 dotnet build -c Debug
 ```
 
 ### Publishing a Release version
-Note that publishing is only supported with the Release configuration
+Note that `dotnet publish` is only supported with the Release configuration
 
 Windows
 ```
