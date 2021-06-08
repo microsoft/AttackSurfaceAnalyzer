@@ -262,7 +262,7 @@
                 ScaffoldedObject = new Scaffold(constructors[value]);
                 if (constructors[value].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault());
+                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -285,7 +285,7 @@
                 ScaffoldedObject = new Scaffold(constructorToUse, Assemblies);
                 if (constructors[constructorToInvoke].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault());
+                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
