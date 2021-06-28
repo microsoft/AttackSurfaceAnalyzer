@@ -44,12 +44,4 @@ else
             this.StateHasChanged();
         }
     }
-
-    System.Threading.Timer timer;
-
-    protected override void OnInitialized()
-    {
-        //timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        base.OnInitialized();
-    }
 }
