@@ -11,6 +11,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
         {
+            this.ResultType = Types.RESULT_TYPE.KEY;
             this.Source = Source;
             this.tpmAlgId = tpmAlgId;
         }

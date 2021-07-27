@@ -511,7 +511,7 @@
             }
             objects[t.FullName].Add(obj);
         }
-        var state = new SandboxState(objects);
+        var state = new Cli.SandboxState(objects);
         await JSRuntime.InvokeAsync<object>(
             "FileSaveAs",
             "SandboxState.json",
