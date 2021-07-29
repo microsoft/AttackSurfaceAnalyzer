@@ -33,21 +33,13 @@
     <None Include="..\icon-128.png" Pack="true" PackagePath="" />
     <None Include="..\LICENSE.txt" Pack="true" PackagePath="" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="OAT">
-      <HintPath>..\..\OAT\OAT\bin\Debug\net5.0\OAT.dll</HintPath>
-    </Reference>
-    <Reference Include="OAT.Blazor.Components">
-      <HintPath>..\..\OAT\OAT.Blazor.Components\bin\Debug\net5.0\OAT.Blazor.Components.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.0.0.20340" />
-    <PackageReference Include="Tewr.Blazor.FileReader.Wasm" Version="0.11.19128" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.89" />
+    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.0.89" />
+    <PackageReference Include="Tewr.Blazor.FileReader" Version="3.2.0.21211" />
   </ItemGroup>
 
   <ItemGroup>

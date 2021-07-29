@@ -34,15 +34,10 @@
   </Target>
 
   <ItemGroup>
-    <Reference Include="OAT">
-      <HintPath>..\..\OAT\OAT\bin\Debug\net5.0\OAT.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MedallionShell" Version="1.6.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.9.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.9.0" />
+    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.89" />
     <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="1.0.64" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.73.0" />
