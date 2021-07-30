@@ -4,12 +4,1320 @@
   "xrefmap": "xrefmap.yml",
   "files": [
     {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CollectCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CollectCommandOptions.html",
+          "hash": "jNGJ6ZZdkklY5Kkq3c0+Rk8KZ64Im25UgbE5LGqcZFw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions.html",
+          "hash": "P2tBPHQ1o070tlsYjryGqEOzpaGoEQNzAZxxr9OEf1o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html",
+          "hash": "c2ZjOvwN7J0nJfLUoqk71yvyyiy+a8sEosJJRixVHJ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html",
+          "hash": "ABboY2xuEIW5KwPnZolqZ1g4KcYtqxxDY3TzvCjxT2U="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseMonitor.html",
+          "hash": "KLGzH4xMJ2FJqBo/t0eD+GRgnun+jnciR6C/B/GSlLs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.html",
+          "hash": "tGICII4d+3yPjqYpVPA8F0rZPU9A6EazG02DkjHDuZU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html",
+          "hash": "e9iMRUVnj2O2toGfUxA+PYOe7dI+W6f69kg97HIZzT8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.html",
+          "hash": "Oy/EU4fw0nlaY3ey4u6Gz9UwJzsiywjzi1blfmCEpgU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.html",
+          "hash": "BOCC+cgq4ElyuAwMRgAFRcU+3CfAlNqendHRIfOxtnw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html",
+          "hash": "XYsDXkpRgXVxAZnu3oGZk7NJOvLSUwYIul9RGL13k34="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html",
+          "hash": "Of6X/HKdb5X6TQpm1o0pAPrkTC6GqvGp8H1+sySwC2M="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html",
+          "hash": "+yx038lE1th9m3C0Bkxw39lgFygdhhKrQFU68p/6bZc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html",
+          "hash": "BA5/MRJvs55W8ZtcT7JiNcDtMbzNjb2Dq9aQg1INE64="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.html",
+          "hash": "5ZT4FHbf97N5qN5aXbxBmVDb3pzSYubicOrhuFbDyYU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html",
+          "hash": "hqoeoBtPdduqdvmkI7xY6lJk2PwsijmqQRfsMoL2gn0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html",
+          "hash": "t+K6P6HHOPkXgIJ5Wd1qR+587xTsXH14ivxU4TgXaYI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.html",
+          "hash": "NI3FwJZXLs3zcPe97KtFb7/mwPyX5B/l73bwwVzeMMs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html",
+          "hash": "eqwYH0S5FxZSwx1KXUFv+QJ3v7OCz874MkQd6skD3ro="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html",
+          "hash": "B/UlrwLjm7Cavy4xKa0YmqoT1SaN+5YVi+j9NDxgVkA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.html",
+          "hash": "SF8yMsatlgMbr51KupCrwpD/dx9S5tjrKZVPz2qjq/8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.html",
+          "hash": "0GV69n2W7YJkAdGK6LRnUhMOyyBDf3SlUWsf0GGzvXk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html",
+          "hash": "GvvXf1tLmhO4Fq9fiQZQP9Q6s73j2j2WQcaZzjmM+rU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.html",
+          "hash": "ismwIYLYHClrtFMhyL+K3q0gSYDKnwNt/tvM0R4Ngjs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html",
+          "hash": "6EOjDgU5weCGFZolfEYr6TB8Qsk1KxLbI4Uhdyhct+c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.html",
+          "hash": "tfmK3dcReCGFGqtkhHgn0iC9SrPBtiJ6xxn+hh95Nkw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CommandOptions.html",
+          "hash": "cFThXSka5HKLOOhVgKErqn3KC2D2Ul3MxMbfG6w9n5Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.html",
+          "hash": "guWwgh0VGMvvp0Z8CQluQFtbJ4BL4ltKOiFifqXbFI8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.html",
+          "hash": "WK4SWENifTr7u+zsUVCXJoe3Y5nNQGp6G2lVmBzLOYM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.html",
+          "hash": "inYGtfI9D2R7AfubkPtd+I5xEDey785jWC2gB/70BQk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportMonitorCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportMonitorCommandOptions.html",
+          "hash": "DTMZBRTaEh/glzGe9suvz7MBiC2OlTDxewfLX0HnDOE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html",
+          "hash": "taxh9DeJNC2XwcZdd/YPwJxL81zMGawncy3PWGhmeo0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.html",
+          "hash": "1si7znS4VAyqIgklNu8Gn0ygUkJBO4ayojY8SIqzcFw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html",
+          "hash": "juyCrRjf2GWJrKg+FV134cDG4j381WdP8HSRCdYnXXw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html",
+          "hash": "Ff7w794jmabXpPNsh/WertJbEQa0XI7nLAfhjBs/w6g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaNvIndex.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaNvIndex.html",
+          "hash": "0jkSizC4zMy8iaCMwcSQsEVpkhTmYGseMN3R7isyuSA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule.html",
+          "hash": "ZpKaO76Io/t/Tac3cYONNHBCXPH98iGITCpqt0QVkoQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.html",
+          "hash": "9ww4WN5xfBHMBr9ka8i5CRq8X0iVzn+T4cqCKc866kk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.html",
+          "hash": "6RoUzA29vCl4aQ7An6TDBjrKOwtogQ5YikOEGjIFHxo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html",
+          "hash": "QIQiOOmCCUSnz3WMHyayakyPJtt271p91lUe1LPVYjg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.html",
+          "hash": "ePNffjCWVnyTXAJ1DcfgEqb68m6sOX+tdLq9s2F/nkE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html",
+          "hash": "QMg+SD111TFMISO3DVNaBej3t1+xkZ9nCARF/nUK/AY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.html",
+          "hash": "aMlfI87ZG01ds/v3M9uQ6C//d1bh3GL9pL+vdFnfbCU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DataRunListModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DataRunListModel.html",
+          "hash": "X27BatW0e4AuFoBh003hshM4lVaG4CtmJbDOsyzzyvA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DataRunModel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DataRunModel.html",
+          "hash": "2cN++ehWu+v7OqADbtBMAgOTmVHuSOKEf6gAjkt6gLk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.html",
+          "hash": "YvWF1P7nPCRHSsVlQ8UAa6FYXxIHYfyHE2jIL1ddH+o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.html",
+          "hash": "/8/1xsmOQsnFlfGxaPZ6nsuzMH+B8CvSWXZC5nGirIY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.html",
+          "hash": "zLxsusy0fHxvyYG4iBUefW70Qr3e9XNQevZygWNsUuY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorEvent.html",
+          "hash": "99y3evUhkEZWAPI4yzJg+ocgp7iYdm11yd1LC5LSUFM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html",
+          "hash": "AnSI8uXiBmCFPcRmEy93AsYSZhOXdl+deUqDW1bLeh8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html",
+          "hash": "TKbXBOMGFaXKaAcQTw+R0LYmOirNZbFFbZZac3qEnxw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html",
+          "hash": "Z7ALTmi5Ub+T5yfp8q5rZ9n+SN68zG7uyImt/WMjRC4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.html",
+          "hash": "NPlfWdqd/g6VFKXvUEal5dhxaX++bY2F9YMkGAHltmM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.html",
+          "hash": "Tjcc/LoD8luL9CE/WA+xlFjLVeCyOHkEqs+EaDTc4Nw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.KeyDetailObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.KeyDetailObject.html",
+          "hash": "b/ikJRqChSJBVssxoKwZXFxY2hMo4jaPDf4fWTGKOY0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.MacSignature.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.MacSignature.html",
+          "hash": "/aXozhQEfgL/rVcs9g9flWR4sGxVWPn8syKX6WJ2Nyw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.MonitorObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.MonitorObject.html",
+          "hash": "xmnF9zSElCIq39wPnphJg1xLL+Oop5Wf1VyTCVrUxVA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html",
+          "hash": "6U4tQgY/hkAIjo9qkYandruELQp9CthBR7PTgmntLhs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OutputFileMonitorResult.html",
+          "hash": "NBQ/qqN4cA/MQy18NE51UVbP3WfrTrN7MHExoD0vb6k="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html",
+          "hash": "fMbWiDaXO0jdg8JYIsudLaUuTcc/7fC8ytUqGc2bOZQ="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html",
+          "hash": "d/rVnnn3dx/7z7yBhDwfV6XGPAAif1p5gWVxciti2qA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html",
+          "hash": "SUvVDKqmKEsA/IxrNnaQAiqFtsXvPPgsPGHHQxnGTk8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.html",
+          "hash": "vCsgfgIuGEBdj2JjU+OFDn9+XKmBgduwKn9Oj2I9scE="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html",
+          "hash": "kjrR3ehV3JJ1aIumU3y95rSw1lH55FdAC7ixmKGC87Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.html",
+          "hash": "LRx/AF+NA0GNt2tJW1BWZoStseGB09hGlXSR8Hdn4x8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.html",
+          "hash": "VTEF+UZWri9ebVa3vcCcNx4x9sXN3oioG3zTvZ+m9g0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.html",
+          "hash": "ZQUrmewFrAM/XPI393GE6dZiTULYieClvI5O0wIJlUA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Settings.html",
+          "hash": "9X3iEMm+AN+RwIW9y3tnhyLmNYFvXj03WiPfrbbgTiY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.html",
+          "hash": "DwTHUKShTf0YNeJDl14wPDVIfGJ6bhma92MlwIZhm08="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html",
+          "hash": "P8yf7pqA/CKe9nIw1M3m4Tl0ZhAfzYbBAoWg1/OVazg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.html",
+          "hash": "yU5JLiNURRl/J4D52P4uekFgouazkuEryNFRxbgI5Gs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.html",
+          "hash": "5Ueh5LSrCD5ag70pK9zrWaTsVMxHyoik+ywXHjcz/JA="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.html",
+          "hash": "ezVVrvOgTRtYIfSn++RrDkyxTmXVF4JCIkuBHijP890="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WriteObject.html",
+          "hash": "beFjqGI7k+FJ4RviYcKKnJ9DaJzgf2p5HXhyiN7zfgc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.html",
+          "hash": "/DYSSsg3JJOYhs/wykFsUp1GnCOHPQ6eF0pF8VGKn4g="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Properties.Resources.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Properties.Resources.html",
+          "hash": "XS35wzhnWfLQW/ohurkKLUppCM7VwyWVuvPkfU7jXgc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Properties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Properties.html",
+          "hash": "zj1NpKtD+1ioFZsbdS5BlEDeGGybTTpXjjI7b7HeKQo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ADDRESS_FAMILY.html",
+          "hash": "pgxHdRb7A33eXtR1qQRI+S35eg1Z832ECr5+ghth7RU="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html",
+          "hash": "XroDKxTSuDASt5mz8Q+PgPjbetc7RFxJ7q22AV/fX2c="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.html",
+          "hash": "Ud2bDo8lr+sLgTSYF7pbmSwU10cmn1emrydtFTm0eug="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.CHANGE_TYPE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.CHANGE_TYPE.html",
+          "hash": "wIDzKRdxo53lJtU0sveyVGXIFLLjaBGBGLX3wVgd430="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.DLLCHARACTERISTICS.html",
+          "hash": "bLMMoNlZTGVvZwb8hofLAQMt7ZjqkDcHwzCGbvjQXfg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.EXECUTABLE_TYPE.html",
+          "hash": "JUXAOpT/+oCdsCCYQjHNxsSTBzaiDkP4gQ78OpduYyI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM.html",
+          "hash": "hlNlhzyUvs6QbDou7RDMRe1lSYLJwGX2rzqsIkIZaWs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html",
+          "hash": "q1QiSe09oOcEW3MKd7XOqNS92FJBBqqmDVD0W6TzMXw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS.html",
+          "hash": "sLJ1yHcTnFTEv4sCgfswpE1NbFs72AaQeTIg2ZO0X8Y="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE.html",
+          "hash": "bSzX6K+7icciZj8J3416p4utUQbljKYzVQcVzQPYvTw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.TRANSPORT.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.TRANSPORT.html",
+          "hash": "BAdYQsSbkmTaFOO3ybh2PXuVGjt5q813GmfGbijbMLs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Types.html",
+          "hash": "ODRSzzQEUToJYtauGMGemeDyqNr4nvJKX+nrIMtNuGM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html",
+          "hash": "GN752GzhHqP2fQf+jT9GBP9/Vd9eLELmLtsSlf7Vk6o="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html",
+          "hash": "2Ul7/ktCbK1PwQsZywzAPC5+mPxcxUIYJSCwufI3nJ8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html",
+          "hash": "K6EDZ3r9uWz0+ZecztuUeqXZ1QRCxbZQXhopGjFdRJ0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings.html",
+          "hash": "prWogtOcMFdgVxs9eBgjVNizEtZ+yfnVV5m1GotV31w="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html",
+          "hash": "EyHmIRW/AYdQunxREk2QrgKDsGLdh/HPOuuGfLeGG5E="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Elevation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Elevation.html",
+          "hash": "S6h1PnF8mbKjAbv2CIpzpgs/O/WNxIGImoMMbHQtNUI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.ExternalCommandRunner.html",
+          "hash": "NJcI79LejqIA2uwbTfjvG5LysgSLMNB/QDy9aTMFzlM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html",
+          "hash": "bc7Cyih4szpf4duTowOSJOnFp89NsYeVNOoDDAZIiHs="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.JsonUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.JsonUtils.html",
+          "hash": "cKY7PmX70rFT40VjkpjpQk+JtKdx9jzsZuRaPYuoWJo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Logger.html",
+          "hash": "xxlJof0vUwo6g+z1WDqvfQ449cY6YJlUy5BSPiKHNEk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.ProcessPort.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.ProcessPort.html",
+          "hash": "F5angUc30z81RrOwXdr4uHKtDW3jcx8oeZQHy2hBKrM="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.html",
+          "hash": "xXrerEEL3kGS3XFhdok1p8iGjijqzxaLqQD2Rw6MOio="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RunManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RunManager.html",
+          "hash": "tSWlWcK1KKFPtk/TI+yfw8WfZ/PVyjVvQIZBLt+48eg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html",
+          "hash": "fpDs7S8Nz+vHH7e5wBlkIyY52h80ZB2fZCojp4x44DY="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Strings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Strings.html",
+          "hash": "FxEpuZDJwDjPb/7+F0YTMoeMgW4r0z9+tRq3Uju5BOw="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter-2.html",
+          "hash": "Ke3gaPJ7wc7I79WesdqRL55/paOtM91yoKcMHvZmeHc="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Win32ProcessPorts.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.Win32ProcessPorts.html",
+          "hash": "CgtfgCO+lHywsbYy7O2Up6uuhynoi2HkrZcT09jLXPo="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.html",
+          "hash": "6913oEVTECFENQ7aly6oBpLuslsSSP9JT36HoKVK56Q="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.VerifyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.VerifyOptions.html",
+          "hash": "rtX7UafttA4k25QUa/mu0NPJhEdyfeW0fIfM+NXm9mI="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.html",
+          "hash": "3TCqXdAhox6aY6Vx9bSBceUpbK+VvSTL4bJ0/upJ+E8="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "Q6a+us82JXmLx9lpqbh4HindZ0zvXsmiWl1eHbqqzjE="
+          "hash": "HrZdWFcVvyfpwWJVCyrFylnr1Bk2aVbJ3jGRuFOWLn4="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "MmHqHMHVJXcRMuQoYWw5jX8d+1hu3zbsxJ2z390tfY0="
         }
       },
       "is_incremental": false,
@@ -21,7 +1329,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "2Efzqbcpx0g4yG1BoOm4w+mnNJYWhDwktHfnS2T2kWI="
+          "hash": "WFdnHcgYwpzBtCtQY5b6U7ejoCzFS/X4V/CoSyVt5mc="
         }
       },
       "is_incremental": false,
@@ -33,7 +1341,7 @@
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "DBBlSijY99IBlIcvkRzh2qYRWvZ1x1MnlNh51jcNF20="
+          "hash": "RhnCqEMxFQwOKtll2JL4TovQRhNeBrqGHfbARxCbkJ0="
         }
       },
       "is_incremental": false,
@@ -55,6 +1363,12 @@
           "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 2,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 108,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
