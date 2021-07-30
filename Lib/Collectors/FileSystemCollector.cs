@@ -91,7 +91,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     var fileSecurity = new FileSecurity(path, AccessControlSections.Owner);
-                    IdentityReference oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
+                    IdentityReference? oid = fileSecurity.GetOwner(typeof(SecurityIdentifier));
                     obj.Owner = AsaHelpers.SidToName(oid);
                 }
                 catch (Exception e)
@@ -101,7 +101,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     var fileSecurity = new FileSecurity(path, AccessControlSections.Group);
-                    IdentityReference gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
+                    IdentityReference? gid = fileSecurity.GetGroup(typeof(SecurityIdentifier));
                     obj.Group = AsaHelpers.SidToName(gid);
                 }
                 catch (Exception e)
@@ -193,8 +193,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
             try
             {
-                FileIOPermission fiop = new FileIOPermission(FileIOPermissionAccess.Read, path);
-                fiop.Demand();
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     if (Directory.Exists(path))
@@ -326,14 +324,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 Log.Debug("Should be caught in DirectoryWalker {0} {1}", e.GetType().ToString(), path);
             }
 
-            try
+            if (path is not null)
             {
-                obj.LastModified = File.GetLastWriteTimeUtc(path);
-                obj.Created = File.GetCreationTimeUtc(path);
-            }
-            catch (Exception e)
-            {
-                Log.Verbose("Failed to get last modified for {0} ({1}:{2})", path, e.GetType(), e.Message);
+                try
+                {
+                    obj.LastModified = File.GetLastWriteTimeUtc(path);
+                    obj.Created = File.GetCreationTimeUtc(path);
+                }
+                catch (Exception e)
+                {
+                    Log.Verbose("Failed to get last modified for {0} ({1}:{2})", path, e.GetType(), e.Message);
+                }
             }
 
             return obj;
@@ -383,7 +384,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     uint clusterSize = 0;
-                    var root = path.Directory.Root.FullName;
+                    var root = path.Directory?.Root.FullName;
+                    if (root is null)
+                    {
+                        throw new ArgumentNullException(nameof(path.Directory));
+                    }
                     if (!ClusterSizes.ContainsKey(root))
                     {
                         NativeMethods.GetDiskFreeSpace(root, out uint lpSectorsPerCluster, out uint lpBytesPerSector, out _, out _);
@@ -447,7 +452,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 {
                     var opts = new ExtractorOptions() { ExtractSelfOnFail = false };
                     Extractor extractor = new Extractor();
-                    foreach (var fso in extractor.ExtractFile(path, opts).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
+                    foreach (var fso in extractor.Extract(path, opts).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
                     {
                         HandleChange(fso);
                     }

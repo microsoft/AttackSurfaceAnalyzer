@@ -208,7 +208,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public string? FirstRunId { get; set; }
 
         [Option(HelpText = "Second run (post-install) identifier")]
-        public string? SecondRunId { get; set; }
+        public string SecondRunId { get; set; } = string.Empty;
     }
 
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]

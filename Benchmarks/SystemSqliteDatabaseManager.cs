@@ -76,7 +76,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             var runOne = GetRun(baseId);
             var runTwo = GetRun(compareId);
 
-            return runOne?.ResultTypes.Intersect(runTwo?.ResultTypes).ToList() ?? new List<RESULT_TYPE>();
+            return runOne?.ResultTypes.Intersect(runTwo?.ResultTypes ?? new List<RESULT_TYPE>()).ToList() ?? runTwo?.ResultTypes ?? new List<RESULT_TYPE>();
         }
 
         public static bool GetComparisonCompleted(string firstRunId, string secondRunId)

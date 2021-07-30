@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Serilog;
 using System;
 using System.IO;
 using System.Linq;
@@ -11,18 +12,42 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
     {
         public static string CreateHash(string input)
         {
-            byte[] hashOutput = sha512.ComputeHash(Encoding.UTF8.GetBytes(input));
-            return Convert.ToBase64String(hashOutput);
+            try
+            {
+                byte[] hashOutput = sha512.ComputeHash(Encoding.UTF8.GetBytes(input));
+                return Convert.ToBase64String(hashOutput);
+            }
+            catch (CryptographicException e)
+            {
+                Log.Warning(e, Strings.Get("Err_CreateHash"), "string");
+                return string.Empty;
+            }
         }
 
         public static byte[] CreateHash(byte[] input)
         {
-            return sha512.ComputeHash(input);
+            try
+            {
+                return sha512.ComputeHash(input);
+            }
+            catch (CryptographicException e)
+            {
+                Log.Warning(e, Strings.Get("Err_CreateHash"), "bytes");
+                return Array.Empty<byte>();
+            }
         }
 
         public static string CreateHash(Stream stream)
         {
-            return Convert.ToBase64String(sha512.ComputeHash(stream) ?? Array.Empty<byte>());
+            try
+            {
+                return Convert.ToBase64String(sha512.ComputeHash(stream) ?? Array.Empty<byte>());
+            }
+            catch (CryptographicException e)
+            {
+                Log.Warning(e, Strings.Get("Err_CreateHash"), "stream");
+                return string.Empty;
+            }
         }
 
         public static double GetRandomPositiveDouble(double max)
