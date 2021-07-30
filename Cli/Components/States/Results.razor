@@ -69,13 +69,13 @@ else
 @code {
 
     [Parameter]
-    public string FirstRunId { get; set; }
+    public string FirstRunId { get; set; } = string.Empty;
     [Parameter]
-    public string SecondRunId { get; set; }
+    public string SecondRunId { get; set; } = string.Empty;
     [Parameter]
-    public string AnalysesHash { get; set; }
+    public string AnalysesHash { get; set; } = string.Empty;
     [Parameter]
-    public string MonitorRunId { get; set; }
+    public string MonitorRunId { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -147,6 +147,11 @@ else
 
     public void GetAnalysisResults()
     {
+        if (AttackSurfaceAnalyzerClient.DatabaseManager is null)
+        {
+            analysisResults = new List<CompareResult>();
+            return;
+        }
         var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
         switch (resultType)
         {
@@ -162,6 +167,10 @@ else
     public void ParseOptsToResultTypes()
     {
         foundResultTypes.Clear();
+        if (AttackSurfaceAnalyzerClient.DatabaseManager is null)
+        {
+            return;
+        }        
         foreach (var resultType in Enum.GetValues(typeof(RESULT_TYPE)))
         {
             var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);

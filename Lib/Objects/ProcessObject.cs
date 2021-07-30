@@ -94,7 +94,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
             try
             {
-                obj.MainModule = ProcessModuleObject.FromProcessModule(process.MainModule);
+                if (process.MainModule is { })
+                {
+                    obj.MainModule = ProcessModuleObject.FromProcessModule(process.MainModule);
+                }
             }
             catch (Exception e)
             {

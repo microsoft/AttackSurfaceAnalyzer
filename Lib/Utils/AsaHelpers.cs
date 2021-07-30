@@ -194,38 +194,42 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return $"{firstRunId} & {secondRunId}";
         }
 
-        public static string SidToName(IdentityReference SID)
+        public static string SidToName(IdentityReference? SID)
         {
-            string sid = SID?.Value ?? string.Empty;
-            string identity = sid;
-
-            if (SidMap.TryGetValue(sid, out string? mappedIdentity))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (mappedIdentity != null)
+                string sid = SID?.Value ?? string.Empty;
+                string identity = sid;
+
+                if (SidMap.TryGetValue(sid, out string? mappedIdentity))
                 {
-                    return mappedIdentity;
+                    if (mappedIdentity != null)
+                    {
+                        return mappedIdentity;
+                    }
+                    else
+                    {
+                        SidMap.TryRemove(sid, out _);
+                    }
                 }
-                else
+
+                // Only map NTAccounts, https://en.wikipedia.org/wiki/Security_Identifier
+                if (sid.StartsWith("S-1-5"))
                 {
-                    SidMap.TryRemove(sid, out _);
+                    try
+                    {
+                        identity = SID?.Translate(typeof(NTAccount))?.Value ?? sid;
+                    }
+                    catch (IdentityNotMappedException) //lgtm [cs/empty-catch-block]
+                    {
+                    }
                 }
+
+                SidMap.TryAdd(sid, identity);
+
+                return sid;
             }
-
-            // Only map NTAccounts, https://en.wikipedia.org/wiki/Security_Identifier
-            if (sid.StartsWith("S-1-5"))
-            {
-                try
-                {
-                    identity = SID?.Translate(typeof(NTAccount))?.Value ?? sid;
-                }
-                catch (IdentityNotMappedException) //lgtm [cs/empty-catch-block]
-                {
-                }
-            }
-
-            SidMap.TryAdd(sid, identity);
-
-            return sid;
+            return string.Empty;
         }
 
         private static readonly Random random = new Random();

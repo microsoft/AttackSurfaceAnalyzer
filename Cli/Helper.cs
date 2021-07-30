@@ -13,7 +13,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         /// </summary>
         public class GlowClass
         {
-            public string ClassName;
+            public string ClassName { get; set; } = string.Empty;
         }
 
         public static string GetGlowClass(bool value)

@@ -197,14 +197,17 @@
                                     var inputs = new List<object?>();
                                     foreach (var param in ctor.GetParameters())
                                     {
-                                        var representation = objState?[param.Name]?.ToObject<string>();
-                                        if (representation != null && GetValueFromJObject(param.ParameterType, representation) is { } obj)
+                                        if (param.Name is not null)
                                         {
-                                            inputs.Add(obj);
-                                        }
-                                        else
-                                        {
-                                            inputs.Add(null);
+                                            var representation = objState?[param.Name]?.ToObject<string>();
+                                            if (representation != null && GetValueFromJObject(param.ParameterType, representation) is { } obj)
+                                            {
+                                                inputs.Add(obj);
+                                            }
+                                            else
+                                            {
+                                                inputs.Add(null);
+                                            }
                                         }
                                     }
                                     var empty = ctor.Invoke(inputs.ToArray());
@@ -283,7 +286,7 @@
                 ScaffoldedObject = new Scaffold(constructors[value]);
                 if (constructors[value].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault()), typeof(SerializableCertificate));
+                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -306,7 +309,7 @@
                 ScaffoldedObject = new Scaffold(constructorToUse, Assemblies);
                 if (constructors[constructorToInvoke].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault()), typeof(SerializableCertificate));
+                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -491,7 +494,7 @@
         }
         else if (type.IsEnum)
         {
-            if (Enum.TryParse(type, objectState, out object result))
+            if (Enum.TryParse(type, objectState, out object? result))
             {
                 return Convert.ChangeType(result, type);
             }
@@ -505,11 +508,14 @@
         foreach (var obj in AppState.TestObjects)
         {
             var t = obj.GetType();
-            if (!objects.ContainsKey(t.FullName))
+            if (t.FullName is not null)
             {
-                objects.Add(t.FullName, new List<object>());
+                if (!objects.ContainsKey(t.FullName))
+                {
+                    objects.Add(t.FullName, new List<object>());
+                }
+                objects[t.FullName].Add(obj);
             }
-            objects[t.FullName].Add(obj);
         }
         var state = new Cli.SandboxState(objects);
         await JSRuntime.InvokeAsync<object>(
