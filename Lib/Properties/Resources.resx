@@ -591,4 +591,7 @@
   <data name="Err_ClauseMissingCustomOperation" xml:space="preserve">
     <value>Rule {0} Clause {1} has specified custom operation but the CustomOperation field is missing.</value>
   </data>
+  <data name="Err_CreateHash" xml:space="preserve">
+    <value>Cryptographic Exception: Failed to get hash of {0}.</value>
+  </data>
 </root>
