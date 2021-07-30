@@ -10,7 +10,13 @@
             <select class="form-control mr-3" id="RunId" @bind="RunIdInput">
             @for (int i = 0; i < Runs.Count; i++)
             {
-                <option value="@i">@Runs[i]</option>
+                if (!string.IsNullOrEmpty(@Runs[i].firstRunId))
+                {
+                    <option value="@i">@Runs[i].firstRunId vs @Runs[i].secondRunId (@Runs[i].runStatus)</option>
+                }
+                else{
+                    <option value="@i">@Runs[i].secondRunId (@Runs[i].runStatus)</option>
+                }
             }
             </select>
         </div>
