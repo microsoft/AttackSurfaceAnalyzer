@@ -67,15 +67,18 @@ else
 }
 
 @code {
-
+    string _firstRunId = string.Empty;
+    string _secondRundId = string.Empty;
+    string _analysesHash = string.Empty;
+    string _monitorRunId = string.Empty;
     [Parameter]
-    public string FirstRunId { get; set; }
+    public string FirstRunId { get { return _firstRunId; } set { _firstRunId = value; OnInitialized(); } }
     [Parameter]
-    public string SecondRunId { get; set; }
+    public string SecondRunId { get { return _secondRundId; } set { _secondRundId = value; OnInitialized(); } }
     [Parameter]
-    public string AnalysesHash { get; set; }
+    public string AnalysesHash { get { return _analysesHash; } set { _analysesHash = value; OnInitialized(); } }
     [Parameter]
-    public string MonitorRunId { get; set; }
+    public string MonitorRunId { get { return _monitorRunId; } set { _monitorRunId = value; OnInitialized(); } }
 
     protected override void OnInitialized()
     {
