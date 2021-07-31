@@ -97,7 +97,7 @@
                     {
                         <b>@result.Name</b>
                     }
-                    <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
+                    <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" onChangeAction="RefreshPage" />
                 </div>
             }
         </div>
