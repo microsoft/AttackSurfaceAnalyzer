@@ -361,7 +361,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             var col = db?.GetCollection<AsaRun>("Runs");
 
             var results = col?.Find(x => x.RunId.Equals(runid));
-            if (results.Any())
+            if (results?.Any() ?? false)
             {
                 return results.First().Platform;
             }
