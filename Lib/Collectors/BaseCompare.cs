@@ -123,7 +123,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 {
                     BaseRunId = firstRunId,
                     CompareRunId = secondRunId,
-                    BaseRowKey = colObj.RowKey,
                 };
 
                 if (different.Item2.Equals(firstRunId))
@@ -152,9 +151,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         Base = first,
                         Compare = second,
                         BaseRunId = firstRunId,
-                        CompareRunId = secondRunId,
-                        BaseRowKey = modified.Item1.RowKey,
-                        CompareRowKey = modified.Item2.RowKey,
+                        CompareRunId = secondRunId
                     };
 
                     var properties = first.GetType().GetProperties();
@@ -165,6 +162,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         {
                             try
                             {
+                                if (Attribute.IsDefined(prop, typeof(SkipCompareAttribute)))
+                                {
+                                    continue;
+                                }
                                 List<Diff> diffs;
                                 object? added = null;
                                 object? removed = null;

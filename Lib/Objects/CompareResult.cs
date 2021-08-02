@@ -15,8 +15,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public CollectObject? Base { get; set; }
 
-        public string? BaseRowKey { get; set; }
-
         public string? BaseRunId { get; set; }
 
         public CHANGE_TYPE ChangeType
@@ -49,8 +47,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         }
 
         public CollectObject? Compare { get; set; }
-
-        public string? CompareRowKey { get; set; }
 
         public string? CompareRunId { get; set; }
 
