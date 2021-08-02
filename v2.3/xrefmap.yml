@@ -3766,32 +3766,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.Serialized
   nameWithType: CollectObject.Serialized
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  name: ShouldSerializeRowKey()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey()
-  nameWithType: CollectObject.ShouldSerializeRowKey()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey*
-  name: ShouldSerializeRowKey
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeRowKey_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeRowKey
-  nameWithType: CollectObject.ShouldSerializeRowKey
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
-  name: ShouldSerializeSerialized()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeSerialized
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized()
-  nameWithType: CollectObject.ShouldSerializeSerialized()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized*
-  name: ShouldSerializeSerialized
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_ShouldSerializeSerialized_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.ShouldSerializeSerialized
-  nameWithType: CollectObject.ShouldSerializeSerialized
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject
   name: ComObject
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.html
@@ -3921,19 +3895,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.Base
   nameWithType: CompareResult.Base
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRowKey
-  name: BaseRowKey
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_BaseRowKey
-  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRowKey
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRowKey
-  nameWithType: CompareResult.BaseRowKey
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRowKey*
-  name: BaseRowKey
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_BaseRowKey_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRowKey
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRowKey
-  nameWithType: CompareResult.BaseRowKey
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.BaseRunId
   name: BaseRunId
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_BaseRunId
@@ -3973,19 +3934,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.Compare
   nameWithType: CompareResult.Compare
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRowKey
-  name: CompareRowKey
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_CompareRowKey
-  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRowKey
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRowKey
-  nameWithType: CompareResult.CompareRowKey
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRowKey*
-  name: CompareRowKey
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_CompareRowKey_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRowKey
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRowKey
-  nameWithType: CompareResult.CompareRowKey
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.CompareRunId
   name: CompareRunId
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_CompareRunId
@@ -7789,6 +7737,25 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.SigningCertificate
   nameWithType: Signature.SigningCertificate
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute
+  name: SkipCompareAttribute
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.html
+  commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute
+  nameWithType: SkipCompareAttribute
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.#ctor
+  name: SkipCompareAttribute()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SkipCompareAttribute__ctor
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.#ctor
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.SkipCompareAttribute()
+  nameWithType: SkipCompareAttribute.SkipCompareAttribute()
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.#ctor*
+  name: SkipCompareAttribute
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SkipCompareAttribute__ctor_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.#ctor
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SkipCompareAttribute.SkipCompareAttribute
+  nameWithType: SkipCompareAttribute.SkipCompareAttribute
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SqlConnectionHolder
   name: SqlConnectionHolder
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SqlConnectionHolder.html
