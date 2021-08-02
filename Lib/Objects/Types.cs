@@ -100,7 +100,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
         FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION,
         UNKNOWN,
         CANCELLED,
-        FAILED_TO_COMMIT
+        FAILED_TO_COMMIT,
+        DATABASE_NULL
     }
 
     /// <summary>

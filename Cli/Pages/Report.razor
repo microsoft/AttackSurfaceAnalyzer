@@ -10,13 +10,7 @@
             <select class="form-control mr-3" id="RunId" @bind="RunIdInput">
             @for (int i = 0; i < Runs.Count; i++)
             {
-                if (!string.IsNullOrEmpty(@Runs[i].firstRunId))
-                {
-                    <option value="@i">@Runs[i].firstRunId vs @Runs[i].secondRunId (@Runs[i].runStatus)</option>
-                }
-                else{
-                    <option value="@i">@Runs[i].secondRunId (@Runs[i].runStatus)</option>
-                }
+                <option value="@i">@Runs[i]</option>
             }
             </select>
         </div>
@@ -49,13 +43,5 @@ else
             _runIdInput = value;
             this.StateHasChanged();
         }
-    }
-
-    System.Threading.Timer timer;
-
-    protected override void OnInitialized()
-    {
-        //timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        base.OnInitialized();
     }
 }

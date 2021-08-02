@@ -34,12 +34,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// </summary>
         /// <param name="IsAuthenticodeValid"> </param>
         [JsonConstructor]
-        public Signature(bool IsAuthenticodeValid)
+        public Signature()
         {
-            this.IsAuthenticodeValid = IsAuthenticodeValid;
         }
-
-        public bool IsAuthenticodeValid { get; set; }
 
         public bool IsTimeValid
         {
@@ -53,6 +50,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        public bool IsAuthenticodeValid { get; set; }
         public string? SignedHash { get; set; }
         public string? SignerSerialNumber { get; set; }
         public SerializableCertificate? SigningCertificate { get; set; }

@@ -67,18 +67,15 @@ else
 }
 
 @code {
-    string _firstRunId = string.Empty;
-    string _secondRundId = string.Empty;
-    string _analysesHash = string.Empty;
-    string _monitorRunId = string.Empty;
+
     [Parameter]
-    public string FirstRunId { get { return _firstRunId; } set { _firstRunId = value; OnInitialized(); } }
+    public string FirstRunId { get; set; } = string.Empty;
     [Parameter]
-    public string SecondRunId { get { return _secondRundId; } set { _secondRundId = value; OnInitialized(); } }
+    public string SecondRunId { get; set; } = string.Empty;
     [Parameter]
-    public string AnalysesHash { get { return _analysesHash; } set { _analysesHash = value; OnInitialized(); } }
+    public string AnalysesHash { get; set; } = string.Empty;
     [Parameter]
-    public string MonitorRunId { get { return _monitorRunId; } set { _monitorRunId = value; OnInitialized(); } }
+    public string MonitorRunId { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -150,6 +147,11 @@ else
 
     public void GetAnalysisResults()
     {
+        if (AttackSurfaceAnalyzerClient.DatabaseManager is null)
+        {
+            analysisResults = new List<CompareResult>();
+            return;
+        }
         var resultType = (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType);
         switch (resultType)
         {
@@ -165,6 +167,10 @@ else
     public void ParseOptsToResultTypes()
     {
         foundResultTypes.Clear();
+        if (AttackSurfaceAnalyzerClient.DatabaseManager is null)
+        {
+            return;
+        }        
         foreach (var resultType in Enum.GetValues(typeof(RESULT_TYPE)))
         {
             var found = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResultsCount(FirstRunId, SecondRunId, AnalysesHash, (int)resultType);
