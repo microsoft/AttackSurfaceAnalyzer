@@ -33,7 +33,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         private static readonly List<BaseMonitor> monitors = new List<BaseMonitor>();
         private static List<BaseCompare> comparators = new List<BaseCompare>();
 
-        public static DatabaseManager DatabaseManager { get; private set; }
+        public static DatabaseManager? DatabaseManager { get; private set; }
 
         private static void SetupLogging(CommandOptions opts)
         {
@@ -197,7 +197,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
         {
-            if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "InsertCompareResults");
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            }
+            if (opts is null || opts.SecondRunId is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
             return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile ?? throw new ArgumentNullException(nameof(opts.AnalysesFile)));
         }
@@ -257,6 +262,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         internal static void InsertCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> results, string? FirstRunId, string SecondRunId, string AnalysesHash)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "InsertCompareResults");
+                return;
+            }
             DatabaseManager.InsertCompareRun(FirstRunId, SecondRunId, AnalysesHash, RUN_STATUS.RUNNING);
             foreach (var key in results.Keys)
             {
@@ -331,7 +341,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             else
             {
                 SetupDatabase(opts);
-
+                if (DatabaseManager is null)
+                {
+                    Log.Error("Err_DatabaseManagerNull", "RunConfigCommand");
+                    return ASA_ERROR.DATABASE_NULL;
+                }
                 if (opts.ListRuns)
                 {
                     if (DatabaseManager.FirstRun)
@@ -408,6 +422,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunExportCollectCommand(ExportCollectCommandOptions opts)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunExportCollectCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
             if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
             {
                 Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
@@ -611,6 +630,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunExportMonitorCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
             if (opts.RunId is null)
             {
                 var runIds = DatabaseManager.GetLatestRunIds(1, RUN_TYPE.MONITOR);
@@ -644,6 +668,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "WriteMonitorJson");
+                return;
+            }
             var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
             OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
 
@@ -672,6 +701,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunMonitorCommand(MonitorCommandOptions opts)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunMonitorCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
             if (opts.RunId is string)
             {
                 opts.RunId = opts.RunId.Trim();
@@ -742,7 +776,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            void consoleCancelDelegate(object sender, ConsoleCancelEventArgs args)
+            void consoleCancelDelegate(object? sender, ConsoleCancelEventArgs args)
             {
                 args.Cancel = true;
                 exitEvent.Set();
@@ -804,7 +838,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 throw new ArgumentNullException(nameof(opts));
             }
-
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "CompareRuns");
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            }
             comparators = new List<BaseCompare>();
 
             Dictionary<string, string> EndEvent = new Dictionary<string, string>();
@@ -827,51 +865,58 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (!opts.DisableAnalysis)
             {
-                watch = Stopwatch.StartNew();
-                var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
-                var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
-                var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.GetRules());
-                OAT.Utils.Strings.Setup();
-                OAT.Utils.Helpers.PrintViolations(violations);
-                if (violations.Any())
+                if (opts.AnalysesFile is not null)
                 {
-                    Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile.Source ?? "Embedded");
-                }
-                else
-                {
-                    if (c.Results.Count > 0)
+                    watch = Stopwatch.StartNew();
+                    var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
+                    var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
+                    var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.GetRules());
+                    OAT.Utils.Strings.Setup();
+                    OAT.Utils.Helpers.PrintViolations(violations);
+                    if (violations.Any())
                     {
-                        foreach (var key in c.Results.Keys)
+                        Log.Error("Encountered {0} issues with rules in {1}. Skipping analysis.", violations.Count(), opts.AnalysesFile?.Source ?? "Embedded");
+                    }
+                    else
+                    {
+                        if (c.Results.Count > 0)
                         {
-                            if (c.Results[key] is List<CompareResult> queue)
+                            foreach (var key in c.Results.Keys)
                             {
-                                queue.AsParallel().ForAll(res =>
+                                if (c.Results[key] is List<CompareResult> queue)
                                 {
-                                    // Select rules with the appropriate change type, platform and target
-                                    // - Target is also checked inside Analyze, but this shortcuts repeatedly
-                                    // checking rules which don't apply
-                                    var selectedRules = opts.AnalysesFile.Rules.Where((rule) =>
-                                        (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
-                                            && (rule.Platforms == null || rule.Platforms.Contains(platform))
-                                            && (rule.ResultType == res.ResultType));
-                                    res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
-                                    res.Analysis = res.Rules.Count
-                                                   > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
-                                    res.AnalysesHash = opts.AnalysesFile.GetHash();
-                                });
+                                    queue.AsParallel().ForAll(res =>
+                                    {
+                                        // Select rules with the appropriate change type, platform and target
+                                        // - Target is also checked inside Analyze, but this shortcuts repeatedly
+                                        // checking rules which don't apply
+                                        var selectedRules = opts.AnalysesFile.Rules.Where((rule) =>
+                                            (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
+                                                && (rule.Platforms == null || rule.Platforms.Contains(platform))
+                                                && (rule.ResultType == res.ResultType));
+                                        res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
+                                        res.Analysis = res.Rules.Count
+                                                       > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
+                                        res.AnalysesHash = opts.AnalysesFile.GetHash();
+                                    });
+                                }
                             }
                         }
                     }
-                }
 
-                watch.Stop();
-                t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
-                answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
-                                        t.Hours,
-                                        t.Minutes,
-                                        t.Seconds,
-                                        t.Milliseconds);
-                Log.Information(Strings.Get("Completed"), "Analysis", answer);
+                    watch.Stop();
+                    t = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
+                    answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
+                                            t.Hours,
+                                            t.Minutes,
+                                            t.Seconds,
+                                            t.Milliseconds);
+                    Log.Information(Strings.Get("Completed"), "Analysis", answer);
+                }
+                else
+                {
+                    Log.Error(Strings.Get("Err_AnalysisNull"));
+                }
             }
 
             return c.Results;
@@ -879,6 +924,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         public static ASA_ERROR RunGuiMonitorCommand(MonitorCommandOptions opts)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunGuiMonitorCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
             if (opts is null)
             {
                 return ASA_ERROR.NO_COLLECTORS;
@@ -894,7 +944,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 Log.Warning(Strings.Get("Err_NoMonitors"));
             }
-            var run = new AsaRun(RunId: opts.RunId, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), ResultTypes: setResultTypes, Type: RUN_TYPE.MONITOR);
+            var run = new AsaRun(RunId: opts?.RunId ?? string.Empty, Timestamp: DateTime.Now, Version: AsaHelpers.GetVersionString(), Platform: AsaHelpers.GetPlatform(), ResultTypes: setResultTypes, Type: RUN_TYPE.MONITOR);
 
             DatabaseManager.InsertRun(run);
             foreach (var c in monitors)
@@ -907,6 +957,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         public static int StopMonitors()
         {
+
             foreach (var c in monitors)
             {
                 Log.Information(Strings.Get("End"), c.GetType().Name);
@@ -915,6 +966,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
 
             FlushResults();
+
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunGuiMonitorCommand");
+                return (int)ASA_ERROR.DATABASE_NULL;
+            }
 
             DatabaseManager.Commit();
 
@@ -948,6 +1005,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         public static ASA_ERROR RunCollectCommand(CollectCommandOptions opts)
         {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunCollectCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
             if (opts == null) { return ASA_ERROR.NO_COLLECTORS; }
             collectors.Clear();
             AdminOrWarn();
@@ -1123,11 +1185,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             using CancellationTokenSource source = new CancellationTokenSource();
             CancellationToken token = source.Token;
 
-            void cancelKeyDelegate(object sender, ConsoleCancelEventArgs args)
+            void cancelKeyDelegate(object? sender, ConsoleCancelEventArgs args)
             {
                 Log.Information("Cancelling collection. Rolling back transaction. Please wait to avoid corrupting database.");
                 source.Cancel();
-                DatabaseManager.CloseDatabase();
+
+                if (DatabaseManager is null)
+                {
+                    Log.Error("Err_DatabaseManagerNull", "InsertCompareResults");
+                }
+                else
+                {
+                    DatabaseManager.CloseDatabase();
+                }
                 Environment.Exit((int)ASA_ERROR.CANCELLED);
             }
             Console.CancelKeyPress += cancelKeyDelegate;
@@ -1163,6 +1233,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static void FlushResults()
         {
+            if (DatabaseManager is null)
+            {
+                return;
+            }
             var prevFlush = DatabaseManager.QueueSize;
             var totFlush = prevFlush;
 

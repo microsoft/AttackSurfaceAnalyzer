@@ -29,8 +29,13 @@
         <li class="nav-item">
             <a class="nav-link" id="sandbox-view-tab" data-toggle="tab" href="#sandbox-view" role="tab" aria-controls="sandbox-view" aria-selected="false">View</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" id="sandbox-manage-tab" data-toggle="tab" href="#sandbox-manage" role="tab" aria-controls="sandbox-manage" aria-selected="false">Manage</a>
+        </li>
     </ul>
     <div class="tab-content mb-3" id="sandbox-tabs-content">
+
+         <!-- Create Tab -->
         <div class="tab-pane fade show active" id="sandbox-create" role="tabpanel" aria-labelledby="sandbox-create-tab">
             <div class="form-inline mb-3">
                 <label class="mr-2" for="typeToCreate">Type to Create:</label>
@@ -69,11 +74,9 @@
             </div>
         </div>
 
+        <!-- View tab -->
         <div class="tab-pane fade" id="sandbox-view" role="tabpanel" aria-labelledby="sandbox-view-tab">
-            <h5>State</h5>
-            <p>Load in JSON serialized Sandbox State.</p>
-            <FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
-            <button class="btn btn-primary" @onclick="SaveSandboxState">Save Sandbox State</button>
+            <button class="btn btn-primary mb-2" @onclick="RemoveLastObject" disabled=@removeDisabled>Remove Last Object</button>
 
             @if (SandBoxErrors.Any())
             {
@@ -95,6 +98,24 @@
                         <b>@result.Name</b>
                     }
                     <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
+                </div>
+            }
+        </div>
+
+        <!-- Manage tab -->
+        <div class="tab-pane fade" id="sandbox-manage" role="tabpanel" aria-labelledby="sandbox-manage-tab">
+            <h5>State</h5>
+            <p>Load in JSON serialized Sandbox State.</p>
+            <FileUpload ProcessFile="LoadSandbox" ReadLabel="Load Sandbox" ClearAction="ClearSandbox" ClearLabel="Clear Sandbox" />
+            <button class="btn btn-primary" @onclick="SaveSandboxState">Save Sandbox State</button>
+
+            @if (SandBoxErrors.Any())
+            {
+                <div class="alert alert-warning" role="alert">
+                    @foreach (var error in SandBoxErrors)
+                    {
+                        <p>@error</p>
+                    }
                 </div>
             }
         </div>
@@ -176,14 +197,17 @@
                                     var inputs = new List<object?>();
                                     foreach (var param in ctor.GetParameters())
                                     {
-                                        var representation = objState?[param.Name]?.ToObject<string>();
-                                        if (representation != null && GetValueFromJObject(param.ParameterType, representation) is { } obj)
+                                        if (param.Name is not null)
                                         {
-                                            inputs.Add(obj);
-                                        }
-                                        else
-                                        {
-                                            inputs.Add(null);
+                                            var representation = objState?[param.Name]?.ToObject<string>();
+                                            if (representation != null && GetValueFromJObject(param.ParameterType, representation) is { } obj)
+                                            {
+                                                inputs.Add(obj);
+                                            }
+                                            else
+                                            {
+                                                inputs.Add(null);
+                                            }
                                         }
                                     }
                                     var empty = ctor.Invoke(inputs.ToArray());
@@ -262,7 +286,7 @@
                 ScaffoldedObject = new Scaffold(constructors[value]);
                 if (constructors[value].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault());
+                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -285,7 +309,7 @@
                 ScaffoldedObject = new Scaffold(constructorToUse, Assemblies);
                 if (constructors[constructorToInvoke].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).FirstOrDefault());
+                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -470,7 +494,7 @@
         }
         else if (type.IsEnum)
         {
-            if (Enum.TryParse(type, objectState, out object result))
+            if (Enum.TryParse(type, objectState, out object? result))
             {
                 return Convert.ChangeType(result, type);
             }
@@ -484,13 +508,16 @@
         foreach (var obj in AppState.TestObjects)
         {
             var t = obj.GetType();
-            if (!objects.ContainsKey(t.FullName))
+            if (t.FullName is not null)
             {
-                objects.Add(t.FullName, new List<object>());
+                if (!objects.ContainsKey(t.FullName))
+                {
+                    objects.Add(t.FullName, new List<object>());
+                }
+                objects[t.FullName].Add(obj);
             }
-            objects[t.FullName].Add(obj);
         }
-        var state = new SandboxState(objects);
+        var state = new Cli.SandboxState(objects);
         await JSRuntime.InvokeAsync<object>(
             "FileSaveAs",
             "SandboxState.json",

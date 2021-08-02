@@ -6,17 +6,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class ProcessModuleObject
     {
-        public ProcessModuleObject(string FileName, string ModuleName, SerializableFileVersionInfo? FileVersionInfo)
+        public ProcessModuleObject(string? FileName, string? ModuleName, SerializableFileVersionInfo? FileVersionInfo)
         {
             this.FileName = FileName;
             this.ModuleName = ModuleName;
             this.FileVersionInfo = FileVersionInfo;
         }
 
-        public string FileName { get; }
+        public ProcessModuleObject() { }
 
-        public SerializableFileVersionInfo? FileVersionInfo { get; }
-        public string ModuleName { get; }
+        public string? FileName { get; set; }
+        public SerializableFileVersionInfo? FileVersionInfo { get; set; }
+        public string? ModuleName { get; set; }
 
         internal static ProcessModuleObject FromProcessModule(ProcessModule mainModule)
         {

@@ -49,7 +49,7 @@
         Error
     }
 
-    List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
+    List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager?.GetRuns() ?? new List<string>();
 
     int RunIdInput {
         get
@@ -99,7 +99,7 @@
         await AnalyzeIt();
         pageState = PageState.Finished;
     }
-    System.Threading.Timer timer;
+    System.Threading.Timer? timer;
 
     async Task<ASA_ERROR> AnalyzeIt()
     {
@@ -117,7 +117,7 @@
             CompareOneOptions.FirstRunId = appData.ExportCollectCommandOptions.FirstRunId;
             CompareOneOptions.SecondRunId = appData.ExportCollectCommandOptions.SecondRunId;
             var results = AttackSurfaceAnalyzerClient.CompareRuns(CompareOneOptions);
-            AttackSurfaceAnalyzerClient.InsertCompareResults(results, CompareOneOptions.FirstRunId, CompareOneOptions.SecondRunId, appData.CompareCommandOptions.AnalysesFile.GetHash());
+            AttackSurfaceAnalyzerClient.InsertCompareResults(results, CompareOneOptions.FirstRunId, CompareOneOptions.SecondRunId, appData.CompareCommandOptions.AnalysesFile?.GetHash() ?? string.Empty);
         });
 
         return ASA_ERROR.NONE;
