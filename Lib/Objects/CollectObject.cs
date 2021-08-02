@@ -15,6 +15,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public RESULT_TYPE ResultType { get; set; }
 
         [SkipCompare]
+        [JsonIgnore]
         public string RowKey
         {
             get
@@ -24,6 +25,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         }
         
         [SkipCompare]
+        [JsonIgnore]
         public string Serialized
         {
             get
