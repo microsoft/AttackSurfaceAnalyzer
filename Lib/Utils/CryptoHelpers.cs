@@ -19,7 +19,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
             catch (CryptographicException e)
             {
-                Log.Warning(e, Strings.Get("Err_CreateHash"), "string");
+                Log.Warning(e, Strings.Get("Err_CreateHash"), input is null ? "null string" : $"'{input}'");
                 return string.Empty;
             }
         }

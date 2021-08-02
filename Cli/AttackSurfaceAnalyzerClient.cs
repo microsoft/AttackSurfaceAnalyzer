@@ -192,7 +192,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 results.TryAdd(key, monitorResult[key]);
             });
 
-            return ExportGuidedModeResults(results, opts);
+            return ExportGuidedModeResults(results, opts, analysisFile.GetHash());
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
@@ -481,16 +481,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             };
 
             var results = CompareRuns(options);
-
+            var analysesHash = options.AnalysesFile.GetHash();
             if (opts.SaveToDatabase)
             {
-                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, options.AnalysesFile.GetHash());
+                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, analysesHash);
             }
 
-            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId));
+            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash);
         }
 
-        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts)
+        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts, string analysesHash)
         {
             if (opts.RunId == null)
             {
@@ -510,10 +510,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 outputPath = Directory.GetCurrentDirectory();
             }
+            var metadata = AsaHelpers.GenerateMetadata();
+            metadata.Add("analyses-hash", analysesHash);
             if (opts.ExplodedOutput)
             {
-                results.Add("metadata", AsaHelpers.GenerateMetadata());
-
+                results.Add("metadata",metadata);
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
@@ -534,7 +535,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId + "_summary.json.txt"));
                 var output = new Dictionary<string, object>();
                 output["results"] = results;
-                output["metadata"] = AsaHelpers.GenerateMetadata();
+                output["metadata"] = metadata;
                 using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
                 {
                     using (JsonWriter writer = new JsonTextWriter(sw))
@@ -547,7 +548,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName)
+        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
@@ -563,9 +564,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 outputPath = Directory.GetCurrentDirectory();
             }
+            var metadata = AsaHelpers.GenerateMetadata();
+            metadata.Add("analyses-hash", analysesHash);
             if (opts.ExplodedOutput)
             {
-                results.Add("metadata", AsaHelpers.GenerateMetadata());
+                results.Add("metadata", metadata);
 
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName));
                 Directory.CreateDirectory(path);
@@ -587,7 +590,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.json.txt"));
                 var output = new Dictionary<string, object>();
                 output["results"] = results;
-                output["metadata"] = AsaHelpers.GenerateMetadata();
+                output["metadata"] = metadata;
                 using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
                 {
                     using (JsonWriter writer = new JsonTextWriter(sw))
@@ -619,6 +622,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 if (property.DeclaringType == typeof(Rule))
                 {
                     if (property.PropertyName != "Name" && property.PropertyName != "Description" && property.PropertyName != "Flag")
+                    {
+                        property.ShouldSerialize = _ => { return false; };
+                    }
+                }
+
+                if (property.DeclaringType == typeof(CompareResult))
+                {
+                    if (property.PropertyName == "AnalysesHash")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }
@@ -658,12 +669,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);
 
+            var analysesHash = monitorCompareOpts.AnalysesFile.GetHash();
+
             if (opts.SaveToDatabase)
             {
-                InsertCompareResults(monitorResult, null, opts.RunId, monitorCompareOpts.AnalysesFile.GetHash());
+                InsertCompareResults(monitorResult, null, opts.RunId, analysesHash);
             }
 
-            return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId));
+            return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash);
         }
 
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
@@ -984,21 +997,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 if (!Elevation.IsAdministrator())
                 {
-                    Log.Warning(Strings.Get("Err_RunAsAdmin"));
+                    Log.Information(Strings.Get("Err_RunAsAdmin"));
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Log.Warning(Strings.Get("Err_RunAsRoot"));
+                    Log.Information(Strings.Get("Err_RunAsRoot"));
                 }
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
                 if (!Elevation.IsRunningAsRoot())
                 {
-                    Log.Warning(Strings.Get("Err_RunAsRoot"));
+                    Log.Information(Strings.Get("Err_RunAsRoot"));
                 }
             }
         }
