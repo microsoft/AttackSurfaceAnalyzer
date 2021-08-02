@@ -5089,6 +5089,12 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject
   nameWithType: FileSystemObject
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.#ctor
+  name: FileSystemObject()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.#ctor
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.FileSystemObject()
+  nameWithType: FileSystemObject.FileSystemObject()
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.#ctor(System.String)
   name: FileSystemObject(String)
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject__ctor_System_String_
@@ -6144,12 +6150,21 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject
   nameWithType: ProcessModuleObject
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  name: ProcessModuleObject(String, String, SerializableFileVersionInfo)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableFileVersionInfo_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject(System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  nameWithType: ProcessModuleObject.ProcessModuleObject(String, String, SerializableFileVersionInfo)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor
+  name: ProcessModuleObject()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject()
+  nameWithType: ProcessModuleObject.ProcessModuleObject()
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.Nullable{System.String},System.Nullable{System.String},Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  name: ProcessModuleObject(Nullable<String>, Nullable<String>, SerializableFileVersionInfo)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor_System_Nullable_System_String__System_Nullable_System_String__Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableFileVersionInfo_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.Nullable{System.String},System.Nullable{System.String},Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  name.vb: ProcessModuleObject(Nullable(Of String), Nullable(Of String), SerializableFileVersionInfo)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject(System.Nullable<System.String>, System.Nullable<System.String>, Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject(System.Nullable(Of System.String), System.Nullable(Of System.String), Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  nameWithType: ProcessModuleObject.ProcessModuleObject(Nullable<String>, Nullable<String>, SerializableFileVersionInfo)
+  nameWithType.vb: ProcessModuleObject.ProcessModuleObject(Nullable(Of String), Nullable(Of String), SerializableFileVersionInfo)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor*
   name: ProcessModuleObject
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor_
@@ -7690,18 +7705,18 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature
   nameWithType: Signature
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor
+  name: Signature()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Signature__ctor
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.Signature()
+  nameWithType: Signature.Signature()
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor(AuthenticodeInfo)
   name: Signature(AuthenticodeInfo)
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Signature__ctor_AuthenticodeInfo_
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor(AuthenticodeInfo)
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.Signature(AuthenticodeInfo)
   nameWithType: Signature.Signature(AuthenticodeInfo)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor(System.Boolean)
-  name: Signature(Boolean)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Signature__ctor_System_Boolean_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor(System.Boolean)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.Signature(System.Boolean)
-  nameWithType: Signature.Signature(Boolean)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.#ctor*
   name: Signature
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Signature__ctor_
@@ -10393,6 +10408,12 @@ references:
   commentId: F:Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.CANCELLED
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.CANCELLED
   nameWithType: ASA_ERROR.CANCELLED
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.DATABASE_NULL
+  name: DATABASE_NULL
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.html#Microsoft_CST_AttackSurfaceAnalyzer_Types_ASA_ERROR_DATABASE_NULL
+  commentId: F:Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.DATABASE_NULL
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.DATABASE_NULL
+  nameWithType: ASA_ERROR.DATABASE_NULL
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.FAILED_TO_COMMIT
   name: FAILED_TO_COMMIT
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.html#Microsoft_CST_AttackSurfaceAnalyzer_Types_ASA_ERROR_FAILED_TO_COMMIT
@@ -11095,12 +11116,15 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.RunIdsToCompareId
   nameWithType: AsaHelpers.RunIdsToCompareId
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(IdentityReference)
-  name: SidToName(IdentityReference)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_IdentityReference_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(IdentityReference)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(IdentityReference)
-  nameWithType: AsaHelpers.SidToName(IdentityReference)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable{IdentityReference})
+  name: SidToName(Nullable<IdentityReference>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_System_Nullable_IdentityReference__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable{IdentityReference})
+  name.vb: SidToName(Nullable(Of IdentityReference))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable<IdentityReference>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable(Of IdentityReference))
+  nameWithType: AsaHelpers.SidToName(Nullable<IdentityReference>)
+  nameWithType.vb: AsaHelpers.SidToName(Nullable(Of IdentityReference))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName*
   name: SidToName
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_
