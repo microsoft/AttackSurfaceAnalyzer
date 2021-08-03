@@ -126,6 +126,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             Environment.Exit((int)argsResult);
         }
 
+        /// <summary>
+        /// Loads the rules from the provided file, if it is not null or empty.  Or falls back to the embedded rules if it is.
+        /// </summary>
+        /// <param name="analysisFile"></param>
+        /// <returns>The loaded RuleFile</returns>
+        private static RuleFile LoadRulesFromFileOrEmbedded(string? analysisFile) => string.IsNullOrEmpty(analysisFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(analysisFile);
+
         private static ASA_ERROR RunGuidedModeCommand(GuidedModeCommandOptions opts)
         {
             opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
@@ -156,7 +163,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             RunCollectCommand(collectorOpts);
 
-            var analysisFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile);
+            var analysisFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
+
+            if (!analysisFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return ASA_ERROR.INVALID_RULES;
+            }
 
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
@@ -211,6 +224,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         {
             if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            var analysesHash = ruleFile.GetHash();
             Parallel.ForEach(collectObjects, monitorResult =>
             {
                 var shellResult = new CompareResult()
@@ -220,7 +234,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 };
 
                 shellResult.Rules = analyzer.Analyze(ruleFile.Rules, shellResult).ToList();
-                shellResult.AnalysesHash = ruleFile.GetHash();
+                shellResult.AnalysesHash = analysesHash;
 
                 if (opts.ApplySubObjectRulesToMonitor)
                 {
@@ -247,8 +261,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         private static ASA_ERROR RunVerifyRulesCommand(VerifyOptions opts)
         {
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
-            var ruleFile = string.IsNullOrEmpty(opts.AnalysisFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysisFile);
-            var violations = analyzer.EnumerateRuleIssues(ruleFile.GetRules());
+            var ruleFile = LoadRulesFromFileOrEmbedded(opts.AnalysisFile);
+            if (!ruleFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return ASA_ERROR.INVALID_RULES;
+            }
+            var violations = analyzer.EnumerateRuleIssues(ruleFile.Rules);
             OAT.Utils.Strings.Setup();
             OAT.Utils.Helpers.PrintViolations(violations);
             if (violations.Any())
@@ -469,12 +488,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
             }
 
+            var ruleFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
+            if (!ruleFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return ASA_ERROR.INVALID_RULES;
+            }
+
             Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
             CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
-                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
+                AnalysesFile = ruleFile,
                 DisableAnalysis = opts.DisableAnalysis,
                 SaveToDatabase = opts.SaveToDatabase,
                 RunScripts = opts.RunScripts
@@ -659,10 +685,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     return ASA_ERROR.INVALID_ID;
                 }
             }
+
+            var ruleFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
+            if (!ruleFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return ASA_ERROR.INVALID_RULES;
+            }
             var monitorCompareOpts = new CompareCommandOptions(null, opts.RunId)
             {
                 DisableAnalysis = opts.DisableAnalysis,
-                AnalysesFile = string.IsNullOrEmpty(opts.AnalysesFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(opts.AnalysesFile),
+                AnalysesFile = ruleFile,
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
                 RunScripts = opts.RunScripts
             };
@@ -883,7 +916,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     watch = Stopwatch.StartNew();
                     var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
                     var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
-                    var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.GetRules());
+                    var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.Rules);
+                    var analysesHash = opts.AnalysesFile.GetHash();
                     OAT.Utils.Strings.Setup();
                     OAT.Utils.Helpers.PrintViolations(violations);
                     if (violations.Any())
@@ -910,7 +944,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                         res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                         res.Analysis = res.Rules.Count
                                                        > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.DefaultLevels[res.ResultType];
-                                        res.AnalysesHash = opts.AnalysesFile.GetHash();
+                                        res.AnalysesHash = analysesHash;
                                     });
                                 }
                             }
