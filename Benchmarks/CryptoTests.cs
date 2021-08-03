@@ -13,7 +13,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
     public class CryptoTests : AsaDatabaseBenchmark
     {
         public CryptoTests()
-#nullable restore
         {
         }
 
@@ -21,9 +20,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         [Params(100000)]
         public int N { get; set; }
 
+        // The number of iterations per run
+        [Params(1000)]
+        public int NumObjects { get; set; }
+
         // The amount of padding to add to the object in bytes Default size is approx 530 bytes serialized
         // Does not include SQL overhead
-        [Params(0)]
+        [Params(1000)]
         public int ObjectPadding { get; set; }
 
         [Benchmark]
@@ -31,10 +34,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         {
             for (int i = 0; i < N; i++)
             {
-                hashObjects.TryDequeue(out string? result);
-                if (result is string)
+                hashObjects.TryDequeue(out byte[]? result);
+                if (result is byte[])
                 {
-                    _ = murmur128.ComputeHash(Encoding.UTF8.GetBytes(result));
+                    _ = murmur128.ComputeHash(result);
                     hashObjects.Enqueue(result);
                 }
                 else
@@ -49,10 +52,28 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         {
             for (int i = 0; i < N; i++)
             {
-                hashObjects.TryDequeue(out string? result);
-                if (result is string)
+                hashObjects.TryDequeue(out byte[]? result);
+                if (result is byte[])
                 {
-                    _ = sha256.ComputeHash(Encoding.UTF8.GetBytes(result));
+                    _ = sha256.ComputeHash(result);
+                    hashObjects.Enqueue(result);
+                }
+                else
+                {
+                    Log.Information("The queue is polluted with nulls");
+                }
+            }
+        }
+
+        [Benchmark]
+        public void Generate_N_SHA256Managed_Hashes()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                hashObjects.TryDequeue(out byte[]? result);
+                if (result is byte[])
+                {
+                    _ = sha256managed.ComputeHash(result);
                     hashObjects.Enqueue(result);
                 }
                 else
@@ -67,10 +88,28 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         {
             for (int i = 0; i < N; i++)
             {
-                hashObjects.TryDequeue(out string? result);
-                if (result is string)
+                hashObjects.TryDequeue(out byte[]? result);
+                if (result is byte[])
                 {
-                    _ = sha512.ComputeHash(Encoding.UTF8.GetBytes(result));
+                    _ = sha512.ComputeHash(result);
+                    hashObjects.Enqueue(result);
+                }
+                else
+                {
+                    Log.Information("The queue is polluted with nulls");
+                }
+            }
+        }
+
+        [Benchmark]
+        public void Generate_N_SHA512_Managed_Hashes()
+        {
+            for (int i = 0; i < N; i++)
+            {
+                hashObjects.TryDequeue(out byte[]? result);
+                if (result is byte[])
+                {
+                    _ = sha512managed.ComputeHash(result);
                     hashObjects.Enqueue(result);
                 }
                 else
@@ -83,9 +122,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         [GlobalSetup]
         public void GlobalSetup()
         {
-            while (hashObjects.Count < N)
+            while (hashObjects.Count < NumObjects)
             {
-                hashObjects.Enqueue(JsonConvert.SerializeObject(GetRandomObject(ObjectPadding)));
+                hashObjects.Enqueue(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(GetRandomObject(ObjectPadding))));
             }
         }
 
@@ -93,9 +132,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
 
         private static readonly HashAlgorithm sha256 = SHA256.Create();
 
+        private static readonly HashAlgorithm sha256managed = SHA256Managed.Create();
+
         private static readonly HashAlgorithm sha512 = SHA512.Create();
 
-        private readonly ConcurrentQueue<string> hashObjects = new ConcurrentQueue<string>();
-#nullable disable
+        private static readonly HashAlgorithm sha512managed = SHA512Managed.Create();
+
+        private readonly ConcurrentQueue<byte[]> hashObjects = new ConcurrentQueue<byte[]>();
     }
 }

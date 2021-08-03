@@ -10,6 +10,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
     public static class CryptoHelpers
     {
+        /// <summary>
+        /// Perform a hash of a string.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static string CreateHash(string input)
         {
             try
@@ -21,19 +26,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 Log.Warning(e, Strings.Get("Err_CreateHash"), input is null ? "null string" : $"'{input}'");
                 return string.Empty;
-            }
-        }
-
-        public static byte[] CreateHash(byte[] input)
-        {
-            try
-            {
-                return sha512.ComputeHash(input);
-            }
-            catch (CryptographicException e)
-            {
-                Log.Warning(e, Strings.Get("Err_CreateHash"), "bytes");
-                return Array.Empty<byte>();
             }
         }
 
@@ -76,7 +68,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
 
-        // These are not intended to be cryptographically secure hashes These are used as a uniqueness check
         private static readonly HashAlgorithm sha512 = SHA512Managed.Create();
     }
 }
