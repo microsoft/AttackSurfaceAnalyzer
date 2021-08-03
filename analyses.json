@@ -57,11 +57,8 @@
         },
         {
           "Label": "valid_windows_signature",
-          "Field": "SignatureStatus",
-          "Operation": "Equals",
-          "Data": [
-            "Valid"
-          ]
+          "Field": "SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
         },
         {
           "Label": "null_mac_signature",
@@ -88,11 +85,8 @@
         },
         {
           "Label": "valid_windows_signature",
-          "Field": "FileSystemObject.SignatureStatus",
-          "Operation": "Equals",
-          "Data": [
-            "Valid"
-          ]
+          "Field": "FileSystemObject.SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
         },
         {
           "Label": "null_mac_signature",

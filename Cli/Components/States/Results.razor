@@ -22,28 +22,28 @@
 
 @if (pageCount > 0)
 {
-<p>@foundResultTypes[(RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType)] results found for type @SelectedResultType.</p>
-<nav aria-label="Paged results navigation">
-    <ul class="pagination">
-        <li class="page-item">
-            <a class="page-link page-step" aria-label="Previous page" @onclick="() => GetResultsPageByOffset(-1)">
-                <span aria-hidden="true">&lt;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        @for (int i = 1; i <= pageCount; i++)
-        {
-            var pageNum = i;
-            <li class="page-item @GetPageState(i)"><a class="page-link" aria-label="Page-@pageNum" @onclick="() => GetResultsPage(pageNum)">@pageNum</a></li>
-        }
-        <li class="page-item">
-            <a class="page-link page-step" aria-label="Next page" @onclick="() => GetResultsPageByOffset(1)">
-                <span aria-hidden="true">&gt;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+    <p>@foundResultTypes[(RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), SelectedResultType)] results found for type @SelectedResultType.</p>
+    <nav aria-label="Paged results navigation">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link page-step" aria-label="Previous page" @onclick="() => GetResultsPageByOffset(-1)">
+                    <span aria-hidden="true">&lt;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= pageCount; i++)
+            {
+                var pageNum = i;
+                <li class="page-item @GetPageState(i)"><a class="page-link" aria-label="Page-@pageNum" @onclick="() => GetResultsPage(pageNum)">@pageNum</a></li>
+            }
+            <li class="page-item">
+                <a class="page-link page-step" aria-label="Next page" @onclick="() => GetResultsPageByOffset(1)">
+                    <span aria-hidden="true">&gt;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     @for (int i = 0; i < analysisResults.Count; i++)
     {
@@ -67,15 +67,19 @@ else
 }
 
 @code {
+    string _firstRunId = string.Empty;
+    string _secondRundId = string.Empty;
+    string _analysesHash = string.Empty;
+    string _monitorRunId = string.Empty;
 
     [Parameter]
-    public string FirstRunId { get; set; } = string.Empty;
+    public string FirstRunId { get { return _firstRunId; } set { _firstRunId = value; OnInitialized(); } }
     [Parameter]
-    public string SecondRunId { get; set; } = string.Empty;
+    public string SecondRunId { get { return _secondRundId; } set { _secondRundId = value; OnInitialized(); } }
     [Parameter]
-    public string AnalysesHash { get; set; } = string.Empty;
+    public string AnalysesHash { get { return _analysesHash; } set { _analysesHash = value; OnInitialized(); } }
     [Parameter]
-    public string MonitorRunId { get; set; } = string.Empty;
+    public string MonitorRunId { get { return _monitorRunId; } set { _monitorRunId = value; OnInitialized(); } }
 
     protected override void OnInitialized()
     {

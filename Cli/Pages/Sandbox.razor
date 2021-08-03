@@ -46,7 +46,6 @@
                     }
                 </select>
                 <button class="btn btn-primary mr-2" @onclick="RemoveLastObject" disabled=@removeDisabled>Remove Last Object</button>
-                <button class="btn btn-primary" @onclick="RefreshState">Re-Run Rules</button>
             </div>
             <div class="form-group">
                 @if (ParseErrors.Any())
@@ -90,14 +89,18 @@
 
             @for (int i = 0; i < AppState.TestObjects.Count; i++)
             {
-                var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]);
+                var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]).ToList();
                 <div>
-                    <span>@results.Count() rules applied.</span>
-                    @foreach (var result in results)
+                    <div><span>@results.Count rules applied</span></div>
+                    
+                    @for (int j = 0; j < results.Count; j++)
                     {
-                        <b>@result.Name</b>
+                        <div>
+                            <b>@results[j].Name</b>: @results[j].Description
+                        </div>
                     }
-                    <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" />
+
+                    <ObjectInput id="@i.ToString()" Object="@AppState.TestObjects[i]" Collapsable="true" onChangeAction="RefreshPage" />
                 </div>
             }
         </div>

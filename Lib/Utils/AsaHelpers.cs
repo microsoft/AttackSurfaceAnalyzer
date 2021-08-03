@@ -21,8 +21,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             var dict = new Dictionary<string, string>();
 
             dict["compare-version"] = GetVersionString();
-            dict["compare-os"] = GetOsName();
-            dict["compare-osversion"] = GetOsVersion();
+            dict["compare-os"] = GetOsName().Trim();
+            dict["compare-osversion"] = GetOsVersion().Trim();
 
             return dict;
         }

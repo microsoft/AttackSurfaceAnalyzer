@@ -4,6 +4,22 @@ html, body {
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
+.object-properties {
+    padding-left: 20px;
+}
+
+.object-fields {
+    padding-left: 20px;
+}
+
+label.prop-name {
+    font-weight: 600;
+}
+
+label.field-name {
+    font-weight: 600;
+}
+
 a {
     color: #fff;
 }
