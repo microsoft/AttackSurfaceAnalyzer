@@ -6,7 +6,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
     {
         public static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<InsertTestsWithoutTransactions>();
+            var summary = BenchmarkRunner.Run<CryptoTests>();
         }
     }
 }
