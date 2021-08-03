@@ -753,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html",
-          "hash": "5AsC+o6p25Gq8PrDyXKFR12O2A6mjpX5i0ydWe+yMBY="
+          "hash": "ScUl0IZUB9PbCx65I+5FnGOQ6xKa5lQXKnzhoDa8wIs="
         }
       },
       "is_incremental": false,
@@ -1101,7 +1101,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html",
-          "hash": "vIEwkLik10FD+Vg8skAZ60eiD+Mfeb4mcX3IRhkRxcU="
+          "hash": "r6+8gftNFxBApa81Htwaa0vLcCZKRiDSLWD0XGPu7qE="
         }
       },
       "is_incremental": false,
