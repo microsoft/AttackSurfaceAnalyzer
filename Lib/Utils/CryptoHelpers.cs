@@ -77,6 +77,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
 
         // These are not intended to be cryptographically secure hashes These are used as a uniqueness check
-        private static readonly HashAlgorithm sha512 = SHA512.Create();
+        private static readonly HashAlgorithm sha512 = SHA512Managed.Create();
     }
 }
