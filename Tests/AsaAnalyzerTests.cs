@@ -28,7 +28,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var analyzer = new AsaAnalyzer();
             var ruleFile = RuleFile.LoadEmbeddedFilters();
-            Assert.IsTrue(!analyzer.EnumerateRuleIssues(ruleFile.GetRules()).Any());
+            Assert.IsTrue(!analyzer.EnumerateRuleIssues(ruleFile.Rules).Any());
         }
 
         [TestMethod]
@@ -61,13 +61,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
             var opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = true };
 
-            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { Rules = new AsaRule[] { andRule } });
+            var ruleFile = new RuleFile(new AsaRule[] { andRule });
+            var results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, ruleFile);
 
             Assert.IsTrue(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
 
             opts = new CompareCommandOptions(null, "SecondRun") { ApplySubObjectRulesToMonitor = false };
 
-            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, new RuleFile() { Rules = new AsaRule[] { andRule } });
+            results = AttackSurfaceAnalyzerClient.AnalyzeMonitored(opts, analyzer, new MonitorObject[] { testPathOneObject }, ruleFile);
 
             Assert.IsFalse(results.Any(x => x.Value.Any(y => y.Identity == testPathOneObject.Identity && y.Rules.Contains(andRule))));
         }
@@ -75,18 +76,5 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         private const string TestPathOne = "TestPath1";
 
         private readonly FileMonitorObject testPathOneObject = new FileMonitorObject(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } };
-
-        private Analyzer GetAnalyzerForRule(AsaRule rule)
-        {
-            var file = new RuleFile()
-            {
-                Rules = new List<AsaRule>()
-                {
-                    rule
-                }
-            };
-
-            return new AsaAnalyzer();
-        }
     }
 }
