@@ -6568,15 +6568,24 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile()
   nameWithType: RuleFile.RuleFile()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{List{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}})
-  name: RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<List<AsaRule>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Nullable_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE___System_Nullable_List_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{List{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}})
-  name.vb: RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of List(Of AsaRule)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable<Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>>, System.Nullable<List<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable(Of Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)), System.Nullable(Of List(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule)))
-  nameWithType: RuleFile.RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<List<AsaRule>>)
-  nameWithType.vb: RuleFile.RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of List(Of AsaRule)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}},System.Nullable{System.String})
+  name: RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<IEnumerable<AsaRule>>, Nullable<String>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Nullable_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE___System_Nullable_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule___System_Nullable_System_String__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}},System.Nullable{System.String})
+  name.vb: RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of IEnumerable(Of AsaRule)), Nullable(Of String))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable<Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>>, System.Nullable<IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>>, System.Nullable<System.String>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable(Of Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)), System.Nullable(Of IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule)), System.Nullable(Of System.String))
+  nameWithType: RuleFile.RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<IEnumerable<AsaRule>>, Nullable<String>)
+  nameWithType.vb: RuleFile.RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of IEnumerable(Of AsaRule)), Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}})
+  name: RuleFile(Nullable<IEnumerable<AsaRule>>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Nullable_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule___
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}})
+  name.vb: RuleFile(Nullable(Of IEnumerable(Of AsaRule)))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable<IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable(Of IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule)))
+  nameWithType: RuleFile.RuleFile(Nullable<IEnumerable<AsaRule>>)
+  nameWithType.vb: RuleFile.RuleFile(Nullable(Of IEnumerable(Of AsaRule)))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor*
   name: RuleFile
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_
@@ -6626,15 +6635,15 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile
   nameWithType: RuleFile.FromFile
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream})
-  name: FromStream(Nullable<Stream>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_System_Nullable_Stream__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream})
-  name.vb: FromStream(Nullable(Of Stream))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable<Stream>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable(Of Stream))
-  nameWithType: RuleFile.FromStream(Nullable<Stream>)
-  nameWithType.vb: RuleFile.FromStream(Nullable(Of Stream))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream},System.Nullable{System.String})
+  name: FromStream(Nullable<Stream>, Nullable<String>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_System_Nullable_Stream__System_Nullable_System_String__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream},System.Nullable{System.String})
+  name.vb: FromStream(Nullable(Of Stream), Nullable(Of String))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable<Stream>, System.Nullable<System.String>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable(Of Stream), System.Nullable(Of System.String))
+  nameWithType: RuleFile.FromStream(Nullable<Stream>, Nullable<String>)
+  nameWithType.vb: RuleFile.FromStream(Nullable(Of Stream), Nullable(Of String))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream*
   name: FromStream
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_
@@ -6655,32 +6664,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetHash
   nameWithType: RuleFile.GetHash
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRules
-  name: GetRules()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetRules
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRules
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRules()
-  nameWithType: RuleFile.GetRules()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRules*
-  name: GetRules
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetRules_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRules
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRules
-  nameWithType: RuleFile.GetRules
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRulesForPlatform(Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM)
-  name: GetRulesForPlatform(PLATFORM)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetRulesForPlatform_Microsoft_CST_AttackSurfaceAnalyzer_Types_PLATFORM_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRulesForPlatform(Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRulesForPlatform(Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM)
-  nameWithType: RuleFile.GetRulesForPlatform(PLATFORM)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRulesForPlatform*
-  name: GetRulesForPlatform
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetRulesForPlatform_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRulesForPlatform
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetRulesForPlatform
-  nameWithType: RuleFile.GetRulesForPlatform
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.LoadEmbeddedFilters
   name: LoadEmbeddedFilters()
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_LoadEmbeddedFilters
@@ -11111,15 +11094,6 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
   nameWithType: CryptoHelpers.CreateHash(Stream)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte[])
-  name: CreateHash(Byte[])
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_Byte___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte[])
-  name.vb: CreateHash(Byte())
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte[])
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.Byte())
-  nameWithType: CryptoHelpers.CreateHash(Byte[])
-  nameWithType.vb: CryptoHelpers.CreateHash(Byte())
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.String)
   name: CreateHash(String)
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_String_
