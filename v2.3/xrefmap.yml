@@ -6593,19 +6593,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile
   nameWithType: RuleFile.RuleFile
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels
-  name: DefaultLevels
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevels
-  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels
-  nameWithType: RuleFile.DefaultLevels
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels*
-  name: DefaultLevels
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevels_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel
+  name: DefaultLevel
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevel
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel
+  nameWithType: RuleFile.DefaultLevel
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel*
+  name: DefaultLevel
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevel_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel
   isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels
-  nameWithType: RuleFile.DefaultLevels
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel
+  nameWithType: RuleFile.DefaultLevel
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DumpFilters
   name: DumpFilters()
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DumpFilters
@@ -6651,6 +6651,32 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream
   nameWithType: RuleFile.FromStream
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  name: GetDefaultLevel(RESULT_TYPE)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevel_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  nameWithType: RuleFile.GetDefaultLevel(RESULT_TYPE)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel*
+  name: GetDefaultLevel
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevel_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel
+  nameWithType: RuleFile.GetDefaultLevel
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels
+  name: GetDefaultLevels()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevels
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels()
+  nameWithType: RuleFile.GetDefaultLevels()
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels*
+  name: GetDefaultLevels
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevels_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels
+  nameWithType: RuleFile.GetDefaultLevels
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetHash
   name: GetHash()
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetHash
@@ -6690,6 +6716,35 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.Rules
   nameWithType: RuleFile.Rules
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)
+  name: SetDefaultLevel(RESULT_TYPE, ANALYSIS_RESULT_TYPE)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevel_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)
+  nameWithType: RuleFile.SetDefaultLevel(RESULT_TYPE, ANALYSIS_RESULT_TYPE)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel*
+  name: SetDefaultLevel
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevel_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel
+  nameWithType: RuleFile.SetDefaultLevel
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})
+  name: SetDefaultLevels(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})
+  name.vb: SetDefaultLevels(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE))
+  nameWithType: RuleFile.SetDefaultLevels(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>)
+  nameWithType.vb: RuleFile.SetDefaultLevels(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels*
+  name: SetDefaultLevels
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels
+  nameWithType: RuleFile.SetDefaultLevels
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.Source
   name: Source
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_Source

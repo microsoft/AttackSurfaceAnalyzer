@@ -184,19 +184,19 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevels.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevel.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L58">View Source</a>
   </span>
-  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevels_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevels" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevels">DefaultLevels</h4>
-  <div class="markdown level1 summary"><p>The Default Levels to apply to objects if there is no corresponding rule.</p>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevel_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DefaultLevel" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DefaultLevel">DefaultLevel</h4>
+  <div class="markdown level1 summary"><p>The default level to use when there is nothing specified.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Dictionary&lt;RESULT_TYPE, ANALYSIS_RESULT_TYPE&gt; DefaultLevels { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public ANALYSIS_RESULT_TYPE DefaultLevel { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -208,7 +208,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Dictionary</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html">ANALYSIS_RESULT_TYPE</a>&gt;</td>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html">ANALYSIS_RESULT_TYPE</a></td>
         <td></td>
       </tr>
     </tbody>
@@ -227,7 +227,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IEnumerable&lt;AsaRule&gt; Rules { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public List&lt;AsaRule&gt; Rules { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -239,7 +239,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule.html">AsaRule</a>&gt;</td>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule.html">AsaRule</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -282,7 +282,7 @@
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DumpFilters.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DumpFilters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L182">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L201">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DumpFilters_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DumpFilters*"></a>
   <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_DumpFilters" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DumpFilters">DumpFilters()</h4>
@@ -298,7 +298,7 @@
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromFile_System_Nullable_System_String__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.Nullable%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L122">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L141">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromFile_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile*"></a>
   <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromFile_System_Nullable_System_String__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.Nullable{System.String})">FromFile(Nullable&lt;String&gt;)</h4>
@@ -346,7 +346,7 @@
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_System_Nullable_Stream__System_Nullable_System_String__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable%7BStream%7D%2CSystem.Nullable%7BSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L83">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L102">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream*"></a>
   <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_System_Nullable_Stream__System_Nullable_System_String__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream},System.Nullable{System.String})">FromStream(Nullable&lt;Stream&gt;, Nullable&lt;String&gt;)</h4>
@@ -398,10 +398,88 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevel_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L65">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevel_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevel_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)">GetDefaultLevel(RESULT_TYPE)</h4>
+  <div class="markdown level1 summary"><p>Get the default level for a result type</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ANALYSIS_RESULT_TYPE GetDefaultLevel(RESULT_TYPE resultType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a></td>
+        <td><span class="parametername">resultType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html">ANALYSIS_RESULT_TYPE</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevels.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L70">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevels_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetDefaultLevels" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetDefaultLevels">GetDefaultLevels()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;RESULT_TYPE, ANALYSIS_RESULT_TYPE&gt; GetDefaultLevels()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html">ANALYSIS_RESULT_TYPE</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetHash.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetHash%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L115">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L134">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetHash_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetHash*"></a>
   <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_GetHash" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.GetHash">GetHash()</h4>
@@ -432,7 +510,7 @@
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_LoadEmbeddedFilters.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.LoadEmbeddedFilters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L155">View Source</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L174">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_LoadEmbeddedFilters_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.LoadEmbeddedFilters*"></a>
   <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_LoadEmbeddedFilters" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.LoadEmbeddedFilters">LoadEmbeddedFilters()</h4>
@@ -454,6 +532,77 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html">RuleFile</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevel_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L86">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevel_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevel_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel(Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)">SetDefaultLevel(RESULT_TYPE, ANALYSIS_RESULT_TYPE)</h4>
+  <div class="markdown level1 summary"><p>Set the default level for a specific result type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetDefaultLevel(RESULT_TYPE resultType, ANALYSIS_RESULT_TYPE analysisResultType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a></td>
+        <td><span class="parametername">resultType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html">ANALYSIS_RESULT_TYPE</a></td>
+        <td><span class="parametername">analysisResultType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary%7BMicrosoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE%2CMicrosoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RuleFile.cs/#L76">View Source</a>
+  </span>
+  <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels*"></a>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})">SetDefaultLevels(Dictionary&lt;RESULT_TYPE, ANALYSIS_RESULT_TYPE&gt;)</h4>
+  <div class="markdown level1 summary"><p>Set the default levels dictionary</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetDefaultLevels(Dictionary&lt;RESULT_TYPE, ANALYSIS_RESULT_TYPE&gt; newDictionary)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Dictionary</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE.html">ANALYSIS_RESULT_TYPE</a>&gt;</td>
+        <td><span class="parametername">newDictionary</span></td>
         <td></td>
       </tr>
     </tbody>
