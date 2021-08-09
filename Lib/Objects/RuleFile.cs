@@ -23,7 +23,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>? DefaultLevels = null, IEnumerable<AsaRule>? Rules = null, string? Source = null)
         {
             this.DefaultLevels = DefaultLevels ?? this.DefaultLevels;
-            this.Rules = Rules ?? new List<AsaRule>();
+            this.Rules = Rules?.ToList() ?? new List<AsaRule>();
             this.Source = Source;
         }
 
@@ -50,29 +50,48 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// The List of Rules
         /// </summary>
-        public IEnumerable<AsaRule> Rules { get; set; } = new List<AsaRule>();
+        public List<AsaRule> Rules { get; set; } = new List<AsaRule>();
+
+        /// <summary>
+        /// The default level to use when there is nothing specified.
+        /// </summary>
+        public ANALYSIS_RESULT_TYPE DefaultLevel { get; set; } = ANALYSIS_RESULT_TYPE.INFORMATION;
+
+        /// <summary>
+        /// Get the default level for a result type
+        /// </summary>
+        /// <param name="resultType"></param>
+        /// <returns></returns>
+        public ANALYSIS_RESULT_TYPE GetDefaultLevel(RESULT_TYPE resultType)
+        {
+            return DefaultLevels.ContainsKey(resultType) ? DefaultLevels[resultType] : DefaultLevel;
+        }
+
+        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> GetDefaultLevels() => DefaultLevels;
+
+        /// <summary>
+        /// Set the default levels dictionary
+        /// </summary>
+        /// <param name="newDictionary"></param>
+        public void SetDefaultLevels(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> newDictionary)
+        {
+            DefaultLevels = newDictionary;
+        }
+
+        /// <summary>
+        /// Set the default level for a specific result type.
+        /// </summary>
+        /// <param name="resultType"></param>
+        /// <param name="analysisResultType"></param>
+        public void SetDefaultLevel(RESULT_TYPE resultType, ANALYSIS_RESULT_TYPE analysisResultType)
+        {
+            DefaultLevels[resultType] = analysisResultType;
+        }
 
         /// <summary>
         /// The Default Levels to apply to objects if there is no corresponding rule.
         /// </summary>
-        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; set; } = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>()
-        {
-            { RESULT_TYPE.CERTIFICATE, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.FILE, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.PORT, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.REGISTRY, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.SERVICE, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.USER, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.UNKNOWN, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.GROUP, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.COM, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.LOG, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.KEY, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.TPM, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.PROCESS, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.DRIVER, ANALYSIS_RESULT_TYPE.INFORMATION },
-            { RESULT_TYPE.FILEMONITOR, ANALYSIS_RESULT_TYPE.INFORMATION }
-        };
+        Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels { get; set; } = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
 
         /// <summary>
         /// Generate a RuleFile from a given stream containing a serialized RuleFile.

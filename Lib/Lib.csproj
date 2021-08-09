@@ -37,7 +37,7 @@
     <PackageReference Include="MedallionShell" Version="1.6.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.10.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.10.0" />
-    <PackageReference Include="Microsoft.CST.OAT" Version="1.0.99" />
+    <PackageReference Include="Microsoft.CST.OAT" Version="1.1.2" />
     <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="1.1.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.73.0" />
@@ -64,11 +64,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="WindowsFirewallHelper" Version="2.0.2.29-beta1" />
+    <PackageReference Include="WindowsFirewallHelper" Version="2.1.4.81" />
     <PackageReference Include="CommandLineParser" Version="2.8.0" />
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="Microsoft.TSS" Version="2.1.1" />
-    <PackageReference Include="PeNet" Version="2.6.3" />
+    <PackageReference Include="PeNet" Version="2.6.4" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\analyses.json" Link="analyses.json" />

@@ -28,7 +28,7 @@
         <button class="btn btn-primary" @onclick="LoadDefaultRules">Load Embedded Rules</button>
     </div>
 
-    @foreach (var rule in AppState.Rules)
+    @foreach (var rule in AppState.RulesFile.Rules)
     {
         <div>
             @if (issues.ContainsKey(rule))
@@ -60,11 +60,11 @@
 
     void ClearRules()
     {
-        AppState.Rules.Clear();
+        AppState.RulesFile.Rules.Clear();
         this.StateHasChanged();
     }
 
-    public bool removeDisabled => AppState.Rules.Count == 0;
+    public bool removeDisabled => AppState.RulesFile.Rules.Count == 0;
 
     Func<Stream, Task> LoadRules;
 
@@ -75,9 +75,7 @@
 
     public void LoadDefaultRules()
     {
-        var filters = RuleFile.LoadEmbeddedFilters();
-        AppState.DefaultLevels = filters.DefaultLevels;
-        AppState.Rules = filters.Rules.ToList();
+        AppState.RulesFile = RuleFile.LoadEmbeddedFilters();
         ValidateRules();
     }
 
@@ -87,7 +85,7 @@
             "FileSaveAs",
             "Asa-Rules.json",
             "data:text/plain;charset=utf-8,",
-            Newtonsoft.Json.JsonConvert.SerializeObject(AppState.Rules)
+            Newtonsoft.Json.JsonConvert.SerializeObject(AppState.RulesFile.Rules)
         );
     }
 
@@ -103,8 +101,7 @@
             {
                 using var sr = new StreamReader(stream);
                 var RulesFile = Newtonsoft.Json.JsonConvert.DeserializeObject<RuleFile>(await sr.ReadToEndAsync());
-                AppState.Rules = RulesFile.Rules.ToList();
-                AppState.DefaultLevels = RulesFile.DefaultLevels;
+                AppState.RulesFile = RulesFile ?? new RuleFile();
             }
             catch (OperationCanceledException)
             {
@@ -137,7 +134,7 @@
     void ValidateRules()
     {
         issues.Clear();
-        foreach (var rule in AppState.Rules)
+        foreach (var rule in AppState.RulesFile.Rules)
         {
             issues[rule] = analyzer.EnumerateRuleIssues(rule);
         }
@@ -146,16 +143,16 @@
 
     void RemoveLastRule()
     {
-        if (AppState.Rules.Count > 0)
+        if (AppState.RulesFile.Rules.Count > 0)
         {
-            AppState.Rules.RemoveAt(AppState.Rules.Count - 1);
+            AppState.RulesFile.Rules.RemoveAt(AppState.RulesFile.Rules.Count - 1);
         }
         ValidateRules();
     }
 
     void AddRule()
     {
-        AppState.Rules.Add(new AsaRule("Rule Name Here"));
+        AppState.RulesFile.Rules.Add(new AsaRule("Rule Name Here"));
         ValidateRules();
     }
 }

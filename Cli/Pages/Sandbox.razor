@@ -89,7 +89,7 @@
 
             @for (int i = 0; i < AppState.TestObjects.Count; i++)
             {
-                var results = analyzer.Analyze(AppState.Rules, AppState.TestObjects[i]).ToList();
+                var results = analyzer.Analyze(AppState.RulesFile.Rules, AppState.TestObjects[i]).ToList();
                 <div>
                     <div><span>@results.Count rules applied</span></div>
                     
@@ -174,7 +174,7 @@
                                     var ctorFailed = false;
                                     foreach (var param in ctor.GetParameters())
                                     {
-                                        if (!Helpers.ConstructedOfLoadedTypes(param.ParameterType, Assemblies))
+                                        if (!Helpers.ConstructedOfLoadedTypes(param.ParameterType))
                                         {
                                             ctorFailed = true;
                                             break;
@@ -289,7 +289,8 @@
                 ScaffoldedObject = new Scaffold(constructors[value]);
                 if (constructors[value].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
+                    var certLoc = ScaffoldedObject.Parameters.IndexOf(ScaffoldedObject.Parameters.First(x => x.name == "Certificate"));
+                    ScaffoldedObject.Parameters[certLoc] = ("Certificate", new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -309,10 +310,11 @@
             if (constructors.Any())
             {
                 var constructorToUse = constructors[constructorToInvoke];
-                ScaffoldedObject = new Scaffold(constructorToUse, Assemblies);
+                ScaffoldedObject = new Scaffold(constructorToUse);
                 if (constructors[constructorToInvoke].DeclaringType == typeof(CertificateObject))
                 {
-                    ScaffoldedObject.Parameters["Certificate"] = (new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
+                    var certLoc = ScaffoldedObject.Parameters.IndexOf(ScaffoldedObject.Parameters.First(x => x.name == "Certificate"));
+                    ScaffoldedObject.Parameters[certLoc] = ("Certificate", new Scaffold(typeof(SerializableCertificate).GetConstructors().Where(x => x.GetParameters().Count() > 1).First()), typeof(SerializableCertificate));
                 }
             }
             RefreshState();
@@ -334,7 +336,7 @@
     {
         UpdateTypes();
         SetLoadSandbox();
-        var results = analyzer.Analyze(AppState.Rules);
+        var results = analyzer.Analyze(AppState.RulesFile.Rules);
         await base.OnInitializedAsync();
     }
 
@@ -353,7 +355,7 @@
                 var constructors = type.GetConstructors(BindingFlags.Instance | BindingFlags.Public);
                 foreach (var constructorItr in constructors)
                 {
-                    if (Helpers.ConstructedOfLoadedTypes(constructorItr, Assemblies))
+                    if (Helpers.ConstructedOfLoadedTypes(constructorItr))
                     {
                         allowedConstructors.Add(constructorItr);
                     }
