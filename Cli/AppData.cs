@@ -33,8 +33,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
         }
 
-        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> DefaultLevels = new Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>();
-        public List<AsaRule> Rules { get; set; } = new List<AsaRule>();
+        public RuleFile RulesFile { get; set; } = new RuleFile();
         public List<CollectObject> TestObjects { get; set; } = new List<CollectObject>();
 
         public string RunId { get; set; } = string.Empty;
