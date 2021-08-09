@@ -5,6 +5,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -14,6 +15,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
     {
         public static RegistryObject? RegistryKeyToRegistryObject(RegistryKey key, RegistryView registryView)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             if (key == null)
             {
                 return null;
@@ -63,8 +68,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public static IEnumerable<string> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             Stack<string> keys = new Stack<string>();
-
             RegistryKey? BaseKey = null;
             try
             {
@@ -88,7 +96,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var key = keys.Pop();
                     try
                     {
-                        RegistryKey currentKey = BaseKey.OpenSubKey(key);
+                        RegistryKey? currentKey = BaseKey.OpenSubKey(key);
 
                         if (currentKey != null)
                         {

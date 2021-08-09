@@ -150,16 +150,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 try
                 {
                     XElement wifiDump = XElement.Load(path);
-                    var name = wifiDump.Descendants().Where(x => x.Name.LocalName == "name").FirstOrDefault().Value;
-
-                    if (name != null)
+                    if (wifiDump != null)
                     {
-                        HandleChange(new WifiObject(name)
+                        var name = wifiDump.Descendants().Where(x => x.Name.LocalName == "name").FirstOrDefault()?.Value;
+
+                        if (name != null)
                         {
-                            Password = wifiDump.Descendants().Where(x => x.Name.LocalName == "keyMaterial").FirstOrDefault()?.Value,
-                            Authentication = wifiDump.Descendants().Where(x => x.Name.LocalName == "authentication").FirstOrDefault().Value,
-                            Encryption = wifiDump.Descendants().Where(x => x.Name.LocalName == "encryption").FirstOrDefault().Value
-                        });
+                            HandleChange(new WifiObject(name)
+                            {
+                                Password = wifiDump.Descendants().Where(x => x.Name.LocalName == "keyMaterial").FirstOrDefault()?.Value,
+                                Authentication = wifiDump.Descendants().Where(x => x.Name.LocalName == "authentication").FirstOrDefault()?.Value,
+                                Encryption = wifiDump.Descendants().Where(x => x.Name.LocalName == "encryption").FirstOrDefault()?.Value
+                            });
+                        }
                     }
                 }
                 catch (Exception e)

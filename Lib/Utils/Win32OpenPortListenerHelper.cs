@@ -116,7 +116,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                                 }
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
                         }
@@ -139,11 +139,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         {
             try
             {
-                return Process.GetProcessById(ProcessId).MainModule.FileName;
+                return Process.GetProcessById(ProcessId).MainModule?.FileName ?? string.Empty;
             }
             catch
             {
-                return "";
+                return string.Empty;
             }
         }
     }

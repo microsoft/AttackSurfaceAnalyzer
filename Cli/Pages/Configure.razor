@@ -33,21 +33,21 @@
 
     public int SelectedCompareRun { get; set; }
 
-    public List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
+    public List<string> Runs = AttackSurfaceAnalyzerClient.DatabaseManager?.GetRuns() ?? new List<string>();
 
-    public List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> CompareRuns = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
+    public List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> CompareRuns = AttackSurfaceAnalyzerClient.DatabaseManager?.GetCompareRuns() ?? new List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)>();
 
     public void DeleteSelected()
     {
-        AttackSurfaceAnalyzerClient.DatabaseManager.DeleteRun(Runs[SelectedRun]);
-        Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetRuns();
+        AttackSurfaceAnalyzerClient.DatabaseManager?.DeleteRun(Runs[SelectedRun]);
+        Runs = AttackSurfaceAnalyzerClient.DatabaseManager?.GetRuns() ?? new List<string>(); ;
         this.StateHasChanged();
     }
 
     public void DeleteSelectedCompare()
     {
-        AttackSurfaceAnalyzerClient.DatabaseManager.DeleteCompareRun(CompareRuns[SelectedCompareRun].firstRunId, CompareRuns[SelectedCompareRun].secondRunId, CompareRuns[SelectedCompareRun].analysesHash);
-        CompareRuns = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
+        AttackSurfaceAnalyzerClient.DatabaseManager?.DeleteCompareRun(CompareRuns[SelectedCompareRun].firstRunId, CompareRuns[SelectedCompareRun].secondRunId, CompareRuns[SelectedCompareRun].analysesHash);
+        CompareRuns = AttackSurfaceAnalyzerClient.DatabaseManager?.GetCompareRuns() ?? new List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)>();
         this.StateHasChanged();
     }
 }

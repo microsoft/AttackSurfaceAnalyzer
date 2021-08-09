@@ -60,7 +60,7 @@
             <Analyzing />
             break;
         case PageState.Results:
-            <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
+            <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
             break;
         case PageState.Error:
             <p>An Error Occured while collecting.</p>
@@ -107,7 +107,7 @@
         pageState = PageState.MonitorFlushing;
         this.StateHasChanged();
         AttackSurfaceAnalyzerClient.StopMonitors();
-        while (AttackSurfaceAnalyzerClient.DatabaseManager.HasElements)
+        while (AttackSurfaceAnalyzerClient.DatabaseManager?.HasElements ?? false)
         {
             Thread.Sleep(1);
         }
@@ -122,7 +122,7 @@
         pageState = PageState.Results;
     }
 
-    System.Threading.Timer timer;
+    System.Threading.Timer timer = new Timer((_) => { }, null, int.MaxValue, Timeout.Infinite);
 
     async Task<ASA_ERROR> BeginScan()
     {

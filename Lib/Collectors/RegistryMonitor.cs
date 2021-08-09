@@ -27,6 +27,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public void MyOnEntryWritten(object source, EntryWrittenEventArgs e)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             if (e != null)
             {
                 Log.Information(e.Entry.Source);
@@ -35,6 +39,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public override void StartRun()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             // backup the current auditpolicy
             ExternalCommandRunner.RunExternalCommand("auditpol", $"/backup /file:{tmpFileName}");
 
@@ -48,6 +56,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public override void StopRun()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             // restore the old auditpolicy
             ExternalCommandRunner.RunExternalCommand("auditpol", $"/restore /file:{tmpFileName}");
 
