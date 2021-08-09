@@ -163,6 +163,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             try
             {
                 SelectQuery sQuery = new SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
@@ -214,6 +218,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         private static string? TryGetPropertyValue(ManagementObject mo, string propertyName)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             string? val = null;
             try
             {
@@ -225,6 +233,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         private void ProcessManagementObject(ManagementObject service)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             try
             {
                 if (TryGetPropertyValue(service, "Name") is string name)

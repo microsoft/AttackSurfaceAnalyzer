@@ -126,7 +126,7 @@
 </div>
 
 @code {
-    Func<Stream, Task> LoadSandbox;
+    Func<Stream, Task> LoadSandbox = (Stream streamIn) => { return new Task(() => { }); };
 
     void ClearSandbox()
     {
@@ -324,7 +324,7 @@
     string _typeToInvoke = string.Empty;
 
     public bool removeDisabled => AppState.TestObjects.Count == 0;
-    public Scaffold ScaffoldedObject;
+    public Scaffold ScaffoldedObject = new Scaffold(typeof(string).GetConstructors()[0]);
 
     int _constructorToInvoke;
 

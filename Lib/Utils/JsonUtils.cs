@@ -105,7 +105,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             var elements = Convert.ToString(value, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index))
+            if (Enum.TryParse(typeof(TpmAlgId), elements?.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements?.Last(), out uint Index))
             {
                 return (Algorithm, Index);
             }

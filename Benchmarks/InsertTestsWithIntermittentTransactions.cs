@@ -71,7 +71,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         public void GlobalCleanup()
         {
             Setup();
-            dbManager.Destroy();
+            dbManager?.Destroy();
         }
 
         [GlobalSetup]
@@ -86,11 +86,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         [IterationCleanup]
         public void IterationCleanup()
         {
-            dbManager.BeginTransaction();
-            dbManager.DeleteRun("Insert_N_Objects");
-            dbManager.Commit();
-            dbManager.Vacuum();
-            dbManager.CloseDatabase();
+            if (dbManager != null)
+            {
+                dbManager.BeginTransaction();
+                dbManager.DeleteRun("Insert_N_Objects");
+                dbManager.Commit();
+                dbManager.Vacuum();
+                dbManager.CloseDatabase();
+            }
         }
 
         [IterationSetup]
@@ -105,7 +108,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
 
             Insert_X_Objects(StartingSize, ObjectPadding, "PopulateDatabase");
 
-            dbManager.CloseDatabase();
+            dbManager?.CloseDatabase();
         }
 
         public void Setup()
@@ -119,6 +122,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
             dbManager.Setup();
         }
 
-        private static DatabaseManager dbManager;
+        private static DatabaseManager? dbManager;
     }
 }

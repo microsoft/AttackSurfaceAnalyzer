@@ -44,7 +44,7 @@
 
     PageState pageState = PageState.Options;
 
-    System.Threading.Timer timer;
+    System.Threading.Timer timer = new Timer((_) => { }, null, int.MaxValue, Timeout.Infinite);
 
     async void BeginScan()
     {

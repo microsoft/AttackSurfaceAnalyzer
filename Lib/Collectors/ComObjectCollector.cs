@@ -36,75 +36,84 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 try
                 {
-                    RegistryKey CurrentKey = SearchKey.OpenSubKey(SubKeyName);
+                    RegistryKey? CurrentKey = SearchKey.OpenSubKey(SubKeyName);
 
-                    var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey, View);
-
-                    if (RegObj != null)
+                    if (CurrentKey is not null)
                     {
-                        ComObject comObject = new ComObject(RegObj);
+                        var RegObj = RegistryWalker.RegistryKeyToRegistryObject(CurrentKey, View);
 
-                        foreach (string ComDetails in CurrentKey.GetSubKeyNames())
+                        if (RegObj != null)
                         {
-                            if (ComDetails.Contains("InprocServer32"))
+                            ComObject comObject = new ComObject(RegObj);
+
+                            foreach (string ComDetails in CurrentKey.GetSubKeyNames())
                             {
-                                var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
-                                string? BinaryPath32 = null;
-
-                                if (obj != null && obj.Values?.TryGetValue("", out BinaryPath32) is bool successful)
+                                if (ComDetails.Contains("InprocServer32"))
                                 {
-                                    if (successful && BinaryPath32 != null)
+                                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
+                                    if (ComKey is not null)
                                     {
-                                        // Clean up cases where some extra spaces are thrown into the start
-                                        // (breaks our permission checker)
-                                        BinaryPath32 = BinaryPath32.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks permission checker)
-                                        if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
-                                        {
-                                            BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
-                                        }
-                                        // Unqualified binary name probably comes from Windows\System32
-                                        if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
-                                        {
-                                            BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
-                                        }
+                                        var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
+                                        string? BinaryPath32 = null;
 
-                                        comObject.x86_Binary = fsc.FilePathToFileSystemObject(BinaryPath32.Trim());
+                                        if (obj != null && obj.Values?.TryGetValue("", out BinaryPath32) is bool successful)
+                                        {
+                                            if (successful && BinaryPath32 != null)
+                                            {
+                                                // Clean up cases where some extra spaces are thrown into the start
+                                                // (breaks our permission checker)
+                                                BinaryPath32 = BinaryPath32.Trim();
+                                                // Clean up cases where the binary is quoted (also breaks permission checker)
+                                                if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
+                                                {
+                                                    BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
+                                                }
+                                                // Unqualified binary name probably comes from Windows\System32
+                                                if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
+                                                {
+                                                    BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
+                                                }
+
+                                                comObject.x86_Binary = fsc.FilePathToFileSystemObject(BinaryPath32.Trim());
+                                            }
+                                        }
+                                    }
+                                }
+                                if (ComDetails.Contains("InprocServer64"))
+                                {
+                                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
+                                    if (ComKey is not null)
+                                    {
+                                        var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
+                                        string? BinaryPath64 = null;
+
+                                        if (obj != null && obj.Values?.TryGetValue("", out BinaryPath64) is bool successful)
+                                        {
+                                            if (successful && BinaryPath64 != null)
+                                            {
+                                                // Clean up cases where some extra spaces are thrown into the start
+                                                // (breaks our permission checker)
+                                                BinaryPath64 = BinaryPath64.Trim();
+                                                // Clean up cases where the binary is quoted (also breaks permission checker)
+                                                if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
+                                                {
+                                                    BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
+                                                }
+                                                // Unqualified binary name probably comes from Windows\System32
+                                                if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
+                                                {
+                                                    BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
+                                                }
+
+                                                comObject.x64_Binary = fsc.FilePathToFileSystemObject(BinaryPath64.Trim());
+                                            }
+                                        }
                                     }
                                 }
                             }
-                            if (ComDetails.Contains("InprocServer64"))
-                            {
-                                var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
-                                string? BinaryPath64 = null;
 
-                                if (obj != null && obj.Values?.TryGetValue("", out BinaryPath64) is bool successful)
-                                {
-                                    if (successful && BinaryPath64 != null)
-                                    {
-                                        // Clean up cases where some extra spaces are thrown into the start
-                                        // (breaks our permission checker)
-                                        BinaryPath64 = BinaryPath64.Trim();
-                                        // Clean up cases where the binary is quoted (also breaks permission checker)
-                                        if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
-                                        {
-                                            BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
-                                        }
-                                        // Unqualified binary name probably comes from Windows\System32
-                                        if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
-                                        {
-                                            BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
-                                        }
-
-                                        comObject.x64_Binary = fsc.FilePathToFileSystemObject(BinaryPath64.Trim());
-                                    }
-                                }
-                            }
+                            comObjects.Add(comObject);
                         }
-
-                        comObjects.Add(comObject);
                     }
                 }
                 catch (Exception e) when (
@@ -163,15 +172,22 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         internal void ParseView(RegistryView view, CancellationToken cancellationToken)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             try
             {
                 // Parse system Com Objects
                 using var SearchKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
-                var CLDIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
-                foreach (var comObj in ParseComObjects(CLDIDs, view, opts.SingleThread))
+                var CLSIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
+                if (CLSIDs is not null)
                 {
-                    if (cancellationToken.IsCancellationRequested) { return; }
-                    HandleChange(comObj);
+                    foreach (var comObj in ParseComObjects(CLSIDs, view, opts.SingleThread))
+                    {
+                        if (cancellationToken.IsCancellationRequested) { return; }
+                        HandleChange(comObj);
+                    }
                 }
             }
             catch (Exception e) when (//lgtm [cs/empty-catch-block]
@@ -192,10 +208,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                     if (subkeyName.EndsWith("Classes"))
                     {
-                        using var ComKey = SearchKey.OpenSubKey(subkeyName).OpenSubKey("CLSID");
-                        foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
+                        using var ComKey = SearchKey.OpenSubKey(subkeyName)?.OpenSubKey("CLSID");
+                        if (ComKey is not null)
                         {
-                            HandleChange(comObj);
+                            foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
+                            {
+                                HandleChange(comObj);
+                            }
                         }
                     }
                 }

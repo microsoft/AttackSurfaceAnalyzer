@@ -31,8 +31,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 case Dictionary<(TpmAlgId, uint), byte[]> algDict:
                     var elements = Convert.ToString(index, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (Enum.TryParse(typeof(TpmAlgId), elements.First(), out object? result) &&
-                        result is TpmAlgId Algorithm && uint.TryParse(elements.Last(), out uint Index) &&
+                    if (Enum.TryParse(typeof(TpmAlgId), elements?.First(), out object? result) &&
+                        result is TpmAlgId Algorithm && uint.TryParse(elements?.Last(), out uint Index) &&
                         algDict.TryGetValue((Algorithm, Index), out byte[]? byteArray))
                     {
                         return (true, byteArray);

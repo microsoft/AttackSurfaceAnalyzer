@@ -19,8 +19,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
     {
         public RegistryCollector(CollectorOptions? opts = null, Action<CollectObject>? changeHandler = null) : base(opts, changeHandler)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             this.opts = opts ?? this.opts;
-            Hives = DefaultHives;
+            Hives = new List<(RegistryHive, string)>()
+            {
+                (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
+            };
             if (opts != null)
             {
                 Parallelize = !opts.SingleThread;
@@ -40,6 +47,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
+
         }
 
         public override bool CanRunOnPlatform()
@@ -49,6 +57,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         internal override void ExecuteInternal(CancellationToken cancellationToken)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("RegistryCollector is only supported on Windows platforms.");
+            }
             foreach (var hive in Hives)
             {
                 Log.Debug("Starting {0}\\{1}", hive.Item1, hive.Item2);
@@ -62,7 +74,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     try
                     {
                         var ourKey = registryView == RegistryView.Registry32 ? BaseKey32.OpenSubKey(keyPath) : BaseKey64.OpenSubKey(keyPath);
-                        regObj = RegistryWalker.RegistryKeyToRegistryObject(ourKey, registryView);
+                        if (ourKey is not null)
+                        {
+                            regObj = RegistryWalker.RegistryKeyToRegistryObject(ourKey, registryView);
+                        }
                     }
                     catch (Exception e)
                     {
@@ -108,10 +123,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
         }
 
-        private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>()
-        {
-            (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
-        };
+        private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>();
 
         private readonly List<(RegistryHive, string)> Hives;
 

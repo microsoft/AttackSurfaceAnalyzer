@@ -23,6 +23,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         /// </exception>
         internal static bool IsUserInAdminGroup()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             bool fInAdminGroup = false;
             SafeTokenHandle? hToken = null;
             SafeTokenHandle? hTokenToCheck = null;
@@ -144,6 +148,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         /// </returns>
         public static bool IsRunAsAdmin()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             WindowsIdentity id = WindowsIdentity.GetCurrent();
             WindowsPrincipal principal = new WindowsPrincipal(id);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
@@ -370,6 +378,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         {
             try
             {
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    throw new PlatformNotSupportedException("IsAdministrator is only supported on Windows platforms.");
+                }
                 using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
                 {
                     WindowsPrincipal principal = new WindowsPrincipal(identity);

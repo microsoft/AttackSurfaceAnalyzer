@@ -32,7 +32,7 @@ else
 
 @code {
 
-    List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager.GetCompareRuns();
+    List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)> Runs = AttackSurfaceAnalyzerClient.DatabaseManager?.GetCompareRuns() ?? new List<(string firstRunId, string secondRunId, string analysesHash, RUN_STATUS runStatus)>();
 
     private int _runIdInput;
 

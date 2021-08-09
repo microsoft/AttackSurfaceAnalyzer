@@ -31,6 +31,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         internal static bool IsHiddenWindowsUser(string username)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             try
             {
                 using var BaseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default);
@@ -38,7 +42,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 var ValueName = SpecialAccounts?.GetValueNames().Where(x => x.ToUpperInvariant().Equals(username.ToUpperInvariant())).FirstOrDefault();
                 if (ValueName != null && SpecialAccounts != null)
                 {
-                    if (SpecialAccounts.GetValue(ValueName).Equals(0x0))
+                    if (SpecialAccounts.GetValue(ValueName)?.Equals(0x0) ?? false)
                     {
                         return true;
                     }
@@ -279,6 +283,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         internal void ExecuteWindows(CancellationToken cancellationToken)
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+            }
             Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
             Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
 
@@ -335,6 +343,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             var args = $"/Node:\"{Environment.MachineName}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{groupName}\\\",domain=\\\"{Environment.MachineName}\\\"\")";
                             List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                             lines_int.RemoveRange(0, 1);
+
+                            groups[$"{Environment.MachineName}\\{groupName}"] = group;
 
                             foreach (string line_int in lines_int)
                             {
@@ -406,7 +416,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                         }
                                     }
                                 }
-                                groups[$"{Environment.MachineName}\\{groupName}"] = group;
                             }
                         }
                     }
