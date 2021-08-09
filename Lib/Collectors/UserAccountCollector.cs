@@ -336,6 +336,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                             lines_int.RemoveRange(0, 1);
 
+                            groups[$"{Environment.MachineName}\\{groupName}"] = group;
+
                             foreach (string line_int in lines_int)
                             {
                                 var userName = line_int.Trim();
@@ -406,7 +408,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                         }
                                     }
                                 }
-                                groups[$"{Environment.MachineName}\\{groupName}"] = group;
                             }
                         }
                     }

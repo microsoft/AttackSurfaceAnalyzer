@@ -515,16 +515,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 var uac = new UserAccountCollector();
                 uac.TryExecute();
 
-                Assert.IsTrue(uac.Results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
 
                 ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-                uac = new UserAccountCollector(changeHandler: x => results.Push(x));
-                uac.TryExecute();
-
-                Assert.IsTrue(results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
-
+                var uac2 = new UserAccountCollector(changeHandler: x => results.Push(x));
+                uac2.TryExecute();
                 cmd = string.Format("user /delete {0}", user);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                Assert.IsTrue(uac.Results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
+                Assert.IsTrue(results.Any(x => x is UserAccountObject y && y.Name.Equals(user)));
             }
         }
 
@@ -545,16 +544,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 var uac = new UserAccountCollector();
                 uac.TryExecute();
 
-                Assert.IsTrue(uac.Results.Any(x => x is GroupAccountObject y && y.Name.Equals(group)));
 
                 ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
-                uac = new UserAccountCollector(changeHandler: x => results.Push(x));
-                uac.TryExecute();
-
-                Assert.IsTrue(results.Any(x => x is GroupAccountObject y && y.Name.Equals(group)));
+                var uac2 = new UserAccountCollector(changeHandler: x => results.Push(x));
+                uac2.TryExecute();
 
                 cmd = string.Format("localgroup /delete {0}", group);
                 ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                Assert.IsTrue(uac.Results.Any(x => x is GroupAccountObject y && y.Name.Equals(group)));
+                Assert.IsTrue(results.Any(x => x is GroupAccountObject y && y.Name.Equals(group)));
             }
         }
 
