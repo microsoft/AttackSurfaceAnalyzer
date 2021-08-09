@@ -529,6 +529,36 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         }
 
         /// <summary>
+        ///     Requires Administrator Priviledges.
+        /// </summary>
+        [TestMethod]
+        public void TestGroupCollectorWindows()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Assert.IsTrue(AsaHelpers.IsAdmin());
+                var group = System.Guid.NewGuid().ToString().Substring(0, 10);
+
+                var cmd = string.Format("localgroup {0} /add", group);
+                ExternalCommandRunner.RunExternalCommand("net", cmd);
+
+                var uac = new UserAccountCollector();
+                uac.TryExecute();
+
+                Assert.IsTrue(uac.Results.Any(x => x is GroupAccountObject y && y.Name.Equals(group)));
+
+                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                uac = new UserAccountCollector(changeHandler: x => results.Push(x));
+                uac.TryExecute();
+
+                Assert.IsTrue(results.Any(x => x is GroupAccountObject y && y.Name.Equals(group)));
+
+                cmd = string.Format("localgroup /delete {0}", group);
+                ExternalCommandRunner.RunExternalCommand("net", cmd);
+            }
+        }
+
+        /// <summary>
         ///     We can't actually guarantee there's any wifi networks on the test system. So we just check
         ///     that it doesn't crash.
         /// </summary>
