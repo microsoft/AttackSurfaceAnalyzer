@@ -23,7 +23,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>? DefaultLevels = null, IEnumerable<AsaRule>? Rules = null, string? Source = null)
         {
             this.DefaultLevels = DefaultLevels ?? this.DefaultLevels;
-            this.Rules = Rules ?? new List<AsaRule>();
+            this.Rules = Rules?.ToList() ?? new List<AsaRule>();
             this.Source = Source;
         }
 
@@ -50,7 +50,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         /// The List of Rules
         /// </summary>
-        public IEnumerable<AsaRule> Rules { get; set; } = new List<AsaRule>();
+        public List<AsaRule> Rules { get; set; } = new List<AsaRule>();
 
         /// <summary>
         /// The default level to use when there is nothing specified.
@@ -66,6 +66,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
             return DefaultLevels.ContainsKey(resultType) ? DefaultLevels[resultType] : DefaultLevel;
         }
+
+        public Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE> GetDefaultLevels() => DefaultLevels;
 
         /// <summary>
         /// Set the default levels dictionary
