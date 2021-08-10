@@ -3,48 +3,170 @@
 
 <h4>Scan</h4>
 <div class="container-fluid bg-custom my-1 pb-1">
-    @if (appData.exclusiveMode == ExclusiveMode.Monitor)
+    @if (appData.exclusiveMode == Mode.Monitor)
     {
-        <p>You cannot start a scan while monitoring. Complete your monitoring first.</p>
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 8 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                                        
     }
-    else if (appData.exclusiveMode == ExclusiveMode.Guided)
+    else if (appData.exclusiveMode == Mode.Guided)
     {
-        <p>You cannot start a scan while running a guided mode scan. Complete your guided mode scan first.</p>
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 12 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                                                              
     }
     else
     {
-        @switch (appData.scanPageState)
+        
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 16 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+         switch (appData.scanPageState)
         {
             case ScanPageState.Options:
-                <div class="run-box bg-custom">
-                    <div class="form-inline">
-                        <label class="mr-2" for="RunId">Run ID:</label>
-                        <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
-                        <div class="form-check mr-2">
-                            <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
-                            <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
-                        </div>
-                        <button class="btn btn-primary" @onclick="BeginScan">Start Scan</button>
-                    </div>
-                </div>
-                <CollectorOptionsRazor />
+                
+
+#line default
+#line hidden
+#nullable disable
+            __o = Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+#nullable restore
+#line 22 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                                                                  RunIdInput
+
+#line default
+#line hidden
+#nullable disable
+            );
+            __o = Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => RunIdInput = __value, RunIdInput);
+            __o = Microsoft.AspNetCore.Components.BindConverter.FormatValue(
+#nullable restore
+#line 24 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                                                             UseTimestamp
+
+#line default
+#line hidden
+#nullable disable
+            );
+            __o = Microsoft.AspNetCore.Components.EventCallback.Factory.CreateBinder(this, __value => UseTimestamp = __value, UseTimestamp);
+            __o = Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, 
+#nullable restore
+#line 27 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                  BeginScan
+
+#line default
+#line hidden
+#nullable disable
+            );
+                      
+                
+            __builder.AddAttribute(-1, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder2) => {
+            }
+            ));
+#nullable restore
+#line 30 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+__o = typeof(CollectorOptionsRazor);
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 30 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                         
                 break;
             case ScanPageState.Scanning:
-                <Scanning />
+                
+
+#line default
+#line hidden
+#nullable disable
+            __builder.AddAttribute(-1, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder2) => {
+            }
+            ));
+#nullable restore
+#line 33 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+__o = typeof(Scanning);
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 33 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                            
                 break;
             case ScanPageState.Finished:
-                <p>Scanning complete.</p>
-                <button class="btn btn-primary" @onclick="GoToOptions">Scan Again</button>
+                
+
+#line default
+#line hidden
+#nullable disable
+                                         
+                
+            __o = Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, 
+#nullable restore
+#line 37 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                          GoToOptions
+
+#line default
+#line hidden
+#nullable disable
+            );
+#nullable restore
+#line 37 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                                          
                 break;
             case ScanPageState.Error:
-                <p>An Error Occured while collecting.</p>
-                <button class="btn btn-primary" @onclick="GoToOptions">Restart</button>
+                
+
+#line default
+#line hidden
+#nullable disable
+                                                         
+                
+            __o = Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.MouseEventArgs>(this, 
+#nullable restore
+#line 41 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                          GoToOptions
+
+#line default
+#line hidden
+#nullable disable
+            );
+#nullable restore
+#line 41 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+                                                                                       
                 break;
         }
-    }
-</div>
 
-@code {
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 43 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+         
+    }
+
+#line default
+#line hidden
+#nullable disable
+        }
+        #pragma warning restore 1998
+#nullable restore
+#line 47 "c:/Users/gstocco/Documents/GitHub/AttackSurfaceAnalyzer/Cli/Pages/Scan.razor"
+       
     bool UseTimestamp = true;
     string RunIdInput = "";
 
@@ -52,9 +174,9 @@
 
     bool TrySetExclusive()
     {
-        if (appData.exclusiveMode == ExclusiveMode.None)
+        if (appData.exclusiveMode == Mode.None)
         {
-            appData.exclusiveMode = ExclusiveMode.Scan;
+            appData.exclusiveMode = Mode.Scan;
             return true;
         }
         return false;
@@ -62,9 +184,9 @@
 
     void ResetExclusive()
     {
-        if (appData.exclusiveMode == ExclusiveMode.Scan)
+        if (appData.exclusiveMode == Mode.Scan)
         {
-            appData.exclusiveMode = ExclusiveMode.None;
+            appData.exclusiveMode = Mode.None;
         }
     }
 

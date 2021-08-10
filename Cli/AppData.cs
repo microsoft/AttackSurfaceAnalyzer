@@ -25,7 +25,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
         }
 
-        public enum ExclusiveMode
+        public enum Mode
         {
             None,
             Guided,
@@ -33,7 +33,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             Scan
         }
 
-        public ExclusiveMode exclusiveMode { get; set; } = ExclusiveMode.None;
+        public Mode exclusiveMode { get; set; } = Mode.None;
 
         public enum ScanPageState
         {

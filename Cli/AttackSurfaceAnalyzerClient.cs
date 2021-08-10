@@ -96,6 +96,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                         SetupDatabase(opts);
                         return RunExportMonitorCommand(opts);
                     },
+                    (ExportGuidedCommandOptions opts) =>
+                    {
+                        SetupLogging(opts);
+                        SetupDatabase(opts);
+                        return RunExportGuidedCommand(opts);
+                    },
                     (ConfigCommandOptions opts) =>
                     {
                         SetupLogging(opts);
@@ -132,14 +138,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         /// <param name="analysisFile"></param>
         /// <returns>The loaded RuleFile</returns>
         private static RuleFile LoadRulesFromFileOrEmbedded(string? analysisFile) => string.IsNullOrEmpty(analysisFile) ? RuleFile.LoadEmbeddedFilters() : RuleFile.FromFile(analysisFile);
+        
+        private static string GuidedRunIdToFirstCollectRunId(string guidedRunId) => $"{guidedRunId}-baseline";
+        private static string GuidedRunIdToSecondCollectRunId(string guidedRunId) => $"{guidedRunId}-after";
+        private static string GuidedRunIdToMonitorRunId(string guidedRunId) => $"{guidedRunId}-monitoring";
+
 
         private static ASA_ERROR RunGuidedModeCommand(GuidedModeCommandOptions opts)
         {
             opts.RunId = opts.RunId?.Trim() ?? DateTime.Now.ToString("o", CultureInfo.InvariantCulture);
 
-            var firstCollectRunId = $"{opts.RunId}-baseline";
-            var secondCollectRunId = $"{opts.RunId}-after";
-            var monitorRunId = $"{opts.RunId}-monitoring";
+            var firstCollectRunId = GuidedRunIdToFirstCollectRunId(opts.RunId);
+            var secondCollectRunId = GuidedRunIdToSecondCollectRunId(opts.RunId);
+            var monitorRunId = GuidedRunIdToMonitorRunId(opts.RunId);
 
             var collectorOpts = CollectCommandOptions.FromCollectorOptions(opts);
 
@@ -163,13 +174,40 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             RunCollectCommand(collectorOpts);
 
-            var analysisFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
-
+            RuleFile analysisFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
             if (!analysisFile.Rules.Any())
             {
                 Log.Warning(Strings.Get("Err_NoRules"));
                 return ASA_ERROR.INVALID_RULES;
             }
+            var results = AnalyzeGuided(opts, analysisFile);
+
+            var exportOpts = new ExportGuidedCommandOptions()
+            {
+                RunId = opts.RunId,
+                OutputPath = opts.OutputPath,
+                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor
+            };
+
+            return ExportGuidedModeResults(results, exportOpts, analysisFile.GetHash());
+        }
+
+        static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeGuided(GuidedModeCommandOptions opts, RuleFile analysisFile)
+        {
+            if (opts.RunId is null)
+            {
+                Log.Warning(Strings.Get("Err_RunIdNull"));
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            }
+            if (!analysisFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            }
+
+            var firstCollectRunId = GuidedRunIdToFirstCollectRunId(opts.RunId);
+            var secondCollectRunId = GuidedRunIdToSecondCollectRunId(opts.RunId);
+            var monitorRunId = GuidedRunIdToMonitorRunId(opts.RunId);
 
             var compareOpts = new CompareCommandOptions(firstCollectRunId, secondCollectRunId)
             {
@@ -205,7 +243,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 results.TryAdd(key, monitorResult[key]);
             });
 
-            return ExportGuidedModeResults(results, opts, analysisFile.GetHash());
+            return results;
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
@@ -220,7 +258,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile ?? throw new ArgumentNullException(nameof(opts.AnalysesFile)));
         }
 
-        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
+        private static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
         {
             if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
             var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
@@ -312,7 +350,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             if (errorCode != ASA_ERROR.NONE)
             {
-                Log.Fatal(AttackSurfaceAnalyzer.Utils.Strings.Get("CouldNotSetupDatabase"));
+                Log.Fatal(Strings.Get("CouldNotSetupDatabase"));
                 Environment.Exit((int)errorCode);
             }
         }
@@ -516,7 +554,67 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash);
         }
 
-        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts, string analysesHash)
+        private static ASA_ERROR RunExportGuidedCommand(ExportGuidedCommandOptions opts)
+        {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunExportCollectCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
+            if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+            {
+                Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
+                return ASA_ERROR.INVALID_PATH;
+            }
+
+            if (opts.RunId is null)
+            {
+                Log.Fatal("Provided null run id is null.");
+                return ASA_ERROR.INVALID_ID;
+            }
+
+            var ruleFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
+            if (!ruleFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return ASA_ERROR.INVALID_RULES;
+            }
+
+            var first = GuidedRunIdToFirstCollectRunId(opts.RunId);
+            var second = GuidedRunIdToSecondCollectRunId(opts.RunId);
+            var monitor = GuidedRunIdToMonitorRunId(opts.RunId);
+            Log.Information(Strings.Get("Comparing"), first, second);
+
+            CompareCommandOptions options = new CompareCommandOptions(first, second)
+            {
+                DatabaseFilename = opts.DatabaseFilename,
+                AnalysesFile = ruleFile,
+                DisableAnalysis = opts.DisableAnalysis,
+                SaveToDatabase = opts.SaveToDatabase,
+                RunScripts = opts.RunScripts
+            };
+
+            var GuidedOptions = new GuidedModeCommandOptions()
+            {
+                RunId = opts.RunId,
+                RunScripts = opts.RunScripts,
+                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
+                SaveToDatabase = opts.SaveToDatabase,
+                DisableAnalysis = opts.DisableAnalysis
+            };
+
+            var results = AnalyzeGuided(GuidedOptions, ruleFile);
+            var analysesHash = options.AnalysesFile.GetHash();
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(results, first, second, analysesHash);
+            }
+
+            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName($"{first}_vs_{second}"), analysesHash);
+        }
+
+
+        public static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportGuidedCommandOptions opts, string analysesHash)
         {
             if (opts.RunId == null)
             {
@@ -574,7 +672,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash)
+        public static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()

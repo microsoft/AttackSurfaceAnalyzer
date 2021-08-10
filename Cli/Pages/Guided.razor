@@ -10,11 +10,11 @@
 
 <h4>Guided Mode</h4>
 <div class="container-fluid bg-custom my-1 pb-1">
-    @if (appData.exclusiveMode == ExclusiveMode.Scan)
+    @if (appData.exclusiveMode == Mode.Scan)
     {
         <p>You cannot start a guided mode scan while scanning. Complete your existing scan first.</p>
     }
-    else if (appData.exclusiveMode == ExclusiveMode.Monitor)
+    else if (appData.exclusiveMode == Mode.Monitor)
     {
         <p>You cannot start a guided mode scan while monitoring. Complete your monitoring first.</p>
     }
@@ -72,7 +72,7 @@
                 break;
             case GuidedPageState.Results:
                 <button class="btn btn-primary" @onclick="Reset">Start Again</button>
-                <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
+                <Results GuidedRunId="@RunIdInput" FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
                 break;
             case GuidedPageState.Error:
                 <p>An Error Occured while collecting.</p>
@@ -100,9 +100,9 @@
 
     bool TrySetExclusive()
     {
-        if (appData.exclusiveMode == ExclusiveMode.None)
+        if (appData.exclusiveMode == Mode.None)
         {
-            appData.exclusiveMode = ExclusiveMode.Guided;
+            appData.exclusiveMode = Mode.Guided;
             return true;
         }
         return false;
@@ -110,9 +110,9 @@
 
     void ResetExclusive()
     {
-        if (appData.exclusiveMode == ExclusiveMode.Guided)
+        if (appData.exclusiveMode == Mode.Guided)
         {
-            appData.exclusiveMode = ExclusiveMode.None;
+            appData.exclusiveMode = Mode.None;
         }
     }
 
@@ -132,7 +132,7 @@
             else
             {
                 appData.guidedPageState = GuidedPageState.Error;
-                appData.exclusiveMode = ExclusiveMode.None;
+                appData.exclusiveMode = Mode.None;
             }        
         }
         else

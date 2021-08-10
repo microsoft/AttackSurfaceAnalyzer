@@ -1,5 +1,8 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Types
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
+@using System.IO
+@using System.Collections.Concurrent
+@using static Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 <div class="form-inline pb-3">
@@ -80,6 +83,8 @@ else
     public string AnalysesHash { get { return _analysesHash; } set { _analysesHash = value; OnInitialized(); } }
     [Parameter]
     public string MonitorRunId { get { return _monitorRunId; } set { _monitorRunId = value; OnInitialized(); } }
+    [Parameter]
+    public string GuidedRunId { get; set; } = string.Empty;
 
     protected override void OnInitialized()
     {
@@ -107,6 +112,7 @@ else
         }
     }
 
+    string ExportPath = Directory.GetCurrentDirectory();
     string _selectedResultType = "FILEMONITOR";
     string SelectedResultType
     {
@@ -165,6 +171,58 @@ else
             default:
                 analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, MaxResults);
                 break;
+        }
+    }
+
+    public void ExportToFile()
+    {
+        if (AttackSurfaceAnalyzerClient.DatabaseManager is null) { return; }
+        var iterationSize = 1000;
+        var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+        foreach(var resultType in foundResultTypes)
+        {
+            for (int i = 0; i < resultType.Value; i += iterationSize)
+            {
+                switch (resultType.Key)
+                {
+                    case RESULT_TYPE.FILEMONITOR:
+                        foreach(var result in AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType.Key, i, iterationSize))
+                        {
+                            if (!results.ContainsKey((result.ResultType, result.ChangeType)))
+                            {
+                                results[(result.ResultType, result.ChangeType)] = new List<CompareResult>();
+                            }
+                            results[(result.ResultType, result.ChangeType)].Add(result);
+                        }
+                        break;
+                    default:
+                        foreach(var result in AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType.Key, i, iterationSize))
+                        {
+                            if (!results.ContainsKey((result.ResultType, result.ChangeType)))
+                            {
+                                results[(result.ResultType, result.ChangeType)] = new List<CompareResult>();
+                            }
+                            results[(result.ResultType, result.ChangeType)].Add(result);
+                        }
+                        break;
+                }
+            }
+        }
+        var analysesHash = results.First(x => x.Value.Any()).Value.First().AnalysesHash;
+        if (!string.IsNullOrEmpty(GuidedRunId))
+        {
+            var guidedOpts = new ExportGuidedCommandOptions() { RunId = GuidedRunId, OutputPath = ExportPath };
+            AttackSurfaceAnalyzerClient.ExportGuidedModeResults(results, guidedOpts, analysesHash);
+        }
+        else if (!string.IsNullOrEmpty(MonitorRunId))
+        {
+            var monitorOpts = new ExportMonitorCommandOptions() { RunId = MonitorRunId, OutputPath = ExportPath };
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, monitorOpts, MonitorRunId, analysesHash);
+        }
+        else
+        {
+            var scanOpts = new ExportCollectCommandOptions() { FirstRunId = FirstRunId, SecondRunId = SecondRunId, OutputPath = ExportPath };
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, scanOpts, $"{FirstRunId} vs {SecondRunId}", analysesHash);
         }
     }
 
