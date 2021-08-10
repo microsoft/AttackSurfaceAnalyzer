@@ -3,13 +3,23 @@
 <div class="spinner-border text-primary"></div>
 @foreach (BaseCollector collector in collectors)
 {
-    <div>@collector.GetType().ToString(): @collector.RunStatus</div>
+    <div>@collector.GetType().Name: @RunStatusToString(collector.RunStatus)</div>
 }
 
 @code{
     List<BaseCollector> collectors = AttackSurfaceAnalyzerClient.GetCollectors();
 
     Timer timer;
+
+    string RunStatusToString(RUN_STATUS runStatus) => runStatus switch
+    {
+        RUN_STATUS.COMPLETED => "Completed",
+        RUN_STATUS.FAILED => "Failed",
+        RUN_STATUS.NOT_STARTED => "Not Started",
+        RUN_STATUS.NO_RESULTS => "No Results",
+        RUN_STATUS.RUNNING => "Running"
+        _ => "Unknown"
+    };
 
     protected override void OnInitialized()
     {
