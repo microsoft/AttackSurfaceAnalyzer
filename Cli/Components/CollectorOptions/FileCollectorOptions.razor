@@ -24,13 +24,9 @@
         <div class="form-row">
             <div class="col-9 mb-1">
                 <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-                    @if (appData.CollectOptions.SelectedDirectories.Any())
+                    @for (var i = 0; i < selectedDirectories.Count; i++)
                     {
-                        var list = appData.CollectOptions.SelectedDirectories.ToList();
-                        for (var i = 0; i < list.Count; i++)
-                        {
-                            <option value="@i">@list[i]</option>
-                        }
+                        <option value="@i">@selectedDirectories[i]</option>
                     }
                     
                 </select>
@@ -74,11 +70,23 @@
     string SelectedDirectoryInput = string.Empty;
     int SelectedDirectoryTop;
 
+    List<string> selectedDirectories = new List<string>();
+
+    void UpdateDirectories()
+    {
+        appData.CollectOptions.SelectedDirectories = selectedDirectories;
+    }
+
     void RemoveInputFromList()
     {
-        if (appData.CollectOptions.SelectedDirectories.Count() > SelectedDirectoryTop)
+        if (selectedDirectories.Count > SelectedDirectoryTop)
         {
-            appData.CollectOptions.SelectedDirectories = appData.CollectOptions.SelectedDirectories.Except(appData.CollectOptions.SelectedDirectories.Skip(SelectedDirectoryTop-1).Take(1));
+            selectedDirectories.RemoveAt(SelectedDirectoryTop);
+            UpdateDirectories();
+            if (SelectedDirectoryTop >= selectedDirectories.Count)
+            {
+                SelectedDirectoryTop = selectedDirectories.Count - 1;
+            }
             Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
         }
     }
@@ -87,16 +95,19 @@
     {
         if (!appData.CollectOptions.SelectedDirectories.Any())
         {
-            appData.CollectOptions.SelectedDirectories = FileSystemCollector.GetDefaultRoots();
+            selectedDirectories = FileSystemCollector.GetDefaultRoots().ToList();
+            UpdateDirectories();
         }
         base.OnInitialized();
     }
 
     void PushInputToList()
     {
-        appData.CollectOptions.SelectedDirectories = appData.CollectOptions.SelectedDirectories.Union(new string[] { SelectedDirectoryInput });
-        SelectedDirectoryTop = appData.CollectOptions.SelectedDirectories.Count() - 1;
-        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        selectedDirectories.Add(SelectedDirectoryInput);
+        SelectedDirectoryTop = selectedDirectories.Count - 1;
         SelectedDirectoryInput = string.Empty;
+
+        UpdateDirectories();
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
     }
 }
