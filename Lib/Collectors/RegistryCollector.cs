@@ -24,10 +24,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
             }
             this.opts = opts ?? this.opts;
-            Hives = new List<(RegistryHive, string)>()
-            {
-                (RegistryHive.ClassesRoot,string.Empty), (RegistryHive.CurrentConfig,string.Empty), (RegistryHive.CurrentUser,string.Empty), (RegistryHive.LocalMachine,string.Empty), (RegistryHive.Users,string.Empty)
-            };
+            Hives = GetDefaultHivePairs().ToList();
             if (opts != null)
             {
                 Parallelize = !opts.SingleThread;
@@ -47,7 +44,22 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
+        }
 
+        static IEnumerable<(RegistryHive hive, string path)> GetDefaultHivePairs()
+        {
+            foreach (var hive in Enum.GetValues<RegistryHive>())
+            {
+                yield return (hive, string.Empty);
+            }
+        }
+
+        public static IEnumerable<string> GetDefaultHives()
+        {
+            foreach(var hive in GetDefaultHivePairs())
+            {
+                yield return hive.hive.ToString();
+            }
         }
 
         public override bool CanRunOnPlatform()

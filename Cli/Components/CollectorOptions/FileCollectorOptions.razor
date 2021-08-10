@@ -24,10 +24,15 @@
         <div class="form-row">
             <div class="col-9 mb-1">
                 <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-                    @for (var i = 0; i < appData.CollectOptions.SelectedDirectories.Count(); i++)
+                    @if (appData.CollectOptions.SelectedDirectories.Any())
                     {
-                        <option value="@i">@appData.CollectOptions.SelectedDirectories.ToList()[i]</option>
+                        var list = appData.CollectOptions.SelectedDirectories.ToList();
+                        for (var i = 0; i < list.Count; i++)
+                        {
+                            <option value="@i">@list[i]</option>
+                        }
                     }
+                    
                 </select>
             </div>
             <div class="col">
@@ -76,6 +81,15 @@
             appData.CollectOptions.SelectedDirectories = appData.CollectOptions.SelectedDirectories.Except(appData.CollectOptions.SelectedDirectories.Skip(SelectedDirectoryTop-1).Take(1));
             Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (!appData.CollectOptions.SelectedDirectories.Any())
+        {
+            appData.CollectOptions.SelectedDirectories = FileSystemCollector.GetDefaultRoots();
+        }
+        base.OnInitialized();
     }
 
     void PushInputToList()
