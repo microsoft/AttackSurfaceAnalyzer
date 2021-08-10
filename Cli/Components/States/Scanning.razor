@@ -1,7 +1,20 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Collectors 
 <p>Running Scan...</p>
 <div class="spinner-border text-primary"></div>
-@foreach (BaseCollector collector in AttackSurfaceAnalyzerClient.GetCollectors())
+@foreach (BaseCollector collector in collectors)
 {
     <div>@collector.GetType().ToString(): @collector.RunStatus</div>
+}
+
+@code{
+    List<BaseCollector> collectors = AttackSurfaceAnalyzerClient.GetCollectors();
+
+    Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+        base.OnInitialized();
+    }
+
 }
