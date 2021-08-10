@@ -79,7 +79,7 @@
 
     void RemoveInputFromList()
     {
-        if (selectedDirectories.Count > SelectedDirectoryTop)
+        if (selectedDirectories.Any() && selectedDirectories.Count > SelectedDirectoryTop)
         {
             selectedDirectories.RemoveAt(SelectedDirectoryTop);
             UpdateDirectories();

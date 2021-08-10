@@ -72,7 +72,7 @@
                 break;
             case GuidedPageState.Results:
                 <button class="btn btn-primary" @onclick="Reset">Start Again</button>
-                <Results GuidedRunId="@RunIdInput" FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
+                <Results GuidedRunId="@appData.RunId" FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
                 break;
             case GuidedPageState.Error:
                 <p>An Error Occured while collecting.</p>

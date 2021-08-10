@@ -55,7 +55,7 @@
 
     void RemoveInputFromList()
     {
-        if (selectedHives.Count > SelectedHiveTop)
+        if (selectedHives.Any() && selectedHives.Count > SelectedHiveTop)
         {
             selectedHives.RemoveAt(SelectedHiveTop);
             UpdateHives();
