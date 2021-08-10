@@ -4,11 +4,11 @@
 <h4>Monitor</h4>
 
 <div class="container-fluid bg-custom my-1 pb-1">
-    @if (appData.exclusiveMode == ExclusiveMode.Scan)
+    @if (appData.exclusiveMode == Mode.Scan)
     {
         <p>You cannot start monitoring while scanning. Complete your existing scan first.</p>
     }
-    else if (appData.exclusiveMode == ExclusiveMode.Guided)
+    else if (appData.exclusiveMode == Mode.Guided)
     {
         <p>You cannot start montoring while running a guided mode scan. Complete your guided mode scan first.</p>
     }
@@ -58,9 +58,9 @@
 
     bool TrySetExclusive()
     {
-        if (appData.exclusiveMode == ExclusiveMode.None)
+        if (appData.exclusiveMode == Mode.None)
         {
-            appData.exclusiveMode = ExclusiveMode.Monitor;
+            appData.exclusiveMode = Mode.Monitor;
             return true;
         }
         return false;
@@ -68,9 +68,9 @@
 
     void ResetExclusive()
     {
-        if (appData.exclusiveMode == ExclusiveMode.Monitor)
+        if (appData.exclusiveMode == Mode.Monitor)
         {
-            appData.exclusiveMode = ExclusiveMode.None;
+            appData.exclusiveMode = Mode.None;
         }
     }
 
