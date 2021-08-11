@@ -12,7 +12,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     public abstract class CollectObject
     {
         public abstract string Identity { get; }
-        public RESULT_TYPE ResultType { get; set; }
+        public abstract RESULT_TYPE ResultType { get; }
 
         [SkipCompare]
         [JsonIgnore]

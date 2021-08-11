@@ -9,9 +9,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public FirewallObject(string Name)
         {
-            ResultType = RESULT_TYPE.FIREWALL;
             this.Name = Name;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.FIREWALL;
+
 
         /// <summary>
         ///     Gets or sets the action that the rules defines

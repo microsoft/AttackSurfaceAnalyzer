@@ -9,8 +9,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public FileMonitorObject(string PathIn)
         {
             Path = PathIn;
-            ResultType = RESULT_TYPE.FILEMONITOR;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.FILEMONITOR;
 
         public string? ExtendedResults { get; set; }
         public FileSystemObject? FileSystemObject { get; set; }

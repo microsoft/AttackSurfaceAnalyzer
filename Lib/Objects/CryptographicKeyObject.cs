@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;
@@ -11,10 +12,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
         {
-            this.ResultType = Types.RESULT_TYPE.KEY;
             this.Source = Source;
             this.tpmAlgId = tpmAlgId;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.KEY;
 
         public override string Identity
         {

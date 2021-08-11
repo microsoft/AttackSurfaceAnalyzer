@@ -307,7 +307,7 @@
         {
             _typeToInvoke = value;
             var constructors = Types.Where(x => x.Key.FullName == value).FirstOrDefault().Value;
-            if (constructors.Any())
+            if (constructors?.Any() ?? false)
             {
                 var constructorToUse = constructors[constructorToInvoke];
                 ScaffoldedObject = new Scaffold(constructorToUse);
@@ -372,6 +372,7 @@
             }
         }
         Types = results;
+        typeToInvoke = Types.Keys.FirstOrDefault()?.Name ?? string.Empty;
         RefreshState();
     }
 

@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System;
 using System.Collections.Generic;
 
@@ -9,9 +10,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public EventLogObject(string Event)
         {
             this.Event = Event;
-            ResultType = Types.RESULT_TYPE.LOG;
             Data = new List<string>();
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.LOG;
 
         /// <summary>
         ///     Additional associated data

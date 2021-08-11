@@ -54,7 +54,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 var ToWrite = new FileMonitorObject(e.Value.FullPath)
                 {
-                    ResultType = RESULT_TYPE.FILEMONITOR,
                     ChangeType = ChangeTypeStringToChangeType(e.Value.ChangeType.ToString()),
                     Name = e.Value.Name,
                     Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
@@ -246,7 +245,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     var fso = (objIn.ChangeType == WatcherChangeTypes.Deleted || options.FileNamesOnly) ? null : fsc.FilePathToFileSystemObject(objIn.FullPath);
                     var ToWrite = new FileMonitorObject(objIn.FullPath)
                     {
-                        ResultType = RESULT_TYPE.FILEMONITOR,
                         ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
                         Name = objIn.Name,
                         Timestamp = DateTime.Now.ToString("O", CultureInfo.InvariantCulture),
@@ -312,7 +310,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
             var ToWrite = new FileMonitorObject(objIn.FullPath)
             {
-                ResultType = RESULT_TYPE.FILEMONITOR,
                 ChangeType = ChangeTypeStringToChangeType(objIn.ChangeType.ToString()),
                 OldPath = objIn.OldFullPath,
                 Name = objIn.Name,
