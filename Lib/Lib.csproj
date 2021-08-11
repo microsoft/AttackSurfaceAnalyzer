@@ -37,7 +37,7 @@
     <PackageReference Include="MedallionShell" Version="1.6.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="3.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" />
-    <PackageReference Include="Microsoft.CST.OAT" Version="1.1.5" />
+    <PackageReference Include="Microsoft.CST.OAT" Version="1.1.6" />
     <PackageReference Include="Microsoft.CST.RecursiveExtractor" Version="1.1.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="CompareNETObjects" Version="4.73.0" />
