@@ -63,7 +63,7 @@
                     if (types.Any())
                     {
                         var type = types.FirstOrDefault();
-                        <button class="btn btn-primary mb-1" @onclick="AddObject">Add @type.Key.FullName</button>
+                        <button class="btn btn-primary mb-1" @onclick="AddObject">Add @type.Key.Name</button>
                     }
                 }
                 @if (ScaffoldedObject != null)
@@ -372,7 +372,7 @@
             }
         }
         Types = results;
-        typeToInvoke = Types.Keys.FirstOrDefault()?.Name ?? string.Empty;
+        typeToInvoke = Types.Keys.FirstOrDefault()?.FullName ?? string.Empty;
         RefreshState();
     }
 
