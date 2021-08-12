@@ -58,7 +58,6 @@
     {
         var result = analysisResults[i];
         var resultNumber = offset + i + 1;
-        var collapseNumber = i;
         <div class="pb-3">
             <div>
                 <span class="result-number">@resultNumber. </span>
@@ -68,21 +67,7 @@
             {
                 <div class="rule-text">@rule.Name: @rule.Description</div>
             }
-            @if (collapsedStates[i] == CollapsedState.Collapsed)
-            {
-                <button class="btn btn-primary" type="button" @onclick="() => { collapsedStates[collapseNumber] = CollapsedState.Expanded; }">
-                    <span class="oi oi-chevron-bottom mx-3"></span>
-                    <span>Expand</span>
-                </button>
-            }
-            else
-            {
-                <button class="btn btn-primary" type="button" @onclick="() => {collapsedStates[collapseNumber] = CollapsedState.Collapsed;}">
-                    <span class="oi oi-chevron-top mx-3"></span>
-                    <span>Collapse</span>
-                </button>
-                <PropertyInput id="@resultNumber.ToString()" Object="@analysisResults" SubPath="@collapseNumber.ToString()" isDisabled="true" type="typeof(CompareResult)" onChangeAction="this.StateHasChanged"/>
-            }
+            <ObjectInput id="@resultNumber.ToString()" Object="@analysisResults" SubPath="@i.ToString()" isDisabled="true" Collapsable="true" onChangeAction="this.StateHasChanged"/>
         </div>
     }
 }
