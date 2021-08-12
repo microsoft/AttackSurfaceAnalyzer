@@ -162,7 +162,7 @@
         ResetExclusive();
     }
 
-    System.Threading.Timer timer = new Timer((_) => { });
+    System.Threading.Timer? timer;
 
     async Task<ASA_ERROR> BeginScan()
     {
