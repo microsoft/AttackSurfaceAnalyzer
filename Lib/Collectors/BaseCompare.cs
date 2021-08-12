@@ -501,7 +501,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// <summary>
         ///     Set status to running.
         /// </summary>
-        public void Start()
+        private void Start()
         {
             _running = RUN_STATUS.RUNNING;
         }
@@ -509,7 +509,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// <summary>
         ///     Sets status to completed.
         /// </summary>
-        public void Stop()
+        private void Stop()
         {
             _running = RUN_STATUS.COMPLETED;
         }
