@@ -455,7 +455,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             diffs.Add(new Diff(field.Name, firstVal, secondVal));
                         }
 
-                        diffs.AddRange(new Diff(field.Name, added, removed));
+                        diffs.Add(new Diff(field.Name, added, removed));
                     }
                 }
                 catch (InvalidCastException e)
