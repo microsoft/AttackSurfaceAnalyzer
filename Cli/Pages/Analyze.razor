@@ -1,4 +1,5 @@
 ﻿@page "/analyze"
+@using System.IO
 
 <h4>Analyze</h4>
 <div class="container-fluid bg-custom my-1 pb-1">
@@ -23,6 +24,8 @@
                             <option value="@i">@Runs[i]</option>
                         }
                     </select>
+                    <label for="CustomRulesPath">Custom Rules Path (optional):</label>
+                    <input id="CustomRulesPath" type="text" placeholder="Custom Rules Path" @bind="appData.ExportCollectCommandOptions.AnalysesFile" />
                     <button class="btn btn-primary" @onclick="BeginAnalyze">Start Analysis Scan</button>
                 </div>
             </div>
@@ -109,6 +112,7 @@
 
         appData.ExportCollectCommandOptions.FirstRunId = string.IsNullOrEmpty(secondRunId) ? secondRunId : firstRunId;
         appData.ExportCollectCommandOptions.SecondRunId = string.IsNullOrEmpty(secondRunId) ? firstRunId : secondRunId;
+
         pageState = PageState.Analyzing;
 
         await Task.Factory.StartNew(() =>
