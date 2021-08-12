@@ -36,41 +36,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> Results { get; }
 
-        /// <summary>
-        ///     Creates a list of Diff objects based on an object property and findings.
-        /// </summary>
-        /// <param name="prop"> The property of the referenced object. </param>
-        /// <param name="added"> The added findings. </param>
-        /// <param name="removed"> The removed findings. </param>
-        /// <returns> </returns>
-        public static List<Diff> GetDiffs(PropertyInfo prop, object? added, object? removed)
-        {
-            List<Diff> diffsOut = new List<Diff>();
-            if (added != null && prop != null)
-            {
-                diffsOut.Add(new Diff(FieldIn: prop.Name, AfterIn: added));
-            }
-            if (removed != null && prop != null)
-            {
-                diffsOut.Add(new Diff(FieldIn: prop.Name, BeforeIn: removed));
-            }
-            return diffsOut;
-        }
-
-        public static List<Diff> GetDiffs(FieldInfo field, object? added, object? removed)
-        {
-            List<Diff> diffsOut = new List<Diff>();
-            if (added != null && field != null)
-            {
-                diffsOut.Add(new Diff(FieldIn: field.Name, AfterIn: added));
-            }
-            if (removed != null && field != null)
-            {
-                diffsOut.Add(new Diff(FieldIn: field.Name, BeforeIn: removed));
-            }
-            return diffsOut;
-        }
-
         public void Compare(IEnumerable<CollectObject> FirstRunObjects, IEnumerable<CollectObject> SecondRunObjects, string? firstRunId, string secondRunId)
         {
             if (firstRunId == null)
@@ -229,12 +194,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     else if (firstProp == null && secondProp != null)
                     {
                         added = prop.GetValue(second);
-                        diffs.AddRange(GetDiffs(prop, added, null));
+                        diffs.Add(new Diff(prop.Name, added, null));
                     }
                     else if (secondProp == null && firstProp != null)
                     {
                         removed = prop.GetValue(first);
-                        diffs.AddRange(GetDiffs(prop, null, removed));
+                        diffs.Add(new Diff(prop.Name, null, removed));
                     }
                     else
                     {
@@ -333,7 +298,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                         }
 
-                        diffs.AddRange(GetDiffs(prop, added, removed));
+                        diffs.Add(new Diff(prop.Name, added, removed));
                     }
                 }
                 catch (InvalidCastException e)
@@ -386,12 +351,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     else if (firstField == null && secondField != null)
                     {
                         added = field.GetValue(second);
-                        diffs.AddRange(GetDiffs(field, added, null));
+                        diffs.Add(new Diff(field.Name, added, null));
                     }
                     else if (secondField == null && firstField != null)
                     {
                         removed = field.GetValue(first);
-                        diffs.AddRange(GetDiffs(field, null, removed));
+                        diffs.Add(new Diff(field.Name, null, removed));
                     }
                     else
                     {
@@ -490,7 +455,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             diffs.Add(new Diff(field.Name, firstVal, secondVal));
                         }
 
-                        diffs.AddRange(GetDiffs(field, added, removed));
+                        diffs.AddRange(new Diff(field.Name, added, removed));
                     }
                 }
                 catch (InvalidCastException e)
