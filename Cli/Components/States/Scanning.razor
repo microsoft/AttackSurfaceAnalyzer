@@ -9,7 +9,7 @@
 @code{
     List<BaseCollector> collectors = AttackSurfaceAnalyzerClient.GetCollectors();
 
-    Timer timer;
+    Timer timer = new Timer((_) => { });
 
     string RunStatusToString(RUN_STATUS runStatus) => runStatus switch
     {

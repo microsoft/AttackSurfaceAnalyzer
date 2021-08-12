@@ -48,7 +48,7 @@
     bool UseTimestamp = true;
     string RunIdInput = "";
 
-    System.Threading.Timer timer = new Timer((_) => { }, null, int.MaxValue, Timeout.Infinite);
+    System.Threading.Timer timer = new Timer((_) => { });
 
     bool TrySetExclusive()
     {
