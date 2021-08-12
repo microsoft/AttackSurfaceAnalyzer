@@ -187,10 +187,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 diffs.Add(new Diff(string.Empty, first, second));
                 return diffs;
             }
-            var firstProperties = first.GetType().GetProperties();
-            var secondProperties = second.GetType().GetProperties();
-            var sharedProperties = firstProperties.Intersect(secondProperties);
-            foreach(var firstProperty in firstProperties ?? Array.Empty<PropertyInfo>())
+            IEnumerable<PropertyInfo> firstProperties = first.GetType().GetProperties();
+            IEnumerable<PropertyInfo> secondProperties = second.GetType().GetProperties();
+            IEnumerable<PropertyInfo> sharedProperties = firstProperties.Intersect(secondProperties);
+            firstProperties = firstProperties.Except(sharedProperties);
+            secondProperties = secondProperties.Except(sharedProperties);
+            foreach(var firstProperty in firstProperties)
             {
                 if (Attribute.IsDefined(firstProperty, typeof(SkipCompareAttribute)))
                 {
@@ -198,7 +200,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
                 diffs.Add(new Diff(firstProperty.Name, firstProperty.GetValue(first), null));
             }
-            foreach (var secondProperty in secondProperties ?? Array.Empty<PropertyInfo>())
+            foreach (var secondProperty in secondProperties)
             {
                 if (Attribute.IsDefined(secondProperty, typeof(SkipCompareAttribute)))
                 {
@@ -206,283 +208,298 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
                 diffs.Add(new Diff(secondProperty.Name, secondProperty.GetValue(first), null));
             }
-            if (sharedProperties is PropertyInfo[])
+
+            foreach (var prop in sharedProperties)
             {
-                foreach (var prop in sharedProperties)
+                try
                 {
-                    try
+                    if (Attribute.IsDefined(prop, typeof(SkipCompareAttribute)))
                     {
-                        if (Attribute.IsDefined(prop, typeof(SkipCompareAttribute)))
+                        continue;
+                    }
+                    object? added = null;
+                    object? removed = null;
+
+                    object? firstProp = first is null ? first : prop.GetValue(first);
+                    object? secondProp = second is null ? second : prop.GetValue(second);
+                    if (firstProp == null && secondProp == null)
+                    {
+                        continue;
+                    }
+                    else if (firstProp == null && secondProp != null)
+                    {
+                        added = prop.GetValue(second);
+                        diffs.AddRange(GetDiffs(prop, added, null));
+                    }
+                    else if (secondProp == null && firstProp != null)
+                    {
+                        removed = prop.GetValue(first);
+                        diffs.AddRange(GetDiffs(prop, null, removed));
+                    }
+                    else
+                    {
+                        var firstVal = prop.GetValue(first);
+                        var secondVal = prop.GetValue(second);
+
+                        if (firstVal is List<string> && secondVal is List<string>)
                         {
-                            continue;
+                            added = ((List<string>)secondVal).Except((List<string>)firstVal);
+                            removed = ((List<string>)firstVal).Except((List<string>)secondVal);
+                            if (!((IEnumerable<string>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((IEnumerable<string>)removed).Any())
+                            {
+                                removed = null;
+                            }
                         }
-                        object? added = null;
-                        object? removed = null;
-
-                        object? firstProp = first is null ? first : prop.GetValue(first);
-                        object? secondProp = second is null ? second : prop.GetValue(second);
-                        if (firstProp == null && secondProp == null)
+                        else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
                         {
-                            continue;
+                            added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
+                            removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
+                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
+                            {
+                                removed = null;
+                            }
                         }
-                        else if (firstProp == null && secondProp != null)
+                        else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
                         {
-                            added = prop.GetValue(second);
-                            diffs.AddRange(GetDiffs(prop, added, null));
+                            added = ((Dictionary<string, string>)secondVal)
+                                .Except((Dictionary<string, string>)firstVal)
+                                .ToDictionary(x => x.Key, x => x.Value);
+
+                            removed = ((Dictionary<string, string>)firstVal)
+                                .Except((Dictionary<string, string>)secondVal)
+                                .ToDictionary(x => x.Key, x => x.Value);
+                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
+                            {
+                                removed = null;
+                            }
                         }
-                        else if (secondProp == null && firstProp != null)
+                        else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
                         {
-                            removed = prop.GetValue(first);
-                            diffs.AddRange(GetDiffs(prop, null, removed));
+                            added = secondDictionary
+                                .Except(firstDictionary)
+                                .ToDictionary(x => x.Key, x => x.Value);
+
+                            removed = firstDictionary
+                                .Except(secondDictionary)
+                                .ToDictionary(x => x.Key, x => x.Value);
+                            if (!((Dictionary<string, List<string>>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((Dictionary<string, List<string>>)removed).Any())
+                            {
+                                removed = null;
+                            }
                         }
-                        else
+                        else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
                         {
-                            var firstVal = prop.GetValue(first);
-                            var secondVal = prop.GetValue(second);
+                            added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
+                            removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
 
-                            if (firstVal is List<string> && secondVal is List<string>)
+                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
                             {
-                                added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                                removed = ((List<string>)firstVal).Except((List<string>)secondVal);
-                                if (!((IEnumerable<string>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<string>)removed).Any())
-                                {
-                                    removed = null;
-                                }
+                                added = null;
                             }
-                            else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
+                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
                             {
-                                added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
-                                removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
+                                removed = null;
                             }
-                            else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
-                            {
-                                added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-
-                                removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
-                            {
-                                added = secondDictionary
-                                    .Except(firstDictionary)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-
-                                removed = firstDictionary
-                                    .Except(secondDictionary)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-                                if (!((Dictionary<string, List<string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((Dictionary<string, List<string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
-                            {
-                                added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
-                                removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
-
-                                if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
-                            {
-                                if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
-                                {
-                                    diffs.Add(new Diff(prop.Name, firstVal, secondVal));
-                                }
-                            }
-                            else if (firstProp != null && secondProp != null && compareLogic.Compare(firstVal, secondVal).AreEqual)
-                            {
-                                continue;
-                            }
-                            else
+                        }
+                        else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
+                        {
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
                                 diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
-
-                            diffs.AddRange(GetDiffs(prop, added, removed));
                         }
-                    }
-                    catch (InvalidCastException e)
-                    {
-                        Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(prop)}");
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e, "Generic exception. Tell a programmer.");
-                    }
-                }
-            }
-            var fields = first?.GetType().GetFields() ?? second?.GetType().GetFields();
-            if (fields is FieldInfo[])
-            {
-                foreach (var field in fields)
-                {
-                    try
-                    {
-                        if (Attribute.IsDefined(field, typeof(SkipCompareAttribute)))
+                        else if (firstProp != null && secondProp != null && compareLogic.Compare(firstVal, secondVal).AreEqual)
                         {
                             continue;
-                        }
-                        object? added = null;
-                        object? removed = null;
-
-                        object? firstField = field.GetValue(first);
-                        object? secondField = field.GetValue(second);
-                        if (firstField == null && secondField == null)
-                        {
-                            continue;
-                        }
-                        else if (firstField == null && secondField != null)
-                        {
-                            added = field.GetValue(second);
-                            diffs.AddRange(GetDiffs(field, added, null));
-                        }
-                        else if (secondField == null && firstField != null)
-                        {
-                            removed = field.GetValue(first);
-                            diffs.AddRange(GetDiffs(field, null, removed));
                         }
                         else
                         {
-                            var firstVal = field.GetValue(first);
-                            var secondVal = field.GetValue(second);
+                            diffs.Add(new Diff(prop.Name, firstVal, secondVal));
+                        }
 
-                            if (firstVal is List<string> && secondVal is List<string>)
-                            {
-                                added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                                removed = ((List<string>)firstVal).Except((List<string>)secondVal);
-                                if (!((IEnumerable<string>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<string>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
-                            {
-                                added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
-                                removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
-                            {
-                                added = ((Dictionary<string, string>)secondVal)
-                                    .Except((Dictionary<string, string>)firstVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
+                        diffs.AddRange(GetDiffs(prop, added, removed));
+                    }
+                }
+                catch (InvalidCastException e)
+                {
+                    Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(prop)}");
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e, "Generic exception. Tell a programmer.");
+                }
+            }
+            IEnumerable<FieldInfo> firstFields = first.GetType().GetFields();
+            IEnumerable<FieldInfo> secondFields = second.GetType().GetFields();
+            IEnumerable<FieldInfo> sharedFields = firstFields.Intersect(secondFields);
+            firstFields = firstFields.Except(sharedFields);
+            secondFields = secondFields.Except(sharedFields);
+            foreach (var firstField in firstFields)
+            {
+                if (Attribute.IsDefined(firstField, typeof(SkipCompareAttribute)))
+                {
+                    continue;
+                }
+                diffs.Add(new Diff(firstField.Name, firstField.GetValue(first), null));
+            }
+            foreach (var secondField in secondFields)
+            {
+                if (Attribute.IsDefined(secondField, typeof(SkipCompareAttribute)))
+                {
+                    continue;
+                }
+                diffs.Add(new Diff(secondField.Name, secondField.GetValue(first), null));
+            }
+            foreach (var field in sharedFields)
+            {
+                try
+                {
+                    if (Attribute.IsDefined(field, typeof(SkipCompareAttribute)))
+                    {
+                        continue;
+                    }
+                    object? added = null;
+                    object? removed = null;
 
-                                removed = ((Dictionary<string, string>)firstVal)
-                                    .Except((Dictionary<string, string>)secondVal)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-                                if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
-                            {
-                                added = secondDictionary
-                                    .Except(firstDictionary)
-                                    .ToDictionary(x => x.Key, x => x.Value);
+                    object? firstField = field.GetValue(first);
+                    object? secondField = field.GetValue(second);
+                    if (firstField == null && secondField == null)
+                    {
+                        continue;
+                    }
+                    else if (firstField == null && secondField != null)
+                    {
+                        added = field.GetValue(second);
+                        diffs.AddRange(GetDiffs(field, added, null));
+                    }
+                    else if (secondField == null && firstField != null)
+                    {
+                        removed = field.GetValue(first);
+                        diffs.AddRange(GetDiffs(field, null, removed));
+                    }
+                    else
+                    {
+                        var firstVal = field.GetValue(first);
+                        var secondVal = field.GetValue(second);
 
-                                removed = firstDictionary
-                                    .Except(secondDictionary)
-                                    .ToDictionary(x => x.Key, x => x.Value);
-                                if (!((Dictionary<string, List<string>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((Dictionary<string, List<string>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
+                        if (firstVal is List<string> && secondVal is List<string>)
+                        {
+                            added = ((List<string>)secondVal).Except((List<string>)firstVal);
+                            removed = ((List<string>)firstVal).Except((List<string>)secondVal);
+                            if (!((IEnumerable<string>)added).Any())
                             {
-                                added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
-                                removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
+                                added = null;
+                            }
+                            if (!((IEnumerable<string>)removed).Any())
+                            {
+                                removed = null;
+                            }
+                        }
+                        else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
+                        {
+                            added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
+                            removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
+                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
+                            {
+                                removed = null;
+                            }
+                        }
+                        else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
+                        {
+                            added = ((Dictionary<string, string>)secondVal)
+                                .Except((Dictionary<string, string>)firstVal)
+                                .ToDictionary(x => x.Key, x => x.Value);
 
-                                if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
-                                {
-                                    added = null;
-                                }
-                                if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
-                                {
-                                    removed = null;
-                                }
-                            }
-                            else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
+                            removed = ((Dictionary<string, string>)firstVal)
+                                .Except((Dictionary<string, string>)secondVal)
+                                .ToDictionary(x => x.Key, x => x.Value);
+                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
                             {
-                                if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
-                                {
-                                    diffs.Add(new Diff(field.Name, firstVal, secondVal));
-                                }
+                                added = null;
                             }
-                            else if (firstField != null && secondField != null && compareLogic.Compare(firstVal, secondVal).AreEqual)
+                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
                             {
-                                continue;
+                                removed = null;
                             }
-                            else
+                        }
+                        else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
+                        {
+                            added = secondDictionary
+                                .Except(firstDictionary)
+                                .ToDictionary(x => x.Key, x => x.Value);
+
+                            removed = firstDictionary
+                                .Except(secondDictionary)
+                                .ToDictionary(x => x.Key, x => x.Value);
+                            if (!((Dictionary<string, List<string>>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((Dictionary<string, List<string>>)removed).Any())
+                            {
+                                removed = null;
+                            }
+                        }
+                        else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
+                        {
+                            added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
+                            removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
+
+                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
+                            {
+                                added = null;
+                            }
+                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
+                            {
+                                removed = null;
+                            }
+                        }
+                        else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
+                        {
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
                                 diffs.Add(new Diff(field.Name, firstVal, secondVal));
                             }
-
-                            diffs.AddRange(GetDiffs(field, added, removed));
                         }
+                        else if (firstField != null && secondField != null && compareLogic.Compare(firstVal, secondVal).AreEqual)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            diffs.Add(new Diff(field.Name, firstVal, secondVal));
+                        }
+
+                        diffs.AddRange(GetDiffs(field, added, removed));
                     }
-                    catch (InvalidCastException e)
-                    {
-                        Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(field)}");
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Debug(e, "Generic exception. Tell a programmer.");
-                    }
+                }
+                catch (InvalidCastException e)
+                {
+                    Log.Debug(e, $"Failed to cast {JsonConvert.SerializeObject(field)}");
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e, "Generic exception. Tell a programmer.");
                 }
             }
 
