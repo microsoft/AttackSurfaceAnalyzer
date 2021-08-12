@@ -30,9 +30,9 @@
         <div class="form-row">
             <div class="col-9 mb-1">
                 <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedDirectoriesList" @bind="SelectedDirectoryTop">
-                    @for (var i = 0; i < appData.MonitorOptions.MonitoredDirectories.Count(); i++)
+                    @for (var i = 0; i < selectedDirectories.Count(); i++)
                     {
-                        <option value="@i">@appData.MonitorOptions.MonitoredDirectories.ToList()[i]</option>
+                        <option value="@i">@selectedDirectories[i]</option>
                     }
                 </select>
             </div>
@@ -46,20 +46,47 @@
 @code{
     Helper.GlowClass directorySelectElementGlowClass = new Helper.GlowClass();
 
-    string SelectedDirectoryInput = string.Empty;
-    int SelectedDirectoryTop;
+    List<string> selectedDirectories = new List<string>();
+
+    void UpdateDirectories()
+    {
+        appData.MonitorOptions.MonitoredDirectories = selectedDirectories;
+    }
 
     void RemoveInputFromList()
     {
-        appData.MonitorOptions.MonitoredDirectories = appData.MonitorOptions.MonitoredDirectories.Except(appData.MonitorOptions.MonitoredDirectories.Skip(SelectedDirectoryTop-1).Take(1));
-        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        if (selectedDirectories.Any() && selectedDirectories.Count > SelectedDirectoryTop)
+        {
+            selectedDirectories.RemoveAt(SelectedDirectoryTop);
+            UpdateDirectories();
+            if (SelectedDirectoryTop >= selectedDirectories.Count)
+            {
+                SelectedDirectoryTop = selectedDirectories.Count - 1;
+            }
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        }
     }
 
     void PushInputToList()
     {
-        appData.MonitorOptions.MonitoredDirectories = appData.MonitorOptions.MonitoredDirectories.Union(new string[] { SelectedDirectoryInput });
-        SelectedDirectoryTop = appData.MonitorOptions.MonitoredDirectories.Count() - 1;
-        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+        selectedDirectories.Add(SelectedDirectoryInput);
+        SelectedDirectoryTop = selectedDirectories.Count - 1;
         SelectedDirectoryInput = string.Empty;
+
+        UpdateDirectories();
+        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
+    }
+
+    string SelectedDirectoryInput = string.Empty;
+    int SelectedDirectoryTop;
+
+    protected override void OnInitialized()
+    {
+        if (!appData.MonitorOptions.MonitoredDirectories.Any())
+        {
+            selectedDirectories = FileSystemCollector.GetDefaultRoots().ToList();
+            UpdateDirectories();
+        }
+        base.OnInitialized();
     }
 }
