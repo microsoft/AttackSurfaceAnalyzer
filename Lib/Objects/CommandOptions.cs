@@ -221,6 +221,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public string? RunId { get; set; }
     }
 
+    [Verb("export-guided", HelpText = "Output a .json for a guided run")]
+    public class ExportGuidedCommandOptions : ExportMonitorCommandOptions
+    {
+    }
+
     public class ExportOptions : CommandOptions
     {
         [Option("filename", HelpText = "Custom analysis rules file.")]

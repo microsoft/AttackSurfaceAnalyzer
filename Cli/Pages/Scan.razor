@@ -1,71 +1,102 @@
 ﻿@page "/scan"
+@using static Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData
 
 <h4>Scan</h4>
 <div class="container-fluid bg-custom my-1 pb-1">
-    @switch (pageState)
+    @if (appData.exclusiveMode == Mode.Monitor)
     {
-        case PageState.Options:
-            <div class="run-box bg-custom">
-                <div class="form-inline">
-                    <label class="mr-2" for="RunId">Run ID:</label>
-                    <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
-                    <div class="form-check mr-2">
-                        <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
-                        <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+        <p>You cannot start a scan while monitoring. Complete your monitoring first.</p>
+    }
+    else if (appData.exclusiveMode == Mode.Guided)
+    {
+        <p>You cannot start a scan while running a guided mode scan. Complete your guided mode scan first.</p>
+    }
+    else
+    {
+        @switch (appData.scanPageState)
+        {
+            case ScanPageState.Options:
+                <div class="run-box bg-custom">
+                    <div class="form-inline">
+                        <label class="mr-2" for="RunId">Run ID:</label>
+                        <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
+                        <div class="form-check mr-2">
+                            <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
+                            <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+                        </div>
+                        <button class="btn btn-primary" @onclick="BeginScan">Start Scan</button>
                     </div>
-                    <button class="btn btn-primary" @onclick="BeginScan">Start Scan</button>
                 </div>
-            </div>
-            <CollectorOptionsRazor />
-            break;
-        case PageState.Scanning:
-            <Scanning />
-            break;
-        case PageState.Finished:
-            <p>Scanning complete.</p>
-            <button class="btn btn-primary" @onclick="GoToOptions">Scan Again</button>
-            break;
-        case PageState.Error:
-            <p>An Error Occured while collecting.</p>
-            break;
+                <CollectorOptionsRazor />
+                break;
+            case ScanPageState.Scanning:
+                <Scanning />
+                break;
+            case ScanPageState.Finished:
+                <p>Scanning complete.</p>
+                <button class="btn btn-primary" @onclick="GoToOptions">Scan Again</button>
+                break;
+            case ScanPageState.Error:
+                <p>An Error Occured while collecting.</p>
+                <button class="btn btn-primary" @onclick="GoToOptions">Restart</button>
+                break;
+        }
     }
 </div>
 
 @code {
-    enum PageState
-    {
-        Options,
-        Scanning,
-        Finished,
-        Error
-    }
     bool UseTimestamp = true;
     string RunIdInput = "";
 
-    PageState pageState = PageState.Options;
+    System.Threading.Timer? timer;
 
-    System.Threading.Timer timer = new Timer((_) => { }, null, int.MaxValue, Timeout.Infinite);
+    bool TrySetExclusive()
+    {
+        if (appData.exclusiveMode == Mode.None)
+        {
+            appData.exclusiveMode = Mode.Scan;
+            return true;
+        }
+        return false;
+    }
+
+    void ResetExclusive()
+    {
+        if (appData.exclusiveMode == Mode.Scan)
+        {
+            appData.exclusiveMode = Mode.None;
+        }
+    }
 
     async void BeginScan()
     {
-        appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
-        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        appData.CollectOptions.RunId = appData.FirstRunId;
-        pageState = PageState.Scanning;
-        this.StateHasChanged();
-        if (await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions)) == Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.NONE)
+        if (TrySetExclusive())
         {
-            pageState = PageState.Finished;
+            appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
+            timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+            appData.CollectOptions.RunId = appData.FirstRunId;
+            appData.scanPageState = ScanPageState.Scanning;
+            this.StateHasChanged();
+            if (await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions)) == Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.NONE)
+            {
+                appData.scanPageState = ScanPageState.Finished;
+            }
+            else
+            {
+                appData.scanPageState = ScanPageState.Error;
+            }
+            AttackSurfaceAnalyzerClient.ClearCollectors();
+            ResetExclusive();
         }
         else
         {
-            pageState = PageState.Error;
+            appData.scanPageState = ScanPageState.Error;
         }
-        AttackSurfaceAnalyzerClient.ClearCollectors();
+        
     }
 
     void GoToOptions()
     {
-        pageState = PageState.Options;
+        appData.scanPageState = ScanPageState.Options;
     }
 }

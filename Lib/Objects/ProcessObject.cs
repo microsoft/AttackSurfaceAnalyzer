@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
             this.Id = Id;
             this.ProcessName = ProcessName;
-            ResultType = Types.RESULT_TYPE.PROCESS;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.PROCESS;
 
         public int BasePriority { get; set; }
 

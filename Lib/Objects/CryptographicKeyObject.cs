@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Security.Cryptography;
 using Tpm2Lib;
@@ -11,10 +13,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
         {
-            this.ResultType = Types.RESULT_TYPE.KEY;
             this.Source = Source;
             this.tpmAlgId = tpmAlgId;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.KEY;
 
         public override string Identity
         {
@@ -63,13 +66,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public RsaKeyDetails(string? PublicString = null, string? FullString = null)
         {
             rsa = RSA.Create();
-            if (FullString != null)
+            try
             {
-                rsa.ImportRSAPrivateKey(Convert.FromBase64String(FullString), out _);
+                if (FullString != null)
+                {
+                    rsa.ImportRSAPrivateKey(Convert.FromBase64String(FullString), out _);
+                }
+                else if (PublicString != null)
+                {
+                    rsa.ImportRSAPublicKey(Convert.FromBase64String(PublicString), out _);
+                }
             }
-            else if (PublicString != null)
+            catch(Exception e)
             {
-                rsa.ImportRSAPublicKey(Convert.FromBase64String(PublicString), out _);
+                Log.Debug(e, "Failed to import RSA key.");
             }
         }
 

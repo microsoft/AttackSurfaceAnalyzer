@@ -3,110 +3,149 @@
 @using System.Threading;
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
 @using Microsoft.CST.AttackSurfaceAnalyzer.Collectors
+@using static Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
 @page "/guided"
 
 <h4>Guided Mode</h4>
 <div class="container-fluid bg-custom my-1 pb-1">
-    @switch (pageState)
+    @if (appData.exclusiveMode == Mode.Scan)
     {
-        case PageState.Options:
-            <div class="run-box bg-custom">
-                <div class="form-inline">
-                    <label class="mr-2" for="RunId">Run ID:</label>
-                    <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
-                    <div class="form-check mr-2">
-                        <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
-                        <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+        <p>You cannot start a guided mode scan while scanning. Complete your existing scan first.</p>
+    }
+    else if (appData.exclusiveMode == Mode.Monitor)
+    {
+        <p>You cannot start a guided mode scan while monitoring. Complete your monitoring first.</p>
+    }
+    else
+    {
+        @switch (appData.guidedPageState)
+        {
+            case GuidedPageState.Options:
+                <div class="run-box bg-custom">
+                    <div class="form-inline">
+                        <label class="mr-2" for="RunId">Run ID:</label>
+                        <input type="text" class="form-control mr-2" id="RunId" placeholder="@GetPlaceholder()" @bind="RunIdInput" disabled="@UseTimestamp" />
+                        <div class="form-check mr-2">
+                            <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
+                            <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+                        </div>
+                        <button class="btn btn-primary" @onclick="BeginGuided">Start Guided Scan</button>
                     </div>
-                    <button class="btn btn-primary" @onclick="BeginGuided">Start Guided Scan</button>
                 </div>
-            </div>
-            <ul class="nav nav-tabs mb-3" id="options-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="collectors-tab" data-toggle="tab" href="#collectors" role="tab" aria-controls="collectors" aria-selected="true">Collectors</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="monitor-tab" data-toggle="tab" href="#monitor" role="tab" aria-controls="monitor" aria-selected="false">Monitor</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="analyze-tab" data-toggle="tab" href="#analyze" role="tab" aria-controls="analyze" aria-selected="false">Analyze</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="options-tabs-content">
-                <div class="tab-pane fade show active" id="collectors" role="tabpanel" aria-labelledby="collectors-tab">
-                    <CollectorOptionsRazor />
+                <ul class="nav nav-tabs mb-3" id="options-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="collectors-tab" data-toggle="tab" href="#collectors" role="tab" aria-controls="collectors" aria-selected="true">Collectors</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="monitor-tab" data-toggle="tab" href="#monitor" role="tab" aria-controls="monitor" aria-selected="false">Monitor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="analyze-tab" data-toggle="tab" href="#analyze" role="tab" aria-controls="analyze" aria-selected="false">Analyze</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="options-tabs-content">
+                    <div class="tab-pane fade show active" id="collectors" role="tabpanel" aria-labelledby="collectors-tab">
+                        <CollectorOptionsRazor />
+                    </div>
+                    <div class="tab-pane fade" id="monitor" role="tabpanel" aria-labelledby="monitor-tab">
+                        <MonitorOptionsRazor />
+                    </div>
+                    <div class="tab-pane fade" id="analyze" role="tabpanel" aria-labelledby="analyze-tab">
+                        <AnalyzeOptionsRazor />
+                    </div>
                 </div>
-                <div class="tab-pane fade" id="monitor" role="tabpanel" aria-labelledby="monitor-tab">
-                    <MonitorOptionsRazor />
-                </div>
-                <div class="tab-pane fade" id="analyze" role="tabpanel" aria-labelledby="analyze-tab">
-                    <AnalyzeOptionsRazor />
-                </div>
-            </div>
 
-            break;
-        case PageState.Scanning:
-            <Scanning />
-            break;
-        case PageState.Monitoring:
-            <Monitoring Continue="@ContinueGuided" />
-            break;
-        case PageState.MonitorFlushing:
-            <MonitorFlushing />
-            break;
-        case PageState.Analyzing:
-            <Analyzing />
-            break;
-        case PageState.Results:
-            <Results FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
-            break;
-        case PageState.Error:
-            <p>An Error Occured while collecting.</p>
-            break;
+                break;
+            case GuidedPageState.Scanning:
+                <Scanning />
+                break;
+            case GuidedPageState.Monitoring:
+                <Monitoring Continue="@ContinueGuided" />
+                break;
+            case GuidedPageState.MonitorFlushing:
+                <MonitorFlushing />
+                break;
+            case GuidedPageState.Analyzing:
+                <Analyzing />
+                break;
+            case GuidedPageState.Results:
+                <button class="btn btn-primary" @onclick="Reset">Start Again</button>
+                <Results GuidedRunId="@appData.RunId" FirstRunId="@appData.ExportCollectCommandOptions.FirstRunId" SecondRunId="@appData.ExportCollectCommandOptions.SecondRunId" AnalysesHash="@appData.CompareCommandOptions.AnalysesFile?.GetHash()" MonitorRunId="@appData.MonitorOptions.RunId" />
+                break;
+            case GuidedPageState.Error:
+                <p>An Error Occured while collecting.</p>
+                <button @onclick="Reset">Restart</button>
+                break;
+        }
     }
 </div>
 
 @code{
-    enum PageState
-    {
-        Options,
-        Scanning,
-        Monitoring,
-        MonitorFlushing,
-        Analyzing,
-        Results,
-        Error
-    }
+
 
     bool UseTimestamp = true;
     string RunIdInput = "";
 
-    PageState pageState = PageState.Options;
+    string GetPlaceholder()
+    {
+        return UseTimestamp ? "Timestamp Will Be Used" : "Enter Run ID";
+    }
+
+    void Reset()
+    {
+        appData.guidedPageState = GuidedPageState.Options;
+    }
+
+    bool TrySetExclusive()
+    {
+        if (appData.exclusiveMode == Mode.None)
+        {
+            appData.exclusiveMode = Mode.Guided;
+            return true;
+        }
+        return false;
+    }
+
+    void ResetExclusive()
+    {
+        if (appData.exclusiveMode == Mode.Guided)
+        {
+            appData.exclusiveMode = Mode.None;
+        }
+    }
 
     async void BeginGuided()
     {
-        appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
-        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        appData.CollectOptions.RunId = appData.FirstRunId;
-        if (await BeginScan() == ASA_ERROR.NONE)
+        if (TrySetExclusive())
         {
-            appData.MonitorOptions.RunId = appData.MonitorRunId;
-            await BeginMonitor();
-            AttackSurfaceAnalyzerClient.ClearCollectors();
+            appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
+            timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+            appData.CollectOptions.RunId = appData.FirstRunId;
+            if (await BeginScan() == ASA_ERROR.NONE)
+            {
+                appData.MonitorOptions.RunId = appData.MonitorRunId;
+                await BeginMonitor();
+                AttackSurfaceAnalyzerClient.ClearCollectors();
+            }
+            else
+            {
+                appData.guidedPageState = GuidedPageState.Error;
+                appData.exclusiveMode = Mode.None;
+            }        
         }
         else
         {
-            pageState = PageState.Error;
+            appData.monitorPageState = MonitorPageState.Error;
         }
     }
 
     async void ContinueGuided()
     {
-        pageState = PageState.MonitorFlushing;
+        appData.guidedPageState = GuidedPageState.MonitorFlushing;
         this.StateHasChanged();
-        AttackSurfaceAnalyzerClient.StopMonitors();
+        await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.StopMonitors());
         while (AttackSurfaceAnalyzerClient.DatabaseManager?.HasElements ?? false)
         {
             Thread.Sleep(1);
@@ -119,28 +158,29 @@
         appData.ExportCollectCommandOptions.FirstRunId = appData.FirstRunId;
         appData.ExportCollectCommandOptions.SecondRunId = appData.SecondRunId;
         await BeginAnalyze();
-        pageState = PageState.Results;
+        appData.guidedPageState = GuidedPageState.Results;
+        ResetExclusive();
     }
 
-    System.Threading.Timer timer = new Timer((_) => { }, null, int.MaxValue, Timeout.Infinite);
+    System.Threading.Timer? timer;
 
     async Task<ASA_ERROR> BeginScan()
     {
-        pageState = PageState.Scanning;
+        appData.guidedPageState = GuidedPageState.Scanning;
         this.StateHasChanged();
         return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunCollectCommand(appData.CollectOptions));
     }
 
     async Task<ASA_ERROR> BeginMonitor()
     {
-        pageState = PageState.Monitoring;
+        appData.guidedPageState = GuidedPageState.Monitoring;
         this.StateHasChanged();
         return await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions));
     }
 
     async Task<ASA_ERROR> BeginAnalyze()
     {
-        pageState = PageState.Analyzing;
+        appData.guidedPageState = GuidedPageState.Analyzing;
 
         await Task.Factory.StartNew(() =>
         {

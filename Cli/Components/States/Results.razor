@@ -1,7 +1,16 @@
 ﻿@using Microsoft.CST.AttackSurfaceAnalyzer.Types
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
+@using System.IO
+@using System.Collections.Concurrent
+@using Microsoft.CST.OAT.Blazor.Components.Inputs
+@using static Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
 
+<div class="form-inline pb-3">
+    <label class="mr-2" for="ExportPath">Export Path:</label>
+    <input id="ExportPath" type="text" placeholder="Current Directory" @bind="ExportPath" />
+    <button @onclick="ExportToFile">Export</button>
+</div>
 <div class="form-inline pb-3">
     <label class="mr-2" for="ResultType">Result Type:</label>
     <select class="form-control mr-2" id="ResultType" @bind="SelectedResultType">
@@ -58,6 +67,7 @@
             {
                 <div class="rule-text">@rule.Name: @rule.Description</div>
             }
+            <ObjectInput id="@resultNumber.ToString()" Object="@analysisResults" SubPath="@i.ToString()" isDisabled="true" Collapsable="true" onChangeAction="this.StateHasChanged"/>
         </div>
     }
 }
@@ -80,6 +90,16 @@ else
     public string AnalysesHash { get { return _analysesHash; } set { _analysesHash = value; OnInitialized(); } }
     [Parameter]
     public string MonitorRunId { get { return _monitorRunId; } set { _monitorRunId = value; OnInitialized(); } }
+    [Parameter]
+    public string GuidedRunId { get; set; } = string.Empty;
+
+    enum CollapsedState
+    {
+        Collapsed,
+        Expanded
+    };
+
+    List<CollapsedState> collapsedStates = new List<CollapsedState>();
 
     protected override void OnInitialized()
     {
@@ -107,6 +127,7 @@ else
         }
     }
 
+    string ExportPath = Directory.GetCurrentDirectory();
     string _selectedResultType = "FILEMONITOR";
     string SelectedResultType
     {
@@ -165,6 +186,58 @@ else
             default:
                 analysisResults = AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType, offset, MaxResults);
                 break;
+        }
+        collapsedStates = analysisResults.Select(_ => CollapsedState.Collapsed).ToList();
+    }
+
+    public void ExportToFile()
+    {
+        if (AttackSurfaceAnalyzerClient.DatabaseManager is null) { return; }
+        var iterationSize = 1000;
+        var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+        foreach(var resultType in foundResultTypes)
+        {
+            for (int i = 0; i < resultType.Value; i += iterationSize)
+            {
+                switch (resultType.Key)
+                {
+                    case RESULT_TYPE.FILEMONITOR:
+                        foreach(var result in AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(string.Empty, MonitorRunId, AnalysesHash, resultType.Key, i, iterationSize))
+                        {
+                            if (!results.ContainsKey((result.ResultType, result.ChangeType)))
+                            {
+                                results[(result.ResultType, result.ChangeType)] = new List<CompareResult>();
+                            }
+                            results[(result.ResultType, result.ChangeType)].Add(result);
+                        }
+                        break;
+                    default:
+                        foreach(var result in AttackSurfaceAnalyzerClient.DatabaseManager.GetComparisonResults(FirstRunId, SecondRunId, AnalysesHash, resultType.Key, i, iterationSize))
+                        {
+                            if (!results.ContainsKey((result.ResultType, result.ChangeType)))
+                            {
+                                results[(result.ResultType, result.ChangeType)] = new List<CompareResult>();
+                            }
+                            results[(result.ResultType, result.ChangeType)].Add(result);
+                        }
+                        break;
+                }
+            }
+        }
+        if (!string.IsNullOrEmpty(GuidedRunId))
+        {
+            var guidedOpts = new ExportGuidedCommandOptions() { RunId = GuidedRunId, OutputPath = ExportPath, ApplySubObjectRulesToMonitor = true };
+            AttackSurfaceAnalyzerClient.ExportGuidedModeResults(results, guidedOpts, AnalysesHash);
+        }
+        else if (!string.IsNullOrEmpty(MonitorRunId))
+        {
+            var monitorOpts = new ExportMonitorCommandOptions() { RunId = MonitorRunId, OutputPath = ExportPath, ApplySubObjectRulesToMonitor = true };
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, monitorOpts, MonitorRunId, AnalysesHash);
+        }
+        else
+        {
+            var scanOpts = new ExportCollectCommandOptions() { FirstRunId = FirstRunId, SecondRunId = SecondRunId, OutputPath = ExportPath };
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, scanOpts, $"{FirstRunId} vs {SecondRunId}", AnalysesHash);
         }
     }
 

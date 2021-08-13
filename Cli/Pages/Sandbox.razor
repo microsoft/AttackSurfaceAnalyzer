@@ -63,12 +63,12 @@
                     if (types.Any())
                     {
                         var type = types.FirstOrDefault();
-                        <button class="btn btn-primary mb-1" @onclick="AddObject">Add @type.Key.FullName</button>
+                        <button class="btn btn-primary mb-1" @onclick="AddObject">Add @type.Key.Name</button>
                     }
                 }
                 @if (ScaffoldedObject != null)
                 {
-                    <ScaffoldInput Object="this" SubPath="ScaffoldedObject" Assemblies="Assemblies" />
+                    <ScaffoldInput Object="this" SubPath="ScaffoldedObject" />
                 }
             </div>
         </div>
@@ -307,7 +307,7 @@
         {
             _typeToInvoke = value;
             var constructors = Types.Where(x => x.Key.FullName == value).FirstOrDefault().Value;
-            if (constructors.Any())
+            if (constructors?.Any() ?? false)
             {
                 var constructorToUse = constructors[constructorToInvoke];
                 ScaffoldedObject = new Scaffold(constructorToUse);
@@ -372,6 +372,7 @@
             }
         }
         Types = results;
+        typeToInvoke = Types.Keys.FirstOrDefault()?.FullName ?? string.Empty;
         RefreshState();
     }
 

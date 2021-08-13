@@ -11,8 +11,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public ServiceObject(string Name)
         {
             this.Name = Name;
-            ResultType = RESULT_TYPE.SERVICE;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.SERVICE;
 
         public bool? AcceptPause { get; set; }
         public bool? AcceptStop { get; set; }

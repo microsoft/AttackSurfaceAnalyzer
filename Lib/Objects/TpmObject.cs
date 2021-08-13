@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System;
 using System.Collections.Generic;
 using Tpm2Lib;
@@ -9,9 +10,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public TpmObject(string Location)
         {
-            ResultType = Types.RESULT_TYPE.TPM;
             this.Location = Location;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.TPM;
 
         public List<AlgProperty> Algorithms { get; set; } = new List<AlgProperty>();
         public List<TpmCc> Commands { get; set; } = new List<TpmCc>();

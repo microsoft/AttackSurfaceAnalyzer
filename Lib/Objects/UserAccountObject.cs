@@ -10,8 +10,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public UserAccountObject(string Name)
         {
             this.Name = Name;
-            ResultType = RESULT_TYPE.USER;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.USER;
 
         public string? AccountType { get; set; }
         public string? Caption { get; set; }

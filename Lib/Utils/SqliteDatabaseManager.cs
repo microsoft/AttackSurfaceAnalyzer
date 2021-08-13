@@ -1,4 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.OAT.Operations;
@@ -326,6 +327,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                             if (reader["second_serialized"] is string second_serialized)
                             {
                                 obj.Compare = JsonUtils.Hydrate(second_serialized, (RESULT_TYPE)resultType);
+                            }
+                            if (obj.Base is not null && obj.Compare is not null)
+                            {
+                                obj.Diffs = BaseCompare.GenerateDiffs(obj.Base, obj.Compare);
                             }
 
                             results.Add(obj);

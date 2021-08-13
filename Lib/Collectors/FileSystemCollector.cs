@@ -34,34 +34,39 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
             if (!Roots.Any())
             {
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Roots.AddRange(GetDefaultRoots());
+            }
+        }
+
+        public static IEnumerable<string> GetDefaultRoots()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                foreach (var driveInfo in DriveInfo.GetDrives())
                 {
-                    foreach (var driveInfo in DriveInfo.GetDrives())
+                    if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
                     {
-                        if (driveInfo.IsReady && driveInfo.DriveType == DriveType.Fixed)
-                        {
-                            Roots.Add(driveInfo.Name);
-                        }
+                        yield return driveInfo.Name;
                     }
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                foreach (var directory in Directory.EnumerateDirectories("/"))
                 {
-                    foreach (var directory in Directory.EnumerateDirectories("/"))
+                    if (!directory.Equals("/proc") && !directory.Equals("/sys"))
                     {
-                        if (!directory.Equals("/proc") && !directory.Equals("/sys"))
-                        {
-                            Roots.Add(directory);
-                        }
-                        else
-                        {
-                            Log.Debug("Default settings skip directories /proc and /sys because they tend to have non-files which stall the collector.");
-                        }
+                        yield return directory;
+                    }
+                    else
+                    {
+                        Log.Debug("Default settings skip directories /proc and /sys because they tend to have non-files which stall the collector.");
                     }
                 }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    Roots.Add("/");
-                }
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                yield return "/";
             }
         }
 

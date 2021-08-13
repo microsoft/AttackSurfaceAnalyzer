@@ -7,7 +7,7 @@
       "ResultType": "PORT",
       "Clauses": [
         {
-          "Field": "port",
+          "Field": "Port",
           "Operation": "LessThan",
           "Data": [
             "1024"
@@ -116,46 +116,6 @@
       ]
     },
     {
-      "Name": "SetGid",
-      "Description": "Flag GID is set on a file.",
-      "Flag": "WARNING",
-      "Platforms": [
-        "LINUX",
-        "MACOS"
-      ],
-      "ChangeTypes": [
-        "CREATED",
-        "MODIFIED"
-      ],
-      "ResultType": "FILE",
-      "Clauses": [
-        {
-          "Field": "SetGid",
-          "Operation": "IsTrue"
-        }
-      ]
-    },
-    {
-      "Name": "SetGid",
-      "Description": "Flag GID is set on a file.",
-      "Flag": "WARNING",
-      "Platforms": [
-        "LINUX",
-        "MACOS"
-      ],
-      "ChangeTypes": [
-        "CREATED",
-        "MODIFIED"
-      ],
-      "ResultType": "FILEMONITOR",
-      "Clauses": [
-        {
-          "Field": "FileSystemObject.SetGid",
-          "Operation": "IsTrue"
-        }
-      ]
-    },
-    {
       "Name": "SetUid",
       "Description": "Flag UID is set on a file.",
       "Flag": "WARNING",
@@ -191,6 +151,26 @@
       "Clauses": [
         {
           "Field": "SetGid",
+          "Operation": "IsTrue"
+        }
+      ]
+    },
+    {
+      "Name": "SetGid",
+      "Description": "Flag GID is set on a file.",
+      "Flag": "WARNING",
+      "Platforms": [
+        "LINUX",
+        "MACOS"
+      ],
+      "ChangeTypes": [
+        "CREATED",
+        "MODIFIED"
+      ],
+      "ResultType": "FILEMONITOR",
+      "Clauses": [
+        {
+          "Field": "FileSystemObject.SetGid",
           "Operation": "IsTrue"
         }
       ]
@@ -422,7 +402,7 @@
       "ResultType": "PORT",
       "Clauses": [
         {
-          "Field": "port",
+          "Field": "Port",
           "Operation": "Equals",
           "Data": [
             "1900"

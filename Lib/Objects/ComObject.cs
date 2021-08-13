@@ -12,8 +12,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public ComObject(RegistryObject Key) : base()
         {
             this.Key = Key;
-            ResultType = RESULT_TYPE.COM;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.COM;
 
         /// <summary>
         ///     A COM Object's identity is the same as the Registry Key which specifies it

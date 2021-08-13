@@ -25,6 +25,52 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
         }
 
+        public enum Mode
+        {
+            None,
+            Guided,
+            Monitor,
+            Scan
+        }
+
+        public Mode exclusiveMode { get; set; } = Mode.None;
+
+        public enum ScanPageState
+        {
+            Options,
+            Scanning,
+            Finished,
+            Error,
+            Disabled
+        }
+
+        public ScanPageState scanPageState { get; set; } = ScanPageState.Options;
+
+        public enum GuidedPageState
+        {
+            Options,
+            Scanning,
+            Monitoring,
+            MonitorFlushing,
+            Analyzing,
+            Results,
+            Error,
+            Disabled
+        }
+        public MonitorPageState monitorPageState { get; set; } = MonitorPageState.Options;
+
+        public enum MonitorPageState
+        {
+            Options,
+            Monitoring,
+            MonitorFlushing,
+            Finished,
+            Error,
+            Disabled
+        }
+
+        public GuidedPageState guidedPageState { get; set; } = GuidedPageState.Options;
+
         public string MonitorRunId
         {
             get

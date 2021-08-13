@@ -10,9 +10,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public DriverObject(string Name)
         {
             this.Name = Name;
-            ResultType = RESULT_TYPE.DRIVER;
         }
-
+        public override RESULT_TYPE ResultType => RESULT_TYPE.DRIVER;
         public bool? AcceptPause { get; set; }
         public bool? AcceptStop { get; set; }
         public string? Address { get; set; }

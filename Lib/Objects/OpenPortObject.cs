@@ -11,11 +11,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY AddressFamily)
         {
-            ResultType = RESULT_TYPE.PORT;
             this.Port = Port;
             this.Type = Type;
             this.AddressFamily = AddressFamily;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.PORT;
 
         public string? Address { get; set; }
 

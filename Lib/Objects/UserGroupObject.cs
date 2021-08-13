@@ -9,8 +9,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public GroupAccountObject(string Name)
         {
             this.Name = Name;
-            ResultType = RESULT_TYPE.GROUP;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.GROUP;
 
         public string? Caption { get; set; }
         public string? Description { get; set; }

@@ -10,14 +10,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public FileSystemObject(string Path)
         {
             this.Path = Path;
-            ResultType = RESULT_TYPE.FILE;
         }
 
         public FileSystemObject()
         {
             Path = string.Empty;
-            ResultType = RESULT_TYPE.FILE;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.FILE;
 
         /// <summary>
         ///     If this is windows executable what DLL Characteristics are set

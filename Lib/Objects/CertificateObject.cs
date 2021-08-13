@@ -10,8 +10,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             this.StoreLocation = StoreLocation;
             this.StoreName = StoreName;
             this.Certificate = Certificate;
-            ResultType = RESULT_TYPE.CERTIFICATE;
         }
+        public override RESULT_TYPE ResultType => RESULT_TYPE.CERTIFICATE;
 
         /// <summary>
         ///     A serializable representation of the Certificate.

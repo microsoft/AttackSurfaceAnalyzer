@@ -23,9 +23,13 @@
         <div class="form-row">
             <div class="col-9 mb-1">
                 <select class="form-control @directorySelectElementGlowClass.ClassName" id="selectedPathsList" @bind="SelectedHiveTop">
-                    @for (var i = 0; i < appData.CollectOptions.SelectedHives.Count(); i++)
+                    @if (appData.CollectOptions.SelectedHives.Any())
                     {
-                        <option value="@i">@appData.CollectOptions.SelectedHives.ToList()[i]</option>
+                        var hiveList = appData.CollectOptions.SelectedHives.ToList();
+                        for (var i = 0; i < hiveList.Count(); i++)
+                        {
+                            <option value="@i">@hiveList[i]</option>
+                        }
                     }
                 </select>
             </div>
@@ -42,16 +46,43 @@
     string SelectedHiveInput = string.Empty;
     int SelectedHiveTop;
 
+    List<string> selectedHives = new List<string>();
+
+    void UpdateHives()
+    {
+        appData.CollectOptions.SelectedHives = selectedHives;
+    }
+
     void RemoveInputFromList()
     {
-        appData.CollectOptions.SelectedHives = appData.CollectOptions.SelectedDirectories.Except(appData.CollectOptions.SelectedDirectories.Skip(SelectedHiveTop-1).Take(1));
-        Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        if (selectedHives.Any() && selectedHives.Count > SelectedHiveTop)
+        {
+            selectedHives.RemoveAt(SelectedHiveTop);
+            UpdateHives();
+            if (selectedHives.Count <= SelectedHiveTop)
+            {
+                SelectedHiveTop = selectedHives.Count;
+            }
+            Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, false);
+        }
+
+    }
+
+    protected override void OnInitialized()
+    {
+        if (!appData.CollectOptions.SelectedHives.Any())
+        {
+            selectedHives = RegistryCollector.GetDefaultHives().ToList();
+            UpdateHives();
+        }
+        base.OnInitialized();
     }
 
     void PushInputToList()
     {
-        appData.CollectOptions.SelectedHives = appData.CollectOptions.SelectedHives.Union(new string[] { SelectedHiveInput });
-        SelectedHiveTop = appData.CollectOptions.SelectedHives.Count() - 1;
+        selectedHives.Add(SelectedHiveInput);
+        SelectedHiveTop = selectedHives.Count - 1;
+        UpdateHives();
         Helper.ToggleGlow(() => InvokeAsync(StateHasChanged), directorySelectElementGlowClass, true);
         SelectedHiveInput = string.Empty;
     }

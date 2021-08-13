@@ -11,10 +11,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
         public RegistryObject(string Key, RegistryView View)
         {
-            ResultType = RESULT_TYPE.REGISTRY;
             this.View = View;
             this.Key = Key;
         }
+
+        public override RESULT_TYPE ResultType => RESULT_TYPE.REGISTRY;
 
         public override string Identity
         {

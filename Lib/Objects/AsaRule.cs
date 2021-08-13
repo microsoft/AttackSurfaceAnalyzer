@@ -1,5 +1,6 @@
 ﻿using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.OAT;
+using System;
 using System.Collections.Generic;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
@@ -16,11 +17,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return _flag;
+                return (ANALYSIS_RESULT_TYPE)Severity;
             }
             set
             {
-                _flag = value;
                 Severity = (int)value;
             }
         }
@@ -39,8 +39,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 Target = ResultTypeToTargetName(value);
             }
         }
-
-        private ANALYSIS_RESULT_TYPE _flag;
 
         private RESULT_TYPE _resultType;
 

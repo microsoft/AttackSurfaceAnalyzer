@@ -1,85 +1,116 @@
 ﻿@page "/monitor"
+@using static Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData
 
 <h4>Monitor</h4>
 
 <div class="container-fluid bg-custom my-1 pb-1">
-    @switch (pageState)
+    @if (appData.exclusiveMode == Mode.Scan)
     {
-        case PageState.Options:
-            <div class="run-box bg-custom">
-                <div class="form-inline">
-                    <label class="mr-2" for="RunId">Run ID:</label>
-                    <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
-                    <div class="form-check mr-2">
-                        <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
-                        <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+        <p>You cannot start monitoring while scanning. Complete your existing scan first.</p>
+    }
+    else if (appData.exclusiveMode == Mode.Guided)
+    {
+        <p>You cannot start montoring while running a guided mode scan. Complete your guided mode scan first.</p>
+    }
+    else
+    {
+        @switch (appData.monitorPageState)
+        {
+            case MonitorPageState.Options:
+                <div class="run-box bg-custom">
+                    <div class="form-inline">
+                        <label class="mr-2" for="RunId">Run ID:</label>
+                        <input type="text" class="form-control mr-2" id="RunId" placeholder="Enter Run ID" @bind="RunIdInput" />
+                        <div class="form-check mr-2">
+                            <input type="checkbox" class="form-check-input" id="UseTimestampCheckbox" @bind="UseTimestamp" />
+                            <label class="form-check-label" for="UseTimestampCheckbox">Use Timestamp</label>
+                        </div>
+                        <button class="btn btn-primary" @onclick="BeginMonitor">Start Monitor</button>
                     </div>
-                    <button class="btn btn-primary" @onclick="BeginMonitor">Start Monitor</button>
                 </div>
-            </div>
-            <MonitorOptionsRazor />
-            break;
-        case PageState.Monitoring:
-            <Monitoring Continue="@FinishMonitor" />
-            break;
-        case PageState.MonitorFlushing:
-            <MonitorFlushing />
-            break;
-        case PageState.Finished:
-            <p>Monitoring complete.</p>
-            <button class="btn btn-primary" @onclick="GoToOptions">Monitor Again</button>
-            break;
-        case PageState.Error:
-            <p>An Error Occured while monitoring.</p>
-            break;
+                <MonitorOptionsRazor />
+                break;
+            case MonitorPageState.Monitoring:
+                <Monitoring Continue="@FinishMonitor" />
+                break;
+            case MonitorPageState.MonitorFlushing:
+                <MonitorFlushing />
+                break;
+            case MonitorPageState.Finished:
+                <p>Monitoring complete.</p>
+                <button class="btn btn-primary" @onclick="GoToOptions">Monitor Again</button>
+                break;
+            case MonitorPageState.Error:
+                <p>An Error Occured while monitoring.</p>
+                <button class="btn btn-primary" @onclick="GoToOptions">Restart</button>
+                break;
+        }
     }
 </div>
 
 @code {
-    enum PageState
-    {
-        Options,
-        Monitoring,
-        MonitorFlushing,
-        Finished,
-        Error
-    }
+
 
     bool UseTimestamp = true;
     string RunIdInput = "";
 
-    PageState pageState = PageState.Options;
+    System.Threading.Timer? timer;
 
-    System.Threading.Timer timer  = new Timer((_) => { }, null, int.MaxValue, Timeout.Infinite);
+    bool TrySetExclusive()
+    {
+        if (appData.exclusiveMode == Mode.None)
+        {
+            appData.exclusiveMode = Mode.Monitor;
+            return true;
+        }
+        return false;
+    }
+
+    void ResetExclusive()
+    {
+        if (appData.exclusiveMode == Mode.Monitor)
+        {
+            appData.exclusiveMode = Mode.None;
+        }
+    }
 
     async void BeginMonitor()
     {
-        appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
-        timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
-        appData.MonitorOptions.RunId = appData.MonitorRunId;
-
-        pageState = PageState.Monitoring;
-        this.StateHasChanged();
-
-        if (await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions)) != Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.NONE)
+        if (TrySetExclusive())
         {
-            pageState = PageState.Error;
-        }
+            appData.RunId = UseTimestamp ? DateTime.Now.ToString() : RunIdInput;
+            timer = new System.Threading.Timer((_) => InvokeAsync(() => StateHasChanged()), null, 0, 100);
+            appData.MonitorOptions.RunId = appData.MonitorRunId;
 
-        this.StateHasChanged();
+            appData.monitorPageState = MonitorPageState.Monitoring;
+            this.StateHasChanged();
+
+            if (await Task.Factory.StartNew(() => AttackSurfaceAnalyzerClient.RunGuiMonitorCommand(appData.MonitorOptions)) != Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.NONE)
+            {
+                appData.monitorPageState = MonitorPageState.Error;
+            }
+
+            this.StateHasChanged();
+        }
+        else
+        {
+            appData.monitorPageState = MonitorPageState.Error;
+        }
+        
     }
 
     void FinishMonitor()
     {
-        pageState = PageState.MonitorFlushing;
+        appData.monitorPageState = MonitorPageState.MonitorFlushing;
         this.StateHasChanged();
         AttackSurfaceAnalyzerClient.StopMonitors();
-        pageState = PageState.Finished;
+        appData.monitorPageState = MonitorPageState.Finished;
         this.StateHasChanged();
+        ResetExclusive();
     }
 
     void GoToOptions()
     {
-        pageState = PageState.Options;
+        appData.monitorPageState = MonitorPageState.Options;
     }
 }

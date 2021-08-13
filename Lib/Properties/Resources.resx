@@ -600,4 +600,7 @@
   <data name="Err_DatabaseManagerNull" xml:space="preserve">
     <value>DatabaseManager is null at execution of {0}.</value>
   </data>
+  <data name="Err_RunIdNull" xml:space="preserve">
+    <value>The provided RunId was null.</value>
+  </data>
 </root>
