@@ -7,7 +7,7 @@
       "ResultType": "PORT",
       "Clauses": [
         {
-          "Field": "port",
+          "Field": "Port",
           "Operation": "LessThan",
           "Data": [
             "1024"
@@ -402,7 +402,7 @@
       "ResultType": "PORT",
       "Clauses": [
         {
-          "Field": "port",
+          "Field": "Port",
           "Operation": "Equals",
           "Data": [
             "1900"
