@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html",
-          "hash": "DwxUqpj/6LYR9uXgHB9MLVNfUsVOX+MPiVmDRF6ISnY="
+          "hash": "mabQtksbVQhzsknrHTg8R7VTCLSQWvM+TUQzoIrPP1U="
         }
       },
       "is_incremental": false,
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html",
-          "hash": "KFgGMOpj4xo2X/q1tYyy2H3liKNhYWlcHu03RM77tWk="
+          "hash": "iXAmY1Ve7gBd1Ahej+gCIr0jFRahHSOahXoNAgz1TmE="
         }
       },
       "is_incremental": false,
@@ -141,7 +141,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html",
-          "hash": "nym344Uy3rXR8Y5GnBnfAvX1/4xlxdC+/vPuh4nC9jk="
+          "hash": "XZKFmZdP31h5hDFk8RA0Ij4VzFqdU7G+xVxlv2j0iYQ="
         }
       },
       "is_incremental": false,
@@ -213,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html",
-          "hash": "gvrqDptpfPm3J80CK5muntvuOSKeA4eftw68KLmBq44="
+          "hash": "L+aSWNPGiARlcd1ySWyRUYrKLG6qLYz5/Vfye3Jvpdc="
         }
       },
       "is_incremental": false,
@@ -353,11 +353,23 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportGuidedCommandOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportGuidedCommandOptions.html",
+          "hash": "Vs+Ja9dVrHn9RO+tkJNfTJvKdfZNSGcbFsSXhhGfNgk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportMonitorCommandOptions.yml",
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportMonitorCommandOptions.html",
-          "hash": "+Mr+/y3YeXc8bP21rdzkrMJx2f2ENWjhu/TGJabRnYc="
+          "hash": "WeF2yh4VlZrbQUDu1CLlfVRiMNsW2gsdSEg4F3qK1FU="
         }
       },
       "is_incremental": false,
@@ -369,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html",
-          "hash": "hEV5R2o65NPTzWoiz1mIriiy3Gkvsl3avKcZUeIvzSY="
+          "hash": "spnbNjlhzMZGnatkmqfptBxFva6c1F2VgElve5wTH2c="
         }
       },
       "is_incremental": false,
@@ -381,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.html",
-          "hash": "7rdx1MCxp7Jn24xMqyKQrpvrWp6ba5dog4eVu36I3pA="
+          "hash": "/MBozLAhU/FTzjJmgd4ECXamOMxw1xP1ACPx/iUj0aQ="
         }
       },
       "is_incremental": false,
@@ -393,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html",
-          "hash": "zQytvvqdbBBD+Eaf75VbZlilw8aZPvAp6xb0+EfikDQ="
+          "hash": "eSqZSsshTXkABfGf8dMOLUgTibksVNcEj/Yk4PSbR2k="
         }
       },
       "is_incremental": false,
@@ -405,7 +417,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html",
-          "hash": "i9Se9v7YTgo9TewruB+dOntmG4OBdmWh9oEGVFpthB0="
+          "hash": "lFZAOI9tB8cEsXM1jh6IkvCbIH2nSLCvrkZUii0Fiao="
         }
       },
       "is_incremental": false,
@@ -429,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule.html",
-          "hash": "SVRlnQjxEmnTPlH58IN6CC44pSrtjXs2/ZppwQ1FGH4="
+          "hash": "NbQaDzyGSXWaAwXz76bZjaN43V6BnxvyEc1xdsPwPmc="
         }
       },
       "is_incremental": false,
@@ -453,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.html",
-          "hash": "eWEU+SZg7XOeFdW19+PIDvooqQUlEbK90GHwSKL+95I="
+          "hash": "5ZG7f1CT3uznPNl5wCMPzMZTdPqkpOVbaAr6O+ZcTEc="
         }
       },
       "is_incremental": false,
@@ -465,7 +477,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html",
-          "hash": "UtHYx4YeIxZDtfJGS+lrpOPP0IMas5eCCe4laAQgznQ="
+          "hash": "A76ElOcNiElJIuqIJR5RGEmh0IGgFuz3rn+yuI8g6e4="
         }
       },
       "is_incremental": false,
@@ -477,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.html",
-          "hash": "4D7Cqa0gBrcKTXgvljx7xmcq/+GAql5eDkKcDIHfEow="
+          "hash": "uBTV14iLW8NMIwqK5O9XtX7VoM4w7ETZyWGmGlgdDek="
         }
       },
       "is_incremental": false,
@@ -501,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.html",
-          "hash": "kKAztWKGyaxcU9hwqxX4eGPfbKyr/oWXNDCokNEj7ZM="
+          "hash": "nTb7rq/k6+uo5UqvComxgIz5W9WiNBjZjO1UnB7j+pE="
         }
       },
       "is_incremental": false,
@@ -549,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.html",
-          "hash": "nvAjpThfLQCz7lkhrwOIGjHJqAMiFWKkljCjxCrQ0g8="
+          "hash": "g6p2CBJDgg+vGfKNN6f/1t44L8j9bSzZHxBxOUdj36M="
         }
       },
       "is_incremental": false,
@@ -561,7 +573,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.html",
-          "hash": "l1AEDsV5gSoe/x3meQFiDugV1x5lGCUS1EEU+3TNaEk="
+          "hash": "Xd1DhsY9dnwYvOgcdP1wH6Mgso4fR6ToSX9PBbquCZc="
         }
       },
       "is_incremental": false,
@@ -585,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html",
-          "hash": "zVFyChZMNNic9X9ISD2UZ244qVCaLXDVEibk9NjAUbA="
+          "hash": "QDGd5EOQCWT+gK1NbAIbWvmJFM9SkW4f5gmuB19LCAA="
         }
       },
       "is_incremental": false,
@@ -609,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html",
-          "hash": "KQ9bitc7hSFgsWMjc1HOUOMT4EIHDqzYUjQcRrBDieI="
+          "hash": "CGj+JS7moqERWRVinVFTmKd+INy9TiD8y9Pab+kGV0A="
         }
       },
       "is_incremental": false,
@@ -621,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.html",
-          "hash": "d6qobjaZB4JO/F9gdfFXmSdUEVVne/T8qhT1aPKXB58="
+          "hash": "FKiFj+JXAU9Xg+BfP/3yNvSf+ULVe9BvnGASk5I/Dd0="
         }
       },
       "is_incremental": false,
@@ -633,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.html",
-          "hash": "nZm6jtpGSBFoUAsQc+VyyUBdfVqmEiQtqPxlugRj5Z4="
+          "hash": "6w36d2M6O0de/1xTW+8tO6qufz0+jieQ/juLPEd0Y/Y="
         }
       },
       "is_incremental": false,
@@ -645,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.KeyDetailObject.html",
-          "hash": "1gU9p5K/HkVI09gCAzw27XCsRW2UbXCJ0H5h3vEwji0="
+          "hash": "UC3rP/8CT2cwNNeVxDH5uD0z01uAipsrs++JDV7b5eI="
         }
       },
       "is_incremental": false,
@@ -681,7 +693,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html",
-          "hash": "c3G6E5ExeqMUqiVsdxDffl70zweGrEmu0JmAMVrG9yQ="
+          "hash": "1bbP2SsCEm9MtZyODzogXK83cT+PfocSN75DsCfFTpw="
         }
       },
       "is_incremental": false,
@@ -717,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html",
-          "hash": "d/BZojxhgrowj2+wnGHHoz8OYICkvswXzMypR40Yp1s="
+          "hash": "yS0ehoG+zzL81B8MkoNE9zbiERBLRgBPs8lMk08vMdo="
         }
       },
       "is_incremental": false,
@@ -729,7 +741,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html",
-          "hash": "grbCmURrvyfhHT+1Y/Uzh8hKiF1KUn0d9E1xigBlFRc="
+          "hash": "7ZaM/xQRIACOkQES6fwrUEILsSx0EqinhgB+N4d+6ic="
         }
       },
       "is_incremental": false,
@@ -741,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.html",
-          "hash": "Gnb2za5nV1eE3yHp+He7ffg+l2Cg80SA5cdRngI7Wno="
+          "hash": "+3IXw0UNrmtzD3paTVCiRyCoIK4KSojUDeUuHrn0Eks="
         }
       },
       "is_incremental": false,
@@ -789,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.html",
-          "hash": "KPwv8kQgOBltZE8KIKyZlrGDYrnRxEo78TWQD7Ls4AI="
+          "hash": "3jpDS8ic1y5Uz0nvj2U3u2ZCACI495nH7lL1sxGSznk="
         }
       },
       "is_incremental": false,
@@ -849,7 +861,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.html",
-          "hash": "U6tvgoBb7VqlGlpTg6TsJoLyAlpuJet2DXSvKcT2NkY="
+          "hash": "5JnW2XDHsuIp/OE0bZBzW2ka1mAVUPyyM/kXGUzbM7k="
         }
       },
       "is_incremental": false,
@@ -861,7 +873,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.html",
-          "hash": "8PhmjG7N7pu3ER1JFreFYzE8PQ9dQlh1Ni85qHqd9YY="
+          "hash": "jwh2xF+XI7dFS/7xFAKN0xf9cb8b8ohd4Bz8SvqCCjA="
         }
       },
       "is_incremental": false,
@@ -873,7 +885,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.html",
-          "hash": "cBIiRj251hnoLlpcGXDKLy8n2uEU/abxmEIa7sktu7M="
+          "hash": "xmJNGXloNkTyDFtMeZkwtJAHZ0qla6BGdg2coFAtWv8="
         }
       },
       "is_incremental": false,
@@ -1113,7 +1125,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DBSettings.html",
-          "hash": "yXgzsnIBTnrJW+IqLJh7uNfEpbNDyTOrV+HHBoscG9s="
+          "hash": "uxrZB2KtpPgpE2TMvyIFY6ugx1jVs9mKGPdjdO/O4Bs="
         }
       },
       "is_incremental": false,
@@ -1233,7 +1245,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html",
-          "hash": "uu/REPZu7EHM4LD3AgLEBaBnDct/2KbhsrDPGnpIkIg="
+          "hash": "SMyFhgUkHg5Q046fynRS/1ePTP1yE5mA5o0XIaZ+U/w="
         }
       },
       "is_incremental": false,
@@ -1293,7 +1305,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.VerifyOptions.html",
-          "hash": "lfaN1R6XWn/ZCJReBBhPTKXFERs8tcLiHOSCrle7vXg="
+          "hash": "QWPr6+d0+OZ/JYn/rkwVIFTsKfeQkPkuozSqNiFeQFU="
         }
       },
       "is_incremental": false,
@@ -1305,7 +1317,7 @@
       "output": {
         ".html": {
           "relative_path": "api/Microsoft.CST.AttackSurfaceAnalyzer.html",
-          "hash": "3TCqXdAhox6aY6Vx9bSBceUpbK+VvSTL4bJ0/upJ+E8="
+          "hash": "xvC80b3Qwt8MiYeqeqqigB/siuFakuGlbufln4gZWwU="
         }
       },
       "is_incremental": false,
@@ -1329,7 +1341,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "c1qf72MCvA6F/ZK9tVdUKrSgKboP9X3XyPjz8HfztRY="
+          "hash": "A69Q6WsNGMHqZwCbShtR9lmbRnKpz/N1Yjw1RlFtgYc="
         }
       },
       "is_incremental": false,
@@ -1380,7 +1392,7 @@
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 109,
+          "total_file_count": 110,
           "skipped_file_count": 0
         },
         "TocDocumentProcessor": {

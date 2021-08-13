@@ -545,22 +545,22 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare
   nameWithType: BaseCompare.Compare
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Nullable{System.Object},System.Nullable{System.Object})
-  name: GetDiffs(PropertyInfo, Nullable<Object>, Nullable<Object>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_PropertyInfo_System_Nullable_System_Object__System_Nullable_System_Object__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo,System.Nullable{System.Object},System.Nullable{System.Object})
-  name.vb: GetDiffs(PropertyInfo, Nullable(Of Object), Nullable(Of Object))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo, System.Nullable<System.Object>, System.Nullable<System.Object>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs(PropertyInfo, System.Nullable(Of System.Object), System.Nullable(Of System.Object))
-  nameWithType: BaseCompare.GetDiffs(PropertyInfo, Nullable<Object>, Nullable<Object>)
-  nameWithType.vb: BaseCompare.GetDiffs(PropertyInfo, Nullable(Of Object), Nullable(Of Object))
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs*
-  name: GetDiffs
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GetDiffs_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable{System.Object},System.Nullable{System.Object})
+  name: GenerateDiffs(Nullable<Object>, Nullable<Object>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Nullable_System_Object__System_Nullable_System_Object__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable{System.Object},System.Nullable{System.Object})
+  name.vb: GenerateDiffs(Nullable(Of Object), Nullable(Of Object))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable<System.Object>, System.Nullable<System.Object>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable(Of System.Object), System.Nullable(Of System.Object))
+  nameWithType: BaseCompare.GenerateDiffs(Nullable<Object>, Nullable<Object>)
+  nameWithType.vb: BaseCompare.GenerateDiffs(Nullable(Of Object), Nullable(Of Object))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs*
+  name: GenerateDiffs
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs
   isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GetDiffs
-  nameWithType: BaseCompare.GetDiffs
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs
+  nameWithType: BaseCompare.GenerateDiffs
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.IsRunning
   name: IsRunning()
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_IsRunning
@@ -587,32 +587,6 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Results
   nameWithType: BaseCompare.Results
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Start
-  name: Start()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Start
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Start
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Start()
-  nameWithType: BaseCompare.Start()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Start*
-  name: Start
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Start_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Start
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Start
-  nameWithType: BaseCompare.Start
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop
-  name: Stop()
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Stop
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop()
-  nameWithType: BaseCompare.Stop()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop*
-  name: Stop
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Stop_
-  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop
-  isSpec: "True"
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Stop
-  nameWithType: BaseCompare.Stop
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
   name: TryCompare(Nullable<String>, String, DatabaseManager)
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_
@@ -988,6 +962,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FilePathToFileSystemObject
   nameWithType: FileSystemCollector.FilePathToFileSystemObject
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.GetDefaultRoots
+  name: GetDefaultRoots()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemCollector_GetDefaultRoots
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.GetDefaultRoots
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.GetDefaultRoots()
+  nameWithType: FileSystemCollector.GetDefaultRoots()
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.GetDefaultRoots*
+  name: GetDefaultRoots
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemCollector_GetDefaultRoots_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.GetDefaultRoots
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.GetDefaultRoots
+  nameWithType: FileSystemCollector.GetDefaultRoots
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.Roots
   name: Roots
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemCollector_Roots
@@ -1385,6 +1372,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.CanRunOnPlatform
   nameWithType: RegistryCollector.CanRunOnPlatform
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetDefaultHives
+  name: GetDefaultHives()
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_RegistryCollector_GetDefaultHives
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetDefaultHives
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetDefaultHives()
+  nameWithType: RegistryCollector.GetDefaultHives()
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetDefaultHives*
+  name: GetDefaultHives
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_RegistryCollector_GetDefaultHives_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetDefaultHives
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.GetDefaultHives
+  nameWithType: RegistryCollector.GetDefaultHives
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryMonitor
   name: RegistryMonitor
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryMonitor.html
@@ -2085,6 +2085,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.SecondRunId
   nameWithType: ExportCollectCommandOptions.SecondRunId
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportGuidedCommandOptions
+  name: ExportGuidedCommandOptions
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportGuidedCommandOptions.html
+  commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.ExportGuidedCommandOptions
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportGuidedCommandOptions
+  nameWithType: ExportGuidedCommandOptions
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportMonitorCommandOptions
   name: ExportMonitorCommandOptions
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportMonitorCommandOptions.html
@@ -3669,6 +3675,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.Pkcs7
   nameWithType: CertificateObject.Pkcs7
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CertificateObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.ResultType
+  nameWithType: CertificateObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CertificateObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.ResultType
+  nameWithType: CertificateObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.StoreLocation
   name: StoreLocation
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CertificateObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CertificateObject_StoreLocation
@@ -3811,6 +3830,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.Key
   nameWithType: ComObject.Key
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ComObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.ResultType
+  nameWithType: ComObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ComObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.ResultType
+  nameWithType: ComObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.x64_Binary
   name: x64_Binary
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ComObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ComObject_x64_Binary
@@ -4057,6 +4089,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.Identity
   nameWithType: CryptographicKeyObject.Identity
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CryptographicKeyObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.ResultType
+  nameWithType: CryptographicKeyObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CryptographicKeyObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.ResultType
+  nameWithType: CryptographicKeyObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.RsaDetails
   name: RsaDetails
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.CryptographicKeyObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CryptographicKeyObject_RsaDetails
@@ -4539,6 +4584,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.Refs
   nameWithType: DriverObject.Refs
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_DriverObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.ResultType
+  nameWithType: DriverObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_DriverObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.ResultType
+  nameWithType: DriverObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.Signature
   name: Signature
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.DriverObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_DriverObject_Signature
@@ -4727,6 +4785,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.Process
   nameWithType: EventLogObject.Process
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_EventLogObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.ResultType
+  nameWithType: EventLogObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_EventLogObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.ResultType
+  nameWithType: EventLogObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.Source
   name: Source
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.EventLogObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_EventLogObject_Source
@@ -4973,6 +5044,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.Path
   nameWithType: FileMonitorObject.Path
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.ResultType
+  nameWithType: FileMonitorObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.ResultType
+  nameWithType: FileMonitorObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.Timestamp
   name: Timestamp
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject_Timestamp
@@ -5251,6 +5335,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.PermissionsString
   nameWithType: FileSystemObject.PermissionsString
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ResultType
+  nameWithType: FileSystemObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ResultType
+  nameWithType: FileSystemObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.SetGid
   name: SetGid
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject_SetGid
@@ -5556,6 +5653,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.RemotePorts
   nameWithType: FirewallObject.RemotePorts
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FirewallObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.ResultType
+  nameWithType: FirewallObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FirewallObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.ResultType
+  nameWithType: FirewallObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.Scope
   name: Scope
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FirewallObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FirewallObject_Scope
@@ -5705,6 +5815,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.Properties
   nameWithType: GroupAccountObject.Properties
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_GroupAccountObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.ResultType
+  nameWithType: GroupAccountObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_GroupAccountObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.ResultType
+  nameWithType: GroupAccountObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.SID
   name: SID
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.GroupAccountObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_GroupAccountObject_SID
@@ -5969,6 +6092,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessName
   nameWithType: OpenPortObject.ProcessName
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_OpenPortObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ResultType
+  nameWithType: OpenPortObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_OpenPortObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ResultType
+  nameWithType: OpenPortObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.Type
   name: Type
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_OpenPortObject_Type
@@ -6295,6 +6431,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ProcessName
   nameWithType: ProcessObject.ProcessName
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ResultType
+  nameWithType: ProcessObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.ResultType
+  nameWithType: ProcessObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.StartTime
   name: StartTime
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessObject_StartTime
@@ -6408,6 +6557,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.PermissionsString
   nameWithType: RegistryObject.PermissionsString
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.ResultType
+  nameWithType: RegistryObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.ResultType
+  nameWithType: RegistryObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.SubkeyCount
   name: SubkeyCount
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_SubkeyCount
@@ -7510,6 +7672,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ProcessId
   nameWithType: ServiceObject.ProcessId
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ServiceObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ResultType
+  nameWithType: ServiceObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ServiceObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ResultType
+  nameWithType: ServiceObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.ServiceSpecificExitCode
   name: ServiceSpecificExitCode
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ServiceObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ServiceObject_ServiceSpecificExitCode
@@ -8079,6 +8254,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.RandomKeys
   nameWithType: TpmObject.RandomKeys
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_TpmObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.ResultType
+  nameWithType: TpmObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_TpmObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.ResultType
+  nameWithType: TpmObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.TpmSpecDate
   name: TpmSpecDate
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.TpmObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_TpmObject_TpmSpecDate
@@ -8410,6 +8598,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.Properties
   nameWithType: UserAccountObject.Properties
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_UserAccountObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.ResultType
+  nameWithType: UserAccountObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_UserAccountObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.ResultType
+  nameWithType: UserAccountObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.Shell
   name: Shell
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.UserAccountObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_UserAccountObject_Shell
@@ -8520,6 +8721,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.Password
   nameWithType: WifiObject.Password
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.ResultType
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_WifiObject_ResultType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.ResultType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.ResultType
+  nameWithType: WifiObject.ResultType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.ResultType*
+  name: ResultType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_WifiObject_ResultType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.ResultType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.ResultType
+  nameWithType: WifiObject.ResultType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.SSID
   name: SSID
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.WifiObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_WifiObject_SSID
