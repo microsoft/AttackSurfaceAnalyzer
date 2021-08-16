@@ -41,7 +41,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// </summary>
         public int Port { get; set; }
 
+        /// <summary>
+        /// The associated process if known
+        /// </summary>
         public string? ProcessName { get; set; }
+
+        /// <summary>
+        /// The associated process ID if known
+        /// </summary>
+        public int? ProcessId { get; set; }
 
         /// <summary>
         ///     TCP or UDP

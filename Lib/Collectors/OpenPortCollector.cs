@@ -23,21 +23,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public override bool CanRunOnPlatform()
         {
-            try
-            {
-                var osRelease = File.ReadAllText("/proc/sys/kernel/osrelease") ?? "";
-                osRelease = osRelease.ToUpperInvariant();
-                if (osRelease.Contains("MICROSOFT") || osRelease.Contains("WSL"))
-                {
-                    Log.Error("OpenPortCollector cannot run on WSL until https://github.com/Microsoft/WSL/issues/2249 is fixed.");
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                /* OK to ignore, expecting this on non-Linux platforms. */
-            };
-
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
 
@@ -65,7 +50,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         {
             try
             {
-                var result = ExternalCommandRunner.RunExternalCommand("ss", "-ln");
+                var result = ExternalCommandRunner.RunExternalCommand("ss", "-lnp");
 
                 foreach (var _line in result.Split('\n'))
                 {
@@ -92,11 +77,31 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         {
                             var transport = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP;
                             var family = address.Contains('.') ? ADDRESS_FAMILY.InterNetwork : address.Contains(':') ? ADDRESS_FAMILY.InterNetworkV6 : ADDRESS_FAMILY.Unknown;
-                            var obj = new OpenPortObject(portInt, transport, family)
+                            var process = string.Empty;
+
+                            if (parts.Length > 6)
                             {
-                                Address = address
-                            };
-                            HandleChange(obj);
+                                var processNameMatches = Regex.Matches(parts[6], @"""(.*?)"",([0-9]*)");
+                                foreach(Match match in processNameMatches)
+                                {
+                                    int? pid = int.TryParse(match.Groups[2].Value, out int thePid) ? thePid : null;
+                                    var obj = new OpenPortObject(portInt, transport, family)
+                                    {
+                                        Address = address,
+                                        ProcessName = match.Groups[1].Value,
+                                        ProcessId = pid
+                                    };
+                                    HandleChange(obj);
+                                }
+                            }
+                            else
+                            {
+                                var obj = new OpenPortObject(portInt, transport, family)
+                                {
+                                    Address = address
+                                };
+                                HandleChange(obj);
+                            }
                         }
                     }
                 }
@@ -190,10 +195,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 var obj = new OpenPortObject(endpoint.Port, TRANSPORT.TCP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
                     Address = endpoint.Address.ToString(),
+                    ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName,
+                    ProcessId = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessId
                 };
-
-                obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
-
                 HandleChange(obj);
             }
 
@@ -201,10 +205,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 var obj = new OpenPortObject(endpoint.Port, TRANSPORT.UDP, (ADDRESS_FAMILY)endpoint.AddressFamily)
                 {
-                    Address = endpoint.Address.ToString()
+                    Address = endpoint.Address.ToString(),
+                    ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName,
+                    ProcessId = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessId
                 };
-
-                obj.ProcessName = Win32ProcessPorts.ProcessPortMap.Find(x => x.PortNumber == endpoint.Port)?.ProcessName;
 
                 HandleChange(obj);
             }
