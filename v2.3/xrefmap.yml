@@ -6079,6 +6079,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.Port
   nameWithType: OpenPortObject.Port
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessId
+  name: ProcessId
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_OpenPortObject_ProcessId
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessId
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessId
+  nameWithType: OpenPortObject.ProcessId
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessId*
+  name: ProcessId
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_OpenPortObject_ProcessId_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessId
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessId
+  nameWithType: OpenPortObject.ProcessId
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.ProcessName
   name: ProcessName
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.OpenPortObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_OpenPortObject_ProcessName
