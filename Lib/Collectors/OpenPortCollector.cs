@@ -81,7 +81,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                             if (parts.Length > 6)
                             {
-                                var processNameMatches = Regex.Matches(parts[6], @"""(.*?)"",([0-9]*)");
+                                var processNameMatches = Regex.Matches(parts[6], @"""(.*?)"",pid=([0-9]*)");
                                 foreach(Match match in processNameMatches)
                                 {
                                     int? pid = int.TryParse(match.Groups[2].Value, out int thePid) ? thePid : null;
