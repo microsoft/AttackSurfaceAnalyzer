@@ -4,7 +4,6 @@ using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
-using System.IO;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -51,35 +50,32 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             try
             {
                 var result = ExternalCommandRunner.RunExternalCommand("ss", "-lnp");
-
-                foreach (var _line in result.Split('\n'))
+                foreach (var _line in result.Split('\n')[1..])
                 {
                     if (cancellationToken.IsCancellationRequested) { return; }
 
                     var line = _line;
-                    line = line.ToUpperInvariant();
-                    if (!line.Contains("LISTEN"))
+                    if (!line.Contains("LISTEN", StringComparison.InvariantCultureIgnoreCase))
                     {
                         continue;
                     }
-                    var parts = Regex.Split(line, @"\s+");
+                    var parts = Regex.Split(line, @"\s\s+");
                     if (parts.Length < 5)
                     {
                         continue;       // Not long enough, must be an error
                     }
 
-                    var addressMatches = Regex.Match(parts[4], @"^(.*):(\d+)$");
+                    var addressMatches = Regex.Match(parts[4], @"^(.*)[:\s](\d+)$");
+                    Console.WriteLine(parts[4]);
                     if (addressMatches.Success)
                     {
-                        var address = addressMatches.Groups[1].ToString();
-                        var port = addressMatches.Groups[2].ToString();
+                        var address = addressMatches.Groups[1].Value;
+                        var port = addressMatches.Groups[2].Value;
                         if (int.TryParse(port, out int portInt))
                         {
-                            var transport = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : TRANSPORT.UDP;
+                            var transport = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : parts[0].ToUpperInvariant().Equals("UDP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
                             var family = address.Contains('.') ? ADDRESS_FAMILY.InterNetwork : address.Contains(':') ? ADDRESS_FAMILY.InterNetworkV6 : ADDRESS_FAMILY.Unknown;
-                            var process = string.Empty;
-
-                            if (parts.Length > 6)
+                            if (parts.Length > 6 && !string.IsNullOrWhiteSpace(parts[6]))
                             {
                                 var processNameMatches = Regex.Matches(parts[6], @"""(.*?)"",pid=([0-9]*)");
                                 foreach(Match match in processNameMatches)
