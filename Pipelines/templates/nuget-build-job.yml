@@ -27,6 +27,9 @@ parameters:
 - name: artifactName
   type: string
   default: 'Unsigned_Binaries'
+- name: flags
+  type: string
+  default: '/p:PublicRelease=true'
 
 jobs:
 - job: ${{ parameters.jobName }}
@@ -54,7 +57,7 @@ jobs:
     inputs:
       command: 'custom'
       custom: 'pack'
-      arguments: '${{ parameters.projectPath }} -c ${{ parameters.buildConfiguration }} -o Packages'
+      arguments: '${{ parameters.projectPath }} -c ${{ parameters.buildConfiguration }} -o Packages ${{ parameters.flags }}'
   - task: AntiMalware@3
     displayName: Anti-Malware Scan
     inputs:
