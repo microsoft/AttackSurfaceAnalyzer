@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using CommandLine;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.CodeAnalysis.Sarif;
 using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
-using CommandLine;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.CST.OAT;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -19,7 +19,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -513,7 +512,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, analysesHash);
             }
 
-            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash);
+            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash, ruleFile.Rules);
         }
 
         private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts, string analysesHash)
@@ -540,7 +539,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             metadata.Add("analyses-hash", analysesHash);
             if (opts.ExplodedOutput)
             {
-                results.Add("metadata",metadata);
+                results.Add("metadata", metadata);
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
@@ -574,7 +573,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash)
+        private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
@@ -617,6 +616,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var output = new Dictionary<string, object>();
                 output["results"] = results;
                 output["metadata"] = metadata;
+
+                // sample usage of the static method WriteSarifLog(): 
+                // string pathSarif = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.Sarif"));
+                // WriteSarifLog(output, rules, pathSarif);
+
                 using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
                 {
                     using (JsonWriter writer = new JsonTextWriter(sw))
@@ -627,6 +631,180 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
             }
             return ASA_ERROR.NONE;
+        }
+
+        /// <summary>
+        /// Write log in Sarif format
+        /// </summary>
+        /// <param name="output">output of the analyzer result</param>
+        /// <param name="rules">list of rules used</param>
+        /// <param name="outputFilePath">file path of the Sarif log</param>
+        private static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath)
+        {
+            var metadata = (Dictionary<string, string>)output["metadata"];
+            var results = (Dictionary<string, object>)output["results"];
+            var version = metadata["compare-version"];
+
+            var log = new SarifLog();
+            SarifVersion sarifVersion = SarifVersion.Current;
+            log.SchemaUri = sarifVersion.ConvertToSchemaUri();
+            log.Version = sarifVersion;
+            log.Runs = new List<Run>();
+            var run = new Run();
+            var artifacts = new List<Artifact>();
+            run.Tool = new Tool
+            {
+                Driver = new ToolComponent
+                {
+                    Name = $"Attack Surface Analyzer",
+                    InformationUri = new Uri("https://github.com/microsoft/AttackSurfaceAnalyzer/"),
+                    Organization = "Microsoft",
+                    Version = version,
+                }
+            };
+
+            var reportingDescriptors = new List<ReportingDescriptor>();
+
+            foreach (var rule in rules)
+            {
+                if (!reportingDescriptors.Any(r => r.Id == rule.Name))
+                {
+                    var reportingDescriptor = new ReportingDescriptor()
+                    {
+                        FullDescription = new MultiformatMessageString() { Text = rule.Description },
+                        Id = rule.Name,
+                    };
+                    reportingDescriptor.DefaultConfiguration = new ReportingConfiguration()
+                    {
+                        Level = GetSarifFailureLevel((ANALYSIS_RESULT_TYPE)rule.Severity)
+                    };
+                    reportingDescriptor.SetProperty("ChangeTypes", string.Join(',', rule.ChangeTypes));
+                    reportingDescriptor.SetProperty("Platforms", string.Join(',', rule.Platforms));
+                    reportingDescriptor.SetProperty("ResultType", rule.ResultType.ToString());
+                    reportingDescriptors.Add(reportingDescriptor);
+                }
+            }
+
+            run.Tool.Driver.Rules = new List<ReportingDescriptor>(reportingDescriptors);
+
+            var settings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+            };
+
+            var sarifResults = new List<Result>();
+
+            foreach (var item in results)
+            {
+                var compareResults = (List<CompareResult>)item.Value;
+                foreach (var compareResult in compareResults)
+                {
+                    if (!artifacts.Any(a => a.Location.Description.Text.ToString() == compareResult.Identity))
+                    {
+                        var artifact = new Artifact
+                        {
+                            Location = new ArtifactLocation()
+                            {
+                                Index = artifacts.Count,
+                                Description = new Message() { Text = compareResult.Identity }
+                            }
+                        };
+
+                        if (Uri.TryCreate(compareResult.Identity, UriKind.RelativeOrAbsolute, out Uri? outUri))
+                        {
+                            artifact.Location.Uri = outUri;
+                        }
+
+                        artifact.SetProperty("Analysis", compareResult.Analysis.ToString());
+
+                        if (compareResult.Base != null)
+                        {
+                            artifact.SetProperty("Base", compareResult.Base);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(compareResult.BaseRunId))
+                        {
+                            artifact.SetProperty("BaseRunId", compareResult.BaseRunId.ToString());
+                        }
+
+                        artifact.SetProperty("ChangeType", compareResult.ChangeType.ToString());
+
+                        if (compareResult.Compare != null)
+                        {
+                            artifact.SetProperty("Compare", compareResult.Compare);
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(compareResult.CompareRunId))
+                        {
+                            artifact.SetProperty("CompareRunId", compareResult.CompareRunId);
+                        }
+
+                        if (compareResult.Diffs != null && compareResult.Diffs.Count > 0)
+                        {
+                            artifact.SetProperty("Diffs", compareResult.Diffs);
+                        }
+
+                        artifact.SetProperty("ResultType", compareResult.ResultType.ToString());
+
+                        artifacts.Add(artifact);
+                    }
+
+                    foreach (var rule in compareResult.Rules)
+                    {
+                        var sarifResult = new Result();
+                        int index = artifacts.FindIndex(a => a.Location.Description.Text == compareResult.Identity);
+
+                        sarifResult.Locations = new List<Location>()
+                        {
+                            new Location() {
+                                PhysicalLocation = new PhysicalLocation()
+                                {
+                                    ArtifactLocation = new ArtifactLocation()
+                                    {
+                                        Index = index
+                                    }
+                                }
+                            }
+                        };
+
+                        sarifResult.Level = GetSarifFailureLevel((ANALYSIS_RESULT_TYPE)rule.Severity);
+
+                        if (!string.IsNullOrWhiteSpace(rule.Name))
+                        {
+                            sarifResult.RuleId = rule.Name;
+                        }
+
+                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType.ToString()) };
+
+                        sarifResults.Add(sarifResult);
+                    }
+                }
+            }
+
+            run.Results = sarifResults;
+            run.Artifacts = artifacts;
+
+            run.SetProperty("compare-os", metadata["compare-os"]);
+            run.SetProperty("compare-osversion", metadata["compare-osversion"]);
+            run.SetProperty("analyses-hash", metadata["analyses-hash"]);
+
+            log.Runs.Add(run);
+
+            File.WriteAllText(outputFilePath, JsonConvert.SerializeObject(log, settings));
+        }
+
+        private static FailureLevel GetSarifFailureLevel(ANALYSIS_RESULT_TYPE type)
+        {
+            return type switch
+            {
+                ANALYSIS_RESULT_TYPE.NONE or
+                ANALYSIS_RESULT_TYPE.VERBOSE or
+                ANALYSIS_RESULT_TYPE.DEBUG or
+                ANALYSIS_RESULT_TYPE.INFORMATION => FailureLevel.Note,
+                ANALYSIS_RESULT_TYPE.WARNING => FailureLevel.Warning,
+                ANALYSIS_RESULT_TYPE.ERROR or ANALYSIS_RESULT_TYPE.FATAL => FailureLevel.Error,
+                _ => FailureLevel.None,
+            };
         }
 
         private class AsaExportContractResolver : DefaultContractResolver
@@ -709,7 +887,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 InsertCompareResults(monitorResult, null, opts.RunId, analysesHash);
             }
 
-            return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash);
+            return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash, ruleFile.Rules);
         }
 
         public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
