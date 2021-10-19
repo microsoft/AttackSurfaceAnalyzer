@@ -204,7 +204,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 results.TryAdd(key, monitorResult[key]);
             });
 
-            return ExportGuidedModeResults(results, opts, analysisFile.GetHash());
+            return ExportGuidedModeResults(results, opts, analysisFile.GetHash(), analysisFile.Rules);
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
