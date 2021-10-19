@@ -639,7 +639,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         /// <param name="output">output of the analyzer result</param>
         /// <param name="rules">list of rules used</param>
         /// <param name="outputFilePath">file path of the Sarif log</param>
-        private static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath)
+        public static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath)
+        {
+            var log = GenerateSarifLog(output, rules);
+
+            var settings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+            };
+
+            File.WriteAllText(outputFilePath, JsonConvert.SerializeObject(log, settings));
+        }
+
+        public static SarifLog GenerateSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules)
         {
             var metadata = (Dictionary<string, string>)output["metadata"];
             var results = (Dictionary<string, object>)output["results"];
@@ -686,11 +698,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
 
             run.Tool.Driver.Rules = new List<ReportingDescriptor>(reportingDescriptors);
-
-            var settings = new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-            };
 
             var sarifResults = new List<Result>();
 
@@ -790,7 +797,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             log.Runs.Add(run);
 
-            File.WriteAllText(outputFilePath, JsonConvert.SerializeObject(log, settings));
+            return log;
         }
 
         private static FailureLevel GetSarifFailureLevel(ANALYSIS_RESULT_TYPE type)
