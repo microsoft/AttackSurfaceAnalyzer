@@ -515,7 +515,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash, ruleFile.Rules);
         }
 
-        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts, string analysesHash)
+        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts, string analysesHash, IEnumerable<AsaRule> rules)
         {
             if (opts.RunId == null)
             {
