@@ -2175,6 +2175,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputPath
   nameWithType: ExportOptions.OutputPath
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif
+  name: OutputSarif
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_OutputSarif
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif
+  nameWithType: ExportOptions.OutputSarif
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif*
+  name: OutputSarif
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_OutputSarif_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif
+  nameWithType: ExportOptions.OutputSarif
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.RunScripts
   name: RunScripts
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_RunScripts
@@ -2304,6 +2317,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExplodedOutput
   nameWithType: GuidedModeCommandOptions.ExplodedOutput
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExportSarif
+  name: ExportSarif
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuidedModeCommandOptions_ExportSarif
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExportSarif
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExportSarif
+  nameWithType: GuidedModeCommandOptions.ExportSarif
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExportSarif*
+  name: ExportSarif
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuidedModeCommandOptions_ExportSarif_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExportSarif
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.ExportSarif
+  nameWithType: GuidedModeCommandOptions.ExportSarif
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.FileNamesOnly
   name: FileNamesOnly
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuidedModeCommandOptions_FileNamesOnly
