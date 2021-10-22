@@ -69,7 +69,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             AttackSurfaceAnalyzer.Utils.Strings.Setup();
 
-            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions>(args)
+            var argsResult = Parser.Default.ParseArguments<CollectCommandOptions, MonitorCommandOptions, ExportMonitorCommandOptions, ExportCollectCommandOptions, ConfigCommandOptions, GuiCommandOptions, VerifyOptions, GuidedModeCommandOptions>(args)
                 .MapResult(
                     (CollectCommandOptions opts) =>
                     {
