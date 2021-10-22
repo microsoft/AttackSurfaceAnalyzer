@@ -22,6 +22,12 @@
     <None Update="ComRegistration.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\ExportTests\TestGenerateSarifLog\output.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\ExportTests\TestGenerateSarifLog\rules.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TpmSim\Simulator.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

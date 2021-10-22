@@ -245,6 +245,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Enable running Scripts in rules")]
         public bool RunScripts { get; set; }
+
+        [Option(HelpText = "Output Sarif")]
+        public bool OutputSarif { get; set; }
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser.")]
@@ -291,6 +294,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Run Scripts")]
         public bool RunScripts { get; set; }
+
+        [Option(HelpText = "Export Sarif")]
+        public bool ExportSarif { get; set; }
     }
 
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
