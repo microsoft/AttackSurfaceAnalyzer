@@ -203,8 +203,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 results.TryAdd(key, monitorResult[key]);
             });
-
-            return ExportGuidedModeResults(results, opts, analysisFile.GetHash(), analysisFile.Rules);
+            var exOpts = new ExportOptions();
+            exOpts.OutputSarif = opts.ExportSarif;
+            exOpts.OutputPath = opts.OutputPath;
+            exOpts.ExplodedOutput = opts.ExplodedOutput;
+            return ExportCompareResults(results, exOpts, AsaHelpers.MakeValidFileName(opts.RunId), analysisFile.GetHash(), analysisFile.Rules);
         }
 
         public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
@@ -515,64 +518,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash, ruleFile.Rules);
         }
 
-        private static ASA_ERROR ExportGuidedModeResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, GuidedModeCommandOptions opts, string analysesHash, IEnumerable<AsaRule> rules)
-        {
-            if (opts.RunId == null)
-            {
-                return ASA_ERROR.INVALID_ID;
-            }
-            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                Converters = new List<JsonConverter>() { new StringEnumConverter() },
-                ContractResolver = new AsaExportContractResolver()
-            });
-            var outputPath = opts.OutputPath;
-            if (outputPath is null)
-            {
-                outputPath = Directory.GetCurrentDirectory();
-            }
-            var metadata = AsaHelpers.GenerateMetadata();
-            metadata.Add("analyses-hash", analysesHash);
-            if (opts.ExplodedOutput)
-            {
-                results.Add("metadata", metadata);
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId));
-                Directory.CreateDirectory(path);
-                foreach (var key in results.Keys)
-                {
-                    string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
-                    using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
-                    {
-                        using (JsonWriter writer = new JsonTextWriter(sw))
-                        {
-                            serializer.Serialize(writer, results[key]);
-                        }
-                    }
-                }
-                Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
-            }
-            else
-            {
-                string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(opts.RunId + "_summary.json.txt"));
-                var output = new Dictionary<string, object>();
-                output["results"] = results;
-                output["metadata"] = metadata;
-                using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
-                {
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, output);
-                    }
-                }
-                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
-            }
-            return ASA_ERROR.NONE;
-        }
-
         private static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
@@ -600,11 +545,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 foreach (var key in results.Keys)
                 {
                     string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
-                    using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
+                    if (opts.OutputSarif)
                     {
-                        using (JsonWriter writer = new JsonTextWriter(sw))
+                        WriteSarifLog(new Dictionary<string, object>() { { key, results[key] } }, rules, filePath);
+                    }
+                    else
+                    {
+                        using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
                         {
-                            serializer.Serialize(writer, results[key]);
+                            using (JsonWriter writer = new JsonTextWriter(sw))
+                            {
+                                serializer.Serialize(writer, results[key]);
+                            }
                         }
                     }
                 }
@@ -617,18 +569,24 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 output["results"] = results;
                 output["metadata"] = metadata;
 
-                // sample usage of the static method WriteSarifLog(): 
-                // string pathSarif = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.Sarif"));
-                // WriteSarifLog(output, rules, pathSarif);
-
-                using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
+                if (opts.OutputSarif)
                 {
-                    using (JsonWriter writer = new JsonTextWriter(sw))
-                    {
-                        serializer.Serialize(writer, output);
-                    }
+                    string pathSarif = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.Sarif"));
+                    WriteSarifLog(output, rules, pathSarif);
+                    Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(pathSarif)).FullName);
                 }
-                Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
+                else
+                {
+
+                    using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
+                    {
+                        using (JsonWriter writer = new JsonTextWriter(sw))
+                        {
+                            serializer.Serialize(writer, output);
+                        }
+                    }
+                    Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
+                }
             }
             return ASA_ERROR.NONE;
         }

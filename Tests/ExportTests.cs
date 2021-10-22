@@ -42,7 +42,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
             var sarif = AttackSurfaceAnalyzerClient.GenerateSarifLog(outputDictionary, rulesList);
 
-            Assert.AreEqual(sarif.Runs[0].Tool.Driver.Version, "2.4.10-alpha+5351e91d1c");
             Assert.AreEqual(sarif.Runs[0].Artifacts.Count, 3);
             Assert.IsTrue(sarif.Runs[0].Artifacts.Any(a => a.Location.Description.Text == "C:\\Test\\Scan2\\TestAddText.txt"));
             Assert.IsTrue(sarif.Runs[0].Artifacts.Any(a => a.Location.Description.Text == "C:\\Test\\Scan2\\TestAddExe.exe"));
