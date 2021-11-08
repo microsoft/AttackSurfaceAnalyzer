@@ -846,6 +846,65 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
         }
 
+        private static ASA_ERROR RunExportGuidedCommand(ExportGuidedCommandOptions opts)
+        {
+            if (DatabaseManager is null)
+            {
+                Log.Error("Err_DatabaseManagerNull", "RunExportCollectCommand");
+                return ASA_ERROR.DATABASE_NULL;
+            }
+            if (opts.OutputPath != null && !Directory.Exists(opts.OutputPath))
+            {
+                Log.Fatal(Strings.Get("Err_OutputPathNotExist"), opts.OutputPath);
+                return ASA_ERROR.INVALID_PATH;
+            }
+
+            if (opts.RunId is null)
+            {
+                Log.Fatal("Provided null run id is null.");
+                return ASA_ERROR.INVALID_ID;
+            }
+
+            var ruleFile = LoadRulesFromFileOrEmbedded(opts.AnalysesFile);
+            if (!ruleFile.Rules.Any())
+            {
+                Log.Warning(Strings.Get("Err_NoRules"));
+                return ASA_ERROR.INVALID_RULES;
+            }
+
+            var first = GuidedRunIdToFirstCollectRunId(opts.RunId);
+            var second = GuidedRunIdToSecondCollectRunId(opts.RunId);
+            var monitor = GuidedRunIdToMonitorRunId(opts.RunId);
+            Log.Information(Strings.Get("Comparing"), first, second);
+
+            CompareCommandOptions options = new CompareCommandOptions(first, second)
+            {
+                DatabaseFilename = opts.DatabaseFilename,
+                AnalysesFile = ruleFile,
+                DisableAnalysis = opts.DisableAnalysis,
+                SaveToDatabase = opts.SaveToDatabase,
+                RunScripts = opts.RunScripts
+            };
+
+            var GuidedOptions = new GuidedModeCommandOptions()
+            {
+                RunId = opts.RunId,
+                RunScripts = opts.RunScripts,
+                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
+                SaveToDatabase = opts.SaveToDatabase,
+                DisableAnalysis = opts.DisableAnalysis
+            };
+
+            var results = AnalyzeGuided(GuidedOptions, ruleFile);
+            var analysesHash = options.AnalysesFile.GetHash();
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(results, first, second, analysesHash);
+            }
+
+            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName($"{first}_vs_{second}"), analysesHash, options.AnalysesFile.Rules);
+        }
+
         private static ASA_ERROR RunExportMonitorCommand(ExportMonitorCommandOptions opts)
         {
             if (DatabaseManager is null)
