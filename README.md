@@ -25,7 +25,7 @@ Documentation for the [API](https://microsoft.github.io/AttackSurfaceAnalyzer/ap
 
 ## Overview
 
-Attack Surface Analyzer 2 replaces the original [Attack Surface Analyzer](https://www.microsoft.com/en-us/download/details.aspx?id=24487) tool, released publicly in 2012.
+Attack Surface Analyzer 2 replaces the original Attack Surface Analyzer tool, released publicly in 2012.
 
 Potential users of Attack Surface Analyzer include:
 
