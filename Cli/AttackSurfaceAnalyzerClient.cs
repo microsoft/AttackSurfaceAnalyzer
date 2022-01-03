@@ -183,12 +183,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             var exportOpts = new ExportGuidedCommandOptions()
             {
-                RunId = opts.RunId,
+                ExplodedOutput = opts.ExplodedOutput,
+                OutputSarif = opts.ExportSarif,
                 OutputPath = opts.OutputPath,
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor
             };
+            var first = GuidedRunIdToFirstCollectRunId(opts.RunId);
+            var second = GuidedRunIdToSecondCollectRunId(opts.RunId);
+            var analysesHash = analysisFile.GetHash();
 
-            return ExportGuidedModeResults(results, exportOpts, analysisFile.GetHash());
+            return ExportCompareResults(results, exportOpts, AsaHelpers.MakeValidFileName($"{first}_vs_{second}"), analysesHash, analysisFile.Rules);
         }
 
         private static ASA_ERROR RunExportGuidedCommand(ExportGuidedCommandOptions opts)
@@ -247,7 +251,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 InsertCompareResults(results, first, second, analysesHash);
             }
 
-            return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName($"{first}_vs_{second}"), analysesHash, options.AnalysesFile.Rules);
+            var exportOptions = new ExportOptions()
+            {
+                OutputSarif = opts.OutputSarif,
+                OutputPath = opts.OutputPath,
+                ExplodedOutput = opts.ExplodedOutput
+            };
+
+            return ExportCompareResults(results, exportOptions, AsaHelpers.MakeValidFileName($"{first}_vs_{second}"), analysesHash, options.AnalysesFile.Rules);
         }
 
         static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeGuided(GuidedModeCommandOptions opts, RuleFile analysisFile)
