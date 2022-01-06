@@ -2,6 +2,7 @@
 @using Microsoft.CST.AttackSurfaceAnalyzer.Objects
 @using System.IO
 @using System.Collections.Concurrent
+@using Microsoft.CST.AttackSurfaceAnalyzer.Utils
 @using Microsoft.CST.OAT.Blazor.Components.Inputs
 @using static Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData appData
@@ -227,17 +228,17 @@ else
         if (!string.IsNullOrEmpty(GuidedRunId))
         {
             var guidedOpts = new ExportGuidedCommandOptions() { RunId = GuidedRunId, OutputPath = ExportPath, ApplySubObjectRulesToMonitor = true };
-            AttackSurfaceAnalyzerClient.ExportGuidedModeResults(results, guidedOpts, AnalysesHash);
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, guidedOpts, AsaHelpers.MakeValidFileName($"{AttackSurfaceAnalyzerClient.GuidedRunIdToFirstCollectRunId(guidedOpts.RunId)}_vs_{AttackSurfaceAnalyzerClient.GuidedRunIdToSecondCollectRunId(guidedOpts.RunId)}"), AnalysesHash, Array.Empty<AsaRule>());
         }
         else if (!string.IsNullOrEmpty(MonitorRunId))
         {
             var monitorOpts = new ExportMonitorCommandOptions() { RunId = MonitorRunId, OutputPath = ExportPath, ApplySubObjectRulesToMonitor = true };
-            AttackSurfaceAnalyzerClient.ExportCompareResults(results, monitorOpts, MonitorRunId, AnalysesHash);
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, monitorOpts, MonitorRunId, AnalysesHash, Array.Empty<AsaRule>());
         }
         else
         {
             var scanOpts = new ExportCollectCommandOptions() { FirstRunId = FirstRunId, SecondRunId = SecondRunId, OutputPath = ExportPath };
-            AttackSurfaceAnalyzerClient.ExportCompareResults(results, scanOpts, $"{FirstRunId} vs {SecondRunId}", AnalysesHash);
+            AttackSurfaceAnalyzerClient.ExportCompareResults(results, scanOpts, $"{FirstRunId} vs {SecondRunId}", AnalysesHash, Array.Empty<AsaRule>());
         }
     }
 

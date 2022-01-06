@@ -1,0 +1,398 @@
+{
+  "results": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.Object, System.Private.CoreLib]], System.Private.CoreLib",
+    "FILE_CREATED": {
+      "$type": "System.Collections.Generic.List`1[[Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult, AsaLib]], System.Private.CoreLib",
+      "$values": [
+        {
+          "Analysis": 2,
+          "BaseRunId": "2021-10-14T16:40:08.6642182-07:00",
+          "ChangeType": 1,
+          "Compare": {
+            "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject, AsaLib",
+            "ContentHash": "U5vuoQXdbgnk9XHXG35PFwb90oyl1iXPq63NYaMrIqpkQVU6X+ntJF7D57ZJFufpTXgPvR2zgqZu/anwz+wd2Q==",
+            "Created": "2021-10-14T23:41:18.3939762Z",
+            "Group": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Identity": "C:\\Test\\Scan2\\TestAddText.txt",
+            "LastModified": "2021-10-14T23:43:53.0879739Z",
+            "Owner": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Path": "C:\\Test\\Scan2\\TestAddText.txt",
+            "Permissions": {
+              "S-1-5-11": "Modify, Synchronize",
+              "S-1-5-18": "FullControl",
+              "S-1-5-32-544": "FullControl",
+              "S-1-5-32-545": "ReadAndExecute, Synchronize"
+            },
+            "Size": 19,
+            "ResultType": 1
+          },
+          "CompareRunId": "2021-10-14T16:44:27.3260573-07:00",
+          "Identity": "C:\\Test\\Scan2\\TestAddText.txt",
+          "ResultType": 1,
+          "AnalysesHash": "yXvUiHy+rkKstAubfKrepSYhf7tGW6Fmpq72cvzjHu/IFkPu1P6FEstdy15fnGvxhAyIcIzdWFTILRTZ6wy0yA=="
+        },
+        {
+          "Analysis": 4,
+          "BaseRunId": "2021-10-14T16:40:08.6642182-07:00",
+          "ChangeType": 1,
+          "Compare": {
+            "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject, AsaLib",
+            "ContentHash": "3ptaDfkOhjUOM6QE2HoSCAasWmp9TR77AZVXRHniF8tWDXj1YT0rrjcxQAQmpOnxh31uVxfk0hqPyBbPWddeyA==",
+            "Created": "2021-10-14T23:40:20.957942Z",
+            "Group": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Identity": "C:\\Test\\Scan2\\TestAddExe.exe",
+            "IsExecutable": true,
+            "LastModified": "2021-10-13T03:05:24.3286411Z",
+            "Owner": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Path": "C:\\Test\\Scan2\\TestAddExe.exe",
+            "Permissions": {
+              "S-1-5-11": "Modify, Synchronize",
+              "S-1-5-18": "FullControl",
+              "S-1-5-32-544": "FullControl",
+              "S-1-5-32-545": "ReadAndExecute, Synchronize"
+            },
+            "Size": 726896,
+            "ResultType": 1
+          },
+          "CompareRunId": "2021-10-14T16:44:27.3260573-07:00",
+          "Identity": "C:\\Test\\Scan2\\TestAddExe.exe",
+          "ResultType": 1,
+          "Rules": [
+            {
+              "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule, AsaLib",
+              "ChangeTypes": [
+                1,
+                3
+              ],
+              "Flag": 4,
+              "Platforms": [
+                0
+              ],
+              "ResultType": 1,
+              "Clauses": [
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "IsExecutable",
+                  "Label": "EXE",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [
+                    "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
+                  ],
+                  "DictData": [],
+                  "Field": "Characteristics",
+                  "Label": "DEP",
+                  "Operation": 6,
+                  "Arguments": []
+                }
+              ],
+              "Description": "Flag when executables are created without DEP.",
+              "Expression": "EXE AND NOT DEP",
+              "Name": "Missing DEP",
+              "Target": "FileSystemObject",
+              "Severity": 4,
+              "Tags": []
+            },
+            {
+              "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule, AsaLib",
+              "ChangeTypes": [
+                1,
+                3
+              ],
+              "Flag": 4,
+              "Platforms": [
+                0
+              ],
+              "ResultType": 1,
+              "Clauses": [
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "IsExecutable",
+                  "Label": "EXE",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [
+                    "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+                    "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
+                  ],
+                  "DictData": [],
+                  "Field": "Characteristics",
+                  "Label": "ASLR",
+                  "Operation": 6,
+                  "Arguments": []
+                }
+              ],
+              "Description": "Flag when executables are created without ASLR.",
+              "Expression": "EXE AND NOT ASLR",
+              "Name": "Missing ASLR",
+              "Target": "FileSystemObject",
+              "Severity": 4,
+              "Tags": []
+            },
+            {
+              "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule, AsaLib",
+              "ChangeTypes": [
+                1,
+                3
+              ],
+              "Flag": 4,
+              "Platforms": [
+                1,
+                2,
+                0
+              ],
+              "ResultType": 1,
+              "Clauses": [
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "IsExecutable",
+                  "Label": "is_exe",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "SignatureStatus.IsAuthenticodeValid",
+                  "Label": "valid_windows_signature",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "MacSignatureStatus",
+                  "Label": "null_mac_signature",
+                  "Operation": 11,
+                  "Arguments": []
+                }
+              ],
+              "Description": "Flag when unsigned/incorrectly signed binaries are added.",
+              "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
+              "Name": "Unsigned binaries",
+              "Target": "FileSystemObject",
+              "Severity": 4,
+              "Tags": []
+            }
+          ],
+          "AnalysesHash": "yXvUiHy+rkKstAubfKrepSYhf7tGW6Fmpq72cvzjHu/IFkPu1P6FEstdy15fnGvxhAyIcIzdWFTILRTZ6wy0yA=="
+        }
+      ]
+    },
+    "FILE_MODIFIED": {
+      "$type": "System.Collections.Generic.List`1[[Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult, AsaLib]], System.Private.CoreLib",
+      "$values": [
+        {
+          "Analysis": 4,
+          "Base": {
+            "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject, AsaLib",
+            "ContentHash": "7QGAoQeCLD64FeGxlSoeW5eHcACmyBrT1HIv+YOGVi2Of6c88DR6+Uk1O2zemHCGXAeJrtc+COi8yqHrnpX8Zg==",
+            "Created": "2021-10-14T23:36:58.0340629Z",
+            "Group": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Identity": "C:\\Test\\Scan2\\TestModifyExe.exe",
+            "IsExecutable": true,
+            "LastModified": "2021-10-13T03:05:24.3286411Z",
+            "Owner": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Path": "C:\\Test\\Scan2\\TestModifyExe.exe",
+            "Permissions": {
+              "S-1-5-11": "Modify, Synchronize",
+              "S-1-5-18": "FullControl",
+              "S-1-5-32-544": "FullControl",
+              "S-1-5-32-545": "ReadAndExecute, Synchronize"
+            },
+            "Size": 726896,
+            "ResultType": 1
+          },
+          "BaseRunId": "2021-10-14T16:40:08.6642182-07:00",
+          "ChangeType": 3,
+          "Compare": {
+            "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject, AsaLib",
+            "ContentHash": "Qpr6h4sgWi9HvNaKn1kWmznUifwU+8Uw6RjczVpkzx/LlGSyJgEhQ9pkMe6sX3wo9gwLmZicOIelU2b9NncLiw==",
+            "Created": "2021-10-14T23:36:58.0340629Z",
+            "Group": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Identity": "C:\\Test\\Scan2\\TestModifyExe.exe",
+            "IsExecutable": true,
+            "LastModified": "2021-10-14T23:41:11.6798321Z",
+            "Owner": "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+            "Path": "C:\\Test\\Scan2\\TestModifyExe.exe",
+            "Permissions": {
+              "S-1-5-11": "Modify, Synchronize",
+              "S-1-5-18": "FullControl",
+              "S-1-5-32-544": "FullControl",
+              "S-1-5-32-545": "ReadAndExecute, Synchronize"
+            },
+            "SignatureStatus": {},
+            "Size": 343480,
+            "ResultType": 1
+          },
+          "CompareRunId": "2021-10-14T16:44:27.3260573-07:00",
+          "Diffs": [
+            {
+              "After": "Qpr6h4sgWi9HvNaKn1kWmznUifwU+8Uw6RjczVpkzx/LlGSyJgEhQ9pkMe6sX3wo9gwLmZicOIelU2b9NncLiw==",
+              "Before": "7QGAoQeCLD64FeGxlSoeW5eHcACmyBrT1HIv+YOGVi2Of6c88DR6+Uk1O2zemHCGXAeJrtc+COi8yqHrnpX8Zg==",
+              "Field": "ContentHash"
+            },
+            {
+              "After": "2021-10-14T23:41:11.6798321Z",
+              "Before": "2021-10-13T03:05:24.3286411Z",
+              "Field": "LastModified"
+            },
+            {
+              "After": {
+                "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.Signature, AsaLib"
+              },
+              "Field": "SignatureStatus"
+            },
+            {
+              "After": 343480,
+              "Before": 726896,
+              "Field": "Size"
+            }
+          ],
+          "Identity": "C:\\Test\\Scan2\\TestModifyExe.exe",
+          "ResultType": 1,
+          "Rules": [
+            {
+              "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule, AsaLib",
+              "ChangeTypes": [
+                1,
+                3
+              ],
+              "Flag": 4,
+              "Platforms": [
+                1,
+                2,
+                0
+              ],
+              "ResultType": 1,
+              "Clauses": [
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "IsExecutable",
+                  "Label": "is_exe",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "SignatureStatus.IsAuthenticodeValid",
+                  "Label": "valid_windows_signature",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "MacSignatureStatus",
+                  "Label": "null_mac_signature",
+                  "Operation": 11,
+                  "Arguments": []
+                }
+              ],
+              "Description": "Flag when unsigned/incorrectly signed binaries are added.",
+              "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
+              "Name": "Unsigned binaries",
+              "Target": "FileSystemObject",
+              "Severity": 4,
+              "Tags": []
+            },
+            {
+              "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule, AsaLib",
+              "ChangeTypes": [
+                1,
+                3
+              ],
+              "Flag": 4,
+              "Platforms": [
+                0
+              ],
+              "ResultType": 1,
+              "Clauses": [
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "IsExecutable",
+                  "Label": "EXE",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [
+                    "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
+                  ],
+                  "DictData": [],
+                  "Field": "Characteristics",
+                  "Label": "DEP",
+                  "Operation": 6,
+                  "Arguments": []
+                }
+              ],
+              "Description": "Flag when executables are created without DEP.",
+              "Expression": "EXE AND NOT DEP",
+              "Name": "Missing DEP",
+              "Target": "FileSystemObject",
+              "Severity": 4,
+              "Tags": []
+            },
+            {
+              "$type": "Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule, AsaLib",
+              "ChangeTypes": [
+                1,
+                3
+              ],
+              "Flag": 4,
+              "Platforms": [
+                0
+              ],
+              "ResultType": 1,
+              "Clauses": [
+                {
+                  "Data": [],
+                  "DictData": [],
+                  "Field": "IsExecutable",
+                  "Label": "EXE",
+                  "Operation": 12,
+                  "Arguments": []
+                },
+                {
+                  "Data": [
+                    "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+                    "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
+                  ],
+                  "DictData": [],
+                  "Field": "Characteristics",
+                  "Label": "ASLR",
+                  "Operation": 6,
+                  "Arguments": []
+                }
+              ],
+              "Description": "Flag when executables are created without ASLR.",
+              "Expression": "EXE AND NOT ASLR",
+              "Name": "Missing ASLR",
+              "Target": "FileSystemObject",
+              "Severity": 4,
+              "Tags": []
+            }
+          ],
+          "AnalysesHash": "yXvUiHy+rkKstAubfKrepSYhf7tGW6Fmpq72cvzjHu/IFkPu1P6FEstdy15fnGvxhAyIcIzdWFTILRTZ6wy0yA=="
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "$type": "System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib],[System.String, System.Private.CoreLib]], System.Private.CoreLib",
+    "compare-version": "2.4.10-alpha+5351e91d1c",
+    "compare-os": "WINDOWS",
+    "compare-osversion": "Microsoft Windows NT 10.0.19043.0",
+    "analyses-hash": "yXvUiHy+rkKstAubfKrepSYhf7tGW6Fmpq72cvzjHu/IFkPu1P6FEstdy15fnGvxhAyIcIzdWFTILRTZ6wy0yA=="
+  }
+}
