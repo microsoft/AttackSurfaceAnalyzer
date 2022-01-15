@@ -176,26 +176,6 @@
       ]
     },
     {
-      "Name": "SetGid",
-      "Description": "Flag GID is set on a file.",
-      "Flag": "WARNING",
-      "Platforms": [
-        "LINUX",
-        "MACOS"
-      ],
-      "ChangeTypes": [
-        "CREATED",
-        "MODIFIED"
-      ],
-      "ResultType": "FILE",
-      "Clauses": [
-        {
-          "Field": "SetGid",
-          "Operation": "IsTrue"
-        }
-      ]
-    },
-    {
       "Name": "Missing ASLR",
       "Description": "Flag when executables are created without ASLR.",
       "Flag": "WARNING",
