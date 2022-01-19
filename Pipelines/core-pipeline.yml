@@ -83,7 +83,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '5.x'
+        version: '6.x'
     - script: 'dotnet tool install -g nbgv'
       displayName: 'Install GitVersioning'
     - task: PowerShell@2

@@ -3,7 +3,7 @@
 ## Pre-requisites
 
 ### All Components:
-- Latest .NET Core SDK 5.0 (https://dotnet.microsoft.com/download)
+- Latest .NET SDK (https://dotnet.microsoft.com/download)
 - GitVersioning (```dotnet tool install -g nbgv```)
 
 ### GUI: 
