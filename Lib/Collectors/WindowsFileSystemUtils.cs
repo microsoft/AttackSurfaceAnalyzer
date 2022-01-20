@@ -17,7 +17,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
     {
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path, Stream input)
         {
-            List<DLLCHARACTERISTICS> output = new List<DLLCHARACTERISTICS>();
+            List<DLLCHARACTERISTICS> output = new();
 
             try
             {
@@ -61,7 +61,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
         {
-            List<DLLCHARACTERISTICS> output = new List<DLLCHARACTERISTICS>();
+            List<DLLCHARACTERISTICS> output = new();
 
             if (NeedsSignature(Path))
             {
@@ -179,7 +179,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
             try
             {
-                FileInfo file = new FileInfo(Path);
+                FileInfo file = new(Path);
                 return FileSystemUtils.GetExecutableType(Path) == EXECUTABLE_TYPE.WINDOWS;
             }
             catch (Exception e) when (

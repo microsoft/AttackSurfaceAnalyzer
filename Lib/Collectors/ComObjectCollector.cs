@@ -30,7 +30,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) { return new List<CollectObject>(); }
             if (SearchKey == null) { return new List<CollectObject>(); }
-            List<ComObject> comObjects = new List<ComObject>();
+            List<ComObject> comObjects = new();
             var fsc = new FileSystemCollector(new CollectorOptions() { SingleThread = SingleThreaded });
             Action<string> ParseComObjectsIn = SubKeyName =>
             {
@@ -44,7 +44,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                         if (RegObj != null)
                         {
-                            ComObject comObject = new ComObject(RegObj);
+                            ComObject comObject = new(RegObj);
 
                             foreach (string ComDetails in CurrentKey.GetSubKeyNames())
                             {

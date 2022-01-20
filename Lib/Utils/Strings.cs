@@ -26,7 +26,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 if (stream is Stream)
                 {
                     stringList.Clear();
-                    using ResourceReader reader = new ResourceReader(stream);
+                    using ResourceReader reader = new(stream);
                     foreach (DictionaryEntry? entry in reader)
                     {
                         if (entry is DictionaryEntry dictionaryEntry)
@@ -44,6 +44,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         /// <summary>
         ///     Internal member structure holding string resources
         /// </summary>
-        private static readonly Dictionary<string, string> stringList = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> stringList = new();
     }
 }

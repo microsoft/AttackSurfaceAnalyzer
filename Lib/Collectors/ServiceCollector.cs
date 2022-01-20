@@ -123,7 +123,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         {
             // Get the user processes run "launchtl dumpstate" for the super detailed view However, dumpstate
             // is difficult to parse
-            Dictionary<string, ServiceObject> outDict = new Dictionary<string, ServiceObject>();
+            Dictionary<string, ServiceObject> outDict = new();
             try
             {
                 var result = ExternalCommandRunner.RunExternalCommand("launchctl", "list");
@@ -169,8 +169,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
             try
             {
-                SelectQuery sQuery = new SelectQuery("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
-                using ManagementObjectSearcher mgmtSearcher = new ManagementObjectSearcher(sQuery);
+                SelectQuery sQuery = new("select * from Win32_Service"); // where name = '{0}'", "MCShield.exe"));
+                using ManagementObjectSearcher mgmtSearcher = new(sQuery);
 
                 if (opts.SingleThread)
                 {
@@ -189,7 +189,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         list.Add(service);
                     }
-                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                    ParallelOptions po = new() { CancellationToken = cancellationToken };
                     Parallel.ForEach(list, po, x => ProcessManagementObject(x));
                 }
             }

@@ -21,7 +21,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         // Java classes
         public static readonly byte[] JavaMagicNumber = AsaHelpers.HexStringToBytes("CAFEBEBE");
 
-        public static readonly List<byte[]> MacMagicNumbers = new List<byte[]>()
+        public static readonly List<byte[]> MacMagicNumbers = new()
         {
             // 32 Bit Binary
             AsaHelpers.HexStringToBytes("FEEDFACE"),
@@ -103,10 +103,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 string? hashValue = null;
                 try
                 {
-                    using (var stream = File.OpenRead(fileInfo.FullName))
-                    {
-                        hashValue = CryptoHelpers.CreateHash(stream);
-                    }
+                    using var stream = File.OpenRead(fileInfo.FullName);
+                    hashValue = CryptoHelpers.CreateHash(stream);
                 }
                 catch (Exception e) when (
                     e is ArgumentNullException

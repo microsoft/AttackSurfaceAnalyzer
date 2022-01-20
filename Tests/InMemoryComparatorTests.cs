@@ -28,7 +28,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 Timestamp = DateTime.Now.AddYears(1)
             };
 
-            BaseCompare bc = new BaseCompare();
+            BaseCompare bc = new();
             bc.Compare(new List<CollectObject>() { }, new List<CollectObject>() { elo2 }, "FirstRun", "SecondRun");
 
             var results = bc.Results;
@@ -48,7 +48,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 Timestamp = DateTime.Now.AddYears(1)
             };
 
-            BaseCompare bc = new BaseCompare();
+            BaseCompare bc = new();
             bc.Compare(new List<CollectObject>() { elo }, new List<CollectObject>() { elo2 }, "FirstRun", "SecondRun");
 
             var results = bc.Results;
@@ -64,7 +64,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 Timestamp = DateTime.Now
             };
 
-            BaseCompare bc = new BaseCompare();
+            BaseCompare bc = new();
             bc.Compare(new List<CollectObject>() { elo }, new List<CollectObject>() { }, "FirstRun", "SecondRun");
 
             var results = bc.Results;

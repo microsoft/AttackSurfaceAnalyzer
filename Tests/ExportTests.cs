@@ -26,7 +26,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         [TestMethod]
         public void TestGenerateSarifLog()
         {
-            JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
+            JsonSerializerSettings jsonSettings = new()
             {
                 Formatting = Formatting.Indented,
                 TypeNameHandling = TypeNameHandling.Auto,

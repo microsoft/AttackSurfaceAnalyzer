@@ -78,7 +78,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         }
 
         // I believe auditpol results will go into the system log
-        private readonly EventLog log = new EventLog("System");
+        private readonly EventLog log = new("System");
 
         private readonly string tmpFileName = Path.GetTempFileName();
     }

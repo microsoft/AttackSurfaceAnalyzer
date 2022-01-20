@@ -52,7 +52,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 var lines = new List<string>(result.Split('\n'));
 
-                Dictionary<string, FirewallAction> defaultPolicies = new Dictionary<string, FirewallAction>();
+                Dictionary<string, FirewallAction> defaultPolicies = new();
 
                 foreach (var line in lines)
                 {
@@ -183,7 +183,7 @@ ALF: total number of apps = 2
  ( Block incoming connections ) */
             result = ExternalCommandRunner.RunExternalCommand("/usr/libexec/ApplicationFirewall/socketfilterfw", "--listapps");
             string appName = "";
-            Regex startsWithNumber = new Regex("^[1-9]");
+            Regex startsWithNumber = new("^[1-9]");
             var lines = new List<string>(result.Split('\n'));
             if (lines.Any())
             {

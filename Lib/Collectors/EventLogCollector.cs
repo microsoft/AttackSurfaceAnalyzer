@@ -34,7 +34,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         public void ExecuteLinux(CancellationToken cancellationToken)
         {
-            Regex LogHeader = new Regex("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)", RegexOptions.Compiled);
+            Regex LogHeader = new("^([A-Z][a-z][a-z][0-9:\\s]*)?[\\s].*?[\\s](.*?): (.*)", RegexOptions.Compiled);
 
             void HandleLinuxEvent(string entry, string path)
             {
@@ -75,7 +75,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                        ParallelOptions po = new() { CancellationToken = cancellationToken };
                         Parallel.ForEach(log, po, entry => HandleLinuxEvent(entry, path));
                     }
                 }
@@ -105,7 +105,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         {
             // New log entries start with a timestamp like so: 2019-09-25 20:38:53.784594-0700 0xdbf47 Error
             // 0x0 0 0 kernel: (Sandbox) Sandbox: mdworker(15726) deny(1) mach-lookup com.apple.security.syspolicy
-            Regex MacLogHeader = new Regex("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)", RegexOptions.Compiled);
+            Regex MacLogHeader = new("^([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [0-2][0-9]:[0-5][0-9]:[0-5][0-9]).*?0x[0-9a-f]*[\\s]*([A-Za-z]*)[\\s]*0x[0-9a-f][\\s]*[0-9]*[\\s]*([0-9]*)[\\s]*(.*?):(.*)", RegexOptions.Compiled);
             EventLogObject? curObject = null;
 
             using var process = new Process()
@@ -205,7 +205,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         sentences[i] = string.Concat(sentences[i], ".");
                     }
 
-                    EventLogObject obj = new EventLogObject($"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}")
+                    EventLogObject obj = new($"{entry.TimeGenerated.ToString("o", CultureInfo.InvariantCulture)} {entry.EntryType.ToString()} {entry.Message}")
                     {
                         Level = entry.EntryType.ToString(),
                         Summary = sentences[0],
@@ -243,8 +243,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     }
                     else
                     {
-                        List<EventLogEntry> coll2 = new List<EventLogEntry>();
-                        ParallelOptions po = new ParallelOptions();
+                        List<EventLogEntry> coll2 = new();
+                        ParallelOptions po = new();
                         po.CancellationToken = cancellationToken;
                         foreach (EventLogEntry? entry in coll)
                         {

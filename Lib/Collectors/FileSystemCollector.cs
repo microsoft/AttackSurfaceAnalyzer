@@ -88,7 +88,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// <returns> </returns>
         public FileSystemObject FilePathToFileSystemObject(string path)
         {
-            FileSystemObject obj = new FileSystemObject(path);
+            FileSystemObject obj = new(path);
 
             // Get Owner/Group
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -253,7 +253,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
                 else
                 {
-                    UnixSymbolicLinkInfo i = new UnixSymbolicLinkInfo(path);
+                    UnixSymbolicLinkInfo i = new(path);
                     obj.FileType = i.FileType.ToString();
                     obj.Size = i.Length;
                     obj.IsDirectory = false;
@@ -362,7 +362,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                 if (!opts.SingleThread == true)
                 {
-                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                    ParallelOptions po = new() { CancellationToken = cancellationToken };
                     Parallel.ForEach(directories, po, filePath =>
                     {
                         TryIterateOnDirectory(filePath);
@@ -456,7 +456,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 if (opts.CrawlArchives && MiniMagic.DetectFileType(path) != ArchiveFileType.UNKNOWN)
                 {
                     var opts = new ExtractorOptions() { ExtractSelfOnFail = false };
-                    Extractor extractor = new Extractor();
+                    Extractor extractor = new();
                     foreach (var fso in extractor.Extract(path, opts).Select(fileEntry => FileEntryToFileSystemObject(fileEntry)))
                     {
                         HandleChange(fso);

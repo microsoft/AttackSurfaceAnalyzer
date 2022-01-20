@@ -23,7 +23,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 return null;
             }
-            RegistryObject regObj = new RegistryObject(key.Name, registryView);
+            RegistryObject regObj = new(key.Name, registryView);
             try
             {
                 regObj.AddSubKeys(key.GetSubKeyNames());
@@ -72,7 +72,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
             }
-            Stack<string> keys = new Stack<string>();
+            Stack<string> keys = new();
             RegistryKey? BaseKey = null;
             try
             {

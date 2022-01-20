@@ -21,7 +21,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
+                throw new PlatformNotSupportedException("RegistryCollector is only supported on Windows platforms.");
             }
             this.opts = opts ?? this.opts;
             Hives = GetDefaultHivePairs().ToList();
@@ -48,6 +48,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         static IEnumerable<(RegistryHive hive, string path)> GetDefaultHivePairs()
         {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                yield break;
+            }
             foreach (var hive in Enum.GetValues<RegistryHive>())
             {
                 yield return (hive, string.Empty);
@@ -56,7 +60,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public static IEnumerable<string> GetDefaultHives()
         {
-            foreach(var hive in GetDefaultHivePairs())
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                yield break;
+            }
+            foreach (var hive in GetDefaultHivePairs())
             {
                 yield return hive.hive.ToString();
             }
@@ -108,7 +116,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                 if (Parallelize)
                 {
-                    ParallelOptions po = new ParallelOptions() { CancellationToken = cancellationToken };
+                    ParallelOptions po = new() { CancellationToken = cancellationToken };
                     Parallel.ForEach(x86_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry32));
                     Parallel.ForEach(x64_Enumerable, po, registryKey => IterateOn(hive.Item1, registryKey, RegistryView.Registry64));
                 }
@@ -134,8 +142,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 Log.Debug("Finished {0}\\{1}", hive.Item1, hive.Item2);
             }
         }
-
-        private static readonly List<(RegistryHive, string)> DefaultHives = new List<(RegistryHive, string)>();
 
         private readonly List<(RegistryHive, string)> Hives;
 

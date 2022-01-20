@@ -28,9 +28,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
     public static class AttackSurfaceAnalyzerClient
     {
-        private static List<BaseCollector> collectors = new List<BaseCollector>();
-        private static readonly List<BaseMonitor> monitors = new List<BaseMonitor>();
-        private static List<BaseCompare> comparators = new List<BaseCompare>();
+        private static List<BaseCollector> collectors = new();
+        private static readonly List<BaseMonitor> monitors = new();
+        private static List<BaseCompare> comparators = new();
 
         public static DatabaseManager? DatabaseManager { get; private set; }
 
@@ -226,7 +226,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var monitor = GuidedRunIdToMonitorRunId(opts.RunId);
             Log.Information(Strings.Get("Comparing"), first, second);
 
-            CompareCommandOptions options = new CompareCommandOptions(first, second)
+            CompareCommandOptions options = new(first, second)
             {
                 DatabaseFilename = opts.DatabaseFilename,
                 AnalysesFile = ruleFile,
@@ -604,7 +604,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
 
-            CompareCommandOptions options = new CompareCommandOptions(opts.FirstRunId, opts.SecondRunId)
+            CompareCommandOptions options = new(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
                 AnalysesFile = ruleFile,
@@ -656,13 +656,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     }
                     else
                     {
-                        using (StreamWriter sw = new StreamWriter(filePath)) //lgtm[cs/path-injection]
-                        {
-                            using (JsonWriter writer = new JsonTextWriter(sw))
-                            {
-                                serializer.Serialize(writer, results[key]);
-                            }
-                        }
+                        using StreamWriter sw = new(filePath); //lgtm[cs/path-injection]
+                        using JsonWriter writer = new JsonTextWriter(sw);
+                        serializer.Serialize(writer, results[key]);
                     }
                 }
                 Log.Information(Strings.Get("OutputWrittenTo"), (new DirectoryInfo(path)).FullName);
@@ -683,12 +679,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 else
                 {
 
-                    using (StreamWriter sw = new StreamWriter(path)) //lgtm[cs/path-injection]
+                    using (StreamWriter sw = new(path)) //lgtm[cs/path-injection]
                     {
-                        using (JsonWriter writer = new JsonTextWriter(sw))
-                        {
-                            serializer.Serialize(writer, output);
-                        }
+                        using JsonWriter writer = new JsonTextWriter(sw);
+                        serializer.Serialize(writer, output);
                     }
                     Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
                 }
@@ -879,7 +873,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private class AsaExportContractResolver : DefaultContractResolver
         {
-            public static readonly AsaExportContractResolver Instance = new AsaExportContractResolver();
+            public static readonly AsaExportContractResolver Instance = new();
 
             protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
             {
@@ -984,7 +978,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             output["metadata"] = AsaHelpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
-            using (StreamWriter sw = new StreamWriter(path)) //lgtm [cs/path-injection]
+            using (StreamWriter sw = new(path)) //lgtm [cs/path-injection]
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, output);
@@ -1139,8 +1133,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
             comparators = new List<BaseCompare>();
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
-            BaseCompare c = new BaseCompare();
+            Dictionary<string, string> EndEvent = new();
+            BaseCompare c = new();
             var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId, DatabaseManager))
             {
@@ -1477,7 +1471,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             Log.Information(Strings.Get("StartingN"), collectors.Count.ToString(CultureInfo.InvariantCulture), Strings.Get("Collectors"));
 
-            using CancellationTokenSource source = new CancellationTokenSource();
+            using CancellationTokenSource source = new();
             CancellationToken token = source.Token;
 
             void cancelKeyDelegate(object? sender, ConsoleCancelEventArgs args)
@@ -1497,7 +1491,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
             Console.CancelKeyPress += cancelKeyDelegate;
 
-            Dictionary<string, string> EndEvent = new Dictionary<string, string>();
+            Dictionary<string, string> EndEvent = new();
             foreach (BaseCollector c in collectors)
             {
                 try
@@ -1539,7 +1533,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             var then = DateTime.Now;
 
             var StopWatch = Stopwatch.StartNew();
-            TimeSpan t = new TimeSpan();
+            TimeSpan t = new();
             string answer = string.Empty;
             bool warnedToIncreaseShards = false;
             var settings = DatabaseManager.GetCurrentSettings();

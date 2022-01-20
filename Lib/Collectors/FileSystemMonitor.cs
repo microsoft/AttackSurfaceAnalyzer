@@ -17,9 +17,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
     /// </summary>
     public class FileSystemMonitor : BaseMonitor, IDisposable
     {
-        private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
+        private readonly List<FileSystemWatcher> watchers = new();
 
-        private readonly ConcurrentDictionary<string, FileSystemEventArgs> filesAccessed = new ConcurrentDictionary<string, FileSystemEventArgs>();
+        private readonly ConcurrentDictionary<string, FileSystemEventArgs> filesAccessed = new();
 
         private readonly Action<FileMonitorObject> changeHandler;
 

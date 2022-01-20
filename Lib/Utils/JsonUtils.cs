@@ -92,17 +92,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
         }
 
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings() { DefaultValueHandling = DefaultValueHandling.Ignore, DateFormatHandling = DateFormatHandling.IsoDateFormat, NullValueHandling = NullValueHandling.Ignore };
+        private static readonly JsonSerializerSettings jsonSettings = new() { DefaultValueHandling = DefaultValueHandling.Ignore, DateFormatHandling = DateFormatHandling.IsoDateFormat, NullValueHandling = NullValueHandling.Ignore };
     }
 
     public class TpmPcrTupleConverter<T1, T2> : TypeConverter
     {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
         {
             var elements = Convert.ToString(value, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             if (Enum.TryParse(typeof(TpmAlgId), elements?.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements?.Last(), out uint Index))

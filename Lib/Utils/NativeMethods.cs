@@ -405,7 +405,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         private const uint FILE_READ_EA = 0x0008;
 
-        private static readonly IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+        private static readonly IntPtr INVALID_HANDLE_VALUE = new(-1);
 
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         private static extern uint GetFinalPathNameByHandle(IntPtr hFile, [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpszFilePath, uint cchFilePath, uint dwFlags);

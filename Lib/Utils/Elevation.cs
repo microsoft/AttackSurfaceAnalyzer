@@ -109,8 +109,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 }
 
                 // Check if the token to be checked contains admin SID.
-                using WindowsIdentity id = new WindowsIdentity(hTokenToCheck.DangerousGetHandle());
-                WindowsPrincipal principal = new WindowsPrincipal(id);
+                using WindowsIdentity id = new(hTokenToCheck.DangerousGetHandle());
+                WindowsPrincipal principal = new(id);
                 fInAdminGroup = principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
             finally
@@ -153,7 +153,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
             }
             WindowsIdentity id = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(id);
+            WindowsPrincipal principal = new(id);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
 
@@ -382,11 +382,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 {
                     throw new PlatformNotSupportedException("IsAdministrator is only supported on Windows platforms.");
                 }
-                using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
-                {
-                    WindowsPrincipal principal = new WindowsPrincipal(identity);
-                    return principal.IsInRole(WindowsBuiltInRole.Administrator);
-                }
+                using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new(identity);
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
             }
             catch (PlatformNotSupportedException)
             {

@@ -63,7 +63,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         Log.Debug("{0}", _line);
                         try
                         {
-                            using X509Certificate2 certificate = new X509Certificate2("/etc/ssl/certs/" + _line);
+                            using X509Certificate2 certificate = new("/etc/ssl/certs/" + _line);
 
                             var obj = new CertificateObject(
                                 StoreLocation: StoreLocation.LocalMachine.ToString(),
@@ -103,7 +103,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     File.WriteAllText(tmpPath, result);
                     if (ExternalCommandRunner.RunExternalCommand("openssl", $"pkcs12 -export -nokeys -out {pkPath} -passout pass:pass -in {tmpPath}", out string _, out string _) == 0)
                     {
-                        X509Certificate2Collection xcert = new X509Certificate2Collection();
+                        X509Certificate2Collection xcert = new();
                         xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet); //lgtm [cs/hardcoded-credentials]
 
                         File.Delete(tmpPath);
@@ -148,7 +148,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 {
                     try
                     {
-                        using X509Store store = new X509Store(storeName, storeLocation);
+                        using X509Store store = new(storeName, storeLocation);
                         store.Open(OpenFlags.ReadOnly);
 
                         foreach (X509Certificate2 certificate in store.Certificates)
