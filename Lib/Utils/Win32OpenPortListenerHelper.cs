@@ -38,88 +38,86 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         /// <returns> </returns>
         private static List<ProcessPort> GetNetStatPorts()
         {
-            List<ProcessPort> ProcessPorts = new List<ProcessPort>();
+            List<ProcessPort> ProcessPorts = new();
 
             try
             {
-                using (Process Proc = new Process())
+                using Process Proc = new();
+                ProcessStartInfo StartInfo = new()
                 {
-                    ProcessStartInfo StartInfo = new ProcessStartInfo()
+                    FileName = "netstat.exe",
+                    Arguments = "-a -n -o",
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    UseShellExecute = false,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                Proc.StartInfo = StartInfo;
+                Proc.Start();
+
+                StreamReader StandardOutput = Proc.StandardOutput;
+                StreamReader StandardError = Proc.StandardError;
+
+                string NetStatContent = StandardOutput.ReadToEnd() + StandardError.ReadToEnd();
+
+                if (Proc.ExitCode != 0)
+                {
+                    Log.Error("Unable to run netstat.exe. Open ports will not be available.");
+                    return ProcessPorts;
+                }
+
+                string[] NetStatRows = Regex.Split(NetStatContent, "\r\n");
+
+                foreach (var _outputLine in NetStatRows)
+                {
+                    if (_outputLine == null)
                     {
-                        FileName = "netstat.exe",
-                        Arguments = "-a -n -o",
-                        WindowStyle = ProcessWindowStyle.Hidden,
-                        UseShellExecute = false,
-                        RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true
-                    };
-
-                    Proc.StartInfo = StartInfo;
-                    Proc.Start();
-
-                    StreamReader StandardOutput = Proc.StandardOutput;
-                    StreamReader StandardError = Proc.StandardError;
-
-                    string NetStatContent = StandardOutput.ReadToEnd() + StandardError.ReadToEnd();
-
-                    if (Proc.ExitCode != 0)
-                    {
-                        Log.Error("Unable to run netstat.exe. Open ports will not be available.");
-                        return ProcessPorts;
+                        continue;
                     }
 
-                    string[] NetStatRows = Regex.Split(NetStatContent, "\r\n");
+                    var outputLine = _outputLine.Trim();
 
-                    foreach (var _outputLine in NetStatRows)
+                    string[] Tokens = Regex.Split(outputLine, @"\s+");
+                    try
                     {
-                        if (_outputLine == null)
+                        if (Tokens.Length < 4)
                         {
                             continue;
                         }
+                        string IpAddress = Regex.Replace(Tokens[1], @"\[(.*?)\]", "1.1.1.1");
 
-                        var outputLine = _outputLine.Trim();
-
-                        string[] Tokens = Regex.Split(outputLine, @"\s+");
-                        try
+                        if (Tokens.Length > 4 && Tokens[0].Equals("TCP"))
                         {
-                            if (Tokens.Length < 4)
+                            if (!Tokens[3].Equals("LISTENING")) { continue; }
+                            ProcessPorts.Add(new ProcessPort(
+                                GetProcessName(Convert.ToInt32(Tokens[4], CultureInfo.InvariantCulture)),
+                                Convert.ToInt32(Tokens[4], CultureInfo.InvariantCulture),
+                                IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
+                                Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
+                            ));
+                        }
+                        else if (Tokens.Length == 4 && (Tokens[0].Equals("UDP")))
+                        {
+                            ProcessPorts.Add(new ProcessPort(
+                                GetProcessName(Convert.ToInt32(Tokens[3], CultureInfo.InvariantCulture)),
+                                Convert.ToInt32(Tokens[3], CultureInfo.InvariantCulture),
+                                IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
+                                Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
+                            ));
+                        }
+                        else
+                        {
+                            if (!outputLine.StartsWith("Proto") && !outputLine.StartsWith("Active") && !String.IsNullOrWhiteSpace(outputLine))
                             {
-                                continue;
-                            }
-                            string IpAddress = Regex.Replace(Tokens[1], @"\[(.*?)\]", "1.1.1.1");
-
-                            if (Tokens.Length > 4 && Tokens[0].Equals("TCP"))
-                            {
-                                if (!Tokens[3].Equals("LISTENING")) { continue; }
-                                ProcessPorts.Add(new ProcessPort(
-                                    GetProcessName(Convert.ToInt32(Tokens[4], CultureInfo.InvariantCulture)),
-                                    Convert.ToInt32(Tokens[4], CultureInfo.InvariantCulture),
-                                    IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
-                                    Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
-                                ));
-                            }
-                            else if (Tokens.Length == 4 && (Tokens[0].Equals("UDP")))
-                            {
-                                ProcessPorts.Add(new ProcessPort(
-                                    GetProcessName(Convert.ToInt32(Tokens[3], CultureInfo.InvariantCulture)),
-                                    Convert.ToInt32(Tokens[3], CultureInfo.InvariantCulture),
-                                    IpAddress.Contains("1.1.1.1") ? $"{Tokens[1]}v6" : $"{Tokens[1]}v4",
-                                    Convert.ToInt32(IpAddress.Split(':')[1], CultureInfo.InvariantCulture)
-                                ));
-                            }
-                            else
-                            {
-                                if (!outputLine.StartsWith("Proto") && !outputLine.StartsWith("Active") && !String.IsNullOrWhiteSpace(outputLine))
-                                {
-                                    Log.Warning("Primary Parsing error when processing netstat.exe output: {0}", outputLine);
-                                }
+                                Log.Warning("Primary Parsing error when processing netstat.exe output: {0}", outputLine);
                             }
                         }
-                        catch (Exception)
-                        {
-                            Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
-                        }
+                    }
+                    catch (Exception)
+                    {
+                        Log.Warning("Secondary Parsing error when processing netstat.exe output: {0}", outputLine);
                     }
                 }
             }

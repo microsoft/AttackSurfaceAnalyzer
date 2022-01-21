@@ -68,7 +68,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             Stop();
         }
 
-        internal CollectorOptions opts = new CollectorOptions();
+        internal CollectorOptions opts = new();
 
         internal abstract void ExecuteInternal(CancellationToken cancellationToken);
 

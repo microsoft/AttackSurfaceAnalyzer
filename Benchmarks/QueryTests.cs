@@ -184,7 +184,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         }
 
         // Bag of reusable identities
-        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new ConcurrentBag<(string, string)>();
+        private static readonly ConcurrentBag<(string, string)> BagOfIdentities = new();
 
         private readonly string RunOneName = "RunOne";
         private readonly string RunTwoName = "RunTwo";

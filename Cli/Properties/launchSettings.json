@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "Project",
-      "commandLineArgs": "gui --nolaunch",
+      "commandLineArgs": "gui",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -20,19 +20,19 @@
       "commandName": "IISExpress",
       "commandLineArgs": "gui --nolaunch",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:5000"
     },
     "Microsoft.CST.AttackSurfaceAnalyzer.Cli": {
       "commandName": "Project",
       "commandLineArgs": "gui",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:46312",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:46312"
     }
   }
 }

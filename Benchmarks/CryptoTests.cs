@@ -132,12 +132,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
 
         private static readonly HashAlgorithm sha256 = SHA256.Create();
 
+#pragma warning disable SYSLIB0021 // Type or member is obsolete - Benchmark
         private static readonly HashAlgorithm sha256managed = SHA256Managed.Create();
+#pragma warning restore SYSLIB0021 // Type or member is obsolete
 
         private static readonly HashAlgorithm sha512 = SHA512.Create();
 
+#pragma warning disable SYSLIB0021 // Type or member is obsolete - Benchmark
         private static readonly HashAlgorithm sha512managed = SHA512Managed.Create();
+#pragma warning restore SYSLIB0021 // Type or member is obsolete
 
-        private readonly ConcurrentQueue<byte[]> hashObjects = new ConcurrentQueue<byte[]>();
+        private readonly ConcurrentQueue<byte[]> hashObjects = new();
     }
 }

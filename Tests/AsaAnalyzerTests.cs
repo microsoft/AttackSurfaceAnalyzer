@@ -75,6 +75,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
         private const string TestPathOne = "TestPath1";
 
-        private readonly FileMonitorObject testPathOneObject = new FileMonitorObject(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } };
+        private readonly FileMonitorObject testPathOneObject = new(TestPathOne) { FileSystemObject = new FileSystemObject(TestPathOne) { IsExecutable = true } };
     }
 }

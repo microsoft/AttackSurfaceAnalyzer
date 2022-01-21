@@ -105,15 +105,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 throw new NullReferenceException(nameof(stream));
             try
             {
-                using (StreamReader file = new StreamReader(stream))
+                using StreamReader file = new(stream);
+                var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
+                if (config is null)
                 {
-                    var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
-                    config.Source = streamName ?? (config.Source ?? "Stream");
-                    return config;
+                    throw new NullReferenceException(nameof(config));
                 }
+                config.Source = streamName ?? (config.Source ?? "Stream");
+                return config;
             }
             catch (Exception e) when (
                 e is UnauthorizedAccessException
+                || e is NullReferenceException
                 || e is ArgumentException
                 || e is ArgumentNullException
                 || e is PathTooLongException
@@ -144,15 +147,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             {
                 try
                 {
-                    using (StreamReader file = System.IO.File.OpenText(filterLoc))
+                    using StreamReader file = System.IO.File.OpenText(filterLoc);
+                    var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
+                    if (config is null)
                     {
-                        var config = JsonConvert.DeserializeObject<RuleFile>(file.ReadToEnd());
-                        config.Source = filterLoc;
-                        return config;
+                        throw new NullReferenceException(nameof(config));
                     }
+                    config.Source = filterLoc;
+                    return config;
                 }
                 catch (Exception e) when (
                     e is UnauthorizedAccessException
+                    || e is NullReferenceException
                     || e is ArgumentException
                     || e is ArgumentNullException
                     || e is PathTooLongException

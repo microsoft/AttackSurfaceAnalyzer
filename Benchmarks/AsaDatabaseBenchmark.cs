@@ -7,7 +7,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
     public class AsaDatabaseBenchmark
     {
         // Bag of reusable objects to write to the database.
-        public static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new ConcurrentBag<FileSystemObject>();
+        public static readonly ConcurrentBag<FileSystemObject> BagOfObjects = new();
 
         public static FileSystemObject GetRandomObject(int ObjectPadding = 0)
         {

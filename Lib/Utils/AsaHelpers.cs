@@ -232,8 +232,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return string.Empty;
         }
 
-        private static readonly Random random = new Random();
-        private static readonly ConcurrentDictionary<string, string> SidMap = new ConcurrentDictionary<string, string>();
+        private static readonly Random random = new();
+        private static readonly ConcurrentDictionary<string, string> SidMap = new();
         private static bool? _elevated = null;
     }
 }

@@ -42,7 +42,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(cc.Results.Where(x => x.ResultType == RESULT_TYPE.CERTIFICATE).Count() > 0);
 
-            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            ConcurrentStack<CollectObject> results = new();
             cc = new CertificateCollector(changeHandler: x => results.Push(x));
             cc.TryExecute();
 
@@ -62,7 +62,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(coc.Results.Any(x => x is ComObject y && y.x86_Binary != null));
 
-                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                ConcurrentStack<CollectObject> results = new();
                 coc = new ComObjectCollector(changeHandler: x => results.Push(x));
                 coc.TryExecute();
 
@@ -101,7 +101,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             // Create the event source to make next try successful.
             EventLog.CreateEventSource(source, logname);
 
-            using EventLog eventLog = new EventLog("Application");
+            using EventLog eventLog = new("Application");
             eventLog.Source = "Attack Surface Analyzer Tests";
             eventLog.WriteEntry("This Log Entry was created for testing the Attack Surface Analyzer library.", EventLogEntryType.Warning, 101, 1);
 
@@ -110,7 +110,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
             Assert.IsTrue(elc.Results.Any(x => x is EventLogObject ELO && ELO.Source == "Attack Surface Analyzer Tests" && ELO.Timestamp is DateTime DT && DT.AddMinutes(1).CompareTo(DateTime.Now) > 0));
 
-            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            ConcurrentStack<CollectObject> results = new();
             elc = new EventLogCollector(new CollectorOptions(), x => results.Push(x));
             elc.TryExecute();
 
@@ -154,7 +154,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterJavaClass") && FSO.IsExecutable == true));
             Assert.IsTrue(fsc.Results.Any(x => x is FileSystemObject FSO && FSO.Path.EndsWith("AsaLibTesterMZ") && FSO.IsExecutable == true));
 
-            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            ConcurrentStack<CollectObject> results = new();
             fsc = new FileSystemCollector(opts, x => results.Push(x));
             fsc.TryExecute();
 
@@ -255,7 +255,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.LocalPorts.Contains("9999")));
                 Assert.IsTrue(fwc.Results.Any(x => x is FirewallObject FWO && FWO.ApplicationName is string && FWO.ApplicationName.Equals(@"C:\MyApp.exe")));
 
-                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                ConcurrentStack<CollectObject> results = new();
                 fwc = new FirewallCollector(changeHandler: x => results.Push(x));
                 fwc.TryExecute();
 
@@ -303,7 +303,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             pc.TryExecute();
             var results1 = pc.Results;
 
-            ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+            ConcurrentStack<CollectObject> results = new();
             pc = new OpenPortCollector(changeHandler: x => results.Push(x));
             pc.TryExecute();
 
@@ -351,7 +351,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name)));
                 Assert.IsTrue(rc.Results.Any(x => x is RegistryObject RO && RO.Key.EndsWith(name) && RO.Values.ContainsKey(value) && RO.Values[value] == value2));
 
-                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                ConcurrentStack<CollectObject> results = new();
                 rc = new RegistryCollector(new CollectorOptions() { SingleThread = true, SelectedHives = new List<string> { $"CurrentUser\\{name}" } }, x => results.Push(x));
                 rc.TryExecute();
 
@@ -381,7 +381,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
                 Assert.IsTrue(sc.Results.Any(x => x is ServiceObject RO && RO.Name.Equals(serviceName)));
 
-                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                ConcurrentStack<CollectObject> results = new();
                 sc = new ServiceCollector(changeHandler: x => results.Push(x));
                 sc.TryExecute();
 
@@ -412,7 +412,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 // Prepare to write to NV 3001
                 TpmHandle nvHandle = TpmHandle.NV(nvIndex);
 
-                TcpTpmDevice tcpTpmDevice = new TcpTpmDevice("127.0.0.1", 2321, stopTpm: false);
+                TcpTpmDevice tcpTpmDevice = new("127.0.0.1", 2321, stopTpm: false);
                 tcpTpmDevice.Connect();
 
                 using var tpm = new Tpm2(tcpTpmDevice);
@@ -516,7 +516,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 uac.TryExecute();
 
 
-                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                ConcurrentStack<CollectObject> results = new();
                 var uac2 = new UserAccountCollector(changeHandler: x => results.Push(x));
                 uac2.TryExecute();
                 cmd = string.Format("user /delete {0}", user);
@@ -545,7 +545,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 uac.TryExecute();
 
 
-                ConcurrentStack<CollectObject> results = new ConcurrentStack<CollectObject>();
+                ConcurrentStack<CollectObject> results = new();
                 var uac2 = new UserAccountCollector(changeHandler: x => results.Push(x));
                 uac2.TryExecute();
 

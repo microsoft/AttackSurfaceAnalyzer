@@ -84,7 +84,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             var etc_passwd_lines = File.ReadAllLines("/etc/passwd");
             var etc_shadow_lines = File.ReadAllLines("/etc/shadow");
 
-            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+            Dictionary<string, GroupAccountObject> Groups = new();
 
             var accountDetails = new Dictionary<string, UserAccountObject>();
 
@@ -173,7 +173,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         internal void ExecuteOsX(CancellationToken cancellationToken)
         {
-            Dictionary<string, GroupAccountObject> Groups = new Dictionary<string, GroupAccountObject>();
+            Dictionary<string, GroupAccountObject> Groups = new();
 
             // Admin user details
             var result = ExternalCommandRunner.RunExternalCommand("dscacheutil", "-q group -a name admin");
@@ -287,16 +287,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
             }
-            Dictionary<string, UserAccountObject> users = new Dictionary<string, UserAccountObject>();
-            Dictionary<string, GroupAccountObject> groups = new Dictionary<string, GroupAccountObject>();
+            Dictionary<string, UserAccountObject> users = new();
+            Dictionary<string, GroupAccountObject> groups = new();
 
             GroupAccountObject? GetGroup(string groupName)
             {
                 //Get the group details
                 if (!groups.ContainsKey($"{Environment.MachineName}\\{groupName}"))
                 {
-                    SelectQuery query = new SelectQuery("SELECT * FROM Win32_Group where Name='" + groupName + "' AND Domain='" + Environment.MachineName + "'");
-                    using ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+                    SelectQuery query = new("SELECT * FROM Win32_Group where Name='" + groupName + "' AND Domain='" + Environment.MachineName + "'");
+                    using ManagementObjectSearcher searcher = new(query);
 
                     // TODO: Improve this
                     foreach (ManagementObject gmo in searcher.Get())
@@ -322,7 +322,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
             try
             {
-                List<string> lines = new List<string>(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
+                List<string> lines = new(ExternalCommandRunner.RunExternalCommand("net", "localgroup").Split('\n'));
 
                 lines.RemoveRange(0, 4);
 
@@ -341,7 +341,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                             //Get the members of the group
                             var args = $"/Node:\"{Environment.MachineName}\" path win32_groupuser where (groupcomponent=\"win32_group.name=\\\"{groupName}\\\",domain=\\\"{Environment.MachineName}\\\"\")";
-                            List<string> lines_int = new List<string>(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
+                            List<string> lines_int = new(ExternalCommandRunner.RunExternalCommand("wmic", args).Split('\n'));
                             lines_int.RemoveRange(0, 1);
 
                             groups[$"{Environment.MachineName}\\{groupName}"] = group;
@@ -355,7 +355,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                 }
                                 else
                                 {
-                                    Regex r = new Regex(@".*Win32_UserAccount.Domain=""(.*?)"",Name=""(.*?)""");
+                                    Regex r = new(@".*Win32_UserAccount.Domain=""(.*?)"",Name=""(.*?)""");
 
                                     var domain = r.Match(userName).Groups[1].Value;
                                     userName = r.Match(userName).Groups[2].Value;

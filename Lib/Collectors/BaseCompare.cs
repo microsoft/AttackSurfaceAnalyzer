@@ -93,7 +93,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             Compare(differentObjects, modifyObjects, firstRunId, secondRunId);
         }
 
-        static CompareLogic compareLogic = new CompareLogic(new ComparisonConfig() { IgnoreCollectionOrder = true });
+        static CompareLogic compareLogic = new(new ComparisonConfig() { IgnoreCollectionOrder = true });
 
         public void Compare(IEnumerable<(CollectObject, string)> differentObjects, IEnumerable<(CollectObject, CollectObject)> modifiedObjects, string? firstRunId, string secondRunId)
         {
@@ -146,7 +146,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         public static List<Diff> GenerateDiffs(object? first, object? second)
         {
-            List<Diff> diffs = new List<Diff>();
+            List<Diff> diffs = new();
             if (first is null || second is null)
             {
                 diffs.Add(new Diff(string.Empty, first, second));

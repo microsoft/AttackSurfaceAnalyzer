@@ -44,30 +44,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public static double GetRandomPositiveDouble(double max)
         {
-            var bytes = new byte[8];
-            crypto.GetBytes(bytes);
+            var bytes = RandomNumberGenerator.GetBytes(8);
             return (BitConverter.ToUInt64(bytes, 0) >> 11) / (double)ulong.MaxValue * max;
         }
 
         public static int GetRandomPositiveIndex(int max)
         {
-            var randomInteger = UInt32.MaxValue;
-            while (randomInteger == UInt32.MaxValue)
+            var randomInteger = uint.MaxValue;
+            while (randomInteger == uint.MaxValue)
             {
-                byte[] data = new byte[4];
-                crypto.GetBytes(data);
+                byte[] data = RandomNumberGenerator.GetBytes(4);
                 randomInteger = BitConverter.ToUInt32(data, 0);
             }
 
             return (int)(max * (randomInteger / (double)uint.MaxValue));
         }
 
-        public static string GetRandomString(int characters) => new string(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
+        public static string GetRandomString(int characters) => new(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
 
         private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        private static readonly RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider();
-
-        private static readonly HashAlgorithm sha512 = SHA512Managed.Create();
+        private static readonly HashAlgorithm sha512 = SHA512.Create();
     }
 }

@@ -54,7 +54,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             {
                 throw new ArgumentNullException(nameof(key));
             }
-            Dictionary<string, string> values = new Dictionary<string, string>();
+            Dictionary<string, string> values = new();
 
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {

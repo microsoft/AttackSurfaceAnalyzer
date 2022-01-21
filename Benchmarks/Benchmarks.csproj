@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <ReleaseVersion>2.1-alpha</ReleaseVersion>
-    <LangVersion>8.0</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
+    <ReleaseVersion>0.0.0-placeholder</ReleaseVersion>
+    <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="LiteDB" Version="5.0.11" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.114.4" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
   </ItemGroup>
 
@@ -25,6 +25,6 @@
     <None Include="BenchmarkDotNet.Artifacts\OldResults\AttackSurfaceAnalyzer.Benchmarks.LiteDbInsertTests-report-full.json" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.4.231" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.4.255" />
   </ItemGroup>
 </Project>

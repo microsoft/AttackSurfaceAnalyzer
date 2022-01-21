@@ -439,7 +439,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public static void TrimToLatest()
         {
-            List<string> Runs = new List<string>();
+            List<string> Runs = new();
 
             var runs = db?.GetCollection<AsaRun>("Runs");
 
@@ -508,7 +508,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         private const int SCHEMA_VERSION = 1;
 
-        private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new ConcurrentBag<ILiteCollection<WriteObject>>();
+        private static readonly ConcurrentBag<ILiteCollection<WriteObject>> WriteObjectCollections = new();
         private static bool WriterStarted = false;
         private static Settings settings { get; set; } = new Settings() { SchemaVersion = SCHEMA_VERSION, ShardingFactor = 1 };
         //public static IEnumerable<WriteObject> GetMissingFromFirst2(string firstRunId, string secondRunId)
