@@ -395,15 +395,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector
   nameWithType: BaseCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: BaseCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: BaseCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: BaseCollector.BaseCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: BaseCollector.BaseCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: BaseCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: BaseCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.BaseCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: BaseCollector.BaseCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: BaseCollector.BaseCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.#ctor*
   name: BaseCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector__ctor_
@@ -476,13 +476,13 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.Stop
   nameWithType: BaseCollector.Stop
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable{CancellationToken})
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable{System.Threading.CancellationToken})
   name: TryExecute(Nullable<CancellationToken>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute_System_Nullable_CancellationToken__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable{CancellationToken})
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCollector_TryExecute_System_Nullable_System_Threading_CancellationToken__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable{System.Threading.CancellationToken})
   name.vb: TryExecute(Nullable(Of CancellationToken))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable<CancellationToken>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable(Of CancellationToken))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable<System.Threading.CancellationToken>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute(System.Nullable(Of System.Threading.CancellationToken))
   nameWithType: BaseCollector.TryExecute(Nullable<CancellationToken>)
   nameWithType.vb: BaseCollector.TryExecute(Nullable(Of CancellationToken))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCollector.TryExecute*
@@ -511,33 +511,30 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.BaseCompare
   nameWithType: BaseCompare.BaseCompare
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Nullable{System.String},System.String)
-  name: Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, Nullable<String>, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Nullable_System_String__System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Nullable{System.String},System.String)
-  name.vb: Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), Nullable(Of String), String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>, IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>, System.Nullable<System.String>, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject), IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject), System.Nullable(Of System.String), System.String)
-  nameWithType: BaseCompare.Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, Nullable<String>, String)
-  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), Nullable(Of String), String)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.Nullable{System.String},System.String)
-  name: Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, Nullable<String>, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_Nullable_System_String__System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.Nullable{System.String},System.String)
-  name.vb: Compare(IEnumerable(Of (CollectObject, String)(Of CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)(Of CollectObject, CollectObject)), Nullable(Of String), String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable<System.ValueTuple<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.String>>, IEnumerable<System.ValueTuple<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>, System.Nullable<System.String>, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable(Of System.ValueTuple(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.String)), IEnumerable(Of System.ValueTuple(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)), System.Nullable(Of System.String), System.String)
-  nameWithType: BaseCompare.Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, Nullable<String>, String)
-  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of (CollectObject, String)(Of CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)(Of CollectObject, CollectObject)), Nullable(Of String), String)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  name: Compare(Nullable<String>, String, DatabaseManager)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  name.vb: Compare(Nullable(Of String), String, DatabaseManager)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable<System.String>, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable(Of System.String), System.String, Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  nameWithType: BaseCompare.Compare(Nullable<String>, String, DatabaseManager)
-  nameWithType.vb: BaseCompare.Compare(Nullable(Of String), String, DatabaseManager)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)
+  name: Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)
+  name.vb: Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), String, String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>, System.Collections.Generic.IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>, System.String, System.String)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject), System.Collections.Generic.IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject), System.String, System.String)
+  nameWithType: BaseCompare.Compare(IEnumerable<CollectObject>, IEnumerable<CollectObject>, String, String)
+  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of CollectObject), IEnumerable(Of CollectObject), String, String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)
+  name: Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)
+  name.vb: Compare(IEnumerable(Of (CollectObject, String)(Of CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)(Of CollectObject, CollectObject)), String, String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable<System.ValueTuple<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.String>>, System.Collections.Generic.IEnumerable<System.ValueTuple<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>, System.String, System.String)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable(Of System.ValueTuple(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.String)), System.Collections.Generic.IEnumerable(Of System.ValueTuple(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)), System.String, System.String)
+  nameWithType: BaseCompare.Compare(IEnumerable<(CollectObject, String)>, IEnumerable<(CollectObject, CollectObject)>, String, String)
+  nameWithType.vb: BaseCompare.Compare(IEnumerable(Of (CollectObject, String)(Of CollectObject, String)), IEnumerable(Of (CollectObject, CollectObject)(Of CollectObject, CollectObject)), String, String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
+  name: Compare(String, String, DatabaseManager)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
+  nameWithType: BaseCompare.Compare(String, String, DatabaseManager)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*
   name: Compare
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_
@@ -545,15 +542,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare
   nameWithType: BaseCompare.Compare
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable{System.Object},System.Nullable{System.Object})
-  name: GenerateDiffs(Nullable<Object>, Nullable<Object>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Nullable_System_Object__System_Nullable_System_Object__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable{System.Object},System.Nullable{System.Object})
-  name.vb: GenerateDiffs(Nullable(Of Object), Nullable(Of Object))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable<System.Object>, System.Nullable<System.Object>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable(Of System.Object), System.Nullable(Of System.Object))
-  nameWithType: BaseCompare.GenerateDiffs(Nullable<Object>, Nullable<Object>)
-  nameWithType.vb: BaseCompare.GenerateDiffs(Nullable(Of Object), Nullable(Of Object))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Object,System.Object)
+  name: GenerateDiffs(Object, Object)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Object_System_Object_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Object,System.Object)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Object, System.Object)
+  nameWithType: BaseCompare.GenerateDiffs(Object, Object)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs*
   name: GenerateDiffs
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_
@@ -587,15 +581,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Results
   nameWithType: BaseCompare.Results
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  name: TryCompare(Nullable<String>, String, DatabaseManager)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  name.vb: TryCompare(Nullable(Of String), String, DatabaseManager)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable<System.String>, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable(Of System.String), System.String, Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
-  nameWithType: BaseCompare.TryCompare(Nullable<String>, String, DatabaseManager)
-  nameWithType.vb: BaseCompare.TryCompare(Nullable(Of String), String, DatabaseManager)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
+  name: TryCompare(String, String, DatabaseManager)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)
+  nameWithType: BaseCompare.TryCompare(String, String, DatabaseManager)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare*
   name: TryCompare
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_
@@ -680,15 +671,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector
   nameWithType: CertificateCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: CertificateCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: CertificateCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: CertificateCollector.CertificateCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: CertificateCollector.CertificateCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: CertificateCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: CertificateCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.CertificateCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: CertificateCollector.CertificateCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: CertificateCollector.CertificateCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.#ctor*
   name: CertificateCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CertificateCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_CertificateCollector__ctor_
@@ -715,15 +706,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector
   nameWithType: ComObjectCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: ComObjectCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: ComObjectCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: ComObjectCollector.ComObjectCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: ComObjectCollector.ComObjectCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: ComObjectCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: ComObjectCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ComObjectCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: ComObjectCollector.ComObjectCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: ComObjectCollector.ComObjectCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.#ctor*
   name: ComObjectCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector__ctor_
@@ -744,11 +735,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.CanRunOnPlatform
   nameWithType: ComObjectCollector.CanRunOnPlatform
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(RegistryKey,RegistryView,System.Boolean)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView,System.Boolean)
   name: ParseComObjects(RegistryKey, RegistryView, Boolean)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseComObjects_RegistryKey_RegistryView_System_Boolean_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(RegistryKey,RegistryView,System.Boolean)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(RegistryKey, RegistryView, System.Boolean)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ComObjectCollector_ParseComObjects_Microsoft_Win32_RegistryKey_Microsoft_Win32_RegistryView_System_Boolean_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView,System.Boolean)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects(Microsoft.Win32.RegistryKey, Microsoft.Win32.RegistryView, System.Boolean)
   nameWithType: ComObjectCollector.ParseComObjects(RegistryKey, RegistryView, Boolean)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ComObjectCollector.ParseComObjects*
   name: ParseComObjects
@@ -763,15 +754,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector
   nameWithType: CryptographicKeyCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: CryptographicKeyCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_CryptographicKeyCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: CryptographicKeyCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.CryptographicKeyCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.CryptographicKeyCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: CryptographicKeyCollector.CryptographicKeyCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: CryptographicKeyCollector.CryptographicKeyCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: CryptographicKeyCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_CryptographicKeyCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: CryptographicKeyCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.CryptographicKeyCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.CryptographicKeyCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: CryptographicKeyCollector.CryptographicKeyCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: CryptographicKeyCollector.CryptographicKeyCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.#ctor*
   name: CryptographicKeyCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.CryptographicKeyCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_CryptographicKeyCollector__ctor_
@@ -798,15 +789,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector
   nameWithType: DriverCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: DriverCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_DriverCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: DriverCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.DriverCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.DriverCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: DriverCollector.DriverCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: DriverCollector.DriverCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: DriverCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_DriverCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: DriverCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.DriverCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.DriverCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: DriverCollector.DriverCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: DriverCollector.DriverCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.#ctor*
   name: DriverCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.DriverCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_DriverCollector__ctor_
@@ -833,15 +824,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector
   nameWithType: EventLogCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: EventLogCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: EventLogCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: EventLogCollector.EventLogCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: EventLogCollector.EventLogCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: EventLogCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: EventLogCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.EventLogCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: EventLogCollector.EventLogCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: EventLogCollector.EventLogCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.#ctor*
   name: EventLogCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector__ctor_
@@ -862,11 +853,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.CanRunOnPlatform
   nameWithType: EventLogCollector.CanRunOnPlatform
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux(CancellationToken)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux(System.Threading.CancellationToken)
   name: ExecuteLinux(CancellationToken)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux_CancellationToken_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux(CancellationToken)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux(CancellationToken)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteLinux_System_Threading_CancellationToken_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux(System.Threading.CancellationToken)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux(System.Threading.CancellationToken)
   nameWithType: EventLogCollector.ExecuteLinux(CancellationToken)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux*
   name: ExecuteLinux
@@ -875,11 +866,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteLinux
   nameWithType: EventLogCollector.ExecuteLinux
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs(CancellationToken)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs(System.Threading.CancellationToken)
   name: ExecuteMacOs(CancellationToken)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs_CancellationToken_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs(CancellationToken)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs(CancellationToken)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteMacOs_System_Threading_CancellationToken_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs(System.Threading.CancellationToken)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs(System.Threading.CancellationToken)
   nameWithType: EventLogCollector.ExecuteMacOs(CancellationToken)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs*
   name: ExecuteMacOs
@@ -888,11 +879,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteMacOs
   nameWithType: EventLogCollector.ExecuteMacOs
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows(CancellationToken)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows(System.Threading.CancellationToken)
   name: ExecuteWindows(CancellationToken)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows_CancellationToken_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows(CancellationToken)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows(CancellationToken)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_EventLogCollector_ExecuteWindows_System_Threading_CancellationToken_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows(System.Threading.CancellationToken)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows(System.Threading.CancellationToken)
   nameWithType: EventLogCollector.ExecuteWindows(CancellationToken)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.EventLogCollector.ExecuteWindows*
   name: ExecuteWindows
@@ -907,15 +898,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector
   nameWithType: FileSystemCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: FileSystemCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: FileSystemCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: FileSystemCollector.FileSystemCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: FileSystemCollector.FileSystemCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: FileSystemCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: FileSystemCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.FileSystemCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: FileSystemCollector.FileSystemCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: FileSystemCollector.FileSystemCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.#ctor*
   name: FileSystemCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemCollector__ctor_
@@ -994,13 +985,13 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor
   nameWithType: FileSystemMonitor
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions,Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject})
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject})
   name: FileSystemMonitor(MonitorCommandOptions, Action<FileMonitorObject>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions,Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject})
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject})
   name.vb: FileSystemMonitor(MonitorCommandOptions, Action(Of FileMonitorObject))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions, Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions, Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.FileSystemMonitor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject))
   nameWithType: FileSystemMonitor.FileSystemMonitor(MonitorCommandOptions, Action<FileMonitorObject>)
   nameWithType.vb: FileSystemMonitor.FileSystemMonitor(MonitorCommandOptions, Action(Of FileMonitorObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*
@@ -1023,11 +1014,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.CanRunOnPlatform
   nameWithType: FileSystemMonitor.CanRunOnPlatform
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
   name: ChangeTypeToChangeType(WatcherChangeTypes)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_WatcherChangeTypes_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_System_IO_WatcherChangeTypes_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)
   nameWithType: FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*
   name: ChangeTypeToChangeType
@@ -1100,11 +1091,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.StopRun
   nameWithType: FileSystemMonitor.StopRun
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs,NotifyFilters)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)
   name: WriteRename(RenamedEventArgs, NotifyFilters)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_RenamedEventArgs_NotifyFilters_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs,NotifyFilters)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs, NotifyFilters)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_System_IO_NotifyFilters_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs, System.IO.NotifyFilters)
   nameWithType: FileSystemMonitor.WriteRename(RenamedEventArgs, NotifyFilters)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*
   name: WriteRename
@@ -1125,21 +1116,18 @@ references:
   commentId: F:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.ElfMagicNumber
   nameWithType: FileSystemUtils.ElfMagicNumber
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable{System.String},Stream)
-  name: GetExecutableType(Nullable<String>, Stream)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_Nullable_System_String__Stream_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable{System.String},Stream)
-  name.vb: GetExecutableType(Nullable(Of String), Stream)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable<System.String>, Stream)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.Nullable(Of System.String), Stream)
-  nameWithType: FileSystemUtils.GetExecutableType(Nullable<String>, Stream)
-  nameWithType.vb: FileSystemUtils.GetExecutableType(Nullable(Of String), Stream)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
   name: GetExecutableType(String)
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_String_
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String)
   nameWithType: FileSystemUtils.GetExecutableType(String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String,System.IO.Stream)
+  name: GetExecutableType(String, Stream)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_System_String_System_IO_Stream_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String,System.IO.Stream)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType(System.String, System.IO.Stream)
+  nameWithType: FileSystemUtils.GetExecutableType(String, Stream)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType*
   name: GetExecutableType
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetExecutableType_
@@ -1147,11 +1135,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetExecutableType
   nameWithType: FileSystemUtils.GetExecutableType
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
   name: GetFileHash(FileSystemInfo)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_FileSystemInfo_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(FileSystemInfo)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFileHash_System_IO_FileSystemInfo_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.IO.FileSystemInfo)
   nameWithType: FileSystemUtils.GetFileHash(FileSystemInfo)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash(System.String)
   name: GetFileHash(String)
@@ -1166,11 +1154,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFileHash
   nameWithType: FileSystemUtils.GetFileHash
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   name: GetFilePermissions(FileSystemInfo)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_FileSystemInfo_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(FileSystemInfo)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetFilePermissions_System_IO_FileSystemInfo_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions(System.IO.FileSystemInfo)
   nameWithType: FileSystemUtils.GetFilePermissions(FileSystemInfo)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions*
   name: GetFilePermissions
@@ -1179,15 +1167,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetFilePermissions
   nameWithType: FileSystemUtils.GetFilePermissions
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable{System.String})
-  name: GetMacSignature(Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable{System.String})
-  name.vb: GetMacSignature(Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.Nullable(Of System.String))
-  nameWithType: FileSystemUtils.GetMacSignature(Nullable<String>)
-  nameWithType.vb: FileSystemUtils.GetMacSignature(Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
+  name: GetMacSignature(String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature(System.String)
+  nameWithType: FileSystemUtils.GetMacSignature(String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.GetMacSignature*
   name: GetMacSignature
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemUtils_GetMacSignature_
@@ -1219,15 +1204,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector
   nameWithType: FirewallCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: FirewallCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: FirewallCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: FirewallCollector.FirewallCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: FirewallCollector.FirewallCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: FirewallCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: FirewallCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.FirewallCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: FirewallCollector.FirewallCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: FirewallCollector.FirewallCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.#ctor*
   name: FirewallCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FirewallCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FirewallCollector__ctor_
@@ -1273,15 +1258,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector
   nameWithType: OpenPortCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: OpenPortCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: OpenPortCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: OpenPortCollector.OpenPortCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: OpenPortCollector.OpenPortCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: OpenPortCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: OpenPortCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.OpenPortCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: OpenPortCollector.OpenPortCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: OpenPortCollector.OpenPortCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.#ctor*
   name: OpenPortCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.OpenPortCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_OpenPortCollector__ctor_
@@ -1308,15 +1293,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector
   nameWithType: ProcessCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: ProcessCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ProcessCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: ProcessCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.ProcessCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.ProcessCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: ProcessCollector.ProcessCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: ProcessCollector.ProcessCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: ProcessCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ProcessCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: ProcessCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.ProcessCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.ProcessCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: ProcessCollector.ProcessCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: ProcessCollector.ProcessCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.#ctor*
   name: ProcessCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ProcessCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ProcessCollector__ctor_
@@ -1343,15 +1328,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector
   nameWithType: RegistryCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: RegistryCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: RegistryCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: RegistryCollector.RegistryCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: RegistryCollector.RegistryCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: RegistryCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: RegistryCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.RegistryCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: RegistryCollector.RegistryCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: RegistryCollector.RegistryCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.#ctor*
   name: RegistryCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.RegistryCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_RegistryCollector__ctor_
@@ -1481,15 +1466,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector
   nameWithType: ServiceCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: ServiceCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: ServiceCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: ServiceCollector.ServiceCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: ServiceCollector.ServiceCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: ServiceCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: ServiceCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.ServiceCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: ServiceCollector.ServiceCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: ServiceCollector.ServiceCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.#ctor*
   name: ServiceCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.ServiceCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_ServiceCollector__ctor_
@@ -1516,15 +1501,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector
   nameWithType: TpmCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.Boolean)
-  name: TpmCollector(CollectorOptions, Nullable<Action<CollectObject>>, Boolean)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_TpmCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_Boolean_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.Boolean)
-  name.vb: TpmCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)), Boolean)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.TpmCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>, System.Boolean)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.TpmCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)), System.Boolean)
-  nameWithType: TpmCollector.TpmCollector(CollectorOptions, Nullable<Action<CollectObject>>, Boolean)
-  nameWithType.vb: TpmCollector.TpmCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)), Boolean)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Boolean)
+  name: TpmCollector(CollectorOptions, Action<CollectObject>, Boolean)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_TpmCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Boolean_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Boolean)
+  name.vb: TpmCollector(CollectorOptions, Action(Of CollectObject), Boolean)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.TpmCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>, System.Boolean)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.TpmCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject), System.Boolean)
+  nameWithType: TpmCollector.TpmCollector(CollectorOptions, Action<CollectObject>, Boolean)
+  nameWithType.vb: TpmCollector.TpmCollector(CollectorOptions, Action(Of CollectObject), Boolean)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.#ctor*
   name: TpmCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.TpmCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_TpmCollector__ctor_
@@ -1651,15 +1636,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector
   nameWithType: UserAccountCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: UserAccountCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: UserAccountCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: UserAccountCollector.UserAccountCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: UserAccountCollector.UserAccountCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: UserAccountCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: UserAccountCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.UserAccountCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: UserAccountCollector.UserAccountCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: UserAccountCollector.UserAccountCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.#ctor*
   name: UserAccountCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.UserAccountCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_UserAccountCollector__ctor_
@@ -1686,15 +1671,15 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector
   nameWithType: WifiCollector
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name: WifiCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WifiCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Nullable_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Nullable{Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}})
-  name.vb: WifiCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.WifiCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable<Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.WifiCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Nullable(Of Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject)))
-  nameWithType: WifiCollector.WifiCollector(CollectorOptions, Nullable<Action<CollectObject>>)
-  nameWithType.vb: WifiCollector.WifiCollector(CollectorOptions, Nullable(Of Action(Of CollectObject)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name: WifiCollector(CollectorOptions, Action<CollectObject>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WifiCollector__ctor_Microsoft_CST_AttackSurfaceAnalyzer_CollectorOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject})
+  name.vb: WifiCollector(CollectorOptions, Action(Of CollectObject))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.WifiCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action<Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.WifiCollector(Microsoft.CST.AttackSurfaceAnalyzer.CollectorOptions, System.Action(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject))
+  nameWithType: WifiCollector.WifiCollector(CollectorOptions, Action<CollectObject>)
+  nameWithType.vb: WifiCollector.WifiCollector(CollectorOptions, Action(Of CollectObject))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.#ctor*
   name: WifiCollector
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WifiCollector.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WifiCollector__ctor_
@@ -1727,11 +1712,11 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String)
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics(String)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,Stream)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,System.IO.Stream)
   name: GetDllCharacteristics(String, Stream)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetDllCharacteristics_System_String_Stream_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,Stream)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String, Stream)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetDllCharacteristics_System_String_System_IO_Stream_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String,System.IO.Stream)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics(System.String, System.IO.Stream)
   nameWithType: WindowsFileSystemUtils.GetDllCharacteristics(String, Stream)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetDllCharacteristics*
   name: GetDllCharacteristics
@@ -1746,11 +1731,11 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String)
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus(String)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,Stream)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,System.IO.Stream)
   name: GetSignatureStatus(String, Stream)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_System_String_Stream_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,Stream)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String, Stream)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_WindowsFileSystemUtils_GetSignatureStatus_System_String_System_IO_Stream_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String,System.IO.Stream)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus(System.String, System.IO.Stream)
   nameWithType: WindowsFileSystemUtils.GetSignatureStatus(String, Stream)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Collectors.WindowsFileSystemUtils.GetSignatureStatus*
   name: GetSignatureStatus
@@ -1875,15 +1860,12 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions
   nameWithType: CompareCommandOptions
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.Nullable{System.String},System.String)
-  name: CompareCommandOptions(Nullable<String>, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CompareCommandOptions__ctor_System_Nullable_System_String__System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.Nullable{System.String},System.String)
-  name.vb: CompareCommandOptions(Nullable(Of String), String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.CompareCommandOptions(System.Nullable<System.String>, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.CompareCommandOptions(System.Nullable(Of System.String), System.String)
-  nameWithType: CompareCommandOptions.CompareCommandOptions(Nullable<String>, String)
-  nameWithType.vb: CompareCommandOptions.CompareCommandOptions(Nullable(Of String), String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.String,System.String)
+  name: CompareCommandOptions(String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CompareCommandOptions__ctor_System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.#ctor(System.String,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.CompareCommandOptions(System.String, System.String)
+  nameWithType: CompareCommandOptions.CompareCommandOptions(String, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.#ctor*
   name: CompareCommandOptions
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CompareCommandOptions__ctor_
@@ -3536,13 +3518,13 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun
   nameWithType: AsaRun
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,DateTime,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM,List{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE},Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,System.DateTime,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM,System.Collections.Generic.List{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE},Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
   name: AsaRun(String, DateTime, String, PLATFORM, List<RESULT_TYPE>, RUN_TYPE)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRun__ctor_System_String_DateTime_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_PLATFORM_List_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE__Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,DateTime,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM,List{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE},Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRun__ctor_System_String_System_DateTime_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_PLATFORM_System_Collections_Generic_List_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE__Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_TYPE_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.#ctor(System.String,System.DateTime,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM,System.Collections.Generic.List{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE},Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
   name.vb: AsaRun(String, DateTime, String, PLATFORM, List(Of RESULT_TYPE), RUN_TYPE)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, DateTime, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM, List<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE>, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, DateTime, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM, List(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE), Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, System.DateTime, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM, System.Collections.Generic.List<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE>, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.AsaRun(System.String, System.DateTime, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.PLATFORM, System.Collections.Generic.List(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE), Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_TYPE)
   nameWithType: AsaRun.AsaRun(String, DateTime, String, PLATFORM, List<RESULT_TYPE>, RUN_TYPE)
   nameWithType.vb: AsaRun.AsaRun(String, DateTime, String, PLATFORM, List(Of RESULT_TYPE), RUN_TYPE)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRun.#ctor*
@@ -4289,15 +4271,12 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff
   nameWithType: Diff
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Nullable{System.Object},System.Nullable{System.Object})
-  name: Diff(String, Nullable<Object>, Nullable<Object>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Diff__ctor_System_String_System_Nullable_System_Object__System_Nullable_System_Object__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Nullable{System.Object},System.Nullable{System.Object})
-  name.vb: Diff(String, Nullable(Of Object), Nullable(Of Object))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.Diff(System.String, System.Nullable<System.Object>, System.Nullable<System.Object>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.Diff(System.String, System.Nullable(Of System.Object), System.Nullable(Of System.Object))
-  nameWithType: Diff.Diff(String, Nullable<Object>, Nullable<Object>)
-  nameWithType.vb: Diff.Diff(String, Nullable(Of Object), Nullable(Of Object))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Object,System.Object)
+  name: Diff(String, Object, Object)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Diff__ctor_System_String_System_Object_System_Object_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.#ctor(System.String,System.Object,System.Object)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.Diff(System.String, System.Object, System.Object)
+  nameWithType: Diff.Diff(String, Object, Object)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.#ctor*
   name: Diff
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_Diff__ctor_
@@ -5102,11 +5081,11 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult
   nameWithType: FileSystemMonitorResult
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(FileSystemEventArgs)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(System.IO.FileSystemEventArgs)
   name: FileSystemMonitorResult(FileSystemEventArgs)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemMonitorResult__ctor_FileSystemEventArgs_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(FileSystemEventArgs)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.FileSystemMonitorResult(FileSystemEventArgs)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemMonitorResult__ctor_System_IO_FileSystemEventArgs_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor(System.IO.FileSystemEventArgs)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.FileSystemMonitorResult(System.IO.FileSystemEventArgs)
   nameWithType: FileSystemMonitorResult.FileSystemMonitorResult(FileSystemEventArgs)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemMonitorResult.#ctor*
   name: FileSystemMonitorResult
@@ -6279,15 +6258,12 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject()
   nameWithType: ProcessModuleObject.ProcessModuleObject()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.Nullable{System.String},System.Nullable{System.String},Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  name: ProcessModuleObject(Nullable<String>, Nullable<String>, SerializableFileVersionInfo)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor_System_Nullable_System_String__System_Nullable_System_String__Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableFileVersionInfo_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.Nullable{System.String},System.Nullable{System.String},Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  name.vb: ProcessModuleObject(Nullable(Of String), Nullable(Of String), SerializableFileVersionInfo)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject(System.Nullable<System.String>, System.Nullable<System.String>, Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject(System.Nullable(Of System.String), System.Nullable(Of System.String), Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
-  nameWithType: ProcessModuleObject.ProcessModuleObject(Nullable<String>, Nullable<String>, SerializableFileVersionInfo)
-  nameWithType.vb: ProcessModuleObject.ProcessModuleObject(Nullable(Of String), Nullable(Of String), SerializableFileVersionInfo)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  name: ProcessModuleObject(String, String, SerializableFileVersionInfo)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableFileVersionInfo_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.ProcessModuleObject(System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo)
+  nameWithType: ProcessModuleObject.ProcessModuleObject(String, String, SerializableFileVersionInfo)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.#ctor*
   name: ProcessModuleObject
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessModuleObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessModuleObject__ctor_
@@ -6366,11 +6342,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.BasePriority
   nameWithType: ProcessObject.BasePriority
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess(Process)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess(System.Diagnostics.Process)
   name: FromProcess(Process)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessObject_FromProcess_Process_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess(Process)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess(Process)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_ProcessObject_FromProcess_System_Diagnostics_Process_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess(System.Diagnostics.Process)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess(System.Diagnostics.Process)
   nameWithType: ProcessObject.FromProcess(Process)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.ProcessObject.FromProcess*
   name: FromProcess
@@ -6502,11 +6478,11 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject
   nameWithType: RegistryObject
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,RegistryView)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,Microsoft.Win32.RegistryView)
   name: RegistryObject(String, RegistryView)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_RegistryView_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,RegistryView)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(System.String, RegistryView)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_Microsoft_Win32_RegistryView_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,Microsoft.Win32.RegistryView)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.RegistryObject(System.String, Microsoft.Win32.RegistryView)
   nameWithType: RegistryObject.RegistryObject(String, RegistryView)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor*
   name: RegistryObject
@@ -6531,11 +6507,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.AddSubKeys
   nameWithType: RegistryObject.AddSubKeys
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)
   name: GetValues(RegistryKey)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_RegistryKey_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_Microsoft_Win32_RegistryKey_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)
   nameWithType: RegistryObject.GetValues(RegistryKey)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues*
   name: GetValues
@@ -6689,15 +6665,12 @@ references:
   fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.RsaKeyDetails(System.Byte(), System.Byte(), System.Byte(), System.Byte())
   nameWithType: RsaKeyDetails.RsaKeyDetails(Byte[], Byte[], Byte[], Byte[])
   nameWithType.vb: RsaKeyDetails.RsaKeyDetails(Byte(), Byte(), Byte(), Byte())
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.#ctor(System.Nullable{System.String},System.Nullable{System.String})
-  name: RsaKeyDetails(Nullable<String>, Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RsaKeyDetails__ctor_System_Nullable_System_String__System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.#ctor(System.Nullable{System.String},System.Nullable{System.String})
-  name.vb: RsaKeyDetails(Nullable(Of String), Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.RsaKeyDetails(System.Nullable<System.String>, System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.RsaKeyDetails(System.Nullable(Of System.String), System.Nullable(Of System.String))
-  nameWithType: RsaKeyDetails.RsaKeyDetails(Nullable<String>, Nullable<String>)
-  nameWithType.vb: RsaKeyDetails.RsaKeyDetails(Nullable(Of String), Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.#ctor(System.String,System.String)
+  name: RsaKeyDetails(String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RsaKeyDetails__ctor_System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.#ctor(System.String,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.RsaKeyDetails(System.String, System.String)
+  nameWithType: RsaKeyDetails.RsaKeyDetails(String, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.#ctor*
   name: RsaKeyDetails
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RsaKeyDetails.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RsaKeyDetails__ctor_
@@ -6769,24 +6742,24 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile()
   nameWithType: RuleFile.RuleFile()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}},System.Nullable{System.String})
-  name: RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<IEnumerable<AsaRule>>, Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Nullable_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE___System_Nullable_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule___System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE}},System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}},System.Nullable{System.String})
-  name.vb: RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of IEnumerable(Of AsaRule)), Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable<Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>>, System.Nullable<IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>>, System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable(Of Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE)), System.Nullable(Of IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule)), System.Nullable(Of System.String))
-  nameWithType: RuleFile.RuleFile(Nullable<Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>>, Nullable<IEnumerable<AsaRule>>, Nullable<String>)
-  nameWithType.vb: RuleFile.RuleFile(Nullable(Of Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE)), Nullable(Of IEnumerable(Of AsaRule)), Nullable(Of String))
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}})
-  name: RuleFile(Nullable<IEnumerable<AsaRule>>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Nullable_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule___
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Nullable{IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule}})
-  name.vb: RuleFile(Nullable(Of IEnumerable(Of AsaRule)))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable<IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Nullable(Of IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule)))
-  nameWithType: RuleFile.RuleFile(Nullable<IEnumerable<AsaRule>>)
-  nameWithType.vb: RuleFile.RuleFile(Nullable(Of IEnumerable(Of AsaRule)))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Collections.Generic.Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE},System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule},System.String)
+  name: RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>, IEnumerable<AsaRule>, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Collections_Generic_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule__System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Collections.Generic.Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE},System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule},System.String)
+  name.vb: RuleFile(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE), IEnumerable(Of AsaRule), String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Collections.Generic.Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>, System.Collections.Generic.IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>, System.String)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Collections.Generic.Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE), System.Collections.Generic.IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule), System.String)
+  nameWithType: RuleFile.RuleFile(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>, IEnumerable<AsaRule>, String)
+  nameWithType.vb: RuleFile.RuleFile(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE), IEnumerable(Of AsaRule), String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule})
+  name: RuleFile(IEnumerable<AsaRule>)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_AsaRule__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor(System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule})
+  name.vb: RuleFile(IEnumerable(Of AsaRule))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Collections.Generic.IEnumerable<Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.RuleFile(System.Collections.Generic.IEnumerable(Of Microsoft.CST.AttackSurfaceAnalyzer.Objects.AsaRule))
+  nameWithType: RuleFile.RuleFile(IEnumerable<AsaRule>)
+  nameWithType.vb: RuleFile.RuleFile(IEnumerable(Of AsaRule))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.#ctor*
   name: RuleFile
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile__ctor_
@@ -6820,15 +6793,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.DumpFilters
   nameWithType: RuleFile.DumpFilters
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.Nullable{System.String})
-  name: FromFile(Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromFile_System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.Nullable{System.String})
-  name.vb: FromFile(Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.Nullable(Of System.String))
-  nameWithType: RuleFile.FromFile(Nullable<String>)
-  nameWithType.vb: RuleFile.FromFile(Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.String)
+  name: FromFile(String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromFile_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile(System.String)
+  nameWithType: RuleFile.FromFile(String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile*
   name: FromFile
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromFile_
@@ -6836,15 +6806,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromFile
   nameWithType: RuleFile.FromFile
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream},System.Nullable{System.String})
-  name: FromStream(Nullable<Stream>, Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_System_Nullable_Stream__System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable{Stream},System.Nullable{System.String})
-  name.vb: FromStream(Nullable(Of Stream), Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable<Stream>, System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.Nullable(Of Stream), System.Nullable(Of System.String))
-  nameWithType: RuleFile.FromStream(Nullable<Stream>, Nullable<String>)
-  nameWithType.vb: RuleFile.FromStream(Nullable(Of Stream), Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.IO.Stream,System.String)
+  name: FromStream(Stream, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_System_IO_Stream_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.IO.Stream,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream(System.IO.Stream, System.String)
+  nameWithType: RuleFile.FromStream(Stream, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.FromStream*
   name: FromStream
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_FromStream_
@@ -6930,13 +6897,13 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevel
   nameWithType: RuleFile.SetDefaultLevel
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(System.Collections.Generic.Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})
   name: SetDefaultLevels(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_RuleFile_SetDefaultLevels_System_Collections_Generic_Dictionary_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_Microsoft_CST_AttackSurfaceAnalyzer_Types_ANALYSIS_RESULT_TYPE__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(System.Collections.Generic.Dictionary{Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE})
   name.vb: SetDefaultLevels(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(System.Collections.Generic.Dictionary<Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels(System.Collections.Generic.Dictionary(Of Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, Microsoft.CST.AttackSurfaceAnalyzer.Types.ANALYSIS_RESULT_TYPE))
   nameWithType: RuleFile.SetDefaultLevels(Dictionary<RESULT_TYPE, ANALYSIS_RESULT_TYPE>)
   nameWithType.vb: RuleFile.SetDefaultLevels(Dictionary(Of RESULT_TYPE, ANALYSIS_RESULT_TYPE))
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.RuleFile.SetDefaultLevels*
@@ -6965,18 +6932,18 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate
   nameWithType: SerializableCertificate
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,DateTime,DateTime,System.String,System.String,System.String,System.String)
-  name: SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_String_System_String_System_String_DateTime_DateTime_System_String_System_String_System_String_System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,DateTime,DateTime,System.String,System.String,System.String,System.String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.String, System.String, System.String, DateTime, DateTime, System.String, System.String, System.String, System.String)
-  nameWithType: SerializableCertificate.SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(X509Certificate2)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)
   name: SerializableCertificate(X509Certificate2)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_X509Certificate2_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(X509Certificate2)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(X509Certificate2)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_Security_Cryptography_X509Certificates_X509Certificate2_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.Security.Cryptography.X509Certificates.X509Certificate2)
   nameWithType: SerializableCertificate.SerializableCertificate(X509Certificate2)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String,System.String)
+  name: SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_System_String_System_String_System_String_System_DateTime_System_DateTime_System_String_System_String_System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor(System.String,System.String,System.String,System.DateTime,System.DateTime,System.String,System.String,System.String,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.SerializableCertificate(System.String, System.String, System.String, System.DateTime, System.DateTime, System.String, System.String, System.String, System.String)
+  nameWithType: SerializableCertificate.SerializableCertificate(String, String, String, DateTime, DateTime, String, String, String, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.#ctor*
   name: SerializableCertificate
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableCertificate.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableCertificate__ctor_
@@ -7237,11 +7204,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FileVersion
   nameWithType: SerializableFileVersionInfo.FileVersion
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo(FileVersionInfo)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo(System.Diagnostics.FileVersionInfo)
   name: FromFileVersionInfo(FileVersionInfo)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableFileVersionInfo_FromFileVersionInfo_FileVersionInfo_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo(FileVersionInfo)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo(FileVersionInfo)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_SerializableFileVersionInfo_FromFileVersionInfo_System_Diagnostics_FileVersionInfo_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo(System.Diagnostics.FileVersionInfo)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo(System.Diagnostics.FileVersionInfo)
   nameWithType: SerializableFileVersionInfo.FromFileVersionInfo(FileVersionInfo)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.SerializableFileVersionInfo.FromFileVersionInfo*
   name: FromFileVersionInfo
@@ -11138,13 +11105,13 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.AsaAnalyzer
   nameWithType: AsaAnalyzer.AsaAnalyzer
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(IEnumerable{Rule},Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(System.Collections.Generic.IEnumerable{Rule},Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
   name: Analyze(IEnumerable<Rule>, CompareResult)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_Analyze_IEnumerable_Rule__Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(IEnumerable{Rule},Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_Analyze_System_Collections_Generic_IEnumerable_Rule__Microsoft_CST_AttackSurfaceAnalyzer_Objects_CompareResult_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(System.Collections.Generic.IEnumerable{Rule},Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
   name.vb: Analyze(IEnumerable(Of Rule), CompareResult)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(IEnumerable<Rule>, Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(IEnumerable(Of Rule), Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(System.Collections.Generic.IEnumerable<Rule>, Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze(System.Collections.Generic.IEnumerable(Of Rule), Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult)
   nameWithType: AsaAnalyzer.Analyze(IEnumerable<Rule>, CompareResult)
   nameWithType.vb: AsaAnalyzer.Analyze(IEnumerable(Of Rule), CompareResult)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze*
@@ -11154,15 +11121,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.Analyze
   nameWithType: AsaAnalyzer.Analyze
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Nullable{System.Object})
-  name: ParseCustomAsaObjectValues(Nullable<Object>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_ParseCustomAsaObjectValues_System_Nullable_System_Object__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Nullable{System.Object})
-  name.vb: ParseCustomAsaObjectValues(Nullable(Of Object))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Nullable<System.Object>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Nullable(Of System.Object))
-  nameWithType: AsaAnalyzer.ParseCustomAsaObjectValues(Nullable<Object>)
-  nameWithType.vb: AsaAnalyzer.ParseCustomAsaObjectValues(Nullable(Of Object))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Object)
+  name: ParseCustomAsaObjectValues(Object)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_ParseCustomAsaObjectValues_System_Object_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Object)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues(System.Object)
+  nameWithType: AsaAnalyzer.ParseCustomAsaObjectValues(Object)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues*
   name: ParseCustomAsaObjectValues
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_ParseCustomAsaObjectValues_
@@ -11170,15 +11134,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaObjectValues
   nameWithType: AsaAnalyzer.ParseCustomAsaObjectValues
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Nullable{System.Object},System.String)
-  name: ParseCustomAsaProperties(Nullable<Object>, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_ParseCustomAsaProperties_System_Nullable_System_Object__System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Nullable{System.Object},System.String)
-  name.vb: ParseCustomAsaProperties(Nullable(Of Object), String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Nullable<System.Object>, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Nullable(Of System.Object), System.String)
-  nameWithType: AsaAnalyzer.ParseCustomAsaProperties(Nullable<Object>, String)
-  nameWithType.vb: AsaAnalyzer.ParseCustomAsaProperties(Nullable(Of Object), String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Object,System.String)
+  name: ParseCustomAsaProperties(Object, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_ParseCustomAsaProperties_System_Object_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Object,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties(System.Object, System.String)
+  nameWithType: AsaAnalyzer.ParseCustomAsaProperties(Object, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.ParseCustomAsaProperties*
   name: ParseCustomAsaProperties
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaAnalyzer.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaAnalyzer_ParseCustomAsaProperties_
@@ -11349,11 +11310,11 @@ references:
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.MakeValidFileName
   nameWithType: AsaHelpers.MakeValidFileName
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser(System.Uri)
-  name: OpenBrowser(System.Uri)
+  name: OpenBrowser(Uri)
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_OpenBrowser_System_Uri_
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser(System.Uri)
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser(System.Uri)
-  nameWithType: AsaHelpers.OpenBrowser(System.Uri)
+  nameWithType: AsaHelpers.OpenBrowser(Uri)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.OpenBrowser*
   name: OpenBrowser
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_OpenBrowser_
@@ -11374,15 +11335,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.RunIdsToCompareId
   nameWithType: AsaHelpers.RunIdsToCompareId
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable{IdentityReference})
-  name: SidToName(Nullable<IdentityReference>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_System_Nullable_IdentityReference__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable{IdentityReference})
-  name.vb: SidToName(Nullable(Of IdentityReference))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable<IdentityReference>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Nullable(Of IdentityReference))
-  nameWithType: AsaHelpers.SidToName(Nullable<IdentityReference>)
-  nameWithType.vb: AsaHelpers.SidToName(Nullable(Of IdentityReference))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Security.Principal.IdentityReference)
+  name: SidToName(IdentityReference)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_System_Security_Principal_IdentityReference_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Security.Principal.IdentityReference)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName(System.Security.Principal.IdentityReference)
+  nameWithType: AsaHelpers.SidToName(IdentityReference)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.SidToName*
   name: SidToName
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.AsaHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_AsaHelpers_SidToName_
@@ -11396,11 +11354,11 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers
   nameWithType: CryptoHelpers
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
   name: CreateHash(Stream)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_Stream_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(Stream)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_CryptoHelpers_CreateHash_System_IO_Stream_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.IO.Stream)
   nameWithType: CryptoHelpers.CreateHash(Stream)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.CryptoHelpers.CreateHash(System.String)
   name: CreateHash(String)
@@ -11596,15 +11554,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetCompareRuns
   nameWithType: DatabaseManager.GetCompareRuns
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable{System.String},System.String,System.String)
-  name: GetComparisonCompleted(Nullable<String>, String, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_Nullable_System_String__System_String_System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable{System.String},System.String,System.String)
-  name.vb: GetComparisonCompleted(Nullable(Of String), String, String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable<System.String>, System.String, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.Nullable(Of System.String), System.String, System.String)
-  nameWithType: DatabaseManager.GetComparisonCompleted(Nullable<String>, String, String)
-  nameWithType.vb: DatabaseManager.GetComparisonCompleted(Nullable(Of String), String, String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String,System.String,System.String)
+  name: GetComparisonCompleted(String, String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_System_String_System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String,System.String,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted(System.String, System.String, System.String)
+  nameWithType: DatabaseManager.GetComparisonCompleted(String, String, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.GetComparisonCompleted*
   name: GetComparisonCompleted
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_GetComparisonCompleted_
@@ -11871,15 +11826,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertAnalyzed
   nameWithType: DatabaseManager.InsertAnalyzed
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable{System.String},System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: InsertCompareRun(Nullable<String>, String, String, RUN_STATUS)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_Nullable_System_String__System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable{System.String},System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name.vb: InsertCompareRun(Nullable(Of String), String, String, RUN_STATUS)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable<System.String>, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.Nullable(Of System.String), System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: DatabaseManager.InsertCompareRun(Nullable<String>, String, String, RUN_STATUS)
-  nameWithType.vb: DatabaseManager.InsertCompareRun(Nullable(Of String), String, String, RUN_STATUS)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name: InsertCompareRun(String, String, String, RUN_STATUS)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_System_String_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun(System.String, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  nameWithType: DatabaseManager.InsertCompareRun(String, String, String, RUN_STATUS)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.InsertCompareRun*
   name: InsertCompareRun
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_InsertCompareRun_
@@ -12004,15 +11956,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.TrimToLatest
   nameWithType: DatabaseManager.TrimToLatest
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: UpdateCompareRun(Nullable<String>, String, RUN_STATUS)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name.vb: UpdateCompareRun(Nullable(Of String), String, RUN_STATUS)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable<System.String>, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.Nullable(Of System.String), System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: DatabaseManager.UpdateCompareRun(Nullable<String>, String, RUN_STATUS)
-  nameWithType.vb: DatabaseManager.UpdateCompareRun(Nullable(Of String), String, RUN_STATUS)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name: UpdateCompareRun(String, String, RUN_STATUS)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun(System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  nameWithType: DatabaseManager.UpdateCompareRun(String, String, RUN_STATUS)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.UpdateCompareRun*
   name: UpdateCompareRun
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_UpdateCompareRun_
@@ -12046,15 +11995,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.WaitUntilFlushed
   nameWithType: DatabaseManager.WaitUntilFlushed
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.Nullable{System.String})
-  name: Write(CollectObject, Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.Nullable{System.String})
-  name.vb: Write(CollectObject, Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.Nullable(Of System.String))
-  nameWithType: DatabaseManager.Write(CollectObject, Nullable<String>)
-  nameWithType.vb: DatabaseManager.Write(CollectObject, Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  name: Write(CollectObject, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.String)
+  nameWithType: DatabaseManager.Write(CollectObject, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.Write*
   name: Write
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_Write_
@@ -12283,28 +12229,28 @@ references:
   commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher()
   nameWithType: FileWatcher.FileWatcher()
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
   name: FileWatcher(String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String)
   nameWithType: FileWatcher.FileWatcher(String)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs})
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs})
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs))
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs))
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
   name: FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_String_Action_EventArgs__Action_EventArgs__Action_EventArgs__Action_EventArgs__NotifyFilters_System_Boolean_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(String,Action{EventArgs},Action{EventArgs},Action{EventArgs},Action{EventArgs},NotifyFilters,System.Boolean)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_FileWatcher__ctor_System_String_System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_Action_System_EventArgs__System_IO_NotifyFilters_System_Boolean_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor(System.String,System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.Action{System.EventArgs},System.IO.NotifyFilters,System.Boolean)
   name.vb: FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, System.Boolean)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, System.Boolean)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.Action<System.EventArgs>, System.IO.NotifyFilters, System.Boolean)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.FileWatcher(System.String, System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.Action(Of System.EventArgs), System.IO.NotifyFilters, System.Boolean)
   nameWithType: FileWatcher.FileWatcher(String, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, Action<EventArgs>, NotifyFilters, Boolean)
   nameWithType.vb: FileWatcher.FileWatcher(String, Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), Action(Of EventArgs), NotifyFilters, Boolean)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.FileWatcher.#ctor*
@@ -12564,11 +12510,11 @@ references:
   commentId: T:Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker
   nameWithType: RegistryWalker
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(RegistryKey,RegistryView)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView)
   name: RegistryKeyToRegistryObject(RegistryKey, RegistryView)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_RegistryWalker_RegistryKeyToRegistryObject_RegistryKey_RegistryView_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(RegistryKey,RegistryView)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(RegistryKey, RegistryView)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_RegistryWalker_RegistryKeyToRegistryObject_Microsoft_Win32_RegistryKey_Microsoft_Win32_RegistryView_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey,Microsoft.Win32.RegistryView)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject(Microsoft.Win32.RegistryKey, Microsoft.Win32.RegistryView)
   nameWithType: RegistryWalker.RegistryKeyToRegistryObject(RegistryKey, RegistryView)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject*
   name: RegistryKeyToRegistryObject
@@ -12577,11 +12523,11 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.RegistryKeyToRegistryObject
   nameWithType: RegistryWalker.RegistryKeyToRegistryObject
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,RegistryView,System.String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,Microsoft.Win32.RegistryView,System.String)
   name: WalkHive(RegistryHive, RegistryView, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_RegistryHive_RegistryView_System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive,RegistryView,System.String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(RegistryHive, RegistryView, System.String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_RegistryWalker_WalkHive_Microsoft_Win32_RegistryHive_Microsoft_Win32_RegistryView_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive,Microsoft.Win32.RegistryView,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive(Microsoft.Win32.RegistryHive, Microsoft.Win32.RegistryView, System.String)
   nameWithType: RegistryWalker.WalkHive(RegistryHive, RegistryView, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.RegistryWalker.WalkHive*
   name: WalkHive
@@ -12732,15 +12678,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.EstablishMainConnection
   nameWithType: SqliteDatabaseManager.EstablishMainConnection
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.Nullable{System.String},System.String)
-  name: GetAllMissing(Nullable<String>, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing_System_Nullable_System_String__System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.Nullable{System.String},System.String)
-  name.vb: GetAllMissing(Nullable(Of String), String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.Nullable<System.String>, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.Nullable(Of System.String), System.String)
-  nameWithType: SqliteDatabaseManager.GetAllMissing(Nullable<String>, String)
-  nameWithType.vb: SqliteDatabaseManager.GetAllMissing(Nullable(Of String), String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.String,System.String)
+  name: GetAllMissing(String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing_System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.String,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing(System.String, System.String)
+  nameWithType: SqliteDatabaseManager.GetAllMissing(String, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetAllMissing*
   name: GetAllMissing
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetAllMissing_
@@ -12787,15 +12730,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetCompareRuns
   nameWithType: SqliteDatabaseManager.GetCompareRuns
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.Nullable{System.String},System.String,System.String)
-  name: GetComparisonCompleted(Nullable<String>, String, String)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonCompleted_System_Nullable_System_String__System_String_System_String_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.Nullable{System.String},System.String,System.String)
-  name.vb: GetComparisonCompleted(Nullable(Of String), String, String)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.Nullable<System.String>, System.String, System.String)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.Nullable(Of System.String), System.String, System.String)
-  nameWithType: SqliteDatabaseManager.GetComparisonCompleted(Nullable<String>, String, String)
-  nameWithType.vb: SqliteDatabaseManager.GetComparisonCompleted(Nullable(Of String), String, String)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.String,System.String,System.String)
+  name: GetComparisonCompleted(String, String, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonCompleted_System_String_System_String_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.String,System.String,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted(System.String, System.String, System.String)
+  nameWithType: SqliteDatabaseManager.GetComparisonCompleted(String, String, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted*
   name: GetComparisonCompleted
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonCompleted_
@@ -12803,24 +12743,18 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonCompleted
   nameWithType: SqliteDatabaseManager.GetComparisonCompleted
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable{System.String},System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32,System.Int32)
-  name: GetComparisonResults(Nullable<String>, Nullable<String>, String, RESULT_TYPE, Int32, Int32)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_Nullable_System_String__System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Int32_System_Int32_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable{System.String},System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32,System.Int32)
-  name.vb: GetComparisonResults(Nullable(Of String), Nullable(Of String), String, RESULT_TYPE, Int32, Int32)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable<System.String>, System.Nullable<System.String>, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32, System.Int32)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable(Of System.String), System.Nullable(Of System.String), System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32, System.Int32)
-  nameWithType: SqliteDatabaseManager.GetComparisonResults(Nullable<String>, Nullable<String>, String, RESULT_TYPE, Int32, Int32)
-  nameWithType.vb: SqliteDatabaseManager.GetComparisonResults(Nullable(Of String), Nullable(Of String), String, RESULT_TYPE, Int32, Int32)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable{System.String},System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  name: GetComparisonResults(Nullable<String>, String, String, RESULT_TYPE)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_Nullable_System_String__System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable{System.String},System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  name.vb: GetComparisonResults(Nullable(Of String), String, String, RESULT_TYPE)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable<System.String>, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.Nullable(Of System.String), System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
-  nameWithType: SqliteDatabaseManager.GetComparisonResults(Nullable<String>, String, String, RESULT_TYPE)
-  nameWithType.vb: SqliteDatabaseManager.GetComparisonResults(Nullable(Of String), String, String, RESULT_TYPE)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  name: GetComparisonResults(String, String, String, RESULT_TYPE)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_String_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE)
+  nameWithType: SqliteDatabaseManager.GetComparisonResults(String, String, String, RESULT_TYPE)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32,System.Int32)
+  name: GetComparisonResults(String, String, String, RESULT_TYPE, Int32, Int32)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_System_String_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RESULT_TYPE_System_Int32_System_Int32_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE,System.Int32,System.Int32)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults(System.String, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE, System.Int32, System.Int32)
+  nameWithType: SqliteDatabaseManager.GetComparisonResults(String, String, String, RESULT_TYPE, Int32, Int32)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults*
   name: GetComparisonResults
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResults_
@@ -12828,15 +12762,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResults
   nameWithType: SqliteDatabaseManager.GetComparisonResults
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.Nullable{System.String},System.String,System.String,System.Int32)
-  name: GetComparisonResultsCount(Nullable<String>, String, String, Int32)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResultsCount_System_Nullable_System_String__System_String_System_String_System_Int32_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.Nullable{System.String},System.String,System.String,System.Int32)
-  name.vb: GetComparisonResultsCount(Nullable(Of String), String, String, Int32)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.Nullable<System.String>, System.String, System.String, System.Int32)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.Nullable(Of System.String), System.String, System.String, System.Int32)
-  nameWithType: SqliteDatabaseManager.GetComparisonResultsCount(Nullable<String>, String, String, Int32)
-  nameWithType.vb: SqliteDatabaseManager.GetComparisonResultsCount(Nullable(Of String), String, String, Int32)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.String,System.String,System.String,System.Int32)
+  name: GetComparisonResultsCount(String, String, String, Int32)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResultsCount_System_String_System_String_System_String_System_Int32_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.String,System.String,System.String,System.Int32)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount(System.String, System.String, System.String, System.Int32)
+  nameWithType: SqliteDatabaseManager.GetComparisonResultsCount(String, String, String, Int32)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.GetComparisonResultsCount*
   name: GetComparisonResultsCount
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_GetComparisonResultsCount_
@@ -13058,15 +12989,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertAnalyzed
   nameWithType: SqliteDatabaseManager.InsertAnalyzed
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.Nullable{System.String},System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: InsertCompareRun(Nullable<String>, String, String, RUN_STATUS)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertCompareRun_System_Nullable_System_String__System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.Nullable{System.String},System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name.vb: InsertCompareRun(Nullable(Of String), String, String, RUN_STATUS)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.Nullable<System.String>, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.Nullable(Of System.String), System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: SqliteDatabaseManager.InsertCompareRun(Nullable<String>, String, String, RUN_STATUS)
-  nameWithType.vb: SqliteDatabaseManager.InsertCompareRun(Nullable(Of String), String, String, RUN_STATUS)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name: InsertCompareRun(String, String, String, RUN_STATUS)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertCompareRun_System_String_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.String,System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun(System.String, System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  nameWithType: SqliteDatabaseManager.InsertCompareRun(String, String, String, RUN_STATUS)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.InsertCompareRun*
   name: InsertCompareRun
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_InsertCompareRun_
@@ -13210,15 +13138,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.TrimToLatest
   nameWithType: SqliteDatabaseManager.TrimToLatest
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name: UpdateCompareRun(Nullable<String>, String, RUN_STATUS)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_UpdateCompareRun_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  name.vb: UpdateCompareRun(Nullable(Of String), String, RUN_STATUS)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.Nullable<System.String>, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.Nullable(Of System.String), System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
-  nameWithType: SqliteDatabaseManager.UpdateCompareRun(Nullable<String>, String, RUN_STATUS)
-  nameWithType.vb: SqliteDatabaseManager.UpdateCompareRun(Nullable(Of String), String, RUN_STATUS)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  name: UpdateCompareRun(String, String, RUN_STATUS)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_UpdateCompareRun_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Types_RUN_STATUS_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun(System.String, System.String, Microsoft.CST.AttackSurfaceAnalyzer.Types.RUN_STATUS)
+  nameWithType: SqliteDatabaseManager.UpdateCompareRun(String, String, RUN_STATUS)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.UpdateCompareRun*
   name: UpdateCompareRun
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_UpdateCompareRun_
@@ -13239,15 +13164,12 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Vacuum
   nameWithType: SqliteDatabaseManager.Vacuum
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.Nullable{System.String})
-  name: Write(CollectObject, Nullable<String>)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_Nullable_System_String__
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.Nullable{System.String})
-  name.vb: Write(CollectObject, Nullable(Of String))
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.Nullable<System.String>)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.Nullable(Of System.String))
-  nameWithType: SqliteDatabaseManager.Write(CollectObject, Nullable<String>)
-  nameWithType.vb: SqliteDatabaseManager.Write(CollectObject, Nullable(Of String))
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  name: Write(CollectObject, String)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Write_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write(Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject, System.String)
+  nameWithType: SqliteDatabaseManager.Write(CollectObject, String)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.Write*
   name: Write
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.SqliteDatabaseManager.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_SqliteDatabaseManager_Write_
@@ -13296,12 +13218,12 @@ references:
   fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter(Of T1, T2)
   nameWithType: TpmPcrTupleConverter<T1, T2>
   nameWithType.vb: TpmPcrTupleConverter(Of T1, T2)
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.CanConvertFrom(ITypeDescriptorContext,Type)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)
   name: CanConvertFrom(ITypeDescriptorContext, Type)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter-2.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_TpmPcrTupleConverter_2_CanConvertFrom_ITypeDescriptorContext_Type_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.CanConvertFrom(ITypeDescriptorContext,Type)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter<T1, T2>.CanConvertFrom(ITypeDescriptorContext, Type)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter(Of T1, T2).CanConvertFrom(ITypeDescriptorContext, Type)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter-2.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_TpmPcrTupleConverter_2_CanConvertFrom_System_ComponentModel_ITypeDescriptorContext_System_Type_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter<T1, T2>.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Type)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter(Of T1, T2).CanConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Type)
   nameWithType: TpmPcrTupleConverter<T1, T2>.CanConvertFrom(ITypeDescriptorContext, Type)
   nameWithType.vb: TpmPcrTupleConverter(Of T1, T2).CanConvertFrom(ITypeDescriptorContext, Type)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.CanConvertFrom*
@@ -13313,12 +13235,12 @@ references:
   fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter(Of T1, T2).CanConvertFrom
   nameWithType: TpmPcrTupleConverter<T1, T2>.CanConvertFrom
   nameWithType.vb: TpmPcrTupleConverter(Of T1, T2).CanConvertFrom
-- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.ConvertFrom(ITypeDescriptorContext,CultureInfo,System.Object)
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
   name: ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
-  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter-2.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_TpmPcrTupleConverter_2_ConvertFrom_ITypeDescriptorContext_CultureInfo_System_Object_
-  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.ConvertFrom(ITypeDescriptorContext,CultureInfo,System.Object)
-  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter<T1, T2>.ConvertFrom(ITypeDescriptorContext, CultureInfo, System.Object)
-  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter(Of T1, T2).ConvertFrom(ITypeDescriptorContext, CultureInfo, System.Object)
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter-2.html#Microsoft_CST_AttackSurfaceAnalyzer_Utils_TpmPcrTupleConverter_2_ConvertFrom_System_ComponentModel_ITypeDescriptorContext_System_Globalization_CultureInfo_System_Object_
+  commentId: M:Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter<T1, T2>.ConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
+  fullName.vb: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter(Of T1, T2).ConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   nameWithType: TpmPcrTupleConverter<T1, T2>.ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
   nameWithType.vb: TpmPcrTupleConverter(Of T1, T2).ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Utils.TpmPcrTupleConverter`2.ConvertFrom*
