@@ -4,7 +4,7 @@ surface of a target system and reports on potential security vulnerabilities int
 the installation of software or system misconfiguration. 
 
 ## Getting Attack Surface Analyzer
-![CodeQL](https://github.com/microsoft/AttackSurfaceAnalyzer/workflows/CodeQL/badge.svg) ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
+[![CodeQL](https://github.com/microsoft/AttackSurfaceAnalyzer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/microsoft/AttackSurfaceAnalyzer/actions/workflows/codeql-analysis.yml) [![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
 If you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
 
@@ -21,7 +21,7 @@ Documentation for the [API](https://microsoft.github.io/AttackSurfaceAnalyzer/ap
 - New Blazor GUI with Rule Authoring and Testing Sandbox
 - New Collectors
 - Improved collection and analysis performance.
-- Support for C# 9/.NET 5
+- Support for C# 10/.NET 6
 
 ## Overview
 
