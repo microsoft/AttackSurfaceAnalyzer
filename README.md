@@ -6,7 +6,7 @@ the installation of software or system misconfiguration.
 ## Getting Attack Surface Analyzer
 [![CodeQL](https://github.com/microsoft/AttackSurfaceAnalyzer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/microsoft/AttackSurfaceAnalyzer/actions/workflows/codeql-analysis.yml) [![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
-If you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
+If you have the [.NET SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
