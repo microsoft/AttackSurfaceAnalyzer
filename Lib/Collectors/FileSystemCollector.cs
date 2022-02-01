@@ -222,7 +222,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         // This check is to try to prevent reading of cloud based files (like a dropbox
                         // folder) and subsequently causing a download, unless the user specifically requests
                         // it with DownloadCloud.
-                        if (opts.DownloadCloud || obj.SizeOnDisk > 0 || WindowsFileSystemUtils.IsLocal(obj.Path))
+                        if (opts.DownloadCloud || WindowsFileSystemUtils.IsLocal(obj.Path))
                         {
                             obj.LastModified = File.GetLastWriteTimeUtc(path);
                             obj.Created = File.GetCreationTimeUtc(path);
