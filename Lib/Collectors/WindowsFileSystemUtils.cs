@@ -163,7 +163,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             NativeMethods.WIN32_FILE_ATTRIBUTE_DATA fileData;
             NativeMethods.GetFileAttributesEx(path, NativeMethods.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out fileData);
 
-            if ((fileData.dwFileAttributes & (0x00040000 + 0x00400000)) == 0)
+            // From https://docs.microsoft.com/en-us/windows/win32/fileio/file-attribute-constants
+            const int FILE_ATTRIBUTE_OFFLINE = 0x1000;
+            const int FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS = 0x400000;
+            const int FILE_ATTRIBUTE_RECALL_ON_OPEN = 0x40000;
+            if ((fileData.dwFileAttributes & (FILE_ATTRIBUTE_OFFLINE + FILE_ATTRIBUTE_RECALL_ON_DATA_ACCESS + FILE_ATTRIBUTE_RECALL_ON_OPEN)) == 0)
             {
                 return true;
             }
