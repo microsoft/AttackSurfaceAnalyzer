@@ -57,7 +57,7 @@ jobs:
     inputs:
       command: 'custom'
       custom: 'pack'
-      arguments: '${{ parameters.projectPath }} -c ${{ parameters.buildConfiguration }} -o Packages ${{ parameters.flags }}'
+      arguments: '${{ parameters.projectPath }} -c ${{ parameters.buildConfiguration }} -o Packages/${{ parameters.projectName }} ${{ parameters.flags }}'
   - task: AntiMalware@3
     displayName: Anti-Malware Scan
     inputs:
@@ -72,7 +72,7 @@ jobs:
   - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
     displayName: 'Generation Task'
     inputs:
-        BuildDropPath: 'Packages'
+        BuildDropPath: 'Packages/${{ parameters.projectName }}'
   - task: ArchiveFiles@2
     displayName: Archive Packages
     inputs:

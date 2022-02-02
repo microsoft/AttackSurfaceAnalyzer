@@ -1,14 +1,17 @@
 # Azure Pipelines
 # https://aka.ms/yaml
+variables:
+- name: AsaClientName
+  value: ASA_Cli
+- name: AsaLibName
+  value: ASA_Lib
 
 name: ASA_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   batch: true
   branches:
     include:
-    - release/v2.*
-    exclude:
-    - release/v2.0
+    - release/v2.3
   paths:
     include:
     - Cli
@@ -62,12 +65,12 @@ stages:
     parameters:
       jobName: 'pack_lib'
       projectPath: 'Lib/Lib.csproj'
-      projectName: 'ASA_Lib'
+      projectName: '${{ variables.AsaLibName }}'
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_cli'
       projectPath: 'Cli/Cli.csproj'
-      projectName: 'ASA_CLI'
+      projectName: '${{ variables.AsaClientName }}'
 
 - stage: Release
   dependsOn:
@@ -254,10 +257,37 @@ stages:
         MaxConcurrency: '50'
         MaxRetryAttempts: '5'
     - task: EsrpCodeSigning@1
-      displayName: Code Sign Nuget Packages
+      displayName: Code Sign Nuget Package - CLI
       inputs:
         ConnectedServiceName: 'CodeSignforATSAN'
-        FolderPath: '$(Build.BinariesDirectory)'
+        FolderPath: '$(Build.BinariesDirectory)/${{ variables.AsaClientName }}'
+        Pattern: '*.nupkg, *.snupkg'
+        signConfigType: 'inlineSignParams'
+        inlineOperation: |
+          [
+                  {
+                      "KeyCode" : "CP-401405",
+                      "OperationCode" : "NuGetSign",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  },
+                  {
+                      "KeyCode" : "CP-401405",
+                      "OperationCode" : "NuGetVerify",
+                      "Parameters" : {},
+                      "ToolName" : "sign",
+                      "ToolVersion" : "1.0"
+                  }
+              ]
+        SessionTimeout: '60'
+        MaxConcurrency: '50'
+        MaxRetryAttempts: '5'
+    - task: EsrpCodeSigning@1
+      displayName: Code Sign Nuget Package - Lib
+      inputs:
+        ConnectedServiceName: 'CodeSignforATSAN'
+        FolderPath: '$(Build.BinariesDirectory)/${{ variables.AsaLibName }}'
         Pattern: '*.nupkg, *.snupkg'
         signConfigType: 'inlineSignParams'
         inlineOperation: |
@@ -329,8 +359,10 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          mv $env:BUILD_BINARIESDIRECTORY/*.nupkg $env:BUILD_STAGINGDIRECTORY/
-          mv $env:BUILD_BINARIESDIRECTORY/*.snupkg $env:BUILD_STAGINGDIRECTORY/
+          mv $env:BUILD_BINARIESDIRECTORY/${{ variables.AsaClientName }}/*.nupkg $env:BUILD_STAGINGDIRECTORY/
+          mv $env:BUILD_BINARIESDIRECTORY/${{ variables.AsaLibName }}/*.nupkg $env:BUILD_STAGINGDIRECTORY/
+          mv $env:BUILD_BINARIESDIRECTORY/${{ variables.AsaClientName }}/*.snupkg $env:BUILD_STAGINGDIRECTORY/
+          mv $env:BUILD_BINARIESDIRECTORY/${{ variables.AsaLibName }}/*.snupkg $env:BUILD_STAGINGDIRECTORY/
     - task: PublishPipelineArtifact@1
       displayName: Publish Signed Artifacts to Pipeline
       inputs:
