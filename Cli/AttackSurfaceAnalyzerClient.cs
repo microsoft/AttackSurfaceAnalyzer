@@ -1174,14 +1174,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             {
                                 if (c.Results[key] is List<CompareResult> queue)
                                 {
+                                    var platformRules = opts.AnalysesFile.Rules.Where(rule => rule.Platforms == null || rule.Platforms.Contains(platform));
                                     queue.AsParallel().ForAll(res =>
                                     {
-                                        // Select rules with the appropriate change type, platform and target
+                                        // Select rules with the appropriate change type and target (ResultType)
                                         // - Target is also checked inside Analyze, but this shortcuts repeatedly
                                         // checking rules which don't apply
-                                        var selectedRules = opts.AnalysesFile.Rules.Where((rule) =>
+                                        var selectedRules = platformRules.Where((rule) =>
                                             (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
-                                                && (rule.Platforms == null || rule.Platforms.Contains(platform))
                                                 && (rule.ResultType == res.ResultType));
                                         res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                         res.Analysis = res.Rules.Count
