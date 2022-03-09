@@ -3,36 +3,27 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:50108",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:61357",
+      "sslPort": 44392
     }
   },
   "profiles": {
     "IIS Express": {
-      "commandName": "Project",
-      "commandLineArgs": "gui",
+      "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Blazor": {
-      "commandName": "IISExpress",
-      "commandLineArgs": "gui --nolaunch",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "http://localhost:5000"
-    },
-    "Microsoft.CST.AttackSurfaceAnalyzer.Cli": {
+    "ASA GUI": {
       "commandName": "Project",
       "commandLineArgs": "gui",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:46312"
+      "applicationUrl": "https://localhost:7280;http://localhost:5280",
+      "dotnetRunMessages": true
     }
   }
 }
