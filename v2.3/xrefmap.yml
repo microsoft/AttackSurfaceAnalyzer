@@ -1964,6 +1964,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SecondRunId
   nameWithType: CompareCommandOptions.SecondRunId
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SingleThreadAnalysis
+  name: SingleThreadAnalysis
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CompareCommandOptions_SingleThreadAnalysis
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SingleThreadAnalysis
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SingleThreadAnalysis
+  nameWithType: CompareCommandOptions.SingleThreadAnalysis
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SingleThreadAnalysis*
+  name: SingleThreadAnalysis
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_CompareCommandOptions_SingleThreadAnalysis_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SingleThreadAnalysis
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.CompareCommandOptions.SingleThreadAnalysis
+  nameWithType: CompareCommandOptions.SingleThreadAnalysis
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions
   name: ConfigCommandOptions
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ConfigCommandOptions.html
@@ -2202,6 +2215,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SaveToDatabase
   nameWithType: ExportOptions.SaveToDatabase
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SingleThreadAnalysis
+  name: SingleThreadAnalysis
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_SingleThreadAnalysis
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SingleThreadAnalysis
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SingleThreadAnalysis
+  nameWithType: ExportOptions.SingleThreadAnalysis
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SingleThreadAnalysis*
+  name: SingleThreadAnalysis
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_SingleThreadAnalysis_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SingleThreadAnalysis
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.SingleThreadAnalysis
+  nameWithType: ExportOptions.SingleThreadAnalysis
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions
   name: GuiCommandOptions
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.html
@@ -2383,6 +2409,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SaveToDatabase
   nameWithType: GuidedModeCommandOptions.SaveToDatabase
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SingleThreadAnalysis
+  name: SingleThreadAnalysis
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuidedModeCommandOptions_SingleThreadAnalysis
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SingleThreadAnalysis
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SingleThreadAnalysis
+  nameWithType: GuidedModeCommandOptions.SingleThreadAnalysis
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SingleThreadAnalysis*
+  name: SingleThreadAnalysis
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuidedModeCommandOptions_SingleThreadAnalysis_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SingleThreadAnalysis
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.SingleThreadAnalysis
+  nameWithType: GuidedModeCommandOptions.SingleThreadAnalysis
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions
   name: MonitorCommandOptions
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html
