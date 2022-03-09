@@ -186,7 +186,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 ExplodedOutput = opts.ExplodedOutput,
                 OutputSarif = opts.ExportSarif,
                 OutputPath = opts.OutputPath,
-                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor
+                ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
+                SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
             var first = GuidedRunIdToFirstCollectRunId(opts.RunId);
             var second = GuidedRunIdToSecondCollectRunId(opts.RunId);
@@ -282,7 +283,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 DisableAnalysis = opts.DisableAnalysis,
                 AnalysesFile = analysisFile,
-                RunScripts = opts.RunScripts
+                RunScripts = opts.RunScripts,
+                SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
 
             var results = CompareRuns(compareOpts);
@@ -297,7 +299,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 DisableAnalysis = opts.DisableAnalysis,
                 AnalysesFile = analysisFile,
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
-                RunScripts = opts.RunScripts
+                RunScripts = opts.RunScripts,
+                SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
 
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);
@@ -610,7 +613,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 AnalysesFile = ruleFile,
                 DisableAnalysis = opts.DisableAnalysis,
                 SaveToDatabase = opts.SaveToDatabase,
-                RunScripts = opts.RunScripts
+                RunScripts = opts.RunScripts,
+                SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
 
             var results = CompareRuns(options);
@@ -939,7 +943,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 DisableAnalysis = opts.DisableAnalysis,
                 AnalysesFile = ruleFile,
                 ApplySubObjectRulesToMonitor = opts.ApplySubObjectRulesToMonitor,
-                RunScripts = opts.RunScripts
+                RunScripts = opts.RunScripts,
+                SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
 
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);

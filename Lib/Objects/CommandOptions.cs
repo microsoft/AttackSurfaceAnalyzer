@@ -251,6 +251,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Output Sarif")]
         public bool OutputSarif { get; set; }
+
+        [Option(HelpText = "Force Analysis to be Single-Threaded")]
+        public bool SingleThreadAnalysis { get; set; }
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser.")]
@@ -300,6 +303,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Export Sarif")]
         public bool ExportSarif { get; set; }
+
+        [Option(HelpText = "Force Analysis to be Single-Threaded")]
+        public bool SingleThreadAnalysis { get; set; }
     }
 
     [Verb("monitor", HelpText = "Continue running and monitor activity")]
