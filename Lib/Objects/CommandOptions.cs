@@ -180,6 +180,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Run Scripts")]
         public bool RunScripts { get; set; }
+
+        [Option(HelpText = "Force Analysis to be Single-Threaded")]
+        public bool SingleThreadAnalysis { get; set; }
     }
 
     [Verb("config", HelpText = "Configure and query the database")]

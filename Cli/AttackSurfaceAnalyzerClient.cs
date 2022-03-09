@@ -1156,7 +1156,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 if (opts.AnalysesFile is not null)
                 {
                     watch = Stopwatch.StartNew();
-                    var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
+                    var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts, !opts.SingleThreadAnalysis));
                     var platform = DatabaseManager.RunIdToPlatform(opts.SecondRunId);
                     var violations = analyzer.EnumerateRuleIssues(opts.AnalysesFile.Rules);
                     var analysesHash = opts.AnalysesFile.GetHash();
@@ -1168,14 +1168,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     }
                     else
                     {
-                        if (c.Results.Count > 0)
+                        if (!c.Results.IsEmpty)
                         {
-                            foreach (var key in c.Results.Keys)
+                            foreach ((RESULT_TYPE, CHANGE_TYPE) key in c.Results.Keys)
                             {
                                 if (c.Results[key] is List<CompareResult> queue)
                                 {
-                                    var platformRules = opts.AnalysesFile.Rules.Where(rule => rule.Platforms == null || rule.Platforms.Contains(platform));
-                                    queue.AsParallel().ForAll(res =>
+                                    IEnumerable<AsaRule> platformRules = opts.AnalysesFile.Rules.Where(rule => rule.Platforms == null || rule.Platforms.Contains(platform));
+                                    if (opts.SingleThreadAnalysis)
+                                    {
+                                        foreach(CompareResult res in queue)
+                                        {
+                                            PopulateAnalysisForResult(res);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        queue.AsParallel().ForAll(PopulateAnalysisForResult);
+                                    }
+
+                                    void PopulateAnalysisForResult(CompareResult res)
                                     {
                                         // Select rules with the appropriate change type and target (ResultType)
                                         // - Target is also checked inside Analyze, but this shortcuts repeatedly
@@ -1183,11 +1195,24 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                         var selectedRules = platformRules.Where((rule) =>
                                             (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                                 && (rule.ResultType == res.ResultType));
-                                        res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
+                                        Log.Verbose("Type: {0}", res.ResultType);
+                                        Log.Verbose("Base: {0}", JsonConvert.SerializeObject(res.Base));
+                                        Log.Verbose("Compare: {0}", JsonConvert.SerializeObject(res.Compare));
+                                        Log.Verbose("Num Rules: {0}", selectedRules.Count());
+                                        try 
+                                        {
+                                            res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
+                                        }
+                                        catch(Exception ex)
+                                        {
+                                            Log.Debug("Exception while analyzing object {3}. Use --verbose for object details. {0}:{1}. {2}.", ex.GetType().Name, ex.Message, ex.StackTrace, res.Identity);
+                                        }
+                                        Log.Verbose("Applied Rules: {0}", res.Rules);
+
                                         res.Analysis = res.Rules.Count
-                                                       > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.GetDefaultLevel(res.ResultType);
+                                                        > 0 ? res.Rules.Max(x => ((AsaRule)x).Flag) : opts.AnalysesFile.GetDefaultLevel(res.ResultType);
                                         res.AnalysesHash = analysesHash;
-                                    });
+                                    };
                                 }
                             }
                         }
