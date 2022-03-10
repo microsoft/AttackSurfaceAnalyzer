@@ -262,17 +262,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ExportCompareResults(results, exportOptions, AsaHelpers.MakeValidFileName($"{first}_vs_{second}"), analysesHash, options.AnalysesFile.Rules);
         }
 
-        static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeGuided(GuidedModeCommandOptions opts, RuleFile analysisFile)
+        static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> AnalyzeGuided(GuidedModeCommandOptions opts, RuleFile analysisFile)
         {
             if (opts.RunId is null)
             {
                 Log.Warning(Strings.Get("Err_RunIdNull"));
-                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
             }
             if (!analysisFile.Rules.Any())
             {
                 Log.Warning(Strings.Get("Err_NoRules"));
-                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
             }
 
             var firstCollectRunId = GuidedRunIdToFirstCollectRunId(opts.RunId);
@@ -318,22 +318,22 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return results;
         }
 
-        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts)
         {
             if (DatabaseManager is null)
             {
                 Log.Error("Err_DatabaseManagerNull", "InsertCompareResults");
-                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
             }
-            if (opts is null || opts.SecondRunId is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
+            if (opts is null || opts.SecondRunId is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>(); }
             var analyzer = new AsaAnalyzer(new AnalyzerOptions(opts.RunScripts));
             return AnalyzeMonitored(opts, analyzer, DatabaseManager.GetMonitorResults(opts.SecondRunId), opts.AnalysesFile ?? throw new ArgumentNullException(nameof(opts.AnalysesFile)));
         }
 
-        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> AnalyzeMonitored(CompareCommandOptions opts, AsaAnalyzer analyzer, IEnumerable<MonitorObject> collectObjects, RuleFile ruleFile)
         {
-            if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>(); }
-            var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            if (opts is null) { return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>(); }
+            var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
             var analysesHash = ruleFile.GetHash();
             Parallel.ForEach(collectObjects, monitorResult =>
             {
@@ -362,7 +362,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
 
                 shellResult.Analysis = shellResult.Rules.Count > 0 ? shellResult.Rules.Max(x => ((AsaRule)x).Flag) : ruleFile.GetDefaultLevel(shellResult.ResultType);
-                results.TryAdd((monitorResult.ResultType, monitorResult.ChangeType), new List<CompareResult>());
+                results.TryAdd((monitorResult.ResultType, monitorResult.ChangeType), new ConcurrentBag<CompareResult>());
                 results[(monitorResult.ResultType, monitorResult.ChangeType)].Add(shellResult);
             });
             return results;
@@ -389,7 +389,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        internal static void InsertCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> results, string? FirstRunId, string SecondRunId, string AnalysesHash)
+        internal static void InsertCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> results, string? FirstRunId, string SecondRunId, string AnalysesHash)
         {
             if (DatabaseManager is null)
             {
@@ -399,9 +399,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             DatabaseManager.InsertCompareRun(FirstRunId, SecondRunId, AnalysesHash, RUN_STATUS.RUNNING);
             foreach (var key in results.Keys)
             {
-                if (results.TryGetValue(key, out List<CompareResult>? obj))
+                if (results.TryGetValue(key, out ConcurrentBag<CompareResult>? obj))
                 {
-                    if (obj is List<CompareResult> Queue)
+                    if (obj is ConcurrentBag<CompareResult> Queue)
                     {
                         foreach (var result in Queue)
                         {
@@ -627,7 +627,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash, ruleFile.Rules);
         }
 
-        internal static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
+        internal static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
@@ -1125,7 +1125,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return comparators;
         }
 
-        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> CompareRuns(CompareCommandOptions opts)
+        public static ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> CompareRuns(CompareCommandOptions opts)
         {
             if (opts is null)
             {
@@ -1134,7 +1134,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             if (DatabaseManager is null)
             {
                 Log.Error("Err_DatabaseManagerNull", "CompareRuns");
-                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+                return new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
             }
             comparators = new List<BaseCompare>();
 
@@ -1177,8 +1177,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                         {
                             foreach ((RESULT_TYPE, CHANGE_TYPE) key in c.Results.Keys)
                             {
-                                if (c.Results[key] is List<CompareResult> queue)
+                                if (c.Results[key] is IEnumerable<CompareResult> queue)
                                 {
+                                    if (queue.Any(x => x is null))
+                                    {
+                                        Console.WriteLine("found em");
+                                    }
                                     IEnumerable<AsaRule> platformRules = opts.AnalysesFile.Rules.Where(rule => rule.Platforms == null || rule.Platforms.Contains(platform));
                                     if (opts.SingleThreadAnalysis)
                                     {
@@ -1200,6 +1204,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                         var selectedRules = platformRules.Where((rule) =>
                                             (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                                 && (rule.ResultType == res.ResultType));
+                                        if (res is null)
+                                        {
+                                            return;
+                                        }
                                         Log.Verbose("Type: {0}", res.ResultType);
                                         Log.Verbose("Base: {0}", JsonConvert.SerializeObject(res.Base));
                                         Log.Verbose("Compare: {0}", JsonConvert.SerializeObject(res.Compare));
