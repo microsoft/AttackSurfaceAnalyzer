@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Tpm2Lib;
+using System.Diagnostics;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
@@ -21,20 +22,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
     {
         public BaseCompare()
         {
-            Results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+            Results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
             foreach (RESULT_TYPE? result_type in Enum.GetValues(typeof(RESULT_TYPE)))
             {
                 foreach (CHANGE_TYPE? change_type in Enum.GetValues(typeof(CHANGE_TYPE)))
                 {
                     if (result_type is RESULT_TYPE r && change_type is CHANGE_TYPE c)
                     {
-                        Results[(r, c)] = new List<CompareResult>();
+                        Results[(r, c)] = new ConcurrentBag<CompareResult>();
                     }
                 }
             }
         }
 
-        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>> Results { get; }
+        public ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> Results { get; }
 
         public void Compare(IEnumerable<CollectObject> FirstRunObjects, IEnumerable<CollectObject> SecondRunObjects, string? firstRunId, string secondRunId)
         {

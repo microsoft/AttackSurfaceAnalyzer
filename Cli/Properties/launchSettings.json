@@ -24,6 +24,14 @@
       },
       "applicationUrl": "https://localhost:7280;http://localhost:5280",
       "dotnetRunMessages": true
+    },
+    "Export-collect last 2": {
+      "commandName": "Project",
+      "commandLineArgs": "export-collect"
+    },
+    "Export-monitor": {
+      "commandName": "Project",
+      "commandLineArgs": "export-monitor"
     }
   }
 }

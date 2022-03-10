@@ -195,7 +195,7 @@ else
     {
         if (AttackSurfaceAnalyzerClient.DatabaseManager is null) { return; }
         var iterationSize = 1000;
-        var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), List<CompareResult>>();
+        var results = new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
         foreach(var resultType in foundResultTypes)
         {
             for (int i = 0; i < resultType.Value; i += iterationSize)
@@ -207,7 +207,7 @@ else
                         {
                             if (!results.ContainsKey((result.ResultType, result.ChangeType)))
                             {
-                                results[(result.ResultType, result.ChangeType)] = new List<CompareResult>();
+                                results[(result.ResultType, result.ChangeType)] = new ConcurrentBag<CompareResult>();
                             }
                             results[(result.ResultType, result.ChangeType)].Add(result);
                         }
@@ -217,7 +217,7 @@ else
                         {
                             if (!results.ContainsKey((result.ResultType, result.ChangeType)))
                             {
-                                results[(result.ResultType, result.ChangeType)] = new List<CompareResult>();
+                                results[(result.ResultType, result.ChangeType)] = new ConcurrentBag<CompareResult>();
                             }
                             results[(result.ResultType, result.ChangeType)].Add(result);
                         }
