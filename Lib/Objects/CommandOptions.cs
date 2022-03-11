@@ -231,7 +231,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
     public class ExportOptions : CommandOptions
     {
-        [Option("filename", HelpText = "Custom analysis rules file.")]
+        [Option(HelpText = "Custom analysis rules file.")]
         public string? AnalysesFile { get; set; }
 
         [Option(HelpText = "Set to Disable Analysis.")]
