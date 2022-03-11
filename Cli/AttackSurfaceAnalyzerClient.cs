@@ -1140,7 +1140,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             Dictionary<string, string> EndEvent = new();
             BaseCompare c = new();
-            var watch = System.Diagnostics.Stopwatch.StartNew();
+            Stopwatch watch = Stopwatch.StartNew();
             if (!c.TryCompare(opts.FirstRunId, opts.SecondRunId, DatabaseManager))
             {
                 Log.Warning(Strings.Get("Err_Comparing") + " : {0}", c.GetType().Name);
@@ -1179,10 +1179,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             {
                                 if (c.Results[key] is IEnumerable<CompareResult> queue)
                                 {
-                                    if (queue.Any(x => x is null))
-                                    {
-                                        Console.WriteLine("found em");
-                                    }
                                     IEnumerable<AsaRule> platformRules = opts.AnalysesFile.Rules.Where(rule => rule.Platforms == null || rule.Platforms.Contains(platform));
                                     if (opts.SingleThreadAnalysis)
                                     {
@@ -1204,22 +1200,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                         var selectedRules = platformRules.Where((rule) =>
                                             (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
                                                 && (rule.ResultType == res.ResultType));
-                                        if (res is null)
-                                        {
-                                            return;
-                                        }
-                                        Log.Verbose("Type: {0}", res.ResultType);
-                                        Log.Verbose("Base: {0}", JsonConvert.SerializeObject(res.Base));
-                                        Log.Verbose("Compare: {0}", JsonConvert.SerializeObject(res.Compare));
-                                        Log.Verbose("Num Rules: {0}", selectedRules.Count());
-                                        try 
-                                        {
-                                            res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
-                                        }
-                                        catch(Exception ex)
-                                        {
-                                            Log.Debug("Exception while analyzing object {3}. Use --verbose for object details. {0}:{1}. {2}.", ex.GetType().Name, ex.Message, ex.StackTrace, res.Identity);
-                                        }
+                                        
+                                        res.Rules = analyzer.Analyze(selectedRules, res.Base, res.Compare).ToList();
                                         Log.Verbose("Applied Rules: {0}", res.Rules);
 
                                         res.Analysis = res.Rules.Count
