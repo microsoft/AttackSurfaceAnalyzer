@@ -189,6 +189,37 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.RENAMED && x.NotifyFilters == NotifyFilters.FileName && x.Path == renamed));
             Assert.IsTrue(stack.Any(x => x.ChangeType == CHANGE_TYPE.DELETED && x.Path == renamed));
         }
+        
+        /// <summary>
+        ///     Does not require admin. Tests that the filters can be configured.
+        /// </summary>
+        [TestMethod]
+        public void TestFileMonitorWithFilters()
+        {
+            var stack = new ConcurrentStack<FileMonitorObject>();
+            var monitor = new FileSystemMonitor(new MonitorCommandOptions() { MonitoredDirectories = new List<string> { Path.GetTempPath() }, Filters = new []
+                {
+                    NotifyFilters.Size
+                }}, x => stack.Push(x));
+            monitor.StartRun();
+
+            var created = Path.GetTempFileName(); // Create a file
+            var renamed = $"{created}-renamed";
+            File.WriteAllText(created, "Test"); // Change the size
+            Thread.Sleep(50);
+            File.Move(created, renamed); // Rename it
+            Thread.Sleep(50);
+            File.Delete(renamed); //Delete it
+
+            Thread.Sleep(100);
+
+            monitor.StopRun();
+
+            Assert.IsFalse(stack.Any(x => x.NotifyFilters == NotifyFilters.FileName && x.Path == created));
+            Assert.IsTrue(stack.Any(x => x.NotifyFilters == NotifyFilters.Size && x.Path == created));
+            Assert.IsFalse(stack.Any(x => x.ChangeType == CHANGE_TYPE.RENAMED && x.NotifyFilters == NotifyFilters.FileName && x.Path == renamed));
+            Assert.IsFalse(stack.Any(x => x.ChangeType == CHANGE_TYPE.DELETED && x.Path == renamed));
+        }
 
         /// <summary>
         ///     Requires root.

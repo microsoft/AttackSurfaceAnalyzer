@@ -70,10 +70,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         {
             return RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
         }
-
+        
         public FileSystemMonitor(MonitorCommandOptions opts, Action<FileMonitorObject> changeHandler)
         {
-            options = opts ?? new MonitorCommandOptions();
+            options = opts ?? new();
+            var filters = options.Filters.Any() ? options.Filters : defaultFiltersList;
+
             this.changeHandler = changeHandler ?? throw new NullReferenceException(nameof(changeHandler));
 
             fsc = new FileSystemCollector(new CollectorOptions()
@@ -84,7 +86,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
             foreach (var dir in (options.MonitoredDirectories.Any() is true) ? options.MonitoredDirectories : FileSystemCollector.GetDefaultRoots())
             {
-                foreach (var filter in defaultFiltersList)
+                foreach (var filter in filters)
                 {
                     var watcher = new FileSystemWatcher
                     {
