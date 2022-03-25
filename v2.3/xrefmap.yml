@@ -2467,6 +2467,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.FileNamesOnly
   nameWithType: MonitorCommandOptions.FileNamesOnly
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.Filters
+  name: Filters
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_Filters
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.Filters
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.Filters
+  nameWithType: MonitorCommandOptions.Filters
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.Filters*
+  name: Filters
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_Filters_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.Filters
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.Filters
+  nameWithType: MonitorCommandOptions.Filters
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.GatherHashes
   name: GatherHashes
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_GatherHashes
