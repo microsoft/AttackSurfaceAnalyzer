@@ -3,6 +3,8 @@ using CommandLine;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer
 {
@@ -333,6 +335,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Identifies which run this is. Monitor output can be combined with collect output, but doesn't need to be compared.", Default = "Timestamp")]
         public string? RunId { get; set; }
+
+        [Option(HelpText =
+            "Specify which NotifyFilters to use for file monitoring, comma separated if provided via cli.", Separator = ',')]
+        public IEnumerable<NotifyFilters> Filters { get; set; } = Enumerable.Empty<NotifyFilters>();
     }
 
     [Verb("verify", HelpText = "Verify your analysis rules")]
