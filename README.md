@@ -10,16 +10,6 @@ If you have the [.NET SDK](https://dotnet.microsoft.com/download) installed you 
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
-## Dependencies
-
-On linux you may need to install some utilities ASA uses to gather data before running ASA.
-
-```
-apt-get update && apt-get install -y \
-    coreutils \
-    iproute2
-```
-
 ## Documentation
 
 Documentation is available on the [Wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/).
@@ -89,6 +79,16 @@ To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/Attac
 The latest public version of Attack Surface Analyzer with public builds is 2.3 (see [Release\v2.3](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.3)).  
 
 2.4 is now in development on the `main` branch.  You can see the features coming [here](https://github.com/microsoft/attacksurfaceanalyzer/issues?q=is%3Aissue+milestone%3Av2.4+).
+
+### Dependencies
+
+On linux you may need to install some utilities which ASA uses to gather data before running ASA.
+
+```
+apt-get update && apt-get install -y \
+    coreutils \
+    iproute2
+```
 
 ## Contributing
 
