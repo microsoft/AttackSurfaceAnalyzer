@@ -10,6 +10,16 @@ If you have the [.NET SDK](https://dotnet.microsoft.com/download) installed you 
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
+## Dependencies
+
+On linux you may need to install some utilities ASA uses to gather data before running ASA.
+
+```
+apt-get update && apt-get install -y \
+    coreutils \
+    iproute2
+```
+
 ## Documentation
 
 Documentation is available on the [Wiki](https://github.com/Microsoft/AttackSurfaceAnalyzer/wiki/).
