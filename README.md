@@ -6,9 +6,9 @@ the installation of software or system misconfiguration.
 ## Getting Attack Surface Analyzer
 ![CodeQL](https://github.com/microsoft/AttackSurfaceAnalyzer/workflows/CodeQL/badge.svg) ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.Cli?link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI&link=https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
-If you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
+Recommended: If you have the [.NET Core SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
 
-Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
+Platform specific binaries for Attack Surface Analyzer are also distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
 ## Documentation
 
@@ -76,17 +76,12 @@ Detailed information on how to use Attack Surface Analyzer can be found on our
 To build Attack Surface Analyzer, see [BUILD](https://github.com/Microsoft/AttackSurfaceAnalyzer/blob/main/BUILD.md).
 
 ## Versions
-The latest public version of Attack Surface Analyzer with public builds is 2.3 (see [Release\v2.3](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.3)).  
+The latest public version of Attack Surface Analyzer with public builds is 2.3 (see [Release\v2.3](https://github.com/Microsoft/AttackSurfaceAnalyzer/tree/release/v2.3)).
 
-### Dependencies
+### Dependencies on Linux/Docker
+Attack Surface Analyzer is built on .NET so [.NET's linux dependencies](https://github.com/dotnet/core/blob/main/release-notes/6.0/linux-packages.md) must be installed to run ASA.  Some linux distributions may not contain these packages by default.  
 
-On linux you may need to install some utilities which ASA uses to gather data before running ASA.
-
-```
-apt-get update && apt-get install -y \
-    coreutils \
-    iproute2
-```
+For running Attack Surface Analyzer in Docker you should use the [.NET Docker Image Base](https://hub.docker.com/_/microsoft-dotnet-sdk/) or another image that has the .NET SDK installed, and then install the ASA tool from Nuget in your Dockerfile like `RUN dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`
 
 ## Contributing
 
