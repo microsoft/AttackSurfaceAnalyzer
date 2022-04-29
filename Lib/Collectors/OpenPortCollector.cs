@@ -59,7 +59,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         continue;
                     }
-                    var parts = Regex.Split(line, @"\s\s+");
+                    var parts = Regex.Split(line, @"\s+");
                     if (parts.Length < 5)
                     {
                         continue;       // Not long enough, must be an error
