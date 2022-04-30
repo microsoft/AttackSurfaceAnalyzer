@@ -4,6 +4,7 @@ using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Serilog;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -41,6 +42,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
         }
 
+        /* Examples
+// Sockets
+Netid State  Recv-Q Send-Q                                      Local Address:Port        Peer Address:PortProcess                                                                                     
+u_str LISTEN 0      4096                          /run/libvirt/virtlockd-sock 26200                  * 0    users:(("systemd",pid=1,fd=77))                                                            
+
+// Ports
+Netid State  Recv-Q Send-Q                              Local Address:Port        Peer Address:PortProcess                                                          
+nl    UNCONN 0      0                                               0:530                     *                                                                     
+*/
+        private static Regex LinuxSsParsingRegex { get; } = new Regex(
+            "([\\S]+)\\s+([\\S]+)\\s+([\\S]+)\\s+([\\S]+)\\s+([\\S]+)[\\s+|:]([\\S]+)\\s+([\\S]+)(\\s+([\\S]+)\\s+([\\S]+))?",
+            RegexOptions.Compiled);
+        
         /// <summary>
         ///     Executes the OpenPortCollector on Linux. Calls out to the `ss` command and parses the output,
         ///     sending the output to the database.
@@ -59,45 +73,41 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         continue;
                     }
-                    var parts = Regex.Split(line, @"\s\s+");
-                    if (parts.Length < 5)
+
+                    var ssParts = LinuxSsParsingRegex.Match(line);
+                    if (!ssParts.Success)
                     {
                         continue;       // Not long enough, must be an error
                     }
 
-                    var addressMatches = Regex.Match(parts[4], @"^(.*)[:\s](\d+)$");
-                    Console.WriteLine(parts[4]);
-                    if (addressMatches.Success)
+                    var address = ssParts.Groups[5].Value;
+                    var port = ssParts.Groups[6].Value;
+                    if (int.TryParse(port, out int portInt))
                     {
-                        var address = addressMatches.Groups[1].Value;
-                        var port = addressMatches.Groups[2].Value;
-                        if (int.TryParse(port, out int portInt))
+                        var transport = ssParts.Groups[1].Value.ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : ssParts.Groups[1].Value.ToUpperInvariant().Equals("UDP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
+                        var family = address.Contains('.') ? ADDRESS_FAMILY.InterNetwork : address.Contains(':') ? ADDRESS_FAMILY.InterNetworkV6 : ADDRESS_FAMILY.Unknown;
+                        if (!string.IsNullOrWhiteSpace(ssParts.Groups[10].Value))
                         {
-                            var transport = parts[0].ToUpperInvariant().Equals("TCP") ? TRANSPORT.TCP : parts[0].ToUpperInvariant().Equals("UDP") ? TRANSPORT.UDP : TRANSPORT.UNKNOWN;
-                            var family = address.Contains('.') ? ADDRESS_FAMILY.InterNetwork : address.Contains(':') ? ADDRESS_FAMILY.InterNetworkV6 : ADDRESS_FAMILY.Unknown;
-                            if (parts.Length > 6 && !string.IsNullOrWhiteSpace(parts[6]))
+                            var processNameMatches = Regex.Matches(ssParts.Groups[10].Value, @"""(.*?)"",pid=([0-9]*)");
+                            foreach(Match match in processNameMatches)
                             {
-                                var processNameMatches = Regex.Matches(parts[6], @"""(.*?)"",pid=([0-9]*)");
-                                foreach(Match match in processNameMatches)
-                                {
-                                    int? pid = int.TryParse(match.Groups[2].Value, out int thePid) ? thePid : null;
-                                    var obj = new OpenPortObject(portInt, transport, family)
-                                    {
-                                        Address = address,
-                                        ProcessName = match.Groups[1].Value,
-                                        ProcessId = pid
-                                    };
-                                    HandleChange(obj);
-                                }
-                            }
-                            else
-                            {
+                                int? pid = int.TryParse(match.Groups[2].Value, out int thePid) ? thePid : null;
                                 var obj = new OpenPortObject(portInt, transport, family)
                                 {
-                                    Address = address
+                                    Address = address,
+                                    ProcessName = match.Groups[1].Value,
+                                    ProcessId = pid
                                 };
                                 HandleChange(obj);
                             }
+                        }
+                        else
+                        {
+                            var obj = new OpenPortObject(portInt, transport, family)
+                            {
+                                Address = address
+                            };
+                            HandleChange(obj);
                         }
                     }
                 }
