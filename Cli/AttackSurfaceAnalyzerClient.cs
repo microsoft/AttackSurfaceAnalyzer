@@ -13,6 +13,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Serilog;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -764,7 +765,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             foreach (var item in results)
             {
-                var compareResults = (List<CompareResult>)item.Value;
+                var compareResults = (IEnumerable<CompareResult>)item.Value;
                 foreach (var compareResult in compareResults)
                 {
                     if (!artifacts.Any(a => a.Location.Description.Text.ToString() == compareResult.Identity))
