@@ -51,9 +51,11 @@ u_str LISTEN 0      4096                          /run/libvirt/virtlockd-sock 26
 Netid State  Recv-Q Send-Q                              Local Address:Port        Peer Address:PortProcess                                                          
 nl    UNCONN 0      0                                               0:530                     *                                                                     
 */
+        // See https://github.com/microsoft/AttackSurfaceAnalyzer/issues/649 for discussion on this regex and potential other solutions parsing sock files directly.
         private static Regex LinuxSsParsingRegex { get; } = new Regex(
-            "([\\S]+)\\s+([\\S]+)\\s+([\\S]+)\\s+([\\S]+)\\s+([\\S]+)[\\s+|:]([\\S]+)\\s+([\\S]+)(\\s+([\\S]+)\\s+([\\S]+))?",
-            RegexOptions.Compiled);
+            "^([\\S]+)\\s+([\\S]+)\\s+([\\S]+)\\s+([\\S]+)\\s+([\\S]+)[\\s:]([\\S]+)\\s+([\\S]+)(?:([\\s:]([\\S]+))?\\s+([\\S]+))?\\s*$",
+        RegexOptions.Compiled);
+        
         
         /// <summary>
         ///     Executes the OpenPortCollector on Linux. Calls out to the `ss` command and parses the output,
