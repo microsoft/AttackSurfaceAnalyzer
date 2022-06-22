@@ -1180,10 +1180,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             {
                                 if (c.Results[key] is IEnumerable<CompareResult> queue)
                                 {
-                                    if (queue.Any(x => x is null))
-                                    {
-                                        Console.WriteLine("found em");
-                                    }
                                     IEnumerable<AsaRule> platformRules = opts.AnalysesFile.Rules.Where(rule => rule.Platforms == null || rule.Platforms.Contains(platform));
                                     if (opts.SingleThreadAnalysis)
                                     {
