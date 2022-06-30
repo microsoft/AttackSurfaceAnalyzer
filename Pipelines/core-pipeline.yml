@@ -84,7 +84,7 @@ stages:
       inputs:
         packageType: 'sdk'
         version: '5.x'
-    - script: 'dotnet tool install -g nbgv'
+    - script: 'dotnet tool install -g nbgv --configfile NuGet.Config.Public'
       displayName: 'Install GitVersioning'
     - task: PowerShell@2
       displayName: Set Release Version
