@@ -58,6 +58,11 @@ jobs:
       command: 'custom'
       custom: 'pack'
       arguments: '${{ parameters.projectPath }} -c ${{ parameters.buildConfiguration }} -o Packages/${{ parameters.projectName }} ${{ parameters.flags }}'
+  - task: ComponentGovernanceComponentDetection@0
+    displayName: 'Component Detection'
+    inputs:
+      verbosity: 'Verbose'
+      alertWarningLevel: 'High'  
   - task: AntiMalware@3
     displayName: Anti-Malware Scan
     inputs:
