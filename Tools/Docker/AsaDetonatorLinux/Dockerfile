@@ -1,4 +1,4 @@
-FROM ubuntu:latest 
+FROM mcr.microsoft.com/mirror/docker/library/ubuntu:22.04
 
 COPY Detonate.sh /Detonate.sh
 
