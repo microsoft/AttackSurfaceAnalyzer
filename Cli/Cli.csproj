@@ -35,11 +35,11 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.2.0" />
-    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.2.16" />
-    <PackageReference Include="Microsoft.CST.OAT.Scripting" Version="1.2.16" />
-    <PackageReference Include="Sarif.Sdk" Version="2.4.15" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.3.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.0" />
+    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.2.29" />
+    <PackageReference Include="Microsoft.CST.OAT.Scripting" Version="1.2.29" />
+    <PackageReference Include="Sarif.Sdk" Version="3.1.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="3.3.1.21360" />
   </ItemGroup>
 
