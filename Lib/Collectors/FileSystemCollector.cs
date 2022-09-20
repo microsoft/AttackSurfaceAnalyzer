@@ -350,12 +350,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             foreach (var Root in Roots.Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y))))
             {
                 Log.Information("{0} root {1}", Strings.Get("Scanning"), Root);
-                var directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
+                var directories = Enumerable.Empty<string>();
+                try
                 {
-                    ReturnSpecialDirectories = false,
-                    IgnoreInaccessible = true,
-                    RecurseSubdirectories = true
-                }).Where(x => !opts.SkipDirectories.Any(y => x.StartsWith(y)));
+                    directories = Directory.EnumerateDirectories(Root, "*", new System.IO.EnumerationOptions()
+                    {
+                        ReturnSpecialDirectories = false,
+                        IgnoreInaccessible = true,
+                        RecurseSubdirectories = true
+                    }).Where(x => !opts.SkipDirectories.Any(x.StartsWith)).ToList();
+                }
+                catch (Exception e)
+                {
+                    Log.Debug("Failed to enumerate directories of {Root}. ({Type}:{Message})", Root, e.GetType().Name, e.Message);
+                }
+                    
 
                 // Process files in the root
                 TryIterateOnDirectory(Root);

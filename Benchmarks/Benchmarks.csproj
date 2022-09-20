@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
     <PackageReference Include="LiteDB" Version="5.0.12" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
