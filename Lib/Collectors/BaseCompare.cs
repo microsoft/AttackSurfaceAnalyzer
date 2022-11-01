@@ -155,7 +155,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
             IEnumerable<PropertyInfo> firstProperties = first.GetType().GetProperties();
             IEnumerable<PropertyInfo> secondProperties = second.GetType().GetProperties();
-            IEnumerable<PropertyInfo> sharedProperties = firstProperties.Intersect(secondProperties);
+            IEnumerable<PropertyInfo> sharedProperties = firstProperties.Intersect(secondProperties).ToList();
             firstProperties = firstProperties.Except(sharedProperties);
             secondProperties = secondProperties.Except(sharedProperties);
             foreach(var firstProperty in firstProperties)
@@ -172,7 +172,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 {
                     continue;
                 }
-                diffs.Add(new Diff(secondProperty.Name, secondProperty.GetValue(first), null));
+                diffs.Add(new Diff(secondProperty.Name, null, secondProperty.GetValue(second)));
             }
 
             foreach (var prop in sharedProperties)
@@ -183,8 +183,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         continue;
                     }
-                    object? added = null;
-                    object? removed = null;
 
                     object? firstProp = first is null ? first : prop.GetValue(first);
                     object? secondProp = second is null ? second : prop.GetValue(second);
@@ -192,15 +190,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         continue;
                     }
-                    else if (firstProp == null && secondProp != null)
+                    if (firstProp == null && secondProp != null)
                     {
-                        added = prop.GetValue(second);
-                        diffs.Add(new Diff(prop.Name, added, null));
+                        diffs.Add(new Diff(prop.Name, null, prop.GetValue(second)));
                     }
                     else if (secondProp == null && firstProp != null)
                     {
-                        removed = prop.GetValue(first);
-                        diffs.Add(new Diff(prop.Name, null, removed));
+                        diffs.Add(new Diff(prop.Name, prop.GetValue(first), null));
                     }
                     else
                     {
@@ -209,78 +205,37 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                         if (firstVal is List<string> && secondVal is List<string>)
                         {
-                            added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                            removed = ((List<string>)firstVal).Except((List<string>)secondVal);
-                            if (!((IEnumerable<string>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<string>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
                         {
-                            added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
-                            removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
-                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
                         {
-                            added = ((Dictionary<string, string>)secondVal)
-                                .Except((Dictionary<string, string>)firstVal)
-                                .ToDictionary(x => x.Key, x => x.Value);
-
-                            removed = ((Dictionary<string, string>)firstVal)
-                                .Except((Dictionary<string, string>)secondVal)
-                                .ToDictionary(x => x.Key, x => x.Value);
-                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
                         {
-                            added = secondDictionary
-                                .Except(firstDictionary)
-                                .ToDictionary(x => x.Key, x => x.Value);
-
-                            removed = firstDictionary
-                                .Except(secondDictionary)
-                                .ToDictionary(x => x.Key, x => x.Value);
-                            if (!((Dictionary<string, List<string>>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((Dictionary<string, List<string>>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
                         {
-                            added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
-                            removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
-
-                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                             }
                         }
                         else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
@@ -298,8 +253,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         {
                             diffs.Add(new Diff(prop.Name, firstVal, secondVal));
                         }
-
-                        diffs.Add(new Diff(prop.Name, added, removed));
                     }
                 }
                 catch (InvalidCastException e)
@@ -330,7 +283,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 {
                     continue;
                 }
-                diffs.Add(new Diff(secondField.Name, secondField.GetValue(first), null));
+                diffs.Add(new Diff(secondField.Name, secondField.GetValue(second), null));
             }
             foreach (var field in sharedFields)
             {
@@ -340,8 +293,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         continue;
                     }
-                    object? added = null;
-                    object? removed = null;
 
                     object? firstField = field.GetValue(first);
                     object? secondField = field.GetValue(second);
@@ -349,15 +300,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     {
                         continue;
                     }
-                    else if (firstField == null && secondField != null)
+                    if (firstField == null && secondField != null)
                     {
-                        added = field.GetValue(second);
-                        diffs.Add(new Diff(field.Name, added, null));
+                        diffs.Add(new Diff(field.Name, null, field.GetValue(second)));
                     }
                     else if (secondField == null && firstField != null)
                     {
-                        removed = field.GetValue(first);
-                        diffs.Add(new Diff(field.Name, null, removed));
+                        diffs.Add(new Diff(field.Name, field.GetValue(first), null));
                     }
                     else
                     {
@@ -366,79 +315,34 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                         if (firstVal is List<string> && secondVal is List<string>)
                         {
-                            added = ((List<string>)secondVal).Except((List<string>)firstVal);
-                            removed = ((List<string>)firstVal).Except((List<string>)secondVal);
-                            if (!((IEnumerable<string>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<string>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(field.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is List<KeyValuePair<string, string>> && secondVal is List<KeyValuePair<string, string>>)
                         {
-                            added = ((List<KeyValuePair<string, string>>)secondVal).Except((List<KeyValuePair<string, string>>)firstVal);
-                            removed = ((List<KeyValuePair<string, string>>)firstVal).Except((List<KeyValuePair<string, string>>)secondVal);
-                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(field.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is Dictionary<string, string> && secondVal is Dictionary<string, string>)
                         {
-                            added = ((Dictionary<string, string>)secondVal)
-                                .Except((Dictionary<string, string>)firstVal)
-                                .ToDictionary(x => x.Key, x => x.Value);
-
-                            removed = ((Dictionary<string, string>)firstVal)
-                                .Except((Dictionary<string, string>)secondVal)
-                                .ToDictionary(x => x.Key, x => x.Value);
-                            if (!((IEnumerable<KeyValuePair<string, string>>)added).Any())
+                            if (!compareLogic.Compare(firstVal, secondVal).AreEqual)
                             {
-                                added = null;
-                            }
-                            if (!((IEnumerable<KeyValuePair<string, string>>)removed).Any())
-                            {
-                                removed = null;
+                                diffs.Add(new Diff(field.Name, firstVal, secondVal));
                             }
                         }
                         else if (firstVal is Dictionary<string, List<string>> firstDictionary && secondVal is Dictionary<string, List<string>> secondDictionary)
                         {
-                            added = secondDictionary
-                                .Except(firstDictionary)
-                                .ToDictionary(x => x.Key, x => x.Value);
+                            diffs.Add(new Diff(field.Name, firstVal, secondVal));
 
-                            removed = firstDictionary
-                                .Except(secondDictionary)
-                                .ToDictionary(x => x.Key, x => x.Value);
-                            if (!((Dictionary<string, List<string>>)added).Any())
-                            {
-                                added = null;
-                            }
-                            if (!((Dictionary<string, List<string>>)removed).Any())
-                            {
-                                removed = null;
-                            }
                         }
                         else if (firstVal is Dictionary<(TpmAlgId, uint), byte[]> firstTpmAlgDict && secondVal is Dictionary<(TpmAlgId, uint), byte[]> secondTpmAlgDict)
                         {
-                            added = secondTpmAlgDict.Where(x => !firstTpmAlgDict.ContainsKey(x.Key) || !firstTpmAlgDict[x.Key].SequenceEqual(x.Value));
-                            removed = firstTpmAlgDict.Where(x => !secondTpmAlgDict.ContainsKey(x.Key) || !secondTpmAlgDict[x.Key].SequenceEqual(x.Value));
+                            diffs.Add(new Diff(field.Name, firstVal, secondVal));
 
-                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)added).Any())
-                            {
-                                added = null;
-                            }
-                            if (!((IEnumerable<KeyValuePair<(TpmAlgId, uint), byte[]>>)removed).Any())
-                            {
-                                removed = null;
-                            }
                         }
                         else if ((firstVal is string || firstVal is int || firstVal is bool) && (secondVal is string || secondVal is int || secondVal is bool))
                         {
@@ -455,8 +359,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         {
                             diffs.Add(new Diff(field.Name, firstVal, secondVal));
                         }
-
-                        diffs.Add(new Diff(field.Name, added, removed));
                     }
                 }
                 catch (InvalidCastException e)
