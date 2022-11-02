@@ -232,19 +232,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                 obj.ContentHash = FileSystemUtils.GetFileHash(fileInfo);
                             }
 
-                            var exeType = FileSystemUtils.GetExecutableType(path);
+                            obj.ExecutableType = FileSystemUtils.GetExecutableType(path);
+                            
+                            obj.IsExecutable = (obj.ExecutableType != EXECUTABLE_TYPE.NONE &&
+                                                    obj.ExecutableType != EXECUTABLE_TYPE.UNKNOWN);
 
-                            if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
-                            {
-                                obj.IsExecutable = true;
-                            }
-
-                            if (exeType == EXECUTABLE_TYPE.WINDOWS)
+                            if (obj.ExecutableType == EXECUTABLE_TYPE.WINDOWS)
                             {
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
-                            else if (exeType == EXECUTABLE_TYPE.MACOS)
+                            else if (obj.ExecutableType == EXECUTABLE_TYPE.MACOS)
                             {
                                 obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                             }
@@ -288,20 +286,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                 {
                                     obj.ContentHash = FileSystemUtils.GetFileHash(path);
                                 }
+                                
+                                obj.ExecutableType = FileSystemUtils.GetExecutableType(path);
+                            
+                                obj.IsExecutable = (obj.ExecutableType != EXECUTABLE_TYPE.NONE &&
+                                                    obj.ExecutableType != EXECUTABLE_TYPE.UNKNOWN);
 
-                                var exeType = FileSystemUtils.GetExecutableType(path);
-
-                                if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
-                                {
-                                    obj.IsExecutable = true;
-                                }
-
-                                if (exeType == EXECUTABLE_TYPE.WINDOWS)
+                                if (obj.ExecutableType == EXECUTABLE_TYPE.WINDOWS)
                                 {
                                     obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                     obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                                 }
-                                else if (exeType == EXECUTABLE_TYPE.MACOS)
+                                else if (obj.ExecutableType == EXECUTABLE_TYPE.MACOS)
                                 {
                                     obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
                                 }
@@ -432,24 +428,25 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 Size = fileEntry.Content.Length
             };
 
-            if (opts.GatherHashes == true)
+            if (opts.GatherHashes)
             {
                 fso.ContentHash = CryptoHelpers.CreateHash(fileEntry.Content);
             }
 
-            var exeType = FileSystemUtils.GetExecutableType(fileEntry.FullPath, fileEntry.Content);
+            fso.ExecutableType = FileSystemUtils.GetExecutableType(fileEntry.FullPath, fileEntry.Content);
+            fso.IsExecutable = (fso.ExecutableType != EXECUTABLE_TYPE.NONE &&
+                                fso.ExecutableType != EXECUTABLE_TYPE.UNKNOWN);
 
-            if (exeType != EXECUTABLE_TYPE.NONE && exeType != EXECUTABLE_TYPE.UNKNOWN)
+            if (fso.ExecutableType != EXECUTABLE_TYPE.WINDOWS)
             {
-                fso.IsExecutable = true;
+                return fso;
             }
 
-            if (exeType == EXECUTABLE_TYPE.WINDOWS)
-            {
-                fso.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileEntry.FullPath, fileEntry.Content);
-                fso.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileEntry.FullPath, fileEntry.Content);
-            }
-
+            fso.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(fileEntry.FullPath, fileEntry.Content);
+            fso.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(fileEntry.FullPath, fileEntry.Content);
+            // Mac signature checking under the covers requires calling an external command for a file on disk,
+            // which we don't have in this path.
+            
             return fso;
         }
 
