@@ -2067,6 +2067,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.FirstRunId
   nameWithType: ExportCollectCommandOptions.FirstRunId
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.ReadFromSavedComparisons
+  name: ReadFromSavedComparisons
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportCollectCommandOptions_ReadFromSavedComparisons
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.ReadFromSavedComparisons
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.ReadFromSavedComparisons
+  nameWithType: ExportCollectCommandOptions.ReadFromSavedComparisons
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.ReadFromSavedComparisons*
+  name: ReadFromSavedComparisons
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportCollectCommandOptions_ReadFromSavedComparisons_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.ReadFromSavedComparisons
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.ReadFromSavedComparisons
+  nameWithType: ExportCollectCommandOptions.ReadFromSavedComparisons
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.SecondRunId
   name: SecondRunId
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportCollectCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportCollectCommandOptions_SecondRunId
@@ -2189,6 +2202,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.OutputSarif
   nameWithType: ExportOptions.OutputSarif
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ResultLevels
+  name: ResultLevels
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_ResultLevels
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ResultLevels
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ResultLevels
+  nameWithType: ExportOptions.ResultLevels
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ResultLevels*
+  name: ResultLevels
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_ResultLevels_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ResultLevels
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ResultLevels
+  nameWithType: ExportOptions.ResultLevels
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.RunScripts
   name: RunScripts
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_RunScripts
@@ -5236,6 +5262,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.Created
   nameWithType: FileSystemObject.Created
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ExecutableType
+  name: ExecutableType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject_ExecutableType
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ExecutableType
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ExecutableType
+  nameWithType: FileSystemObject.ExecutableType
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ExecutableType*
+  name: ExecutableType
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject_ExecutableType_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ExecutableType
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.ExecutableType
+  nameWithType: FileSystemObject.ExecutableType
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.FileType
   name: FileType
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileSystemObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileSystemObject_FileType
