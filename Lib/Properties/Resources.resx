@@ -126,6 +126,9 @@
   <data name="Comparing" xml:space="preserve">
     <value>Comparing {0} vs {1}.</value>
   </data>
+  <data name="LoadingSavedComparison" xml:space="preserve">
+    <value>Loading saved comparison of {0} vs {1} with Analysis Hash {2}.</value>
+  </data>
   <data name="DeletedDatabase" xml:space="preserve">
     <value>Successfully deleted database.</value>
   </data>

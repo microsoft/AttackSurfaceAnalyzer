@@ -617,9 +617,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Log.Warning(Strings.Get("Err_NoRules"));
                 return ASA_ERROR.INVALID_RULES;
             }
-
-            Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
-
+            
             CompareCommandOptions options = new(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
@@ -630,7 +628,54 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
 
-            var results = CompareRuns(options);
+            var analysesHash = options.AnalysesFile.GetHash();
+            var results =
+                new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
+            if (opts.ReadFromSavedComparisons &&
+                DatabaseManager.GetComparisonCompleted(opts.FirstRunId, opts.SecondRunId, analysesHash))
+            {
+                Log.Information(Strings.Get("LoadingSavedComparison"), opts.FirstRunId, opts.SecondRunId, analysesHash);
+
+                foreach (RESULT_TYPE resultType in Enum.GetValues(typeof(RESULT_TYPE)))
+                {
+                    foreach (CHANGE_TYPE changeType in Enum.GetValues(typeof(CHANGE_TYPE)))
+                    {
+                        results[(resultType, changeType)] = new ConcurrentBag<CompareResult>();
+                    }
+                }
+
+                foreach (RESULT_TYPE resultType in Enum.GetValues(typeof(RESULT_TYPE)))
+                {
+                    var resultsForType =
+                        DatabaseManager.GetComparisonResults(opts.FirstRunId, opts.SecondRunId, analysesHash,
+                            resultType);
+                    foreach (var result in resultsForType)
+                    {
+                        results[(result.ResultType, result.ChangeType)].Add(result);
+                    }
+                }
+
+                foreach (var key in results.Keys)
+                {
+                    if (results[key].IsEmpty)
+                    {
+                        results.Remove(key, out _);
+                    }
+                }
+                
+            }
+            else
+            {
+                Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
+                
+                results = CompareRuns(options);
+            
+                if (opts.SaveToDatabase)
+                {
+                    InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, analysesHash);
+                }
+            }
+            // Filter by specified analysis levels
             if (opts.ResultLevels.Any())
             {
                 foreach (var kvp in results)
@@ -638,12 +683,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     results[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
                 }
             }
-            var analysesHash = options.AnalysesFile.GetHash();
-            if (opts.SaveToDatabase)
-            {
-                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, analysesHash);
-            }
-
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash, ruleFile.Rules);
         }
 
@@ -857,7 +896,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             sarifResult.RuleId = rule.Name;
                         }
 
-                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType.ToString()) };
+                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType) };
                         
                         sarifResults.Add(sarifResult);
                     }
@@ -900,7 +939,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
                 if (property.DeclaringType == typeof(RegistryObject))
                 {
-                    if (property.PropertyName == "Subkeys" || property.PropertyName == "Values")
+                    if (property.PropertyName is "Subkeys" or "Values")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }

@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using Namotion.Reflection;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
@@ -279,13 +280,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    if (reader["serialized"].ToString() is string serialized)
+                    if (reader["meta_serialized"].ToString() is string meta_serialized)
                     {
-                        if (JsonConvert.DeserializeObject<CompareResult>(serialized) is CompareResult compareResult)
+                        if (JsonConvert.DeserializeObject<CompareResult>(meta_serialized) is CompareResult compareResult)
                         {
+                            if (reader["first_serialized"] is string first_serialized)
+                            {
+                                compareResult.Base = JsonUtils.Hydrate(first_serialized, exportType);
+                            }
+                            if (reader["second_serialized"] is string second_serialized)
+                            {
+                                compareResult.Compare = JsonUtils.Hydrate(second_serialized, exportType);
+                            }
+                            if (compareResult.Base is not null && compareResult.Compare is not null)
+                            {
+                                compareResult.Diffs = BaseCompare.GenerateDiffs(compareResult.Base, compareResult.Compare);
+                            }
+
                             records.Add(compareResult);
                         }
-                    }
+                    }   
                 }
             }
             return records;
