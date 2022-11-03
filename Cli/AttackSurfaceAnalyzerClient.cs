@@ -787,61 +787,56 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var compareResults = (IEnumerable<CompareResult>)item.Value;
                 foreach (var compareResult in compareResults)
                 {
-                    if (!artifacts.Any(a => a.Location.Description.Text.ToString() == compareResult.Identity))
+                    var artifact = new Artifact
                     {
-                        var artifact = new Artifact
+                        Location = new ArtifactLocation()
                         {
-                            Location = new ArtifactLocation()
-                            {
-                                Index = artifacts.Count,
-                                Description = new Message() { Text = compareResult.Identity }
-                            }
-                        };
-
-                        if (Uri.TryCreate(compareResult.Identity, UriKind.RelativeOrAbsolute, out Uri? outUri))
-                        {
-                            artifact.Location.Uri = outUri;
+                            Index = artifacts.Count,
+                            Description = new Message() { Text = compareResult.Identity }
                         }
+                    };
 
-                        artifact.SetProperty("Analysis", compareResult.Analysis.ToString());
-
-                        if (compareResult.Base != null)
-                        {
-                            artifact.SetProperty("Base", compareResult.Base);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(compareResult.BaseRunId))
-                        {
-                            artifact.SetProperty("BaseRunId", compareResult.BaseRunId.ToString());
-                        }
-
-                        artifact.SetProperty("ChangeType", compareResult.ChangeType.ToString());
-
-                        if (compareResult.Compare != null)
-                        {
-                            artifact.SetProperty("Compare", compareResult.Compare);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(compareResult.CompareRunId))
-                        {
-                            artifact.SetProperty("CompareRunId", compareResult.CompareRunId);
-                        }
-
-                        if (compareResult.Diffs != null && compareResult.Diffs.Count > 0)
-                        {
-                            artifact.SetProperty("Diffs", compareResult.Diffs);
-                        }
-
-                        artifact.SetProperty("ResultType", compareResult.ResultType.ToString());
-
-                        artifacts.Add(artifact);
+                    if (Uri.TryCreate(compareResult.Identity, UriKind.RelativeOrAbsolute, out Uri? outUri))
+                    {
+                        artifact.Location.Uri = outUri;
                     }
 
+                    artifact.SetProperty("Analysis", compareResult.Analysis);
+
+                    if (compareResult.Base != null)
+                    {
+                        artifact.SetProperty("Base", compareResult.Base);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(compareResult.BaseRunId))
+                    {
+                        artifact.SetProperty("BaseRunId", compareResult.BaseRunId);
+                    }
+
+                    artifact.SetProperty("ChangeType", compareResult.ChangeType);
+
+                    if (compareResult.Compare != null)
+                    {
+                        artifact.SetProperty("Compare", compareResult.Compare);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(compareResult.CompareRunId))
+                    {
+                        artifact.SetProperty("CompareRunId", compareResult.CompareRunId);
+                    }
+
+                    if (compareResult.Diffs.Count > 0)
+                    {
+                        artifact.SetProperty("Diffs", compareResult.Diffs);
+                    }
+
+                    artifact.SetProperty("ResultType", compareResult.ResultType);
+
+                    artifacts.Add(artifact);
+                    int index = artifacts.Count - 1;
                     foreach (var rule in compareResult.Rules)
                     {
                         var sarifResult = new Result();
-                        int index = artifacts.FindIndex(a => a.Location.Description.Text == compareResult.Identity);
-
                         sarifResult.Locations = new List<Location>()
                         {
                             new Location() {
@@ -863,7 +858,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                         }
 
                         sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType.ToString()) };
-
+                        
                         sarifResults.Add(sarifResult);
                     }
                 }
