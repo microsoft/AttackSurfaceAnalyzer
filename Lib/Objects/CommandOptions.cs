@@ -215,6 +215,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Second run (post-install) identifier")]
         public string SecondRunId { get; set; } = string.Empty;
+        
+        [Option(HelpText = "Checks if the results of this analysis are already saved in the database. If they are will export the cached data instead of performing new analysis.")]
+        public bool ReadFromSavedComparisons { get; set; }
     }
 
     [Verb("export-monitor", HelpText = "Output a .json report for a monitor run")]
@@ -249,9 +252,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         [Option(HelpText = "Save to internal database for review in GUI")]
         public bool SaveToDatabase { get; set; }
 
-        [Option(HelpText = "Checks if the results of this analysis are already saved in the database. If they are will export the cached data instead of performing new analysis.")]
-        public bool ReadFromSavedComparisons { get; set; }
-        
         [Option(HelpText = "Enable running Scripts in rules")]
         public bool RunScripts { get; set; }
 

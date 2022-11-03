@@ -257,11 +257,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     results[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
                 }
             }
-            if (opts.SaveToDatabase)
-            {
-                InsertCompareResults(results, first, second, analysesHash);
-            }
-
             var exportOptions = new ExportOptions()
             {
                 OutputSarif = opts.OutputSarif,
@@ -1002,18 +997,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             };
 
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);
+            
+            var analysesHash = monitorCompareOpts.AnalysesFile.GetHash();
+
+            if (opts.SaveToDatabase)
+            {
+                InsertCompareResults(monitorResult, null, opts.RunId, analysesHash);
+            }
             if (opts.ResultLevels.Any())
             {
                 foreach (var kvp in monitorResult)
                 {
                     monitorResult[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
                 }
-            }
-            var analysesHash = monitorCompareOpts.AnalysesFile.GetHash();
-
-            if (opts.SaveToDatabase)
-            {
-                InsertCompareResults(monitorResult, null, opts.RunId, analysesHash);
             }
 
             return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash, ruleFile.Rules);
