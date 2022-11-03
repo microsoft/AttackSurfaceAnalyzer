@@ -48,7 +48,7 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
-      "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
+      "Expression": "(is_exe AND windows_exe AND NOT valid_windows_signature) OR (is_exe AND mac_binary AND null_mac_signature)",
       "Clauses": [
         {
           "Label": "is_exe",
@@ -56,9 +56,21 @@
           "Operation": "IsTrue"
         },
         {
+          "Label": "windows_exe",
+          "Field": "ExecutableType",
+          "Operation": "Equals",
+          "Data": ["WINDOWS"]
+        },
+        {
           "Label": "valid_windows_signature",
           "Field": "SignatureStatus.IsAuthenticodeValid",
           "Operation": "IsTrue"
+        },
+        {
+          "Label": "mac_binary",
+          "Field": "ExecutableType",
+          "Operation": "Equals",
+          "Data": ["MACOS"]
         },
         {
           "Label": "null_mac_signature",
@@ -76,7 +88,7 @@
         "MODIFIED"
       ],
       "ResultType": "FILEMONITOR",
-      "Expression": "is_exe AND NOT valid_windows_signature AND null_mac_signature",
+      "Expression": "(is_exe AND windows_exe AND NOT valid_windows_signature) OR (is_exe AND mac_binary AND null_mac_signature)",
       "Clauses": [
         {
           "Label": "is_exe",
@@ -84,9 +96,21 @@
           "Operation": "IsTrue"
         },
         {
+          "Label": "windows_exe",
+          "Field": "FileSystemObject.ExecutableType",
+          "Operation": "Equals",
+          "Data": ["WINDOWS"]
+        },
+        {
           "Label": "valid_windows_signature",
           "Field": "FileSystemObject.SignatureStatus.IsAuthenticodeValid",
           "Operation": "IsTrue"
+        },
+        {
+          "Label": "mac_binary",
+          "Field": "FileSystemObject.ExecutableType",
+          "Operation": "Equals",
+          "Data": ["MACOS"]
         },
         {
           "Label": "null_mac_signature",

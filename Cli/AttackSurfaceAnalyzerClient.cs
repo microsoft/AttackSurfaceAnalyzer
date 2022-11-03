@@ -24,6 +24,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
@@ -248,11 +250,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             var results = AnalyzeGuided(GuidedOptions, ruleFile);
             var analysesHash = options.AnalysesFile.GetHash();
-            if (opts.SaveToDatabase)
+            if (opts.ResultLevels.Any())
             {
-                InsertCompareResults(results, first, second, analysesHash);
+                foreach (var kvp in results)
+                {
+                    results[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
+                }
             }
-
             var exportOptions = new ExportOptions()
             {
                 OutputSarif = opts.OutputSarif,
@@ -430,16 +434,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-            var server = Host.CreateDefaultBuilder(Array.Empty<string>())
-#if RELEASE
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-#endif
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .Build();
-
+            Log.Information($"Running from {Directory.GetCurrentDirectory()}");
+            Log.Information($"App is at {Assembly.GetExecutingAssembly().Location}");
+            var webAssets = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"..","..","..","staticwebassets");
+            var server = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                ContentRootPath = webAssets
+            });
+            server.Services.AddRazorPages();
+            server.Services.AddSingleton<AppData>();
+            var host = server.Build();
+            host.UseStaticFiles();
+            host.MapDefaultControllerRoute();
+            host.MapRazorPages();
             if (!opts.NoLaunch)
             {
                 ((Action)(async () =>
@@ -448,7 +455,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }))();
             }
 
-            server.Run();
+            host.Run();
             return 0;
         }
 
@@ -605,9 +612,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Log.Warning(Strings.Get("Err_NoRules"));
                 return ASA_ERROR.INVALID_RULES;
             }
-
-            Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
-
+            
             CompareCommandOptions options = new(opts.FirstRunId, opts.SecondRunId)
             {
                 DatabaseFilename = opts.DatabaseFilename,
@@ -618,13 +623,61 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 SingleThreadAnalysis = opts.SingleThreadAnalysis
             };
 
-            var results = CompareRuns(options);
             var analysesHash = options.AnalysesFile.GetHash();
-            if (opts.SaveToDatabase)
+            var results =
+                new ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>>();
+            if (opts.ReadFromSavedComparisons &&
+                DatabaseManager.GetComparisonCompleted(opts.FirstRunId, opts.SecondRunId, analysesHash))
             {
-                InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, analysesHash);
-            }
+                Log.Information(Strings.Get("LoadingSavedComparison"), opts.FirstRunId, opts.SecondRunId, analysesHash);
 
+                foreach (RESULT_TYPE resultType in Enum.GetValues(typeof(RESULT_TYPE)))
+                {
+                    foreach (CHANGE_TYPE changeType in Enum.GetValues(typeof(CHANGE_TYPE)))
+                    {
+                        results[(resultType, changeType)] = new ConcurrentBag<CompareResult>();
+                    }
+                }
+
+                foreach (RESULT_TYPE resultType in Enum.GetValues(typeof(RESULT_TYPE)))
+                {
+                    var resultsForType =
+                        DatabaseManager.GetComparisonResults(opts.FirstRunId, opts.SecondRunId, analysesHash,
+                            resultType);
+                    foreach (var result in resultsForType)
+                    {
+                        results[(result.ResultType, result.ChangeType)].Add(result);
+                    }
+                }
+
+                foreach (var key in results.Keys)
+                {
+                    if (results[key].IsEmpty)
+                    {
+                        results.Remove(key, out _);
+                    }
+                }
+                
+            }
+            else
+            {
+                Log.Information(Strings.Get("Comparing"), opts.FirstRunId, opts.SecondRunId);
+                
+                results = CompareRuns(options);
+            
+                if (opts.SaveToDatabase)
+                {
+                    InsertCompareResults(results, opts.FirstRunId, opts.SecondRunId, analysesHash);
+                }
+            }
+            // Filter by specified analysis levels
+            if (opts.ResultLevels.Any())
+            {
+                foreach (var kvp in results)
+                {
+                    results[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
+                }
+            }
             return ExportCompareResults(results, opts, AsaHelpers.MakeValidFileName(opts.FirstRunId + "_vs_" + opts.SecondRunId), analysesHash, ruleFile.Rules);
         }
 
@@ -768,61 +821,56 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var compareResults = (IEnumerable<CompareResult>)item.Value;
                 foreach (var compareResult in compareResults)
                 {
-                    if (!artifacts.Any(a => a.Location.Description.Text.ToString() == compareResult.Identity))
+                    var artifact = new Artifact
                     {
-                        var artifact = new Artifact
+                        Location = new ArtifactLocation()
                         {
-                            Location = new ArtifactLocation()
-                            {
-                                Index = artifacts.Count,
-                                Description = new Message() { Text = compareResult.Identity }
-                            }
-                        };
-
-                        if (Uri.TryCreate(compareResult.Identity, UriKind.RelativeOrAbsolute, out Uri? outUri))
-                        {
-                            artifact.Location.Uri = outUri;
+                            Index = artifacts.Count,
+                            Description = new Message() { Text = compareResult.Identity }
                         }
+                    };
 
-                        artifact.SetProperty("Analysis", compareResult.Analysis.ToString());
-
-                        if (compareResult.Base != null)
-                        {
-                            artifact.SetProperty("Base", compareResult.Base);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(compareResult.BaseRunId))
-                        {
-                            artifact.SetProperty("BaseRunId", compareResult.BaseRunId.ToString());
-                        }
-
-                        artifact.SetProperty("ChangeType", compareResult.ChangeType.ToString());
-
-                        if (compareResult.Compare != null)
-                        {
-                            artifact.SetProperty("Compare", compareResult.Compare);
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(compareResult.CompareRunId))
-                        {
-                            artifact.SetProperty("CompareRunId", compareResult.CompareRunId);
-                        }
-
-                        if (compareResult.Diffs != null && compareResult.Diffs.Count > 0)
-                        {
-                            artifact.SetProperty("Diffs", compareResult.Diffs);
-                        }
-
-                        artifact.SetProperty("ResultType", compareResult.ResultType.ToString());
-
-                        artifacts.Add(artifact);
+                    if (Uri.TryCreate(compareResult.Identity, UriKind.RelativeOrAbsolute, out Uri? outUri))
+                    {
+                        artifact.Location.Uri = outUri;
                     }
 
+                    artifact.SetProperty("Analysis", compareResult.Analysis);
+
+                    if (compareResult.Base != null)
+                    {
+                        artifact.SetProperty("Base", compareResult.Base);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(compareResult.BaseRunId))
+                    {
+                        artifact.SetProperty("BaseRunId", compareResult.BaseRunId);
+                    }
+
+                    artifact.SetProperty("ChangeType", compareResult.ChangeType);
+
+                    if (compareResult.Compare != null)
+                    {
+                        artifact.SetProperty("Compare", compareResult.Compare);
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(compareResult.CompareRunId))
+                    {
+                        artifact.SetProperty("CompareRunId", compareResult.CompareRunId);
+                    }
+
+                    if (compareResult.Diffs.Count > 0)
+                    {
+                        artifact.SetProperty("Diffs", compareResult.Diffs);
+                    }
+
+                    artifact.SetProperty("ResultType", compareResult.ResultType);
+
+                    artifacts.Add(artifact);
+                    int index = artifacts.Count - 1;
                     foreach (var rule in compareResult.Rules)
                     {
                         var sarifResult = new Result();
-                        int index = artifacts.FindIndex(a => a.Location.Description.Text == compareResult.Identity);
-
                         sarifResult.Locations = new List<Location>()
                         {
                             new Location() {
@@ -843,8 +891,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             sarifResult.RuleId = rule.Name;
                         }
 
-                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType.ToString()) };
-
+                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType) };
+                        
                         sarifResults.Add(sarifResult);
                     }
                 }
@@ -886,7 +934,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
                 if (property.DeclaringType == typeof(RegistryObject))
                 {
-                    if (property.PropertyName == "Subkeys" || property.PropertyName == "Values")
+                    if (property.PropertyName is "Subkeys" or "Values")
                     {
                         property.ShouldSerialize = _ => { return false; };
                     }
@@ -949,12 +997,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             };
 
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);
-
+            
             var analysesHash = monitorCompareOpts.AnalysesFile.GetHash();
 
             if (opts.SaveToDatabase)
             {
                 InsertCompareResults(monitorResult, null, opts.RunId, analysesHash);
+            }
+            if (opts.ResultLevels.Any())
+            {
+                foreach (var kvp in monitorResult)
+                {
+                    monitorResult[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
+                }
             }
 
             return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash, ruleFile.Rules);
