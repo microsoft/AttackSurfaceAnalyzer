@@ -24,6 +24,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 {
@@ -248,6 +250,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
             var results = AnalyzeGuided(GuidedOptions, ruleFile);
             var analysesHash = options.AnalysesFile.GetHash();
+            if (opts.ResultLevels.Any())
+            {
+                foreach (var kvp in results)
+                {
+                    results[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
+                }
+            }
             if (opts.SaveToDatabase)
             {
                 InsertCompareResults(results, first, second, analysesHash);
@@ -430,16 +439,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-            var server = Host.CreateDefaultBuilder(Array.Empty<string>())
-#if RELEASE
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-#endif
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .Build();
-
+            Log.Information($"Running from {Directory.GetCurrentDirectory()}");
+            Log.Information($"App is at {Assembly.GetExecutingAssembly().Location}");
+            var webAssets = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"..","..","..","staticwebassets");
+            var server = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                ContentRootPath = webAssets
+            });
+            server.Services.AddRazorPages();
+            server.Services.AddSingleton<AppData>();
+            var host = server.Build();
+            host.UseStaticFiles();
+            host.MapDefaultControllerRoute();
+            host.MapRazorPages();
             if (!opts.NoLaunch)
             {
                 ((Action)(async () =>
@@ -448,7 +460,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }))();
             }
 
-            server.Run();
+            host.Run();
             return 0;
         }
 
@@ -619,6 +631,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             };
 
             var results = CompareRuns(options);
+            if (opts.ResultLevels.Any())
+            {
+                foreach (var kvp in results)
+                {
+                    results[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
+                }
+            }
             var analysesHash = options.AnalysesFile.GetHash();
             if (opts.SaveToDatabase)
             {
@@ -949,7 +968,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             };
 
             var monitorResult = AnalyzeMonitored(monitorCompareOpts);
-
+            if (opts.ResultLevels.Any())
+            {
+                foreach (var kvp in monitorResult)
+                {
+                    monitorResult[kvp.Key] = new ConcurrentBag<CompareResult>(kvp.Value.Where(x => opts.ResultLevels.Contains(x.Analysis)));
+                }
+            }
             var analysesHash = monitorCompareOpts.AnalysesFile.GetHash();
 
             if (opts.SaveToDatabase)

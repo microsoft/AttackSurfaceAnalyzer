@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer
 {
@@ -256,6 +257,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option(HelpText = "Force Analysis to be Single-Threaded")]
         public bool SingleThreadAnalysis { get; set; }
+
+        [Option(HelpText = "Specify the ResultLevels to report", Separator = ',')]
+        public IEnumerable<ANALYSIS_RESULT_TYPE> ResultLevels { get; set; } = new List<ANALYSIS_RESULT_TYPE>();
     }
 
     [Verb("gui", HelpText = "Launch the GUI in a browser.")]
