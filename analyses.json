@@ -48,7 +48,7 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
-      "Expression": "is_exe AND ((windows_exe AND NOT valid_windows_signature) OR (mac_binary AND null_mac_signature))",
+      "Expression": "(is_exe AND windows_exe AND NOT valid_windows_signature) OR (is_exe AND mac_binary AND null_mac_signature)",
       "Clauses": [
         {
           "Label": "is_exe",
@@ -88,7 +88,7 @@
         "MODIFIED"
       ],
       "ResultType": "FILEMONITOR",
-      "Expression": "is_exe AND ((windows_exe AND NOT valid_windows_signature) OR (mac_binary AND null_mac_signature))",
+      "Expression": "(is_exe AND windows_exe AND NOT valid_windows_signature) OR (is_exe AND mac_binary AND null_mac_signature)",
       "Clauses": [
         {
           "Label": "is_exe",
