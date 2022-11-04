@@ -45,7 +45,6 @@ stages:
   - template: templates/sdl-job.yml
     parameters:
       serviceTreeID: 'ac84de32-6898-4dad-ace3-78e8098175dc'
-
 - stage: Build
   dependsOn: Test
   jobs:
