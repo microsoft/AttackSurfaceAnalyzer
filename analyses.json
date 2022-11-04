@@ -48,13 +48,8 @@
         "MODIFIED"
       ],
       "ResultType": "FILE",
-      "Expression": "(is_exe AND windows_exe AND NOT valid_windows_signature) OR (is_exe AND mac_binary AND null_mac_signature)",
+      "Expression": "(windows_exe AND NOT valid_windows_signature) OR (mac_binary AND null_mac_signature)",
       "Clauses": [
-        {
-          "Label": "is_exe",
-          "Field": "IsExecutable",
-          "Operation": "IsTrue"
-        },
         {
           "Label": "windows_exe",
           "Field": "ExecutableType",
@@ -88,13 +83,8 @@
         "MODIFIED"
       ],
       "ResultType": "FILEMONITOR",
-      "Expression": "(is_exe AND windows_exe AND NOT valid_windows_signature) OR (is_exe AND mac_binary AND null_mac_signature)",
+      "Expression": "(windows_exe AND NOT valid_windows_signature) OR (mac_binary AND null_mac_signature)",
       "Clauses": [
-        {
-          "Label": "is_exe",
-          "Field": "FileSystemObject.IsExecutable",
-          "Operation": "IsTrue"
-        },
         {
           "Label": "windows_exe",
           "Field": "FileSystemObject.ExecutableType",
