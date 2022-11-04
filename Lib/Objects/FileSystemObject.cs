@@ -65,6 +65,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// </summary>
         public bool? IsExecutable { get; set; }
 
+        /// <summary>
+        /// The type of the executable if it is one
+        /// </summary>
         public EXECUTABLE_TYPE ExecutableType { get; set; } = EXECUTABLE_TYPE.UNKNOWN;
 
         /// <summary>
