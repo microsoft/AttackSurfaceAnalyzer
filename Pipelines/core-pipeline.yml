@@ -49,7 +49,6 @@ stages:
 - stage: Build
   dependsOn: Test
   jobs:
-  - task: CodeQL3000Init@0
   - template: templates/dotnet-publish-linux-mac-job.yml
     parameters:
       projectPath: 'Cli/Cli.csproj'
@@ -72,7 +71,6 @@ stages:
       jobName: 'pack_cli'
       projectPath: 'Cli/Cli.csproj'
       projectName: '${{ variables.AsaClientName }}'
-  - task: CodeQL3000Finalize@0
 
 - stage: Release
   dependsOn:

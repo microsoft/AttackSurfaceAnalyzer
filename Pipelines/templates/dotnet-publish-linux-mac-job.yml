@@ -42,6 +42,7 @@ jobs:
   pool:
     vmImage: 'ubuntu-latest'
   steps:
+  - task: CodeQL3000Init@0
   - task: UseDotNet@2
     displayName: Install Dotnet SDK
     inputs:
@@ -94,3 +95,4 @@ jobs:
       PathtoPublish: 'Archives'
       ArtifactName: '${{ parameters.artifactName }}'
       publishLocation: 'Container'
+  - task: CodeQL3000Finalize@0
