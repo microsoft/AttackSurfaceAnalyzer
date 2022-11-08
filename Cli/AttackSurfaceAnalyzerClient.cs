@@ -434,19 +434,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-            Log.Information($"Running from {Directory.GetCurrentDirectory()}");
-            Log.Information($"App is at {Assembly.GetExecutingAssembly().Location}");
-            var webAssets = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"..","..","..","staticwebassets");
-            var server = WebApplication.CreateBuilder(new WebApplicationOptions()
-            {
-                ContentRootPath = webAssets
-            });
-            server.Services.AddRazorPages();
-            server.Services.AddSingleton<AppData>();
-            var host = server.Build();
-            host.UseStaticFiles();
-            host.MapDefaultControllerRoute();
-            host.MapRazorPages();
+            var server = Host.CreateDefaultBuilder(Array.Empty<string>())
+#if RELEASE
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
+#endif
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
+                .Build();
+
             if (!opts.NoLaunch)
             {
                 ((Action)(async () =>
@@ -455,7 +452,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }))();
             }
 
-            host.Run();
+            server.Run();
             return 0;
         }
 
