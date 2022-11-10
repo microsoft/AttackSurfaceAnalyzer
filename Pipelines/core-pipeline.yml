@@ -5,6 +5,14 @@ variables:
   value: ASA_Cli
 - name: AsaLibName
   value: ASA_Lib
+- name: CurrentSDK
+  value: 7.0.x
+- name: CurrentFramework
+  value: net7.0
+- name: LTS_SDK
+  value: 6.0.x
+- name: LTS_Framework
+  value: net6.0
 
 name: ASA_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger:
@@ -37,6 +45,13 @@ stages:
   jobs:
   - template: templates/dotnet-test-job.yml
     parameters:
+      dotnetVersion: '${{ variables.CurrentSDK }}'
+      testFramework: '${{ variables.CurrentFramework }}'
+      projectPath: 'Tests/Tests.csproj'
+  - template: templates/dotnet-test-job.yml
+    parameters:
+      dotnetVersion: '${{ variables.LTS_SDK }}'
+      testFramework: '${{ variables.LTS_Framework }}'
       projectPath: 'Tests/Tests.csproj'
 
 - stage: SDL
@@ -52,12 +67,14 @@ stages:
     parameters:
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
+      dotnetVersion: '${{ variables.CurrentSDK }}'
       preBuild:
       - template: templates/nbgv-set-version-steps.yml
   - template: templates/dotnet-publish-win-netcore-job.yml
     parameters:
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
+      dotnetVersion: '${{ variables.CurrentSDK }}'
       preBuild:
       - template: templates/nbgv-set-version-steps.yml
   - template: templates/nuget-build-job.yml
@@ -65,11 +82,13 @@ stages:
       jobName: 'pack_lib'
       projectPath: 'Lib/Lib.csproj'
       projectName: '${{ variables.AsaLibName }}'
+      dotnetVersion: '${{ variables.CurrentSDK }}'
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_cli'
       projectPath: 'Cli/Cli.csproj'
       projectName: '${{ variables.AsaClientName }}'
+      dotnetVersion: '${{ variables.CurrentSDK }}'
 
 - stage: Release
   dependsOn:
@@ -85,7 +104,7 @@ stages:
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
-        version: '6.x'
+        version: '${{ variables.CurrentSDK }}'
     - script: 'dotnet tool update -g nbgv'
       displayName: 'Install GitVersioning'
     - task: PowerShell@2

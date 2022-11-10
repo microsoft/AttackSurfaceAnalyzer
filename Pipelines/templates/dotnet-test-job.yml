@@ -6,7 +6,11 @@ parameters:
 # Version of Dotnet SDK to use
 - name: dotnetVersion
   type: string
-  default: '6.x'
+  default: '7.0.x'
+# Framework argument to the test call
+- name: testFramework
+  type: string
+  default: 'net7.0'
 # Version of NuGet Tool to use
 - name: nugetVersion
   type: string
@@ -35,10 +39,12 @@ jobs:
     displayName: Dotnet Restore
     inputs:
       command: 'restore'
+      arguments: '-f {{ parameters.TestFramework }}'
       projects: ${{ parameters.projectPath }}
       verbosityRestore: 'Normal'
   - task: DotNetCoreCLI@2
     displayName: Dotnet Test
     inputs:
       command: 'test'
+      arguments: '-f {{ parameters.testFramework }}'
       projects: ${{ parameters.projectPath }}
