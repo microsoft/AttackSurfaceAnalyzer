@@ -2,7 +2,6 @@
 using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
-using Microsoft.CST.OAT.Operations;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Serilog;
@@ -14,7 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using Namotion.Reflection;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
