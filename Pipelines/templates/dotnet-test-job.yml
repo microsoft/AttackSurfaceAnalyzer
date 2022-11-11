@@ -22,7 +22,7 @@ parameters:
 
 jobs:
 - job: ${{ parameters.jobName }}
-  displayName: Dotnet Test
+  displayName: Dotnet Test ${{ parameters.testFramework }}
   pool:
     vmImage: 'windows-latest'
   steps:
@@ -35,13 +35,13 @@ jobs:
     displayName: Install Nuget Tool
     inputs:
       versionSpec: ${{ parameters.nugetVersion }}
-  - task: DotNetCoreCLI@2
-    displayName: Dotnet Restore
-    inputs:
-      command: 'restore'
-      arguments: '-f {{ parameters.TestFramework }}'
-      projects: ${{ parameters.projectPath }}
-      verbosityRestore: 'Normal'
+  # - task: DotNetCoreCLI@2
+  #   displayName: Dotnet Restore
+  #   inputs:
+  #     command: 'restore'
+  #     arguments: '-f {{ parameters.TestFramework }}'
+  #     projects: ${{ parameters.projectPath }}
+  #     verbosityRestore: 'Normal'
   - task: DotNetCoreCLI@2
     displayName: Dotnet Test
     inputs:
