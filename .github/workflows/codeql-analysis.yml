@@ -22,7 +22,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.x'
+        dotnet-version: '7.x'
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
