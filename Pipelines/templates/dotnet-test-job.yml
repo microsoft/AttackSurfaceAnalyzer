@@ -21,7 +21,7 @@ parameters:
   default: ''
 
 jobs:
-- job: ${{ parameters.jobName }}
+- job: '${{ parameters.jobName }}_${{ parameters.dotnetVersion }}''
   displayName: Dotnet Test
   pool:
     vmImage: 'windows-latest'
