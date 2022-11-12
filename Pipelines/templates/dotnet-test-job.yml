@@ -7,10 +7,10 @@ parameters:
 - name: dotnetVersion
   type: string
   default: '7.0.x'
-# Framework argument to the test call
-- name: testFramework
+# Version of Dotnet SDK to use
+- name: dotnetVersionLTS
   type: string
-  default: 'net7.0'
+  default: '6.0.x'
 # Version of NuGet Tool to use
 - name: nugetVersion
   type: string
@@ -31,6 +31,11 @@ jobs:
     inputs:
       packageType: 'sdk'
       version: ${{ parameters.dotnetVersion }}
+  - task: UseDotNet@2
+    displayName: Install Dotnet SDK
+    inputs:
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersionLTS }}
   - task: NuGetToolInstaller@1
     displayName: Install Nuget Tool
     inputs:
@@ -46,5 +51,4 @@ jobs:
     displayName: Dotnet Test
     inputs:
       command: 'test'
-      arguments: '-f ${{ parameters.testFramework }}'
       projects: ${{ parameters.projectPath }}

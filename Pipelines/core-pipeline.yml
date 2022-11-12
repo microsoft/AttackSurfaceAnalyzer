@@ -47,13 +47,7 @@ stages:
     parameters:
       jobName: 'test'
       dotnetVersion: '${{ variables.CurrentSDK }}'
-      testFramework: '${{ variables.CurrentFramework }}'
-      projectPath: 'Tests/Tests.csproj'
-  - template: templates/dotnet-test-job.yml
-    parameters:
-      jobName: 'test_LTS'
-      dotnetVersion: '${{ variables.LTS_SDK }}'
-      testFramework: '${{ variables.LTS_Framework }}'
+      dotnetVersionLTS: '${{ variables.LTS_SDK }}'
       projectPath: 'Tests/Tests.csproj'
 
 - stage: SDL
