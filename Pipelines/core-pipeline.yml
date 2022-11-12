@@ -81,13 +81,14 @@ stages:
       projectPath: 'Lib/Lib.csproj'
       projectName: '${{ variables.AsaLibName }}'
       dotnetVersion: '${{ variables.CurrentSDK }}'
+      dotnetVersionLTS: '${{ variables.LTS_SDK }}'
   - template: templates/nuget-build-job.yml
     parameters:
       jobName: 'pack_cli'
       projectPath: 'Cli/Cli.csproj'
       projectName: '${{ variables.AsaClientName }}'
       dotnetVersion: '${{ variables.CurrentSDK }}'
-      publishFrameworkVersion: '${{ variables.CurrentFramework }}'
+      dotnetVersionLTS: '${{ variables.LTS_SDK }}'
 
 - stage: Release
   dependsOn:
