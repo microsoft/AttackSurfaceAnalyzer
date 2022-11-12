@@ -64,6 +64,7 @@ stages:
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       dotnetVersion: '${{ variables.CurrentSDK }}'
+      publishFrameworkVersion: '${{ variables.CurrentFramework }}'
       preBuild:
       - template: templates/nbgv-set-version-steps.yml
   - template: templates/dotnet-publish-win-netcore-job.yml
@@ -71,6 +72,7 @@ stages:
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       dotnetVersion: '${{ variables.CurrentSDK }}'
+      publishFrameworkVersion: '${{ variables.CurrentFramework }}'
       preBuild:
       - template: templates/nbgv-set-version-steps.yml
   - template: templates/nuget-build-job.yml
@@ -85,6 +87,7 @@ stages:
       projectPath: 'Cli/Cli.csproj'
       projectName: '${{ variables.AsaClientName }}'
       dotnetVersion: '${{ variables.CurrentSDK }}'
+      publishFrameworkVersion: '${{ variables.CurrentFramework }}'
 
 - stage: Release
   dependsOn:
