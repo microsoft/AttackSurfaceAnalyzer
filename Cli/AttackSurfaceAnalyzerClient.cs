@@ -464,16 +464,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             if (!Directory.Exists(wwwrootLocation))
             {
                 var staticWebAssetsLocation = Path.Combine(assemblyLocation, "../../../staticwebassets");
-                if (Directory.Exists(staticWebAssetsLocation))
+                if (Directory.GetParent(assemblyLocation)?.Name.Equals("any") is true && Directory.Exists(staticWebAssetsLocation))
                 {
-                    Log.Information($"wwwroot is not adjacent to assembly location. Suspected first run from packed tool.  Attempting to copy packed assets from static web assets.");
+                    Log.Information($"wwwroot is not adjacent to assembly location. Suspected first run from packed tool. Attempting to copy packed assets from static web assets.");
                     CopyAll(new DirectoryInfo(staticWebAssetsLocation), new DirectoryInfo(wwwrootLocation));
                 }
                 else
                 {
-                    Log.Warning("Could not find static web assets. GUI likely will not load.");
+                    Log.Warning("Could not find static web assets. GUI likely will not load properly");
                 }
             }
+            
+            server.UseContentRoot(assemblyLocation);
 
             if (server is { })
             {
