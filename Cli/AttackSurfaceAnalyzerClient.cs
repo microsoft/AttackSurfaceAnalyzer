@@ -466,7 +466,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 var staticWebAssetsLocation = Path.Combine(assemblyLocation, "../../../staticwebassets");
                 if (Directory.GetParent(assemblyLocation)?.Name.Equals("any") is true && Directory.Exists(staticWebAssetsLocation))
                 {
-                    Log.Information($"wwwroot is not adjacent to assembly location. Suspected first run from packed tool. Attempting to copy packed assets from static web assets.");
+                    Log.Information($"wwwroot is not adjacent to assembly location. Suspected first run from packed tool. Attempting to copy packed assets from packed staticwebassets to wwwroot.");
                     CopyAll(new DirectoryInfo(staticWebAssetsLocation), new DirectoryInfo(wwwrootLocation));
                 }
                 else
@@ -1295,7 +1295,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                         // checking rules which don't apply
                                         var selectedRules = platformRules.Where((rule) =>
                                             (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
-                                                && (rule.ResultType == res.ResultType));
+                                                && (rule.ResultType == res.ResultType)).ToList();
                                         if (res is null)
                                         {
                                             return;
