@@ -432,27 +432,68 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
         }
 
-        private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
+        /// <summary>
+        /// Copy the contents of a directory to another directory
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        private static void CopyAll(DirectoryInfo source, DirectoryInfo target)
         {
-            var server = Host.CreateDefaultBuilder(Array.Empty<string>())
-#if RELEASE
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-#endif
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .Build();
+            Directory.CreateDirectory(target.FullName);
 
-            if (!opts.NoLaunch)
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
             {
-                ((Action)(async () =>
-                {
-                    await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
-                }))();
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
             }
 
-            server.Run();
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir, nextTargetSubDir);
+            }
+        }
+        
+        private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
+        {
+            IHostBuilder server = Host.CreateDefaultBuilder(Array.Empty<string>());
+            var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var wwwrootLocation = Path.Combine(assemblyLocation, "wwwroot");
+            if (!Directory.Exists(wwwrootLocation))
+            {
+                var staticWebAssetsLocation = Path.Combine(assemblyLocation, "../../../staticwebassets");
+                if (Directory.Exists(staticWebAssetsLocation))
+                {
+                    Log.Information($"wwwroot is not adjacent to assembly location. Suspected first run from packed tool.  Attempting to copy packed assets from static web assets.");
+                    CopyAll(new DirectoryInfo(staticWebAssetsLocation), new DirectoryInfo(wwwrootLocation));
+                }
+                else
+                {
+                    Log.Warning("Could not find static web assets. GUI likely will not load.");
+                }
+            }
+
+            if (server is { })
+            {
+                var host = server.ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    })
+                    .Build();
+
+                if (!opts.NoLaunch)
+                {
+                    ((Action)(async () =>
+                    {
+                        await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
+                    }))();
+                }
+
+                host.Run();
+            }
+                
             return 0;
         }
 
