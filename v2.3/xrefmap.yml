@@ -10748,6 +10748,12 @@ references:
   commentId: F:Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION
   nameWithType: ASA_ERROR.FAILED_TO_ESTABLISH_MAIN_DB_CONNECTION
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.FAILED_TO_LOCATE_GUI_ASSETS
+  name: FAILED_TO_LOCATE_GUI_ASSETS
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.html#Microsoft_CST_AttackSurfaceAnalyzer_Types_ASA_ERROR_FAILED_TO_LOCATE_GUI_ASSETS
+  commentId: F:Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.FAILED_TO_LOCATE_GUI_ASSETS
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.FAILED_TO_LOCATE_GUI_ASSETS
+  nameWithType: ASA_ERROR.FAILED_TO_LOCATE_GUI_ASSETS
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.INVALID_ID
   name: INVALID_ID
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.Types.ASA_ERROR.html#Microsoft_CST_AttackSurfaceAnalyzer_Types_ASA_ERROR_INVALID_ID
