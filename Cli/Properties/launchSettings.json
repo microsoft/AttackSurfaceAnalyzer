@@ -17,7 +17,7 @@
     },
     "ASA GUI": {
       "commandName": "Project",
-      "commandLineArgs": "gui",
+      "commandLineArgs": "gui --nolaunch",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

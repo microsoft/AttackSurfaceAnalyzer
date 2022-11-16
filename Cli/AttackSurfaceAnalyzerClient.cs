@@ -459,31 +459,49 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
             IHostBuilder server = Host.CreateDefaultBuilder(Array.Empty<string>());
-            var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var wwwrootLocation = Path.Combine(assemblyLocation, "wwwroot");
-            if (!Directory.Exists(wwwrootLocation))
+            var assemblyLocation = Directory.GetParent(Assembly.GetExecutingAssembly().Location)?.FullName;
+            if (assemblyLocation is null)
             {
-                var staticWebAssetsLocation = Path.Combine(assemblyLocation, "../../../staticwebassets");
-                if (Directory.GetParent(assemblyLocation)?.Name.Equals("any") is true && Directory.Exists(staticWebAssetsLocation))
-                {
-                    Log.Information($"wwwroot is not adjacent to assembly location. Suspected first run from packed tool. Attempting to copy packed assets from packed staticwebassets to wwwroot.");
-                    CopyAll(new DirectoryInfo(staticWebAssetsLocation), new DirectoryInfo(wwwrootLocation));
-                }
-                else
-                {
-                    Log.Warning("Could not find static web assets. GUI likely will not load properly");
-                }
+                Log.Error("Couldn't get directory containing assembly, unable to set content root.");
+                return ASA_ERROR.FAILED_TO_LOCATE_GUI_ASSETS;
             }
             
+            // We have to set the content root to the folder with the assemblies to function properly
             server.UseContentRoot(assemblyLocation);
+
+            // If we are running from debug or from a dotnet publish the wwwroot will be adjacent to the assemblies
+            var wwwrootLocation = Path.Combine(assemblyLocation, "wwwroot");
+            var webRoot = wwwrootLocation;
+            
+            // If the expected wwwroot doesn't exist, we can also check if we are installed as a dotnet tool
+            if (!Directory.Exists(wwwrootLocation))
+            {
+                // If we are installed as a tool the assembly will be located in a folder structure that looks like this
+                //      <toolname>\<version>\tools\<framework>\<platform>\
+                // The wwwroot is in a folder called "staticwebassets" in the <version> folder, so we want to go 3 levels up.
+                var toolRootInstallDirectory = new DirectoryInfo(assemblyLocation)?.Parent?.Parent?.Parent;
+                if (toolRootInstallDirectory is { })
+                {
+                    var staticWebAssetsLocation = Path.Combine(toolRootInstallDirectory.FullName, "staticwebassets");
+                    if (Directory.Exists(staticWebAssetsLocation))
+                    {
+                        webRoot = staticWebAssetsLocation;
+                    }
+                    else
+                    {
+                        Log.Warning("Could not find static web assets. GUI likely will not load properly");
+                    }
+                }
+            }
 
             if (server is { })
             {
                 var host = server.ConfigureWebHostDefaults(webBuilder =>
-                    {
-                        webBuilder.UseStartup<Startup>();
-                    })
-                    .Build();
+                {
+                    webBuilder.UseWebRoot(webRoot);
+                    webBuilder.UseStartup<Startup>();
+                })
+                .Build();
 
                 if (!opts.NoLaunch)
                 {

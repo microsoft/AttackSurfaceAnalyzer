@@ -101,7 +101,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
         UNKNOWN,
         CANCELLED,
         FAILED_TO_COMMIT,
-        DATABASE_NULL
+        DATABASE_NULL,
+        FAILED_TO_LOCATE_GUI_ASSETS
     }
 
     /// <summary>
