@@ -431,15 +431,48 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Environment.Exit((int)errorCode);
             }
         }
-
+        
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
-            var server = Host.CreateDefaultBuilder(Array.Empty<string>())
-#if RELEASE
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-#endif
-                .ConfigureWebHostDefaults(webBuilder =>
+            IHostBuilder server = Host.CreateDefaultBuilder(Array.Empty<string>());
+            var assemblyLocation = Directory.GetParent(Assembly.GetExecutingAssembly().Location)?.FullName;
+            if (assemblyLocation is null)
+            {
+                Log.Error("Couldn't get directory containing assembly, unable to set content root.");
+                return ASA_ERROR.FAILED_TO_LOCATE_GUI_ASSETS;
+            }
+            
+            // We have to set the content root to the folder with the assemblies to function properly
+            server.UseContentRoot(assemblyLocation);
+
+            // If we are running from debug or from a dotnet publish the wwwroot will be adjacent to the assemblies
+            var wwwrootLocation = Path.Combine(assemblyLocation, "wwwroot");
+            var webRoot = wwwrootLocation;
+            
+            // If the expected wwwroot doesn't exist, we can also check if we are installed as a dotnet tool
+            if (!Directory.Exists(wwwrootLocation))
+            {
+                // If we are installed as a tool the assembly will be located in a folder structure that looks like this
+                //      <toolname>\<version>\tools\<framework>\<platform>\
+                // The wwwroot is in a folder called "staticwebassets" in the <version> folder, so we want to go 3 levels up.
+                var toolRootInstallDirectory = new DirectoryInfo(assemblyLocation)?.Parent?.Parent?.Parent;
+                if (toolRootInstallDirectory is { })
                 {
+                    var staticWebAssetsLocation = Path.Combine(toolRootInstallDirectory.FullName, "staticwebassets");
+                    if (Directory.Exists(staticWebAssetsLocation))
+                    {
+                        webRoot = staticWebAssetsLocation;
+                    }
+                    else
+                    {
+                        Log.Warning("Could not find static web assets. GUI likely will not load properly");
+                    }
+                }
+            }
+
+            var host = server.ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseWebRoot(webRoot);
                     webBuilder.UseStartup<Startup>();
                 })
                 .Build();
@@ -452,8 +485,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }))();
             }
 
-            server.Run();
-            return 0;
+            host.Run();
+
+            return ASA_ERROR.NONE;
         }
 
         private static void SleepAndOpenBrowser(int sleep)
@@ -1252,7 +1286,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                         // checking rules which don't apply
                                         var selectedRules = platformRules.Where((rule) =>
                                             (rule.ChangeTypes == null || rule.ChangeTypes.Contains(res.ChangeType))
-                                                && (rule.ResultType == res.ResultType));
+                                                && (rule.ResultType == res.ResultType)).ToList();
                                         if (res is null)
                                         {
                                             return;
