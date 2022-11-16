@@ -470,27 +470,24 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
             }
 
-            if (server is { })
-            {
-                var host = server.ConfigureWebHostDefaults(webBuilder =>
+            var host = server.ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseWebRoot(webRoot);
                     webBuilder.UseStartup<Startup>();
                 })
                 .Build();
 
-                if (!opts.NoLaunch)
+            if (!opts.NoLaunch)
+            {
+                ((Action)(async () =>
                 {
-                    ((Action)(async () =>
-                    {
-                        await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
-                    }))();
-                }
-
-                host.Run();
+                    await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
+                }))();
             }
-                
-            return 0;
+
+            host.Run();
+
+            return ASA_ERROR.NONE;
         }
 
         private static void SleepAndOpenBrowser(int sleep)
