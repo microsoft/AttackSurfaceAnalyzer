@@ -431,30 +431,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Environment.Exit((int)errorCode);
             }
         }
-
-        /// <summary>
-        /// Copy the contents of a directory to another directory
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        private static void CopyAll(DirectoryInfo source, DirectoryInfo target)
-        {
-            Directory.CreateDirectory(target.FullName);
-
-            // Copy each file into the new directory.
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
-            }
-
-            // Copy each subdirectory using recursion.
-            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
-            {
-                DirectoryInfo nextTargetSubDir =
-                    target.CreateSubdirectory(diSourceSubDir.Name);
-                CopyAll(diSourceSubDir, nextTargetSubDir);
-            }
-        }
         
         private static ASA_ERROR RunGuiCommand(GuiCommandOptions opts)
         {
