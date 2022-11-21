@@ -7,8 +7,12 @@
 @using Microsoft.CST.OAT;
 @using System.Runtime.Loader;
 @using System.Diagnostics;
+@using System.Text.Json
 @using Microsoft.CST.OAT.Blazor.Components;
 @using Microsoft.CST.OAT.Blazor.Components.Inputs;
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Converters
+@using JsonSerializer = Newtonsoft.Json.JsonSerializer
 
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData AppState;
 @inject IFileReaderService fileReaderService;
@@ -81,17 +85,29 @@
 
     public async void DownloadRules()
     {
+        if (!_serializerSettings.Converters.Any(x => x is StringEnumConverter))
+        {
+            _serializerSettings.Converters.Add(new StringEnumConverter());
+        }
         await JSRuntime.InvokeAsync<object>(
             "FileSaveAs",
             "Asa-Rules.json",
             "data:text/plain;charset=utf-8,",
-            Newtonsoft.Json.JsonConvert.SerializeObject(AppState.RulesFile.Rules)
+            Newtonsoft.Json.JsonConvert.SerializeObject(AppState.RulesFile, _serializerSettings)
         );
     }
 
     Type[] Types = typeof(AsaRule).Assembly.DefinedTypes.Where(x => typeof(CollectObject).IsAssignableFrom(x)).ToArray();
 
     Analyzer analyzer = new Analyzer();
+
+    JsonSerializerSettings _serializerSettings = new JsonSerializerSettings()
+    {
+        MissingMemberHandling = MissingMemberHandling.Ignore,
+        NullValueHandling = NullValueHandling.Ignore,
+        DefaultValueHandling = DefaultValueHandling.Ignore,
+        Formatting = Formatting.Indented
+    };
 
     void SetLoadRules()
     {
@@ -100,7 +116,7 @@
             try
             {
                 using var sr = new StreamReader(stream);
-                var RulesFile = Newtonsoft.Json.JsonConvert.DeserializeObject<RuleFile>(await sr.ReadToEndAsync());
+                var RulesFile = Newtonsoft.Json.JsonConvert.DeserializeObject<RuleFile>(await sr.ReadToEndAsync(), _serializerSettings);
                 AppState.RulesFile = RulesFile ?? new RuleFile();
             }
             catch (OperationCanceledException)
