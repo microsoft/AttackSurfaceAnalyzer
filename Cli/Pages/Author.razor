@@ -1,19 +1,11 @@
 ﻿@page "/author"
-@using System.Reflection.Metadata;
-@using Microsoft.CodeAnalysis;
-@using System.Reflection;
+
 @using System.IO;
 @using Tewr.Blazor.FileReader;
 @using Microsoft.CST.OAT;
-@using System.Runtime.Loader;
-@using System.Diagnostics;
-@using System.Text.Json
-@using Microsoft.CST.OAT.Blazor.Components;
 @using Microsoft.CST.OAT.Blazor.Components.Inputs;
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Converters
-@using JsonSerializer = Newtonsoft.Json.JsonSerializer
-
 @inject Microsoft.CST.AttackSurfaceAnalyzer.Cli.AppData AppState;
 @inject IFileReaderService fileReaderService;
 @inject IJSRuntime JSRuntime
