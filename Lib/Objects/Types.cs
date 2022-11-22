@@ -1,9 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
 {
     /// <summary>
     ///     From https://docs.microsoft.com/en-us/dotnet/api/system.net.sockets.addressfamily?view=netcore-3.1
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1069:Enums values should not be duplicated", Justification = "See documentation in comment.")]
     public enum ADDRESS_FAMILY
     {
@@ -45,6 +50,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     /// <summary>
     ///     Flags available for analysis rules.
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))] 
     public enum ANALYSIS_RESULT_TYPE
     {
         /// <summary>
@@ -86,6 +92,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     /// <summary>
     ///     Errors enum.
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ASA_ERROR
     {
         NONE,
@@ -108,6 +115,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     /// <summary>
     ///     The change type of a CompareResult object.
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum CHANGE_TYPE
     {
         INVALID,
@@ -122,6 +130,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     ///     https://docs.microsoft.com/en-us/windows/win32/debug/pe-format for the oracle definitions of these values
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "This is the official name for the enum.")]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum DLLCHARACTERISTICS
     {
         /// <summary>
@@ -182,6 +191,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
 
     /// <summary>
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum EXECUTABLE_TYPE
     {
         UNKNOWN,
@@ -195,6 +205,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     /// <summary>
     ///     Platform definitions for Analysis rules.
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum PLATFORM
     {
         WINDOWS,
@@ -206,6 +217,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     /// <summary>
     ///     Specifies the child class type for a CollectObject
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RESULT_TYPE
     {
         /// <summary>
@@ -297,6 +309,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
     /// <summary>
     ///     The running status of a Comparator or Collector
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RUN_STATUS
     {
         NOT_STARTED,
@@ -306,6 +319,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
         NO_RESULTS
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum RUN_TYPE
     {
         COLLECT,
@@ -313,6 +327,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
         COMPARE
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum TRANSPORT
     {
         UNKNOWN,
