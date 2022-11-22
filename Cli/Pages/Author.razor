@@ -24,6 +24,15 @@
         <button class="btn btn-primary" @onclick="LoadDefaultRules">Load Embedded Rules</button>
     </div>
 
+    @if (issues.Values.Any(x => x.Any()))
+    {
+        <div>❌ @issues.Values.Count(x => x.Any()) issue(s) detected. Rules are individually labelled with the relevant issue.</div>        
+    }
+    else
+    {
+        <div>✔ No issues detected with rules.</div>
+    }
+
     @foreach (var rule in AppState.RulesFile.Rules)
     {
         <div>
@@ -36,9 +45,9 @@
                         @problem.Description
                     </div>
                 }
-                @if (issues[rule].Count() > 0)
+                @if (issues[rule].Any())
                 {
-                    <br />
+                    <br/>
                 }
             }
             else
@@ -46,7 +55,7 @@
                 <p>Processing Issues for Rule...</p>
             }
 
-            <AsaRuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="Types" />
+            <AsaRuleInput Rule="rule" CollapsedState="ComponentCollapsedState.Collapsed" Types="Types"/>
         </div>
     }
 </div>
