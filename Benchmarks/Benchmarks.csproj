@@ -10,19 +10,12 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
-    <PackageReference Include="LiteDB" Version="5.0.12" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Lib\Lib.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BenchmarkDotNet.Artifacts\OldResults\AttackSurfaceAnalyzer.Benchmarks.LiteDbInsertTests-report-github.md" />
-    <None Include="BenchmarkDotNet.Artifacts\OldResults\AttackSurfaceAnalyzer.Benchmarks.LiteDbInsertTests-report.csv" />
-    <None Include="BenchmarkDotNet.Artifacts\OldResults\AttackSurfaceAnalyzer.Benchmarks.LiteDbInsertTests-report.html" />
-    <None Include="BenchmarkDotNet.Artifacts\OldResults\AttackSurfaceAnalyzer.Benchmarks.LiteDbInsertTests-report-full.json" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="Nerdbank.GitVersioning" Version="3.5.119" />
