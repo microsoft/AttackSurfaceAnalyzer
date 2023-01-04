@@ -9,54 +9,53 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     [MessagePackObject]
     public class OpenPortObject : CollectObject
     {
-        [JsonConstructor]
-        public OpenPortObject(int Port, TRANSPORT Type) : this(Port, Type, ADDRESS_FAMILY.Unspecified) { }
-
-        public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY AddressFamily)
+        public OpenPortObject(int Port, TRANSPORT Type, ADDRESS_FAMILY AddressFamily = ADDRESS_FAMILY.Unspecified)
         {
             this.Port = Port;
             this.Type = Type;
             this.AddressFamily = AddressFamily;
         }
 
+        [IgnoreMember]
         public override RESULT_TYPE ResultType => RESULT_TYPE.PORT;
 
+        [Key(3)]
         public string? Address { get; set; }
 
         /// <summary>
         ///     InterNetwork is IPv4 InterNetworkV6 is IPv6
         /// </summary>
+        [Key(2)]
         public ADDRESS_FAMILY AddressFamily { get; set; }
 
         /// <summary>
         ///     $"{Address}:{Family}:{Type}:{Port}:{ProcessName}"
         /// </summary>
-        public override string Identity
-        {
-            get
-            {
-                return $"{Address}:{AddressFamily}:{Type}:{Port}:{ProcessName}";
-            }
-        }
+        [IgnoreMember]
+        public override string Identity => $"{Address}:{AddressFamily}:{Type}:{Port}:{ProcessName}";
 
         /// <summary>
         ///     The port number
         /// </summary>
+        [Key(0)]
         public int Port { get; set; }
 
         /// <summary>
         /// The associated process if known
         /// </summary>
+        [Key(4)]
         public string? ProcessName { get; set; }
 
         /// <summary>
         /// The associated process ID if known
         /// </summary>
+        [Key(5)]
         public int? ProcessId { get; set; }
 
         /// <summary>
         ///     TCP or UDP
         /// </summary>
+        [Key(1)]
         public TRANSPORT Type { get; set; }
     }
 }

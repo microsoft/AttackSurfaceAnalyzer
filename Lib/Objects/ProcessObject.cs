@@ -17,33 +17,29 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             this.ProcessName = ProcessName;
         }
 
+        [IgnoreMember]
         public override RESULT_TYPE ResultType => RESULT_TYPE.PROCESS;
-
+        [Key(2)]
         public int BasePriority { get; set; }
-
+        [Key(3)]
         public bool HasExited { get; set; }
-
+        [Key(0)]
         public int Id { get; }
 
         /// <summary>
         ///     The identity of a ProcessObject is just the PID.
         /// </summary>
-        public override string Identity
-        {
-            get
-            {
-                return $"{Id}:{ProcessName}";
-            }
-        }
-
+        [IgnoreMember]
+        public override string Identity => $"{Id}:{ProcessName}";
+        [Key(4)]
         public ProcessModuleObject? MainModule { get; set; }
-
+        [Key(5)]
         public List<ProcessModuleObject> Modules { get; set; } = new List<ProcessModuleObject>();
-
+        [Key(6)]
         public ProcessPriorityClass PriorityClass { get; set; }
-
+        [Key(1)]
         public string ProcessName { get; set; }
-
+        [Key(7)]
         public DateTime StartTime { get; set; }
 
         public static ProcessObject? FromProcess(Process process)

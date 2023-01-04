@@ -19,8 +19,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             this.tpmAlgId = tpmAlgId;
         }
 
+        [IgnoreMember]
         public override RESULT_TYPE ResultType => RESULT_TYPE.KEY;
 
+        [IgnoreMember]
         public override string Identity
         {
             get
@@ -29,9 +31,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [Key(2)]
         public RsaKeyDetails? RsaDetails { get; set; }
+        [Key(0)]
         public string Source { get; set; }
-
+        [Key(1)]
         public TpmAlgId tpmAlgId { get; set; } = TpmAlgId.Null;
     }
 
@@ -39,6 +43,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
     {
     }
 
+    [MessagePackObject]
     public class RsaKeyDetails : KeyDetailObject
     {
         public RsaKeyDetails(byte[] modulus, byte[] d, byte[]? p = null, byte[]? q = null)
@@ -64,7 +69,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             rsa = RSA.Create(parameters);
         }
 
-        [JsonConstructor]
+        [SerializationConstructor]
         public RsaKeyDetails(string? PublicString = null, string? FullString = null)
         {
             rsa = RSA.Create();
@@ -85,6 +90,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [Key(1)]
         public string? FullString
         {
             get
@@ -97,6 +103,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [Key(0)]
         public string PublicString
         {
             get

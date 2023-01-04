@@ -16,9 +16,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         }
 
         public ProcessModuleObject() { }
-
+        [Key(0)]
         public string? FileName { get; set; }
+        [Key(2)]
         public SerializableFileVersionInfo? FileVersionInfo { get; set; }
+        [Key(1)]
         public string? ModuleName { get; set; }
 
         internal static ProcessModuleObject FromProcessModule(ProcessModule mainModule)

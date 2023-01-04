@@ -24,49 +24,50 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString", "Pkcs7"));
             var compareLogic = new CompareLogic();
-            if (SerializationUtils.Hydrate(SerializationUtils.Dehydrate(co), RESULT_TYPE.CERTIFICATE) is CertificateObject co2)
-            {
-                Assert.IsTrue(compareLogic.Compare(co, co2).AreEqual);
-            }
-            else
-            {
-                Assert.Fail();
-            }
+            var dehydrated = SerializationUtils.Dehydrate(co);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.CERTIFICATE);
+            Assert.IsTrue(compareLogic.Compare(co, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeComObject()
         {
             var com = new ComObject(new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default));
-
-            Assert.IsTrue(com.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(com), RESULT_TYPE.COM)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(com);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.COM);
+            Assert.IsTrue(compareLogic.Compare(com, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeCryptographicKeyObject()
         {
             var cko = new CryptographicKeyObject("Disk", Tpm2Lib.TpmAlgId.Rsa) { RsaDetails = new RsaKeyDetails() };
-
-            var hydrated = SerializationUtils.Hydrate(SerializationUtils.Dehydrate(cko), RESULT_TYPE.KEY);
-            Assert.IsTrue(cko.RowKey.Equals(hydrated.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(cko);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.KEY);
+            Assert.IsTrue(compareLogic.Compare(cko, rehydrated).AreEqual);
         }
 
+        [TestMethod]
         public void TestSerializeAndDeserializeDriverObject()
         {
             var DriverName = "MyName";
             var driverObject = new DriverObject(DriverName);
-            var serialized = SerializationUtils.Dehydrate(driverObject);
-            var rehydrated = SerializationUtils.Hydrate(serialized, RESULT_TYPE.DRIVER);
-            Assert.IsTrue(serialized == SerializationUtils.Dehydrate(rehydrated));
-            Assert.IsTrue(rehydrated.Identity == DriverName);
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(driverObject);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.DRIVER);
+            Assert.IsTrue(compareLogic.Compare(driverObject, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeEventLogObject()
         {
             var elo = new EventLogObject("Disk");
-
-            Assert.IsTrue(elo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(elo), RESULT_TYPE.LOG)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(elo);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.LOG);
+            Assert.IsTrue(compareLogic.Compare(elo, rehydrated).AreEqual);
         }
 
         [TestMethod]
@@ -83,32 +84,40 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         public void TestSerializeAndDeserializeFirewallObject()
         {
             var fwo = new FirewallObject("Test");
-
-            Assert.IsTrue(fwo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(fwo), RESULT_TYPE.FIREWALL)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(fwo);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.FIREWALL);
+            Assert.IsTrue(compareLogic.Compare(fwo, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeGroupAccountObject()
         {
             var ugo = new GroupAccountObject("TestGroup");
-
-            Assert.IsTrue(ugo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(ugo), RESULT_TYPE.GROUP)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(ugo);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.GROUP);
+            Assert.IsTrue(compareLogic.Compare(ugo, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeOpenPortObject()
         {
             var opo = new OpenPortObject(1024, TRANSPORT.TCP);
-
-            Assert.IsTrue(opo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(opo), RESULT_TYPE.PORT)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(opo);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.PORT);
+            Assert.IsTrue(compareLogic.Compare(opo, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeProcessObject()
         {
             var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
-            var serialized = SerializationUtils.Dehydrate(po);
-            Assert.IsTrue(serialized == SerializationUtils.Dehydrate(SerializationUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(po);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.PROCESS);
+            Assert.IsTrue(compareLogic.Compare(po, rehydrated).AreEqual);
         }
 
         [TestMethod]
@@ -126,24 +135,30 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         public void TestSerializeAndDeserializeServiceObject()
         {
             var so = new ServiceObject("TestService");
-
-            Assert.IsTrue(so.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(so), RESULT_TYPE.SERVICE)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(so);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.SERVICE);
+            Assert.IsTrue(compareLogic.Compare(so, rehydrated).AreEqual);
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeTpmObject()
         {
             var tpmo = new TpmObject("TestLocation");
-
-            Assert.IsTrue(tpmo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(tpmo), RESULT_TYPE.TPM)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(tpmo);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.TPM);
+            Assert.IsTrue(compareLogic.Compare(tpmo, rehydrated).AreEqual);        
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeUserAccountObject()
         {
             var uao = new UserAccountObject("TestUser");
-
-            Assert.IsTrue(uao.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
+            var compareLogic = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(uao);
+            var rehydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.USER);
+            Assert.IsTrue(compareLogic.Compare(uao, rehydrated).AreEqual);
         }
     }
 }
