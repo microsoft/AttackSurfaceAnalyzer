@@ -1,7 +1,9 @@
-﻿using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+﻿using MessagePack;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class WifiObject : CollectObject
     {
         public WifiObject(string SSID)

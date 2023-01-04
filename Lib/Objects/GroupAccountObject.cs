@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class GroupAccountObject : CollectObject
     {
         public GroupAccountObject(string Name)

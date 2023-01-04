@@ -4,6 +4,7 @@ using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
+using KellermanSoftware.CompareNetObjects;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
@@ -21,11 +22,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         public void TestSerializeAndDeserializeCertificateObject()
         {
             var co = new CertificateObject("StoreLocation", "StoreName", new SerializableCertificate("Thumbprint", "Subject", "PublicKey", DateTime.Now.AddYears(1), DateTime.Now, "Issuer", "SerialNumber", "CertHashString", "Pkcs7"));
-
-            if (JsonUtils.Hydrate(JsonUtils.Dehydrate(co), RESULT_TYPE.CERTIFICATE) is CertificateObject co2)
+            var compareLogic = new CompareLogic();
+            if (SerializationUtils.Hydrate(SerializationUtils.Dehydrate(co), RESULT_TYPE.CERTIFICATE) is CertificateObject co2)
             {
-                Assert.IsTrue(co.RowKey.Equals(co2.RowKey));
-                Assert.IsTrue(co.Certificate.Thumbprint.Equals(co2.Certificate.Thumbprint));
+                Assert.IsTrue(compareLogic.Compare(co, co2).AreEqual);
             }
             else
             {
@@ -38,7 +38,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var com = new ComObject(new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default));
 
-            Assert.IsTrue(com.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(com), RESULT_TYPE.COM)?.RowKey));
+            Assert.IsTrue(com.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(com), RESULT_TYPE.COM)?.RowKey));
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var cko = new CryptographicKeyObject("Disk", Tpm2Lib.TpmAlgId.Rsa) { RsaDetails = new RsaKeyDetails() };
 
-            var hydrated = JsonUtils.Hydrate(JsonUtils.Dehydrate(cko), RESULT_TYPE.KEY);
+            var hydrated = SerializationUtils.Hydrate(SerializationUtils.Dehydrate(cko), RESULT_TYPE.KEY);
             Assert.IsTrue(cko.RowKey.Equals(hydrated.RowKey));
         }
 
@@ -54,9 +54,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var DriverName = "MyName";
             var driverObject = new DriverObject(DriverName);
-            var serialized = JsonUtils.Dehydrate(driverObject);
-            var rehydrated = JsonUtils.Hydrate(serialized, RESULT_TYPE.DRIVER);
-            Assert.IsTrue(serialized == JsonUtils.Dehydrate(rehydrated));
+            var serialized = SerializationUtils.Dehydrate(driverObject);
+            var rehydrated = SerializationUtils.Hydrate(serialized, RESULT_TYPE.DRIVER);
+            Assert.IsTrue(serialized == SerializationUtils.Dehydrate(rehydrated));
             Assert.IsTrue(rehydrated.Identity == DriverName);
         }
 
@@ -65,7 +65,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var elo = new EventLogObject("Disk");
 
-            Assert.IsTrue(elo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(elo), RESULT_TYPE.LOG)?.RowKey));
+            Assert.IsTrue(elo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(elo), RESULT_TYPE.LOG)?.RowKey));
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var fso = new FileSystemObject("Test");
 
-            Assert.IsTrue(fso.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(fso), RESULT_TYPE.FILE)?.RowKey));
+            Assert.IsTrue(fso.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(fso), RESULT_TYPE.FILE)?.RowKey));
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var fwo = new FirewallObject("Test");
 
-            Assert.IsTrue(fwo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(fwo), RESULT_TYPE.FIREWALL)?.RowKey));
+            Assert.IsTrue(fwo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(fwo), RESULT_TYPE.FIREWALL)?.RowKey));
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var ugo = new GroupAccountObject("TestGroup");
 
-            Assert.IsTrue(ugo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ugo), RESULT_TYPE.GROUP)?.RowKey));
+            Assert.IsTrue(ugo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(ugo), RESULT_TYPE.GROUP)?.RowKey));
         }
 
         [TestMethod]
@@ -97,15 +97,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var opo = new OpenPortObject(1024, TRANSPORT.TCP);
 
-            Assert.IsTrue(opo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(opo), RESULT_TYPE.PORT)?.RowKey));
+            Assert.IsTrue(opo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(opo), RESULT_TYPE.PORT)?.RowKey));
         }
 
         [TestMethod]
         public void TestSerializeAndDeserializeProcessObject()
         {
             var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
-            var serialized = JsonUtils.Dehydrate(po);
-            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
+            var serialized = SerializationUtils.Dehydrate(po);
+            Assert.IsTrue(serialized == SerializationUtils.Dehydrate(SerializationUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
         }
 
         [TestMethod]
@@ -113,7 +113,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var ro = new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default);
 
-            Assert.IsTrue(ro.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(ro), RESULT_TYPE.REGISTRY)?.RowKey));
+            Assert.IsTrue(ro.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(ro), RESULT_TYPE.REGISTRY)?.RowKey));
         }
 
         [TestMethod]
@@ -121,7 +121,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var so = new ServiceObject("TestService");
 
-            Assert.IsTrue(so.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(so), RESULT_TYPE.SERVICE)?.RowKey));
+            Assert.IsTrue(so.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(so), RESULT_TYPE.SERVICE)?.RowKey));
         }
 
         [TestMethod]
@@ -129,7 +129,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var tpmo = new TpmObject("TestLocation");
 
-            Assert.IsTrue(tpmo.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(tpmo), RESULT_TYPE.TPM)?.RowKey));
+            Assert.IsTrue(tpmo.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(tpmo), RESULT_TYPE.TPM)?.RowKey));
         }
 
         [TestMethod]
@@ -137,7 +137,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var uao = new UserAccountObject("TestUser");
 
-            Assert.IsTrue(uao.RowKey.Equals(JsonUtils.Hydrate(JsonUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
+            Assert.IsTrue(uao.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(uao), RESULT_TYPE.USER)?.RowKey));
         }
     }
 }

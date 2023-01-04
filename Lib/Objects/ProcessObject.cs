@@ -4,9 +4,11 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class ProcessObject : CollectObject
     {
         public ProcessObject(int Id, string ProcessName)

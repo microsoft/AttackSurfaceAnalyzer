@@ -2,9 +2,11 @@
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System;
 using System.Collections.Generic;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class FileSystemObject : CollectObject
     {
         public FileSystemObject(string Path)

@@ -179,7 +179,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         var resultTypeString = reader["result_type"].ToString();
                         if (runId != null && resultTypeString != null)
                         {
-                            var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                            var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                             if (wo is WriteObject WO)
                                 output.Enqueue(WO);
                         }
@@ -207,7 +207,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var resultTypeString = reader["result_type"].ToString();
                     if (runId != null && resultTypeString != null)
                     {
-                        var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                         if (wo is WriteObject WO)
                             output.Enqueue(WO);
                     }
@@ -233,7 +233,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var resultTypeString = reader["result_type"].ToString();
                     if (runId != null && resultTypeString != null)
                     {
-                        var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                         if (wo is WriteObject WO)
                             output.Enqueue(WO);
                     }
@@ -278,17 +278,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    if (reader["meta_serialized"].ToString() is string meta_serialized)
+                    if (reader["meta_serialized"] is string meta_serialized)
                     {
                         if (JsonConvert.DeserializeObject<CompareResult>(meta_serialized) is CompareResult compareResult)
                         {
-                            if (reader["first_serialized"] is string first_serialized)
+                            if (reader["first_serialized"] is byte[] first_serialized)
                             {
-                                compareResult.Base = JsonUtils.Hydrate(first_serialized, exportType);
+                                compareResult.Base = SerializationUtils.Hydrate(first_serialized, exportType);
                             }
-                            if (reader["second_serialized"] is string second_serialized)
+                            if (reader["second_serialized"] is byte[] second_serialized)
                             {
-                                compareResult.Compare = JsonUtils.Hydrate(second_serialized, exportType);
+                                compareResult.Compare = SerializationUtils.Hydrate(second_serialized, exportType);
                             }
                             if (compareResult.Base is not null && compareResult.Compare is not null)
                             {
@@ -322,13 +322,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     {
                         if (JsonConvert.DeserializeObject<CompareResult>(meta_serialized) is CompareResult compareResult)
                         {
-                            if (reader["first_serialized"] is string first_serialized)
+                            if (reader["first_serialized"] is byte[] first_serialized)
                             {
-                                compareResult.Base = JsonUtils.Hydrate(first_serialized, resultType);
+                                compareResult.Base = SerializationUtils.Hydrate(first_serialized, resultType);
                             }
-                            if (reader["second_serialized"] is string second_serialized)
+                            if (reader["second_serialized"] is byte[] second_serialized)
                             {
-                                compareResult.Compare = JsonUtils.Hydrate(second_serialized, resultType);
+                                compareResult.Compare = SerializationUtils.Hydrate(second_serialized, resultType);
                             }
                             if (compareResult.Base is not null && compareResult.Compare is not null)
                             {
@@ -415,7 +415,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var resultTypeString = reader["result_type"].ToString();
                     if (runId != null && resultTypeString != null)
                     {
-                        var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                         if (wo is WriteObject WO)
                             output.Enqueue(WO);
                     }
@@ -444,10 +444,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
                     if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
                     {
-                        if (reader["a_serialized"] is string a_serialized && reader["b_serialized"] is string b_serialized)
+                        if (reader["a_serialized"] is byte[] a_serialized && reader["b_serialized"] is byte[] b_serialized)
                         {
-                            var val1 = WriteObject.FromString(a_serialized, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
-                            var val2 = WriteObject.FromString(b_serialized, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
+                            var val1 = WriteObject.FromBytes(a_serialized, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
+                            var val2 = WriteObject.FromBytes(b_serialized, (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
 
                             if (val1 is WriteObject V1 && val2 is WriteObject V2)
                             {
@@ -585,7 +585,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var resultTypeString = reader["result_type"].ToString();
                     if (runId != null && resultTypeString != null)
                     {
-                        var wo = WriteObject.FromString((string)reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                         if (wo is WriteObject WO)
                         {
                             yield return WO;
@@ -754,8 +754,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
                 cmd.Parameters.AddWithValue("@level", objIn.Analysis);
                 cmd.Parameters.AddWithValue("@identity", objIn.Identity);
-                cmd.Parameters.AddWithValue("@first_serialized", JsonConvert.SerializeObject(objIn.Base));
-                cmd.Parameters.AddWithValue("@second_serialized", JsonConvert.SerializeObject(objIn.Compare));
+                cmd.Parameters.AddWithValue("@first_serialized", SerializationUtils.Dehydrate(objIn.Base));
+                cmd.Parameters.AddWithValue("@second_serialized", SerializationUtils.Dehydrate(objIn.Compare));
                 cmd.Parameters.AddWithValue("@analyses_hash", objIn.AnalysesHash);
                 // Remove these because they don't deserialize properly
                 objIn.Base = null;

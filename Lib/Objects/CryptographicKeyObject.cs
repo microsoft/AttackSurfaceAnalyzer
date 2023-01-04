@@ -5,10 +5,12 @@ using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Security.Cryptography;
+using MessagePack;
 using Tpm2Lib;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class CryptographicKeyObject : CollectObject
     {
         public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)

@@ -28,21 +28,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public string RowKey { get; }
         public string RunId { get; }
-        public string Serialized { get; }
+        public byte[] Serialized { get; }
 
-        public static WriteObject? FromString(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        public static WriteObject? FromBytes(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
-            var deserialized = JsonUtils.Hydrate(SerializedIn, ResultTypeIn);
+            var deserialized = SerializationUtils.Hydrate(SerializedIn, ResultTypeIn);
 
-            if (deserialized is CollectObject)
+            if (deserialized is not null)
             {
                 return new WriteObject(deserialized, RunIdIn);
             }
-            else
-            {
-                Log.Debug($"Couldn't hydrate {SerializedIn} Failed to make a WriteObject.");
-                return null;
-            }
+
+            Log.Debug($"Couldn't hydrate {SerializedIn} Failed to make a WriteObject.");
+            return null;
         }
     }
 }

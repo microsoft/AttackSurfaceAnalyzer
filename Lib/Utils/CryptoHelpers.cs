@@ -28,6 +28,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 return string.Empty;
             }
         }
+        
+        public static string CreateHash(byte[] input)
+        {
+            try
+            {
+                byte[] hashOutput = sha512.ComputeHash(input);
+                return Convert.ToBase64String(hashOutput);
+            }
+            catch (CryptographicException e)
+            {
+                Log.Warning(e, Strings.Get("Err_CreateHash"), input is null ? "null string" : $"'{input}'");
+                return string.Empty;
+            }
+        }
 
         public static string CreateHash(Stream stream)
         {

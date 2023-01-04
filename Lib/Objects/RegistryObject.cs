@@ -4,9 +4,11 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class RegistryObject : CollectObject
     {
         public RegistryObject(string Key, RegistryView View)

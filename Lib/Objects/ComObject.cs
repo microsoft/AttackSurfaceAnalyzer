@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+
+using MessagePack;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class ComObject : CollectObject
     {
         /// <summary>

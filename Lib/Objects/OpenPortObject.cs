@@ -1,9 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+
+using MessagePack;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class OpenPortObject : CollectObject
     {
         [JsonConstructor]

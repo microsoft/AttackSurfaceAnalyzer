@@ -1,10 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography.X509Certificates;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class SerializableCertificate
     {
         public SerializableCertificate(X509Certificate2 certificate)
@@ -20,7 +21,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             Pkcs7 = Convert.ToBase64String(certificate.Export(X509ContentType.Cert));
         }
 
-        [JsonConstructor]
+        [SerializationConstructor]
         public SerializableCertificate(string Thumbprint, string Subject, string PublicKey, DateTime NotAfter, DateTime NotBefore, string Issuer, string SerialNumber, string CertHashString, string Pkcs7)
         {
             this.Thumbprint = Thumbprint;
@@ -34,14 +35,23 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             this.Pkcs7 = Pkcs7;
         }
 
+        [Key(7)]
         public string CertHashString { get; set; }
+        [Key(5)]
         public string Issuer { get; set; }
+        [Key(3)]
         public DateTime NotAfter { get; set; }
+        [Key(4)]
         public DateTime NotBefore { get; set; }
+        [Key(8)]
         public string Pkcs7 { get; set; }
+        [Key(2)]
         public string PublicKey { get; set; }
+        [Key(6)]
         public string SerialNumber { get; set; }
+        [Key(1)]
         public string Subject { get; set; }
+        [Key(0)]
         public string Thumbprint { get; set; }
     }
 }

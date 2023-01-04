@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
+using MessagePack;
 using WindowsFirewallHelper;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class FirewallObject : CollectObject
     {
         public FirewallObject(string Name)

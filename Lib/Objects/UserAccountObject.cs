@@ -2,9 +2,11 @@
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System.Collections.Generic;
 using System.Globalization;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class UserAccountObject : CollectObject
     {
         public UserAccountObject(string Name)

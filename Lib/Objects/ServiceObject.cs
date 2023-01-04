@@ -2,9 +2,11 @@
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
 using System;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class ServiceObject : CollectObject
     {
         [JsonConstructor]

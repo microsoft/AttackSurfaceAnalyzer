@@ -2,10 +2,12 @@
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using System;
 using System.Collections.Generic;
+using MessagePack;
 using Tpm2Lib;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class TpmObject : CollectObject
     {
         public TpmObject(string Location)
