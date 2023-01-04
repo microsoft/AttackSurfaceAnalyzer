@@ -17,8 +17,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             this.Key = Key;
         }
 
+        [IgnoreMember]
         public override RESULT_TYPE ResultType => RESULT_TYPE.REGISTRY;
-
+        
+        [IgnoreMember]
         public override string Identity
         {
             get
@@ -30,24 +32,33 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         ///     The Full Path to the Key in the Registry
         /// </summary>
+        [Key(0)]
         public string Key { get; set; }
 
+        [Key(4)]
         public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
+        
+        [Key(5)]
         public string? PermissionsString { get; set; }
 
+        [IgnoreMember]
         public int SubkeyCount
         {
             get { return Subkeys?.Count ?? 0; }
         }
 
+        [Key(3)]
         public List<string>? Subkeys { get; set; }
 
+        [IgnoreMember]
         public int ValueCount
         {
             get { return Values?.Count ?? 0; }
         }
 
+        [Key(2)]
         public Dictionary<string, string>? Values { get; set; }
+        [Key(1)]
         public RegistryView View { get; private set; }
 
         public static Dictionary<string, string> GetValues(RegistryKey key)

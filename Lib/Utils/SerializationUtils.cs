@@ -31,7 +31,23 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return colObj switch
             {
                 CertificateObject certificateObject => MessagePack.MessagePackSerializer.Serialize(certificateObject),
-                _ => MessagePack.MessagePackSerializer.Serialize(colObj)
+                ComObject comObject => MessagePack.MessagePackSerializer.Serialize(comObject),
+                CryptographicKeyObject cryptographicKeyObject => MessagePack.MessagePackSerializer.Serialize(cryptographicKeyObject),
+                DriverObject driverObject => MessagePack.MessagePackSerializer.Serialize(driverObject),
+                EventLogObject eventLogObject => MessagePack.MessagePackSerializer.Serialize(eventLogObject),
+                FileMonitorObject fileMonitorObject => MessagePack.MessagePackSerializer.Serialize(fileMonitorObject),
+                FileSystemObject fileSystemObject => MessagePack.MessagePackSerializer.Serialize(fileSystemObject),
+                FirewallObject firewallObject => MessagePack.MessagePackSerializer.Serialize(firewallObject),
+                GroupAccountObject groupAccountObject => MessagePack.MessagePackSerializer.Serialize(groupAccountObject),
+                OpenPortObject openPortObject => MessagePack.MessagePackSerializer.Serialize(openPortObject),
+                ProcessObject processObject => MessagePack.MessagePackSerializer.Serialize(processObject),
+                RegistryObject registryObject => MessagePack.MessagePackSerializer.Serialize(registryObject),
+                ServiceObject serviceObject => MessagePack.MessagePackSerializer.Serialize(serviceObject),
+                TpmObject tpmObject => MessagePack.MessagePackSerializer.Serialize(tpmObject),
+                UserAccountObject userAccountObject => MessagePack.MessagePackSerializer.Serialize(userAccountObject),
+                WifiObject wifiObject => MessagePack.MessagePackSerializer.Serialize(wifiObject),
+                _ => throw new ArgumentOutOfRangeException(nameof(colObj)),
+
             };
         }
 

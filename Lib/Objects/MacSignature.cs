@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class MacSignature
     {
         //Executable=/Applications/1Password 7.app/Contents/MacOS/1Password 7
@@ -32,12 +34,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         //Sealed Resources version=2 rules=13 files=2909
         //Internal requirements count=1 size=220
 
+        [Key(0)]
         public List<string>? Authorities { get; set; }
+        [Key(1)]
         public string? CandidateCDHashFull { get; set; }
+        [Key(2)]
         public string? CMSDigest { get; set; }
+        [Key(3)]
         public string? HashChoices { get; set; }
+        [Key(4)]
         public string? HashType { get; set; }
+        [Key(5)]
         public string? TeamIdentifier { get; set; }
+        [Key(6)]
         public DateTime Timestamp { get; set; }
     }
 }

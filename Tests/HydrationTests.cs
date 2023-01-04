@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Diagnostics;
 using KellermanSoftware.CompareNetObjects;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
@@ -72,8 +73,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         public void TestSerializeAndDeserializeFileSystemObject()
         {
             var fso = new FileSystemObject("Test");
-
-            Assert.IsTrue(fso.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(fso), RESULT_TYPE.FILE)?.RowKey));
+            var compare = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(fso);
+            var hydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.FILE);
+            Assert.IsTrue(compare.Compare(fso, hydrated).AreEqual);
         }
 
         [TestMethod]
@@ -112,8 +115,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         public void TestSerializeAndDeserializeRegistryObject()
         {
             var ro = new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default);
-
-            Assert.IsTrue(ro.RowKey.Equals(SerializationUtils.Hydrate(SerializationUtils.Dehydrate(ro), RESULT_TYPE.REGISTRY)?.RowKey));
+            var compare = new CompareLogic();
+            var dehydrated = SerializationUtils.Dehydrate(ro);
+            var hydrated = SerializationUtils.Hydrate(dehydrated, RESULT_TYPE.REGISTRY);
+            var compared = compare.Compare(ro, hydrated);
+            Assert.IsTrue(compared.AreEqual);
         }
 
         [TestMethod]

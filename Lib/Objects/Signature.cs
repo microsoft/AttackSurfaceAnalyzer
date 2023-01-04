@@ -3,9 +3,11 @@ using Newtonsoft.Json;
 using PeNet.Header.Authenticode;
 using System;
 using System.Security.Cryptography.X509Certificates;
+using MessagePack;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [MessagePackObject]
     public class Signature
     {
         public Signature(AuthenticodeInfo authenticodeInfo)
@@ -38,6 +40,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
         }
 
+        [IgnoreMember]
         public bool IsTimeValid
         {
             get
@@ -50,9 +53,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [Key(0)]
         public bool IsAuthenticodeValid { get; set; }
+        [Key(1)]
         public string? SignedHash { get; set; }
+        [Key(2)]
         public string? SignerSerialNumber { get; set; }
+        [Key(3)]
         public SerializableCertificate? SigningCertificate { get; set; }
     }
 }
