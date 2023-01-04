@@ -1064,7 +1064,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string GET_RUNS = "select run_id from runs order by ROWID desc;";
         private const string GET_SERIALIZED_RESULTS = "select change_type, Serialized from file_system_monitored where run_id = @run_id";
         private const string INSERT_RUN_INTO_RESULT_TABLE_SQL = "insert into results (base_run_id, compare_run_id, analyses_hash, status) values (@base_run_id, @compare_run_id, @analyses_hash, @status);";
-        private const int SCHEMA_VERSION = 12;
+        private const int SCHEMA_VERSION = 13;
         private const string SQL_CHECK_IF_COMPARISON_PREVIOUSLY_COMPLETED = "select * from results where base_run_id=@base_run_id and compare_run_id=@compare_run_id and analyses_hash=@analyses_hash";
         private const string SQL_CREATE_COLLECT_RESULTS = "create table if not exists collect (run_id text, result_type text, identity text, row_key blob, timestamp text, serialized blob, UNIQUE(run_id, identity))";
         private const string SQL_CREATE_COLLECT_RUN_ID_IDENTITY_INDEX = "create index if not exists i_collect_collect_run_id_identity on collect(run_id, identity)";
