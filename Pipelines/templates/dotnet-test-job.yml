@@ -35,7 +35,8 @@ jobs:
   - task: UseDotNet@2
     displayName: Install Dotnet SDK
     inputs:
-      versionSpec: ${{ parameters.dotnetVersionLTS }}
+      packageType: 'sdk'
+      version: ${{ parameters.dotnetVersionLTS }}
   - task: DotNetCoreCLI@2
     displayName: Dotnet Restore
     inputs:
