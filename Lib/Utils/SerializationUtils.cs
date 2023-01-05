@@ -17,6 +17,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         }
 
         /// <summary>
+        /// Serialize a CompareResult
+        /// </summary>
+        /// <param name="compareResult"></param>
+        /// <returns></returns>
+        public static byte[] DehydrateCompareResult(CompareResult compareResult)
+        {
+            return MessagePack.MessagePackSerializer.Serialize(compareResult);
+        }
+
+        /// <summary>
+        /// Deserialize a compare result
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static CompareResult HydrateCompareResult(byte[] data)
+        {
+            return MessagePack.MessagePackSerializer.Deserialize<CompareResult>(data);
+        }
+
+        /// <summary>
         ///     Serialize an object for storage in database
         /// </summary>
         /// <param name="colObj">The object to serialize</param>
@@ -81,24 +101,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 RESULT_TYPE.FILEMONITOR => MessagePack.MessagePackSerializer.Deserialize<FileMonitorObject>(serialized),
                 _ => null
             };
-        }
-    }
-
-    public class TpmPcrTupleConverter<T1, T2> : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type sourceType)
-        {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
-        {
-            var elements = Convert.ToString(value, CultureInfo.InvariantCulture)?.Trim('(').Trim(')').Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (Enum.TryParse(typeof(TpmAlgId), elements?.First(), out object? result) && result is TpmAlgId Algorithm && uint.TryParse(elements?.Last(), out uint Index))
-            {
-                return (Algorithm, Index);
-            }
-            return (TpmAlgId.Null, uint.MaxValue);
         }
     }
 }

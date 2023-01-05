@@ -189,60 +189,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
             return output;
         }
-
-        public IEnumerable<WriteObject> GetAllMissing2(string firstRunId, string secondRunId)
-        {
-            string SQL_GROUPED = "SELECT run_id, result_type, serialized FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id AND identity in (SELECT identity FROM collect WHERE run_id = @first_run_id OR run_id = @second_run_id GROUP BY identity HAVING COUNT(*) == 1);";
-            var output = new ConcurrentQueue<WriteObject>();
-
-            Connections.AsParallel().ForAll(cxn =>
-            {
-                using var cmd = new SqliteCommand(SQL_GROUPED, cxn.Connection, cxn.Transaction);
-                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
-                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    var runId = reader["run_id"].ToString();
-                    var resultTypeString = reader["result_type"].ToString();
-                    if (runId != null && resultTypeString != null)
-                    {
-                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
-                        if (wo is WriteObject WO)
-                            output.Enqueue(WO);
-                    }
-                }
-            });
-
-            return output;
-        }
-
-        public IEnumerable<WriteObject> GetAllMissingExplicit(string firstRunId, string secondRunId)
-        {
-            var output = new ConcurrentQueue<WriteObject>();
-
-            Connections.AsParallel().ForAll(cxn =>
-            {
-                using var cmd = new SqliteCommand(SQL_GET_UNIQUE_BETWEEN_RUNS_EXPLICIT, cxn.Connection, cxn.Transaction);
-                cmd.Parameters.AddWithValue("@first_run_id", firstRunId);
-                cmd.Parameters.AddWithValue("@second_run_id", secondRunId);
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    var runId = reader["run_id"].ToString();
-                    var resultTypeString = reader["result_type"].ToString();
-                    if (runId != null && resultTypeString != null)
-                    {
-                        var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
-                        if (wo is WriteObject WO)
-                            output.Enqueue(WO);
-                    }
-                }
-            });
-
-            return output;
-        }
-
+        
         public override bool GetComparisonCompleted(string? firstRunId, string secondRunId, string analysesHash)
         {
             if (MainConnection != null)
@@ -265,10 +212,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return false;
         }
 
+        public CollectObject GetCollectObjectByRowid(int rowid, string identity, RESULT_TYPE resultType)
+        {
+            return Connections[ModuloString(identity, shardingFactor: dbSettings.ShardingFactor)]
+                .GetCollectObjectByRowId(rowid, resultType);
+        }
+
         public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, string analysesHash, RESULT_TYPE exportType)
         {
             List<CompareResult> records = new();
-            if (MainConnection != null)
+            if (MainConnection is { })
             {
                 using var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, MainConnection.Connection, MainConnection.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
@@ -278,26 +231,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    if (reader["meta_serialized"] is string meta_serialized)
+                    if (reader["meta_serialized"] is byte[] metaSerialized)
                     {
-                        if (JsonConvert.DeserializeObject<CompareResult>(meta_serialized) is CompareResult compareResult)
+                        if (SerializationUtils.HydrateCompareResult(metaSerialized) is { } compareResult)
                         {
-                            if (reader["first_serialized"] is byte[] first_serialized)
+                            if (reader["first_rowid"] is int firstRowid)
                             {
-                                compareResult.Base = SerializationUtils.Hydrate(first_serialized, exportType);
+                                compareResult.Base = GetCollectObjectByRowid(firstRowid, reader["identity"].ToString(), compareResult.Identity)
                             }
-                            if (reader["second_serialized"] is byte[] second_serialized)
+                            if (reader["second_rowid"] is int secondRowid)
                             {
-                                compareResult.Compare = SerializationUtils.Hydrate(second_serialized, exportType);
+                                compareResult.Compare = GetCollectObjectByRowid(secondRowid, reader["identity"].ToString(), compareResult.Identity)
                             }
-                            if (compareResult.Base is not null && compareResult.Compare is not null)
+                            if (compareResult is { Base: { }, Compare: { } })
                             {
                                 compareResult.Diffs = BaseCompare.GenerateDiffs(compareResult.Base, compareResult.Compare);
                             }
 
                             records.Add(compareResult);
                         }
-                    }   
+                    }
                 }
             }
             return records;
@@ -746,26 +699,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public override void InsertAnalyzed(CompareResult objIn)
         {
-            if (objIn != null && MainConnection != null)
+            if (objIn != null)
             {
-                using var cmd = new SqliteCommand(SQL_INSERT_FINDINGS_RESULT, MainConnection.Connection, MainConnection.Transaction);
-                cmd.Parameters.AddWithValue("@first_run_id", objIn.BaseRunId ?? string.Empty);
-                cmd.Parameters.AddWithValue("@second_run_id", objIn.CompareRunId);
-                cmd.Parameters.AddWithValue("@result_type", objIn.ResultType);
-                cmd.Parameters.AddWithValue("@level", objIn.Analysis);
-                cmd.Parameters.AddWithValue("@identity", objIn.Identity);
-                cmd.Parameters.AddWithValue("@first_serialized", SerializationUtils.Dehydrate(objIn.Base));
-                cmd.Parameters.AddWithValue("@second_serialized", SerializationUtils.Dehydrate(objIn.Compare));
-                cmd.Parameters.AddWithValue("@analyses_hash", objIn.AnalysesHash);
-                // Remove these because they don't deserialize properly
-                objIn.Base = null;
-                objIn.Compare = null;
-                cmd.Parameters.AddWithValue("@meta_serialized", JsonConvert.SerializeObject(objIn));
-                cmd.ExecuteNonQuery();
-            }
-            else
-            {
-                Log.Debug("Failed to InsertAnalyzed because MainConnection was null");
+                Connections[ModuloString(objIn.Identity, shardingFactor: dbSettings.ShardingFactor)].CompareWriteQueue.Push(objIn);
             }
         }
 
@@ -936,21 +872,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     cmd2.CommandText = SQL_CREATE_RESULTS;
                     cmd2.ExecuteNonQuery();
 
-                    cmd2.CommandText = SQL_CREATE_FINDINGS_RESULTS;
-                    cmd2.ExecuteNonQuery();
-
-                    cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
-                    cmd2.ExecuteNonQuery();
-
-                    cmd2.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
-                    cmd2.ExecuteNonQuery();
-
-                    cmd2.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
-                    cmd2.ExecuteNonQuery();
-
-                    cmd2.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
-                    cmd2.ExecuteNonQuery();
-
                     cmd2.CommandText = SQL_CREATE_PERSISTED_SETTINGS;
                     cmd2.ExecuteNonQuery();
 
@@ -965,6 +886,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         using var innerCmd = new SqliteCommand(SQL_CREATE_COLLECT_RESULTS, cxn.Connection, cxn.Transaction);
                         innerCmd.ExecuteNonQuery();
 
+                        innerCmd.CommandText = SQL_CREATE_FINDINGS_RESULTS;
+                        innerCmd.ExecuteNonQuery();
+
+                        innerCmd.CommandText = SQL_CREATE_FINDINGS_LEVEL_INDEX;
+                        innerCmd.ExecuteNonQuery();
+
+                        innerCmd.CommandText = SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX;
+                        innerCmd.ExecuteNonQuery();
+
+                        innerCmd.CommandText = SQL_CREATE_FINDINGS_IDENTITY_INDEX;
+                        innerCmd.ExecuteNonQuery();
+
+                        innerCmd.CommandText = SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX;
+                        innerCmd.ExecuteNonQuery();
+                        
                         innerCmd.CommandText = SQL_CREATE_COLLECT_RUN_ID_INDEX;
                         innerCmd.ExecuteNonQuery();
 
@@ -1074,7 +1010,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         private const string SQL_CREATE_FINDINGS_LEVEL_INDEX = "create index if not exists i_findings_level on findings(level)";
         private const string SQL_CREATE_FINDINGS_LEVEL_RESULT_TYPE_INDEX = "create index if not exists i_findings_level_result_type on findings(level, result_type)";
         private const string SQL_CREATE_FINDINGS_RESULT_TYPE_INDEX = "create index if not exists i_findings_result_type on findings(result_type)";
-        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, analyses_hash text, level int, result_type int, identity text, first_serialized text, second_serialized text, meta_serialized text)";
+        private const string SQL_CREATE_FINDINGS_RESULTS = "create table if not exists findings (first_run_id text, second_run_id text, analyses_hash text, level int, result_type int, identity text, first_id int, second_id int, meta_serialized text)";
         private const string SQL_CREATE_PERSISTED_SETTINGS = "create table if not exists persisted_settings (id text, serialized text, unique(id))";
         private const string SQL_CREATE_RESULTS = "create table if not exists results (base_run_id text, compare_run_id text, analyses_hash text, status text);";
         private const string SQL_CREATE_RUNS = "create table if not exists runs (run_id text, type string, serialized blob, unique(run_id))";
@@ -1084,7 +1020,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         private const string SQL_GET_COLLECT_MODIFIED = "select a.serialized as 'a_serialized', a.result_type as 'a_result_type', a.run_id as 'a_run_id'," +
                                                             "b.serialized as 'b_serialized', b.result_type as 'b_result_type', b.run_id as 'b_run_id'" +
-                                                                " from collect a indexed by i_collect_collect_runid_row_type," +
+                                                            "a.rowid as 'a_rowid', b.rowid as 'b_rowid'" +
+                                                            " from collect a indexed by i_collect_collect_runid_row_type," +
                                                                     " collect b indexed by i_collect_collect_runid_row_type" +
                                                                         " where a.run_id=@first_run_id and b.run_id=@second_run_id and a.identity = b.identity and " +
                                                                             "a.row_key != b.row_key and a.result_type = b.result_type and a.serialized != b.serialized;";

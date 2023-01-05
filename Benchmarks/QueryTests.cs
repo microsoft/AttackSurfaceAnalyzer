@@ -64,18 +64,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         [Params("OFF")]
         public string Synchronous { get; set; }
 
-        [Benchmark]
-        public void GetAllMissing2Test()
-        {
-            ((SqliteDatabaseManager)dbManager).GetAllMissing2(RunOneName, RunTwoName);
-        }
-
-        [Benchmark]
-        public void GetAllMissingExplicitIndexing()
-        {
-            ((SqliteDatabaseManager)dbManager).GetAllMissingExplicit(RunOneName, RunTwoName);
-        }
-
         [Benchmark(Baseline = true)]
         public void GetAllMissingTest()
         {

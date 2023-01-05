@@ -26,6 +26,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        public int RowId { get; set; }
         public string RowKey { get; }
         public string RunId { get; }
         public byte[] Serialized { get; }

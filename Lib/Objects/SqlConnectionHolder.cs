@@ -9,11 +9,16 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
     public class SqlConnectionHolder
     {
+        private const string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
+        private const string SQL_INSERT_FINDINGS_RESULT = "insert into findings (first_run_id, second_run_id, analyses_hash, result_type, level, identity, first_id, second_id, meta_serialized) values";
+        private const string SQL_GET_RESULTS_BY_ROW_ID = "select * from collect where _ROWID_ = @rowid";
+
         public SqlConnectionHolder(string databaseFilename, DBSettings? dBSettings = null)
         {
             settings = dBSettings ?? new DBSettings();
@@ -44,6 +49,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
 
             innerQueue = new WriteObject[settings.BatchSize];
+            innerCompareResultQueue = new CompareResult[settings.BatchSize];
 
             _ = Task.Factory.StartNew(() => KeepFlushQueue());
         }
@@ -54,6 +60,49 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string Source { get; set; }
         public SqliteTransaction? Transaction { get; set; }
         public ConcurrentStack<WriteObject> WriteQueue { get; private set; } = new ConcurrentStack<WriteObject>();
+        public ConcurrentStack<CompareResult> CompareWriteQueue { get; private set; } = new ConcurrentStack<CompareResult>();
+
+        private void WriteNextCompare()
+        {
+            IsWriting = true;
+
+            var count = Math.Min(settings.BatchSize, WriteQueue.Count);
+            var actual = CompareWriteQueue.TryPopRange(innerCompareResultQueue, 0, count);
+
+            if (actual > 0)
+            {
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append(SQL_INSERT_FINDINGS_RESULT);
+                using var cmd = new SqliteCommand(string.Empty, Connection, Transaction);
+                for (int i = 0; i < actual; i++)
+                {
+                    CompareResult compareResult = innerCompareResultQueue[actual];
+                    stringBuilder.Append($"(@first_run_id_{i}, @second_run_id_{i}, @analyses_hash_{i}, @result_type_{i}, @level_{i}, @identity_{i}, @first_serialized_{i}, @second_serialized_{i}, @meta_serialized_{i}),");
+                    cmd.Parameters.AddWithValue($"@first_run_id_{i}", compareResult.BaseRunId ?? string.Empty);
+                    cmd.Parameters.AddWithValue($"@second_run_id_{i}", compareResult.CompareRunId);
+                    cmd.Parameters.AddWithValue($"@result_type_{i}", compareResult.ResultType);
+                    cmd.Parameters.AddWithValue($"@level_{i}", compareResult.Analysis);
+                    cmd.Parameters.AddWithValue($"@identity_{i}", compareResult.Identity);
+                    cmd.Parameters.AddWithValue($"@first_id_{i}", compareResult.BaseRowId);
+                    cmd.Parameters.AddWithValue($"@second_id_{i}", compareResult.CompareRowId);
+                    cmd.Parameters.AddWithValue($"@analyses_hash_{i}", compareResult.AnalysesHash);
+                    cmd.Parameters.AddWithValue($"@meta_serialized_{i}", SerializationUtils.DehydrateCompareResult(compareResult));
+                }
+                // remove trailing comma
+                stringBuilder.Remove(stringBuilder.Length - 1, 1);
+                cmd.CommandText = stringBuilder.ToString();
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Log.Warning(e, $"Error writing to database.");
+                }
+            }
+            IsWriting = false;
+        }
 
         public void BeginTransaction()
         {
@@ -102,6 +151,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 {
                     WriteNext();
                 }
+
+                while (CompareWriteQueue.Count > 0)
+                {
+                    WriteNextCompare();
+                }
                 Thread.Sleep(1);
             }
         }
@@ -116,12 +170,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         private const string PRAGMAS = "PRAGMA auto_vacuum = 0; PRAGMA synchronous = {0}; PRAGMA journal_mode = {1}; PRAGMA page_size = {2}; PRAGMA locking_mode = {3};";
         private readonly WriteObject[] innerQueue;
+        private readonly CompareResult[] innerCompareResultQueue;
         private readonly DBSettings settings;
 
         private void WriteNext()
         {
             IsWriting = true;
-            string SQL_INSERT_COLLECT_RESULT = "insert or ignore into collect (run_id, result_type, row_key, identity, serialized) values ";
 
             var count = Math.Min(settings.BatchSize, WriteQueue.Count);
             var actual = WriteQueue.TryPopRange(innerQueue, 0, count);
@@ -156,6 +210,17 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
 
             IsWriting = false;
+        }
+
+        public CollectObject? GetCollectObjectByRowId(int rowid, RESULT_TYPE resultType)
+        {
+            using var cmd = new SqliteCommand(SQL_GET_RESULTS_BY_ROW_ID, Connection, Transaction);
+            cmd.Parameters.AddWithValue("@rowid", rowid);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                return SerializationUtils.Hydrate((byte[])reader["serialized"], resultType);
+            }
         }
     }
 }
