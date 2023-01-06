@@ -105,8 +105,8 @@ stages:
       inputs:
         packageType: 'sdk'
         version: '${{ variables.CurrentSDK }}'
-    - script: 'dotnet tool update -g nbgv'
-      displayName: 'Install GitVersioning'
+    - script: 'dotnet tool update -g nbgv --configfile NuGet.Config.Public'
+      displayName: 'Update GitVersioning'
     - task: PowerShell@2
       displayName: Set Release Version
       inputs:

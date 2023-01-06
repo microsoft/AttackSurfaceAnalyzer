@@ -46,6 +46,7 @@ jobs:
   pool:
     vmImage: 'windows-latest'
   steps:
+  - task: NuGetAuthenticate@1  
   - task: UseDotNet@2
     displayName: Install Dotnet SDK
     inputs:
@@ -60,6 +61,8 @@ jobs:
     displayName: Restore
     inputs:
       command: 'restore'
+      feedsToUse: config
+      nugetConfigPath: NuGet.Config.AzureArtifacts
       projects: ${{ parameters.projectPath }}
       verbosityRestore: 'Normal'
   - task: DotNetCoreCLI@2
