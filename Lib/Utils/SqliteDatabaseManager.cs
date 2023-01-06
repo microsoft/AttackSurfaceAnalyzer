@@ -180,8 +180,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         if (runId != null && resultTypeString != null)
                         {
                             var wo = WriteObject.FromBytes((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
-                            if (wo is WriteObject WO)
-                                output.Enqueue(WO);
+                            if (wo != null)
+                                output.Enqueue(wo);
                         }
                     }
                 }
@@ -212,7 +212,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return false;
         }
 
-        public CollectObject GetCollectObjectByRowid(int rowid, string identity, RESULT_TYPE resultType)
+        public CollectObject? GetCollectObjectByRowid(int rowid, string identity, RESULT_TYPE resultType)
         {
             return Connections[ModuloString(identity, shardingFactor: dbSettings.ShardingFactor)]
                 .GetCollectObjectByRowId(rowid, resultType);
@@ -220,10 +220,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public override List<CompareResult> GetComparisonResults(string? baseId, string compareId, string analysesHash, RESULT_TYPE exportType)
         {
-            List<CompareResult> records = new();
-            if (MainConnection is { })
+            ConcurrentBag<CompareResult> records = new();
+            Connections.AsParallel().ForAll(conn =>
             {
-                using var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, MainConnection.Connection, MainConnection.Transaction);
+                using var cmd = new SqliteCommand(GET_COMPARISON_RESULTS, conn.Connection, conn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId);
                 cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
@@ -231,29 +231,47 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    if (reader["meta_serialized"] is byte[] metaSerialized)
+                    if (ExtractCompareResultFromReader(reader, (RESULT_TYPE)reader["result_type"]) is { } validResult)
                     {
-                        if (SerializationUtils.HydrateCompareResult(metaSerialized) is { } compareResult)
-                        {
-                            if (reader["first_rowid"] is int firstRowid)
-                            {
-                                compareResult.Base = GetCollectObjectByRowid(firstRowid, reader["identity"].ToString(), compareResult.Identity)
-                            }
-                            if (reader["second_rowid"] is int secondRowid)
-                            {
-                                compareResult.Compare = GetCollectObjectByRowid(secondRowid, reader["identity"].ToString(), compareResult.Identity)
-                            }
-                            if (compareResult is { Base: { }, Compare: { } })
-                            {
-                                compareResult.Diffs = BaseCompare.GenerateDiffs(compareResult.Base, compareResult.Compare);
-                            }
-
-                            records.Add(compareResult);
-                        }
+                        records.Add(validResult);
+                    }
+                    else
+                    {
+                        Log.Debug("Failed to deserialize CompareResult from reader.");
                     }
                 }
+            });
+            return records.ToList();
+        }
+
+        private CompareResult? ExtractCompareResultFromReader(SqliteDataReader reader, RESULT_TYPE resultType)
+        {
+            if (reader["meta_serialized"] is byte[] metaSerialized)
+            {
+                if (SerializationUtils.HydrateCompareResult(metaSerialized) is { } compareResult)
+                {
+                    if (reader["first_rowid"] is int firstRowid)
+                    {
+                        compareResult.Base =
+                            GetCollectObjectByRowid(firstRowid, reader["identity"].ToString(), resultType);
+                    }
+
+                    if (reader["second_rowid"] is int secondRowid)
+                    {
+                        compareResult.Compare =
+                            GetCollectObjectByRowid(secondRowid, reader["identity"].ToString(), resultType);
+                    }
+
+                    if (compareResult is { Base: { }, Compare: { } })
+                    {
+                        compareResult.Diffs = BaseCompare.GenerateDiffs(compareResult.Base, compareResult.Compare);
+                    }
+
+                    return compareResult;
+                }
             }
-            return records;
+
+            return null;
         }
 
         public override List<CompareResult> GetComparisonResults(string? baseId, string? compareId, string analysesHash, RESULT_TYPE resultType, int offset, int numResults)
@@ -271,25 +289,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    if (reader["meta_serialized"] is string meta_serialized)
+                    if (ExtractCompareResultFromReader(reader, resultType) is { } validResult)
                     {
-                        if (JsonConvert.DeserializeObject<CompareResult>(meta_serialized) is CompareResult compareResult)
-                        {
-                            if (reader["first_serialized"] is byte[] first_serialized)
-                            {
-                                compareResult.Base = SerializationUtils.Hydrate(first_serialized, resultType);
-                            }
-                            if (reader["second_serialized"] is byte[] second_serialized)
-                            {
-                                compareResult.Compare = SerializationUtils.Hydrate(second_serialized, resultType);
-                            }
-                            if (compareResult.Base is not null && compareResult.Compare is not null)
-                            {
-                                compareResult.Diffs = BaseCompare.GenerateDiffs(compareResult.Base, compareResult.Compare);
-                            }
-
-                            results.Add(compareResult);
-                        }
+                        results.Add(validResult);
+                    }
+                    else
+                    {
+                        Log.Debug("Failed to deserialize CompareResult from reader.");
                     }
                 }
             }
@@ -300,7 +306,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public override int GetComparisonResultsCount(string? baseId, string compareId, string analysesHash, int resultType)
         {
             _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
-            var result_count = 0;
+            var resultCount = 0;
             using (var cmd = new SqliteCommand(GET_RESULT_COUNT, MainConnection.Connection, MainConnection.Transaction))
             {
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
@@ -311,10 +317,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 while (reader.Read())
                 {
                     if (reader["count(*)"].ToString() is string integer)
-                        result_count = int.Parse(integer, CultureInfo.InvariantCulture);
+                        resultCount = int.Parse(integer, CultureInfo.InvariantCulture);
                 }
             }
-            return result_count;
+            return resultCount;
         }
 
         public override DBSettings GetCurrentSettings()
