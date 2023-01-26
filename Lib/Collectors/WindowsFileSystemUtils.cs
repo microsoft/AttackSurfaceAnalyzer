@@ -89,12 +89,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     try
                     {
                         using var stream = File.OpenRead(Path);
-                        var peHeader = new PeFile(stream);
-                        var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
-                        if (dllCharacteristics is { } chars)
-                        {
-                            return CharacteristicsTypeToListOfCharacteristics(chars);
-                        }
+                        return GetDllCharacteristics(Path, stream);
                     }
                     catch (Exception e)
                     {
@@ -191,6 +186,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         var sig = new Signature(ai);
                         return sig;
                     }
+                }
+            }
+            // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
+            // When we fail we can retry by reading the file to a Stream first, which cen be less performant but works with just Read access
+            // See #684
+            catch (UnauthorizedAccessException)
+            {
+                try
+                {
+                    using var stream = File.OpenRead(Path);
+                    return GetSignatureStatus(Path, stream);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e, "Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
             }
             catch (Exception e)
