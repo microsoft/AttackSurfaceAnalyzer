@@ -59,10 +59,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
+        /// <summary>
+        /// Gets the <see cref="DLLCHARACTERISTICS"/> of a File on disk.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <returns>List of DLL Characteristics</returns>
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
         {
-            List<DLLCHARACTERISTICS> output = new();
-
             if (NeedsSignature(Path))
             {
                 try
@@ -74,17 +77,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
                         if (dllCharacteristics is { } chars)
                         {
-                            ushort characteristics = (ushort)chars;
-                            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
-                            {
-                                if (characteristic is { } c)
-                                {
-                                    if (((ushort)c & characteristics) == (ushort)c)
-                                    {
-                                        output.Add(c);
-                                    }
-                                }
-                            }
+                            return CharacteristicsTypeToListOfCharacteristics(chars);
                         }
                     }
                 }
@@ -100,17 +93,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
                         if (dllCharacteristics is { } chars)
                         {
-                            ushort characteristics = (ushort)chars;
-                            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
-                            {
-                                if (characteristic is { } c)
-                                {
-                                    if (((ushort)c & characteristics) == (ushort)c)
-                                    {
-                                        output.Add(c);
-                                    }
-                                }
-                            }
+                            return CharacteristicsTypeToListOfCharacteristics(chars);
                         }
                     }
                     catch (Exception e)
@@ -133,9 +116,39 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
             }
 
-            return output;
+            return new();
         }
 
+        /// <summary>
+        /// Turn a <see cref="DllCharacteristicsType"/> enum flag value into a list of <see cref="DLLCHARACTERISTICS"/> enum values
+        /// </summary>
+        /// <param name="dllcharacteristics"></param>
+        /// <returns></returns>
+        private static List<DLLCHARACTERISTICS> CharacteristicsTypeToListOfCharacteristics(
+            DllCharacteristicsType dllcharacteristics)
+        {
+            List<DLLCHARACTERISTICS> output = new();
+            ushort characteristics = (ushort)dllcharacteristics;
+            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+            {
+                if (characteristic is { } c)
+                {
+                    if (((ushort)c & characteristics) == (ushort)c)
+                    {
+                        output.Add(c);
+                    }
+                }
+            }
+
+            return output;
+        }
+        
+        /// <summary>
+        /// Get the Signature 
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public static Signature? GetSignatureStatus(string Path, Stream stream)
         {
             if (stream is null)
