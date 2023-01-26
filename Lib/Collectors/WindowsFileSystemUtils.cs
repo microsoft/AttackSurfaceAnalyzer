@@ -72,12 +72,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         using var mmf = new PeNet.FileParser.MMFile(Path);
                         var peHeader = new PeFile(mmf);
                         var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
-                        if (dllCharacteristics is DllCharacteristicsType chars)
+                        if (dllCharacteristics is { } chars)
                         {
                             ushort characteristics = (ushort)chars;
                             foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
                             {
-                                if (characteristic is DLLCHARACTERISTICS c)
+                                if (characteristic is { } c)
                                 {
                                     if (((ushort)c & characteristics) == (ushort)c)
                                     {
@@ -88,19 +88,48 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         }
                     }
                 }
+                // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
+                // When we fail we can retry by reading the file to a Stream first, which cen be less performant but works with just Read access
+                // See #684
+                catch (UnauthorizedAccessException)
+                {
+                    try
+                    {
+                        using var stream = File.OpenRead(Path);
+                        var peHeader = new PeFile(stream);
+                        var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
+                        if (dllCharacteristics is { } chars)
+                        {
+                            ushort characteristics = (ushort)chars;
+                            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+                            {
+                                if (characteristic is { } c)
+                                {
+                                    if (((ushort)c & characteristics) == (ushort)c)
+                                    {
+                                        output.Add(c);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug(e, "Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    }
+                }
                 catch (Exception e) when (
                     e is IndexOutOfRangeException
                     || e is ArgumentNullException
                     || e is System.IO.IOException
                     || e is ArgumentException
-                    || e is UnauthorizedAccessException
                     || e is NullReferenceException)
                 {
-                    Log.Verbose("Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    Log.Debug("Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e, "Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    Log.Debug(e, "Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
             }
 
