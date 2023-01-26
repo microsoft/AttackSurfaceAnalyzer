@@ -59,10 +59,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             return output;
         }
 
+        /// <summary>
+        /// Gets the <see cref="DLLCHARACTERISTICS"/> of a File on disk.
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <returns>List of DLL Characteristics</returns>
         public static List<DLLCHARACTERISTICS> GetDllCharacteristics(string Path)
         {
-            List<DLLCHARACTERISTICS> output = new();
-
             if (NeedsSignature(Path))
             {
                 try
@@ -72,20 +75,25 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         using var mmf = new PeNet.FileParser.MMFile(Path);
                         var peHeader = new PeFile(mmf);
                         var dllCharacteristics = peHeader.ImageNtHeaders?.OptionalHeader.DllCharacteristics;
-                        if (dllCharacteristics is DllCharacteristicsType chars)
+                        if (dllCharacteristics is { } chars)
                         {
-                            ushort characteristics = (ushort)chars;
-                            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
-                            {
-                                if (characteristic is DLLCHARACTERISTICS c)
-                                {
-                                    if (((ushort)c & characteristics) == (ushort)c)
-                                    {
-                                        output.Add(c);
-                                    }
-                                }
-                            }
+                            return CharacteristicsTypeToListOfCharacteristics(chars);
                         }
+                    }
+                }
+                // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
+                // When we fail we can retry by reading the file to a Stream first, which cen be less performant but works with just Read access
+                // See #684
+                catch (UnauthorizedAccessException)
+                {
+                    try
+                    {
+                        using var stream = File.OpenRead(Path);
+                        return GetDllCharacteristics(Path, stream);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Debug(e, "Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                     }
                 }
                 catch (Exception e) when (
@@ -93,20 +101,49 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     || e is ArgumentNullException
                     || e is System.IO.IOException
                     || e is ArgumentException
-                    || e is UnauthorizedAccessException
                     || e is NullReferenceException)
                 {
-                    Log.Verbose("Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    Log.Debug("Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
                 catch (Exception e)
                 {
-                    Log.Debug(e, "Failed to get PE Headers for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    Log.Debug(e, "Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                }
+            }
+
+            return new();
+        }
+
+        /// <summary>
+        /// Turn a <see cref="DllCharacteristicsType"/> enum flag value into a list of <see cref="DLLCHARACTERISTICS"/> enum values
+        /// </summary>
+        /// <param name="dllcharacteristics"></param>
+        /// <returns></returns>
+        private static List<DLLCHARACTERISTICS> CharacteristicsTypeToListOfCharacteristics(
+            DllCharacteristicsType dllcharacteristics)
+        {
+            List<DLLCHARACTERISTICS> output = new();
+            ushort characteristics = (ushort)dllcharacteristics;
+            foreach (DLLCHARACTERISTICS? characteristic in Enum.GetValues(typeof(DLLCHARACTERISTICS)))
+            {
+                if (characteristic is { } c)
+                {
+                    if (((ushort)c & characteristics) == (ushort)c)
+                    {
+                        output.Add(c);
+                    }
                 }
             }
 
             return output;
         }
-
+        
+        /// <summary>
+        /// Get the Signature 
+        /// </summary>
+        /// <param name="Path"></param>
+        /// <param name="stream"></param>
+        /// <returns></returns>
         public static Signature? GetSignatureStatus(string Path, Stream stream)
         {
             if (stream is null)
@@ -149,6 +186,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         var sig = new Signature(ai);
                         return sig;
                     }
+                }
+            }
+            // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
+            // When we fail we can retry by reading the file to a Stream first, which cen be less performant but works with just Read access
+            // See #684
+            catch (UnauthorizedAccessException)
+            {
+                try
+                {
+                    using var stream = File.OpenRead(Path);
+                    return GetSignatureStatus(Path, stream);
+                }
+                catch (Exception e)
+                {
+                    Log.Debug(e, "Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
             }
             catch (Exception e)

@@ -242,10 +242,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                                 obj.SignatureStatus = WindowsFileSystemUtils.GetSignatureStatus(path);
                                 obj.Characteristics = WindowsFileSystemUtils.GetDllCharacteristics(path);
                             }
-                            else if (obj.ExecutableType == EXECUTABLE_TYPE.MACOS)
-                            {
-                                obj.MacSignatureStatus = FileSystemUtils.GetMacSignature(path);
-                            }
                         }
                     }
                 }
