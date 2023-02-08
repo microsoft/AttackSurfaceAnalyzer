@@ -274,41 +274,52 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             return null;
         }
 
+        /// <summary>
+        /// Returns up to <paramref name="numResults"/> results per shard for the query.
+        /// </summary>
+        /// <param name="baseId"></param>
+        /// <param name="compareId"></param>
+        /// <param name="analysesHash"></param>
+        /// <param name="resultType"></param>
+        /// <param name="offset"></param>
+        /// <param name="numResults"></param>
+        /// <returns></returns>
         public override List<CompareResult> GetComparisonResults(string? baseId, string? compareId, string analysesHash, RESULT_TYPE resultType, int offset, int numResults)
         {
-            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
-            var results = new List<CompareResult>();
-            using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction))
+            ConcurrentBag<CompareResult> records = new();
+            Connections.AsParallel().ForAll(conn =>
             {
-                cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
-                cmd.Parameters.AddWithValue("@second_run_id", compareId ?? string.Empty);
-                cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
-                cmd.Parameters.AddWithValue("@result_type", (int)resultType);
-                cmd.Parameters.AddWithValue("@offset", offset);
-                cmd.Parameters.AddWithValue("@limit", numResults);
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (var cmd = new SqliteCommand(GET_COMPARISON_RESULTS_LIMIT, conn.Connection, conn.Transaction))
                 {
-                    if (ExtractCompareResultFromReader(reader, resultType) is { } validResult)
+                    cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@second_run_id", compareId ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
+                    cmd.Parameters.AddWithValue("@result_type", (int)resultType);
+                    cmd.Parameters.AddWithValue("@offset", offset);
+                    cmd.Parameters.AddWithValue("@limit", numResults);
+                    using var reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        results.Add(validResult);
-                    }
-                    else
-                    {
-                        Log.Debug("Failed to deserialize CompareResult from reader.");
+                        if (ExtractCompareResultFromReader(reader, resultType) is { } validResult)
+                        {
+                            records.Add(validResult);
+                        }
+                        else
+                        {
+                            Log.Debug("Failed to deserialize CompareResult from reader.");
+                        }
                     }
                 }
-            }
-
-            return results;
+            });
+            return records.ToList();
         }
 
         public override int GetComparisonResultsCount(string? baseId, string compareId, string analysesHash, int resultType)
         {
-            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
             var resultCount = 0;
-            using (var cmd = new SqliteCommand(GET_RESULT_COUNT, MainConnection.Connection, MainConnection.Transaction))
+            Connections.AsParallel().ForAll(conn =>
             {
+                using var cmd = new SqliteCommand(GET_RESULT_COUNT, conn.Connection, conn.Transaction);
                 cmd.Parameters.AddWithValue("@first_run_id", baseId ?? string.Empty);
                 cmd.Parameters.AddWithValue("@second_run_id", compareId);
                 cmd.Parameters.AddWithValue("@analyses_hash", analysesHash);
@@ -317,9 +328,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 while (reader.Read())
                 {
                     if (reader["count(*)"].ToString() is string integer)
-                        resultCount = int.Parse(integer, CultureInfo.InvariantCulture);
+                    {
+                        Interlocked.Add(ref resultCount, int.Parse(integer, CultureInfo.InvariantCulture));
+                    }
                 }
-            }
+            });
             return resultCount;
         }
 

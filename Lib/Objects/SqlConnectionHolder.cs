@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+﻿ // Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.Data.Sqlite;
 using Serilog;
@@ -221,6 +221,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             {
                 return SerializationUtils.Hydrate((byte[])reader["serialized"], resultType);
             }
+
+            return null;
         }
     }
 }
