@@ -435,12 +435,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public override IEnumerable<FileMonitorObject> GetMonitorResults(string runId, int offset = 0, int numResults = -1)
         {
-            var results = new List<FileMonitorObject>();
-            if (MainConnection != null)
+            var results = new ConcurrentBag<FileMonitorObject>();
+            Connections.AsParallel().ForAll(cxn =>
             {
                 if (numResults == -1)
                 {
-                    using var cmd = new SqliteCommand(GET_MONITOR_RESULTS_LIMIT, MainConnection.Connection, MainConnection.Transaction);
+                    using var cmd = new SqliteCommand(GET_MONITOR_RESULTS_LIMIT, cxn.Connection, cxn.Transaction);
                     cmd.Parameters.AddWithValue("@run_id", runId);
                     cmd.Parameters.AddWithValue("@offset", offset);
                     cmd.Parameters.AddWithValue("@limit", numResults);
@@ -451,15 +451,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         {
                             if (JsonConvert.DeserializeObject<FileMonitorObject>(serialized) is FileMonitorObject fmo)
                             {
-                                yield return fmo;
-                            };
+                                results.Add(fmo);
+                            }
                         }
                     }
                 }
                 else
                 {
-                    using var cmd = new SqliteCommand(GET_MONITOR_RESULTS, MainConnection.Connection, MainConnection.Transaction);
-                    cmd.Parameters.AddWithValue("@run_id", runId); ;
+                    using var cmd = new SqliteCommand(GET_MONITOR_RESULTS, cxn.Connection, cxn.Transaction);
+                    cmd.Parameters.AddWithValue("@run_id", runId);
                     using var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -467,52 +467,55 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         {
                             if (JsonConvert.DeserializeObject<FileMonitorObject>(serialized) is FileMonitorObject fmo)
                             {
-                                yield return fmo;
-                            };
+                                results.Add(fmo);
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                Log.Debug("Failed to GetMonitorResults. MainConnection was null.");
-            }
+            });
+
+            return results;
         }
 
         public override int GetNumMonitorResults(string runId)
         {
-            _ = MainConnection ?? throw new NullReferenceException(Strings.Get("MainConnection"));
-
-            using (var cmd = new SqliteCommand(GET_RESULT_COUNT_MONITORED, MainConnection.Connection, MainConnection.Transaction))
+            int numResults = 0;
+            Connections.AsParallel().ForAll(cxn =>
             {
+                using var cmd = new SqliteCommand(GET_RESULT_COUNT_MONITORED, cxn.Connection, cxn.Transaction);
                 cmd.Parameters.AddWithValue("@run_id", runId);
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
                     if (reader["count(*)"].ToString() is string integer)
-                        return int.Parse(integer, CultureInfo.InvariantCulture);
+                    {
+                        Interlocked.Add(ref numResults,int.Parse(integer, CultureInfo.InvariantCulture));
+                    }
                 }
-            }
+            });
 
-            return 0;
+            return numResults;
         }
 
         public override int GetNumResults(RESULT_TYPE ResultType, string runId)
         {
             try
             {
-                if (MainConnection != null)
+                int numResults = 0;
+                Connections.AsParallel().ForAll(cxn =>
                 {
-                    using var cmd = new SqliteCommand(SQL_GET_NUM_RESULTS, MainConnection.Connection, MainConnection.Transaction);
+                    using var cmd = new SqliteCommand(SQL_GET_NUM_RESULTS, cxn.Connection,
+                        cxn.Transaction);
                     cmd.Parameters.AddWithValue("@run_id", runId);
                     cmd.Parameters.AddWithValue("@result_type", ResultType.ToString());
 
                     using var reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        return int.Parse(reader["the_count"].ToString() ?? "-1", CultureInfo.InvariantCulture);
+                        Interlocked.Add(ref numResults,int.Parse(reader["the_count"].ToString() ?? "-1", CultureInfo.InvariantCulture));
                     }
-                }
+                });
+                return numResults;
             }
             catch (SqliteException)
             {
@@ -523,24 +526,23 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         public override List<DataRunModel> GetResultModels(RUN_STATUS runStatus)
         {
-            var output = new List<DataRunModel>();
+            var output = new ConcurrentBag<DataRunModel>();
 
-            if (MainConnection != null)
+            Connections.AsParallel().ForAll(cxn =>
             {
-                using var cmd = new SqliteCommand(SQL_QUERY_ANALYZED, MainConnection.Connection, MainConnection.Transaction);
+                using var cmd = new SqliteCommand(SQL_QUERY_ANALYZED, cxn.Connection,
+                    cxn.Transaction);
                 cmd.Parameters.AddWithValue("@status", runStatus);
 
                 using var reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    output.Add(new DataRunModel(KeyIn: reader["base_run_id"].ToString() + " vs. " + reader["compare_run_id"].ToString(), TextIn: reader["base_run_id"].ToString() + " vs. " + reader["compare_run_id"].ToString()));
+                    output.Add(new DataRunModel(
+                        KeyIn: reader["base_run_id"].ToString() + " vs. " + reader["compare_run_id"].ToString(),
+                        TextIn: reader["base_run_id"].ToString() + " vs. " + reader["compare_run_id"].ToString()));
                 }
-            }
-            else
-            {
-                Log.Debug("Failed to GetResultModels, MainConnection is null");
-            }
-            return output;
+            });
+            return output.ToList();
         }
 
         public override IEnumerable<WriteObject> GetResultsByRunid(string runid)
