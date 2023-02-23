@@ -155,11 +155,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 if (PeFile.IsPeFile(stream))
                 {
                     var peHeader = new PeFile(stream);
-                    if (peHeader.Authenticode is AuthenticodeInfo ai)
-                    {
-                        var sig = new Signature(ai);
-                        return sig;
-                    }
+                    var authenticodeInfo = new AuthenticodeInfo(peHeader);
+                    var sig = new Signature(authenticodeInfo);
+                    return sig;
                 }
             }
             catch (Exception e)
