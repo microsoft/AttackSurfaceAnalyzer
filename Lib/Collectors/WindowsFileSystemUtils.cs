@@ -155,11 +155,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 if (PeFile.IsPeFile(stream))
                 {
                     var peHeader = new PeFile(stream);
-                    if (peHeader.Authenticode is AuthenticodeInfo ai)
-                    {
-                        var sig = new Signature(ai);
-                        return sig;
-                    }
+                    var authenticodeInfo = new AuthenticodeInfo(peHeader);
+                    var sig = new Signature(authenticodeInfo);
+                    return sig;
                 }
             }
             catch (Exception e)
@@ -181,11 +179,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 {
                     using var mmf = new PeNet.FileParser.MMFile(Path);
                     var peHeader = new PeFile(mmf);
-                    if (peHeader.Authenticode is AuthenticodeInfo ai)
-                    {
-                        var sig = new Signature(ai);
-                        return sig;
-                    }
+                    var ai = new AuthenticodeInfo(peHeader);
+                    var sig = new Signature(ai);
+                    return sig;
                 }
             }
             // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
