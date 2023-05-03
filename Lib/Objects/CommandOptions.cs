@@ -272,7 +272,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         public bool NoLaunch { get; set; }
 
         [Option(HelpText = "Port to listen on.", Default = 5000)]
-        public int Port { get; set; }
+        public int Port { get; set; } = 5000;
     }
 
     [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
