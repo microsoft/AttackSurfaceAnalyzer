@@ -469,11 +469,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     }
                 }
             }
+            var url = $"http://localhost:{opts.Port}";
 
             var host = server.ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseWebRoot(webRoot);
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls(url);
                 })
                 .Build();
 
@@ -481,7 +483,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 ((Action)(async () =>
                 {
-                    await Task.Run(() => SleepAndOpenBrowser(1500)).ConfigureAwait(false);
+                    await Task.Run(() => SleepAndOpenBrowser(1500, url)).ConfigureAwait(false);
                 }))();
             }
 
@@ -490,14 +492,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ASA_ERROR.NONE;
         }
 
-        private static void SleepAndOpenBrowser(int sleep)
+        private static void SleepAndOpenBrowser(int sleep, string url)
         {
             Thread.Sleep(sleep);
-            AsaHelpers.OpenBrowser(new System.Uri("http://localhost:5000")); /*DevSkim: ignore DS137138*/
+            AsaHelpers.OpenBrowser(new System.Uri(url));
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2241:Provide correct arguments to formatting methods", Justification = "<Pending>")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>")]
         private static ASA_ERROR RunConfigCommand(ConfigCommandOptions opts)
         {
             if (opts.ResetDatabase)

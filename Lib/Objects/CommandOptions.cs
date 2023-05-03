@@ -270,6 +270,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
     {
         [Option(HelpText = "Disable launching a browser after gui starts.")]
         public bool NoLaunch { get; set; }
+
+        [Option(HelpText = "Port to listen on.", Default = 5000)]
+        public int Port { get; set; } = 5000;
     }
 
     [Verb("guide", HelpText = "Gather and Analyze metrics using a combination of Collectors and Monitors.")]
