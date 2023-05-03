@@ -2273,6 +2273,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.NoLaunch
   nameWithType: GuiCommandOptions.NoLaunch
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.Port
+  name: Port
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuiCommandOptions_Port
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.Port
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.Port
+  nameWithType: GuiCommandOptions.Port
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.Port*
+  name: Port
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_GuiCommandOptions_Port_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.Port
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.GuiCommandOptions.Port
+  nameWithType: GuiCommandOptions.Port
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions
   name: GuidedModeCommandOptions
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.GuidedModeCommandOptions.html
