@@ -475,7 +475,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 {
                     webBuilder.UseWebRoot(webRoot);
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls(url)
+                    webBuilder.UseUrls(url);
                 })
                 .Build();
 
