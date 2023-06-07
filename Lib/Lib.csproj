@@ -8,6 +8,7 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Microsoft.CST.AttackSurfaceAnalyzer</PackageId>
     <PackageVersion>0.0.0-placeholder</PackageVersion>
