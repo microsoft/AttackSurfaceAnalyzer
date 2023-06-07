@@ -22,6 +22,8 @@
     <ToolCommandName>asa</ToolCommandName>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageIcon>icon-128.png</PackageIcon>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
   </PropertyGroup>
 
