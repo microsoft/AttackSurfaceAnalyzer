@@ -29,6 +29,7 @@ variables:
   DotnetVersion: '7.0.x'
   DotnetVersionLTS: '6.0.x'
   TargetFramework: 'net7.0'
+  customPackFlags: '--force'
 
 stages:
 - stage: Test
