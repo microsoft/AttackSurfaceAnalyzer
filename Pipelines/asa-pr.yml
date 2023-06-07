@@ -28,7 +28,7 @@ variables:
   BuildConfiguration: 'Release'
   DotnetVersion: '7.0.x'
   DotnetVersionLTS: '6.0.x'
-  TargetFramework: 'net6.0'
+  DotnetTargetFramework: 'net7.0'
 
 stages:
 - stage: Test
@@ -54,7 +54,7 @@ stages:
     parameters:
       buildConfiguration: '${{ variables.BuildConfiguration }}'
       dotnetVersion: '${{ variables.DotnetVersion }}'
-      targetFramework: '${{ variables.TargetFramework }}'
+      targetFramework: '${{ variables.DotnetTargetFramework }}'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       exePath: 'Asa'
@@ -64,7 +64,7 @@ stages:
     parameters:
       buildConfiguration: '${{ variables.BuildConfiguration }}'
       dotnetVersion: '${{ variables.DotnetVersion }}'
-      targetFramework: '${{ variables.TargetFramework }}'
+      targetFramework: '${{ variables.DotnetTargetFramework }}'
       projectPath: 'Cli/Cli.csproj'
       projectName: 'ASA'
       preBuild:
