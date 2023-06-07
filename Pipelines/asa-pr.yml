@@ -29,7 +29,6 @@ variables:
   DotnetVersion: '7.0.x'
   DotnetVersionLTS: '6.0.x'
   TargetFramework: 'net7.0'
-  customPackFlags: '--force'
 
 stages:
 - stage: Test
@@ -77,6 +76,7 @@ stages:
       dotnetVersion: '${{ variables.DotnetVersion }}'
       projectPath: 'Lib/Lib.csproj'
       projectName: 'ASA_Lib'
+      customPackFlags: '--force'
       preBuild:
       - template: nbgv-set-version-steps.yml@templates
   - template: nuget-build-job.yml@templates
