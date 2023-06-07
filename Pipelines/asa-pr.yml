@@ -76,7 +76,6 @@ stages:
       dotnetVersion: '${{ variables.DotnetVersion }}'
       projectPath: 'Lib/Lib.csproj'
       projectName: 'ASA_Lib'
-      customPackFlags: '--force'
       preBuild:
       - template: nbgv-set-version-steps.yml@templates
   - template: nuget-build-job.yml@templates
