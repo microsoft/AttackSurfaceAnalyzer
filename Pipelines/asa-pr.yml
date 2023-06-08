@@ -1,0 +1,89 @@
+# Azure Pipelines
+# https://aka.ms/yaml
+
+name: ASA_PR_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+trigger: none
+pr:
+  branches:
+    include:
+    - main
+    - release/*
+  paths:
+    include:
+    - Benchmarks
+    - Cli
+    - Lib
+    - Pipelines
+    - Tests
+    - analyses.json
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: SecurityEngineering/OSS-Tools-Pipeline-Templates
+      ref: refs/tags/v1.0.7
+
+variables:
+  BuildConfiguration: 'Release'
+  DotnetVersion: '7.0.x'
+  DotnetVersionLTS: '6.0.x'
+  DotnetTargetFramework: 'net7.0'
+
+stages:
+- stage: Test
+  dependsOn: []
+  jobs:
+  - template: dotnet-test-job.yml@templates
+    parameters:
+      jobName: 'dotnet_test_windows'
+      dotnetVersion: ${{ variables.DotnetVersion }}
+      dotnetVersionLTS: ${{ variables.DotnetVersionLTS }}
+      vmImage: 'oss-tools-win2022_1es-managed'
+      projectPath: 'Tests/Tests.csproj'
+
+- stage: SDL
+  dependsOn: []
+  jobs:
+  - template: sdl-job.yml@templates
+
+- stage: Build
+  dependsOn: Test
+  jobs:
+  - template: dotnet-publish-linux-mac-job.yml@templates
+    parameters:
+      buildConfiguration: '${{ variables.BuildConfiguration }}'
+      dotnetVersion: '${{ variables.DotnetVersion }}'
+      targetFramework: '${{ variables.DotnetTargetFramework }}'
+      projectPath: 'Cli/Cli.csproj'
+      projectName: 'ASA'
+      exePath: 'Asa'
+      preBuild:
+      - template: nbgv-set-version-steps.yml@templates
+  - template: dotnet-publish-win-netcore-job.yml@templates
+    parameters:
+      buildConfiguration: '${{ variables.BuildConfiguration }}'
+      dotnetVersion: '${{ variables.DotnetVersion }}'
+      targetFramework: '${{ variables.DotnetTargetFramework }}'
+      projectPath: 'Cli/Cli.csproj'
+      projectName: 'ASA'
+      preBuild:
+      - template: nbgv-set-version-steps.yml@templates
+  - template: nuget-build-job.yml@templates
+    parameters:
+      jobName: 'pack_lib'
+      buildConfiguration: '${{ variables.BuildConfiguration }}'
+      dotnetVersion: '${{ variables.DotnetVersion }}'
+      projectPath: 'Lib/Lib.csproj'
+      projectName: 'ASA_Lib'
+      preBuild:
+      - template: nbgv-set-version-steps.yml@templates
+  - template: nuget-build-job.yml@templates
+    parameters:
+      jobName: 'pack_cli'
+      buildConfiguration: '${{ variables.BuildConfiguration }}'
+      dotnetVersion: '${{ variables.DotnetVersion }}'
+      projectPath: 'Cli/Cli.csproj'
+      projectName: 'ASA_Cli'
+      preBuild:
+      - template: nbgv-set-version-steps.yml@templates
