@@ -83,27 +83,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
                 // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
                 // When we fail we can retry by reading the file to a Stream first, which cen be less performant but works with just Read access
-                // See #684
-                catch (UnauthorizedAccessException)
+                // See #684 + #696
+                catch (Exception e) when (e is UnauthorizedAccessException or IOException)
                 {
                     try
                     {
                         using var stream = File.OpenRead(Path);
                         return GetDllCharacteristics(Path, stream);
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        Log.Debug(e, "Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                        Log.Debug(ex, "Failed to get DLL Characteristics for {0} ({1}:{2})", Path, ex.GetType(), ex.Message);
                     }
-                }
-                catch (Exception e) when (
-                    e is IndexOutOfRangeException
-                    || e is ArgumentNullException
-                    || e is System.IO.IOException
-                    || e is ArgumentException
-                    || e is NullReferenceException)
-                {
-                    Log.Debug("Failed to get DLL Characteristics for {0} ({1}:{2})", Path, e.GetType(), e.Message);
                 }
                 catch (Exception e)
                 {
@@ -185,18 +176,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 }
             }
             // This can happen if the file is readable but not writable as MMFile tries to open the file with write privileges.
-            // When we fail we can retry by reading the file to a Stream first, which cen be less performant but works with just Read access
-            // See #684
-            catch (UnauthorizedAccessException)
+            // When we fail we can retry by reading the file to a Stream first, which can be less performant but works with just Read access
+            // See #684 + #696
+            catch (Exception e) when (e is UnauthorizedAccessException or IOException)
             {
                 try
                 {
                     using var stream = File.OpenRead(Path);
                     return GetSignatureStatus(Path, stream);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Log.Debug(e, "Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+                    Log.Debug(ex, "Failed to get signature for {0} ({1}:{2})", Path, ex.GetType(), ex.Message);
                 }
             }
             catch (Exception e)
@@ -206,6 +197,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             return null;
         }
 
+        /// <summary>
+        /// Try to determine if the file is locally present to avoid triggering a downloading files that are cloud stubs
+        /// </summary>
+        /// <param name="path">Path to check</param>
+        /// <returns>True when the file appears to be local based on its attributes</returns>
         public static bool IsLocal(string path)
         {
             NativeMethods.WIN32_FILE_ATTRIBUTE_DATA fileData;
