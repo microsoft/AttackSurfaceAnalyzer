@@ -102,7 +102,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         {
                             foreach (string subkey in currentKey.GetSubKeyNames())
                             {
-                                keys.Push($"{key}\\{subkey}");
+                                keys.Push(!string.IsNullOrEmpty(key) ? $"{key}\\{subkey}" : subkey);
                             }
                         }
                     }
