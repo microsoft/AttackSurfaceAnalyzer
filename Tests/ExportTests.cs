@@ -40,7 +40,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             var outputDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(outputJson, jsonSettings);
             var rulesList = JsonConvert.DeserializeObject<IEnumerable<AsaRule>>(rulesJson, jsonSettings);
 
-            var sarif = AttackSurfaceAnalyzerClient.GenerateSarifLog(outputDictionary, rulesList);
+            var sarif = AttackSurfaceAnalyzerClient.GenerateSarifLog(outputDictionary, rulesList, false);
 
             Assert.AreEqual(sarif.Runs[0].Artifacts.Count, 3);
             Assert.IsTrue(sarif.Runs[0].Artifacts.Any(a => a.Location.Description.Text == "C:\\Test\\Scan2\\TestAddText.txt"));
