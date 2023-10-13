@@ -899,7 +899,37 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
                     artifacts.Add(artifact);
                     int index = artifacts.Count - 1;
-                    foreach (var rule in compareResult.Rules)
+                    if (compareResult.Rules.Any())
+                    {
+                        foreach (var rule in compareResult.Rules)
+                        {
+                            var sarifResult = new Result();
+                            sarifResult.Locations = new List<Location>()
+                            {
+                                new Location() {
+                                    PhysicalLocation = new PhysicalLocation()
+                                    {
+                                        ArtifactLocation = new ArtifactLocation()
+                                        {
+                                            Index = index
+                                        }
+                                    }
+                                }
+                            };
+
+                            sarifResult.Level = GetSarifFailureLevel((ANALYSIS_RESULT_TYPE)rule.Severity);
+
+                            if (!string.IsNullOrWhiteSpace(rule.Name))
+                            {
+                                sarifResult.RuleId = rule.Name;
+                            }
+
+                            sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType) };
+                        
+                            sarifResults.Add(sarifResult);
+                        }
+                    }
+                    else
                     {
                         var sarifResult = new Result();
                         sarifResult.Locations = new List<Location>()
@@ -915,14 +945,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             }
                         };
 
-                        sarifResult.Level = GetSarifFailureLevel((ANALYSIS_RESULT_TYPE)rule.Severity);
+                        sarifResult.Level = GetSarifFailureLevel(compareResult.Analysis);
 
-                        if (!string.IsNullOrWhiteSpace(rule.Name))
-                        {
-                            sarifResult.RuleId = rule.Name;
-                        }
+                        sarifResult.RuleId = "Default Level";
 
-                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType) };
+                        sarifResult.Message = new Message() { Text = string.Format("Default Level: {0} ({1})", compareResult.Identity, compareResult.ChangeType) };
                         
                         sarifResults.Add(sarifResult);
                     }
