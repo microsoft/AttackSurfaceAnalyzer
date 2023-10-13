@@ -715,6 +715,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         internal static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
             var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
+            if (opts.DisableImplicitFindings) 
+            {
+                var resultKeys = resultsIn.Keys;
+                foreach (var key in resultKeys)
+                {
+                    var newBag = new ConcurrentBag<CompareResult>(resultsIn[key].Where(x => !x.Rules.Any()));
+                    resultsIn[key] = newBag;
+                }
+            }
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -741,7 +750,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
                     if (opts.OutputSarif)
                     {
-                        WriteSarifLog(new Dictionary<string, object>() { { key, results[key] } }, rules, filePath);
+                        WriteSarifLog(new Dictionary<string, object>() { { key, results[key] } }, rules, filePath, opts.DisableImplicitFindings);
                     }
                     else
                     {
@@ -762,12 +771,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 if (opts.OutputSarif)
                 {
                     string pathSarif = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.Sarif"));
-                    WriteSarifLog(output, rules, pathSarif);
+                    WriteSarifLog(output, rules, pathSarif, opts.DisableImplicitFindings);
                     Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(pathSarif)).FullName);
                 }
                 else
                 {
-
                     using (StreamWriter sw = new(path)) //lgtm[cs/path-injection]
                     {
                         using JsonWriter writer = new JsonTextWriter(sw);
@@ -785,9 +793,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         /// <param name="output">output of the analyzer result</param>
         /// <param name="rules">list of rules used</param>
         /// <param name="outputFilePath">file path of the Sarif log</param>
-        public static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath)
+        /// <param name="disableImplicitFindings">If the output should exclude results with no explicit level</param>
+        internal static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath, bool disableImplicitFindings)
         {
-            var log = GenerateSarifLog(output, rules);
+            var log = GenerateSarifLog(output, rules, disableImplicitFindings);
 
             var settings = new JsonSerializerSettings()
             {
@@ -797,7 +806,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             File.WriteAllText(outputFilePath, JsonConvert.SerializeObject(log, settings));
         }
 
-        public static SarifLog GenerateSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules)
+        public static SarifLog GenerateSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, bool disableImplicitFindings)
         {
             var metadata = (Dictionary<string, string>)output["metadata"];
             var results = (Dictionary<string, object>)output["results"];
@@ -899,32 +908,62 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
                     artifacts.Add(artifact);
                     int index = artifacts.Count - 1;
-                    foreach (var rule in compareResult.Rules)
+                    if (compareResult.Rules.Any())
                     {
-                        var sarifResult = new Result();
-                        sarifResult.Locations = new List<Location>()
+                        foreach (var rule in compareResult.Rules)
                         {
-                            new Location() {
-                                PhysicalLocation = new PhysicalLocation()
-                                {
-                                    ArtifactLocation = new ArtifactLocation()
+                            var sarifResult = new Result();
+                            sarifResult.Locations = new List<Location>()
+                            {
+                                new Location() {
+                                    PhysicalLocation = new PhysicalLocation()
                                     {
-                                        Index = index
+                                        ArtifactLocation = new ArtifactLocation()
+                                        {
+                                            Index = index
+                                        }
                                     }
                                 }
+                            };
+
+                            sarifResult.Level = GetSarifFailureLevel((ANALYSIS_RESULT_TYPE)rule.Severity);
+
+                            if (!string.IsNullOrWhiteSpace(rule.Name))
+                            {
+                                sarifResult.RuleId = rule.Name;
                             }
-                        };
 
-                        sarifResult.Level = GetSarifFailureLevel((ANALYSIS_RESULT_TYPE)rule.Severity);
-
-                        if (!string.IsNullOrWhiteSpace(rule.Name))
-                        {
-                            sarifResult.RuleId = rule.Name;
-                        }
-
-                        sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType) };
+                            sarifResult.Message = new Message() { Text = string.Format("{0}: {1} ({2})", rule.Name, compareResult.Identity, compareResult.ChangeType) };
                         
-                        sarifResults.Add(sarifResult);
+                            sarifResults.Add(sarifResult);
+                        }
+                    }
+                    else
+                    {
+                        if (!disableImplicitFindings)
+                        {
+                            var sarifResult = new Result();
+                            sarifResult.Locations = new List<Location>()
+                            {
+                                new Location() {
+                                    PhysicalLocation = new PhysicalLocation()
+                                    {
+                                        ArtifactLocation = new ArtifactLocation()
+                                        {
+                                            Index = index
+                                        }
+                                    }
+                                }
+                            };
+
+                            sarifResult.Level = GetSarifFailureLevel(compareResult.Analysis);
+
+                            sarifResult.RuleId = "Default Level";
+
+                            sarifResult.Message = new Message() { Text = string.Format("Default Level: {0} ({1})", compareResult.Identity, compareResult.ChangeType) };
+                        
+                            sarifResults.Add(sarifResult);
+                        }
                     }
                 }
             }

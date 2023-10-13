@@ -258,6 +258,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
         [Option(HelpText = "Output Sarif")]
         public bool OutputSarif { get; set; }
 
+        // Don't output results if they do not have an explicit rule applied
+        [Option(HelpText = "Ignore results with no explicit rule match")]
+        public bool DisableImplicitFindings { get; set; }
+
         [Option(HelpText = "Force Analysis to be Single-Threaded")]
         public bool SingleThreadAnalysis { get; set; }
 
