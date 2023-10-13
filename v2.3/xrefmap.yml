@@ -2163,6 +2163,19 @@ references:
   isSpec: "True"
   fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableAnalysis
   nameWithType: ExportOptions.DisableAnalysis
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableImplicitFindings
+  name: DisableImplicitFindings
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_DisableImplicitFindings
+  commentId: P:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableImplicitFindings
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableImplicitFindings
+  nameWithType: ExportOptions.DisableImplicitFindings
+- uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableImplicitFindings*
+  name: DisableImplicitFindings
+  href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_DisableImplicitFindings_
+  commentId: Overload:Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableImplicitFindings
+  isSpec: "True"
+  fullName: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.DisableImplicitFindings
+  nameWithType: ExportOptions.DisableImplicitFindings
 - uid: Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.ExplodedOutput
   name: ExplodedOutput
   href: api/Microsoft.CST.AttackSurfaceAnalyzer.ExportOptions.html#Microsoft_CST_AttackSurfaceAnalyzer_ExportOptions_ExplodedOutput
