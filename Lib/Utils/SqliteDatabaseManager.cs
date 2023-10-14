@@ -799,7 +799,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                 }
                 catch (SqliteException e)
                 {
-                    Log.Warning(e.StackTrace);
+                    Log.Warning(e.StackTrace ?? string.Empty);
                     Log.Warning(e.Message);
                 }
             }

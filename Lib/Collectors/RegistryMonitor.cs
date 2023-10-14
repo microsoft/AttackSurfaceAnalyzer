@@ -12,6 +12,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
     {
         public RegistryMonitor()
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                log = new("System");
+            }
         }
 
         public override bool CanRunOnPlatform()
@@ -43,15 +47,18 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
             }
-            // backup the current auditpolicy
-            ExternalCommandRunner.RunExternalCommand("auditpol", $"/backup /file:{tmpFileName}");
+            if (log is { })
+            {
+                // backup the current auditpolicy
+                ExternalCommandRunner.RunExternalCommand("auditpol", $"/backup /file:{tmpFileName}");
 
-            // start listening to the event log
-            log.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
-            log.EnableRaisingEvents = true;
+                // start listening to the event log
+                log.EntryWritten += new EntryWrittenEventHandler(MyOnEntryWritten);
+                log.EnableRaisingEvents = true;
 
-            // Enable auditing for registry events GUID for Registry subcategory of audit policy https://msdn.microsoft.com/en-us/library/dd973928.aspx
-            ExternalCommandRunner.RunExternalCommand("auditpol", "/set /subcategory:{0CCE921E-69AE-11D9-BED3-505054503030} /success:enable /failure:enable");
+                // Enable auditing for registry events GUID for Registry subcategory of audit policy https://msdn.microsoft.com/en-us/library/dd973928.aspx
+                ExternalCommandRunner.RunExternalCommand("auditpol", "/set /subcategory:{0CCE921E-69AE-11D9-BED3-505054503030} /success:enable /failure:enable");
+            }
         }
 
         public override void StopRun()
@@ -60,24 +67,30 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             {
                 throw new PlatformNotSupportedException("ExecuteWindows is only supported on Windows platforms.");
             }
-            // restore the old auditpolicy
-            ExternalCommandRunner.RunExternalCommand("auditpol", $"/restore /file:{tmpFileName}");
+            if (log is { })
+            {
+                // restore the old auditpolicy
+                ExternalCommandRunner.RunExternalCommand("auditpol", $"/restore /file:{tmpFileName}");
 
-            //delete temporary file
-            ExternalCommandRunner.RunExternalCommand("del", tmpFileName);
+                //delete temporary file
+                ExternalCommandRunner.RunExternalCommand("del", tmpFileName);
 
-            log.EnableRaisingEvents = false;
+                log.EnableRaisingEvents = false;
+            }
         }
 
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                log.Dispose();
+                if (log is { })
+                {
+                    log.Dispose();
+                }
             }
         }
 
-        private readonly EventLog log = new("System");
+        private readonly EventLog? log;
 
         private readonly string tmpFileName = Path.GetTempFileName();
     }
