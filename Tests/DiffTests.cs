@@ -2,12 +2,14 @@
 using System.Linq;
 using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
-using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Win32;
 
-namespace Tests;
+namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests;
 
+/// <summary>
+/// Test that the compare logic generates the correct diffs for various object configurations
+/// </summary>
 [TestClass]
 public class DiffTests
 {
