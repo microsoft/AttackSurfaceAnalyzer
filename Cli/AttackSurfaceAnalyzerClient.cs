@@ -673,7 +673,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 foreach (RESULT_TYPE resultType in Enum.GetValues(typeof(RESULT_TYPE)))
                 {
                     var resultsForType =
-                        DatabaseManager.GetComparisonResults(opts.FirstRunId, opts.SecondRunId, analysesHash,
+                        DatabaseManager.GetComparisonResults(opts.FirstRunId ?? string.Empty, opts.SecondRunId, analysesHash,
                             resultType);
                     foreach (var result in resultsForType)
                     {

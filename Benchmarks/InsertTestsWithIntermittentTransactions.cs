@@ -46,8 +46,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         [Params(0)]
         public int StartingSize { get; set; }
 
-        // Bag of reusable objects to write to the database.
-
         public static void Insert_X_Objects(int X, int ObjectPadding = 0, string runName = "Insert_X_Objects")
         {
             dbManager.BeginTransaction();
