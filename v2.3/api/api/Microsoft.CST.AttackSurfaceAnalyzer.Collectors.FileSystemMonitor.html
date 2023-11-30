@@ -85,7 +85,7 @@
   <div class="implements">
     <h5>Implements</h5>
     <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html">IPlatformRunnable</a></div>
-    <div><span class="xref">System.IDisposable</span></div>
+    <div><span class="xref">IDisposable</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -95,45 +95,24 @@
     <div>
       <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseMonitor_RunStatus">BaseMonitor.RunStatus</a>
     </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.html">Microsoft.CST.AttackSurfaceAnalyzer.Collectors</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class FileSystemMonitor : BaseMonitor, IPlatformRunnable, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class FileSystemMonitor : BaseMonitor, IPlatformRunnable</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.%23ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions%2CSystem.Action%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.%23ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions%2CAction%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/FileSystemMonitor.cs/#L74">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_System_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions,System.Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject})">FileSystemMonitor(MonitorCommandOptions, Action&lt;FileMonitorObject&gt;)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor__ctor_Microsoft_CST_AttackSurfaceAnalyzer_MonitorCommandOptions_Action_Microsoft_CST_AttackSurfaceAnalyzer_Objects_FileMonitorObject__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.#ctor(Microsoft.CST.AttackSurfaceAnalyzer.MonitorCommandOptions,Action{Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject})">FileSystemMonitor(MonitorCommandOptions, Action&lt;FileMonitorObject&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -156,7 +135,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html">FileMonitorObject</a>&gt;</td>
+        <td><span class="xref">Action</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.FileMonitorObject.html">FileMonitorObject</a>&gt;</td>
         <td><span class="parametername">changeHandler</span></td>
         <td></td>
       </tr>
@@ -188,7 +167,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.NotifyFilters</span>[]</td>
+        <td><span class="xref">NotifyFilters</span>[]</td>
         <td></td>
       </tr>
     </tbody>
@@ -229,13 +208,13 @@
   <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseMonitor_CanRunOnPlatform">BaseMonitor.CanRunOnPlatform()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_System_IO_WatcherChangeTypes_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_WatcherChangeTypes_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/FileSystemMonitor.cs/#L283">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_System_IO_WatcherChangeTypes_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(System.IO.WatcherChangeTypes)">ChangeTypeToChangeType(WatcherChangeTypes)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_ChangeTypeToChangeType_WatcherChangeTypes_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.ChangeTypeToChangeType(WatcherChangeTypes)">ChangeTypeToChangeType(WatcherChangeTypes)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -253,7 +232,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.WatcherChangeTypes</span></td>
+        <td><span class="xref">WatcherChangeTypes</span></td>
         <td><span class="parametername">changeType</span></td>
         <td></td>
       </tr>
@@ -387,13 +366,13 @@
   <div><a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseMonitor.html#Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseMonitor_StopRun">BaseMonitor.StopRun()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_System_IO_NotifyFilters_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs%2CSystem.IO.NotifyFilters)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_RenamedEventArgs_NotifyFilters_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs%2CNotifyFilters)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/FileSystemMonitor.cs/#L304">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_System_IO_RenamedEventArgs_System_IO_NotifyFilters_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(System.IO.RenamedEventArgs,System.IO.NotifyFilters)">WriteRename(RenamedEventArgs, NotifyFilters)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_FileSystemMonitor_WriteRename_RenamedEventArgs_NotifyFilters_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.FileSystemMonitor.WriteRename(RenamedEventArgs,NotifyFilters)">WriteRename(RenamedEventArgs, NotifyFilters)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -411,12 +390,12 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IO.RenamedEventArgs</span></td>
+        <td><span class="xref">RenamedEventArgs</span></td>
         <td><span class="parametername">objIn</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.IO.NotifyFilters</span></td>
+        <td><span class="xref">NotifyFilters</span></td>
         <td><span class="parametername">filters</span></td>
         <td></td>
       </tr>
@@ -427,7 +406,7 @@
       <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.IPlatformRunnable.html">IPlatformRunnable</a>
   </div>
   <div>
-      <span class="xref">System.IDisposable</span>
+      <span class="xref">IDisposable</span>
   </div>
 </article>
           </div>

@@ -89,27 +89,6 @@
     <div>
       <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html#Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Serialized">CollectObject.Serialized</a>
     </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.html">Microsoft.CST.AttackSurfaceAnalyzer.Objects</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
@@ -121,13 +100,13 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_Microsoft_Win32_RegistryView_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.%23ctor(System.String%2CMicrosoft.Win32.RegistryView)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_RegistryView_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.%23ctor(System.String%2CRegistryView)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RegistryObject.cs/#L12">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_Microsoft_Win32_RegistryView_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,Microsoft.Win32.RegistryView)">RegistryObject(String, RegistryView)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject__ctor_System_String_RegistryView_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.#ctor(System.String,RegistryView)">RegistryObject(String, RegistryView)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -150,7 +129,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Microsoft.Win32.RegistryView</span></td>
+        <td><span class="xref">RegistryView</span></td>
         <td><span class="parametername">View</span></td>
         <td></td>
       </tr>
@@ -246,7 +225,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">List</span>&lt;<span class="xref">System.String</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -264,7 +243,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string PermissionsString { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string? PermissionsString { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -276,7 +255,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -356,7 +335,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public List&lt;string&gt; Subkeys { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt;? Subkeys { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -368,7 +347,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">List</span>&lt;<span class="xref">System.String</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -416,7 +395,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, string&gt; Values { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Dictionary&lt;string, string&gt;? Values { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -428,7 +407,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -458,7 +437,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Microsoft.Win32.RegistryView</span></td>
+        <td><span class="xref">RegistryView</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -499,13 +478,13 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_Microsoft_Win32_RegistryKey_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_RegistryKey_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Objects/RegistryObject.cs/#L51">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_Microsoft_Win32_RegistryKey_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(Microsoft.Win32.RegistryKey)">GetValues(RegistryKey)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Objects_RegistryObject_GetValues_RegistryKey_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Objects.RegistryObject.GetValues(RegistryKey)">GetValues(RegistryKey)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -523,7 +502,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Microsoft.Win32.RegistryKey</span></td>
+        <td><span class="xref">RegistryKey</span></td>
         <td><span class="parametername">key</span></td>
         <td></td>
       </tr>
@@ -539,7 +518,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>

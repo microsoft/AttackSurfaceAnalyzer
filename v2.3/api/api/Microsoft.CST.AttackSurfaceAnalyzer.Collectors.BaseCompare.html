@@ -81,35 +81,11 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">BaseCompare</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.html">Microsoft.CST.AttackSurfaceAnalyzer.Collectors</a></h6>
   <h6><strong>Assembly</strong>: AsaLib.dll</h6>
   <h5 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class BaseCompare</code></pre>
+    <pre><code class="lang-csharp hljs">public class BaseCompare : object</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -155,7 +131,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Concurrent.ConcurrentDictionary</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.CHANGE_TYPE.html">CHANGE_TYPE</a>&gt;, <span class="xref">System.Collections.Concurrent.ConcurrentBag</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a>&gt;&gt;</td>
+        <td><span class="xref">ConcurrentDictionary</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.RESULT_TYPE.html">RESULT_TYPE</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Types.CHANGE_TYPE.html">CHANGE_TYPE</a>&gt;, <span class="xref">ConcurrentBag</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CompareResult.html">CompareResult</a>&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -164,18 +140,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%2CSystem.Collections.Generic.IEnumerable%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Nullable_System_String__System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%2CIEnumerable%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%2CSystem.Nullable%7BSystem.String%7D%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/BaseCompare.cs/#L39">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Collections_Generic_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Collections.Generic.IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.String,System.String)">Compare(IEnumerable&lt;CollectObject&gt;, IEnumerable&lt;CollectObject&gt;, String, String)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__IEnumerable_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject__System_Nullable_System_String__System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},IEnumerable{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject},System.Nullable{System.String},System.String)">Compare(IEnumerable&lt;CollectObject&gt;, IEnumerable&lt;CollectObject&gt;, Nullable&lt;String&gt;, String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Compare(IEnumerable&lt;CollectObject&gt; FirstRunObjects, IEnumerable&lt;CollectObject&gt; SecondRunObjects, string firstRunId, string secondRunId)</code></pre>
+    <pre><code class="lang-csharp hljs">public void Compare(IEnumerable&lt;CollectObject&gt; FirstRunObjects, IEnumerable&lt;CollectObject&gt; SecondRunObjects, string? firstRunId, string secondRunId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -188,17 +164,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
         <td><span class="parametername">FirstRunObjects</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;</td>
         <td><span class="parametername">SecondRunObjects</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">firstRunId</span></td>
         <td></td>
       </tr>
@@ -211,18 +187,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable%7BSystem.ValueTuple%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%2CSystem.String%7D%7D%2CSystem.Collections.Generic.IEnumerable%7BSystem.ValueTuple%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%2CMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%7D%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_Nullable_System_String__System_String_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable%7BSystem.ValueTuple%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%2CSystem.String%7D%7D%2CIEnumerable%7BSystem.ValueTuple%7BMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%2CMicrosoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject%7D%7D%2CSystem.Nullable%7BSystem.String%7D%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/BaseCompare.cs/#L98">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Collections_Generic_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___System_Collections_Generic_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_String_System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.String,System.String)">Compare(IEnumerable&lt;(CollectObject, String)&gt;, IEnumerable&lt;(CollectObject, CollectObject)&gt;, String, String)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_System_String___IEnumerable_System_ValueTuple_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject_Microsoft_CST_AttackSurfaceAnalyzer_Objects_CollectObject___System_Nullable_System_String__System_String_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,System.String}},IEnumerable{System.ValueTuple{Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject,Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject}},System.Nullable{System.String},System.String)">Compare(IEnumerable&lt;(CollectObject, String)&gt;, IEnumerable&lt;(CollectObject, CollectObject)&gt;, Nullable&lt;String&gt;, String)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Compare(IEnumerable&lt;(CollectObject, string)&gt; differentObjects, IEnumerable&lt;(CollectObject, CollectObject)&gt; modifiedObjects, string firstRunId, string secondRunId)</code></pre>
+    <pre><code class="lang-csharp hljs">public void Compare(IEnumerable&lt;(CollectObject, string)&gt; differentObjects, IEnumerable&lt;(CollectObject, CollectObject)&gt; modifiedObjects, string? firstRunId, string secondRunId)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -235,17 +211,17 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>, <span class="xref">System.String</span>&gt;&gt;</td>
         <td><span class="parametername">differentObjects</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>, <a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.CollectObject.html">CollectObject</a>&gt;&gt;</td>
         <td><span class="parametername">modifiedObjects</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">firstRunId</span></td>
         <td></td>
       </tr>
@@ -258,19 +234,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable%7BSystem.String%7D%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/BaseCompare.cs/#L65">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)">Compare(String, String, DatabaseManager)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_Compare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.Compare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)">Compare(Nullable&lt;String&gt;, String, DatabaseManager)</h4>
   <div class="markdown level1 summary"><p>Compares all the common collectors between two runs.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public void Compare(string firstRunId, string secondRunId, DatabaseManager databaseManager)</code></pre>
+    <pre><code class="lang-csharp hljs">public void Compare(string? firstRunId, string secondRunId, DatabaseManager databaseManager)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -283,7 +259,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">firstRunId</span></td>
         <td><p>The Base run id.</p>
 </td>
@@ -303,18 +279,18 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Object_System_Object_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Object%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Nullable_System_Object__System_Nullable_System_Object__.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable%7BSystem.Object%7D%2CSystem.Nullable%7BSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/BaseCompare.cs/#L147">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Object_System_Object_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Object,System.Object)">GenerateDiffs(Object, Object)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_GenerateDiffs_System_Nullable_System_Object__System_Nullable_System_Object__" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.GenerateDiffs(System.Nullable{System.Object},System.Nullable{System.Object})">GenerateDiffs(Nullable&lt;Object&gt;, Nullable&lt;Object&gt;)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static List&lt;Diff&gt; GenerateDiffs(object first, object second)</code></pre>
+    <pre><code class="lang-csharp hljs">public static List&lt;Diff&gt; GenerateDiffs(object? first, object? second)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -327,12 +303,12 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Object</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
         <td><span class="parametername">first</span></td>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Object</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Object</span>&gt;</td>
         <td><span class="parametername">second</span></td>
         <td></td>
       </tr>
@@ -348,7 +324,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.html">Diff</a>&gt;</td>
+        <td><span class="xref">List</span>&lt;<a class="xref" href="Microsoft.CST.AttackSurfaceAnalyzer.Objects.Diff.html">Diff</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -387,19 +363,19 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/new/release/v2.3/apiSpec/new?filename=Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_.md&amp;value=---%0Auid%3A%20Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable%7BSystem.String%7D%2CSystem.String%2CMicrosoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/microsoft/AttackSurfaceAnalyzer/blob/release/v2.3/Lib/Collectors/BaseCompare.cs/#L407">View Source</a>
   </span>
   <a id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare*"></a>
-  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_String_System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.String,System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)">TryCompare(String, String, DatabaseManager)</h4>
+  <h4 id="Microsoft_CST_AttackSurfaceAnalyzer_Collectors_BaseCompare_TryCompare_System_Nullable_System_String__System_String_Microsoft_CST_AttackSurfaceAnalyzer_Utils_DatabaseManager_" data-uid="Microsoft.CST.AttackSurfaceAnalyzer.Collectors.BaseCompare.TryCompare(System.Nullable{System.String},System.String,Microsoft.CST.AttackSurfaceAnalyzer.Utils.DatabaseManager)">TryCompare(Nullable&lt;String&gt;, String, DatabaseManager)</h4>
   <div class="markdown level1 summary"><p>Compare but with Start/Stop automatic</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool TryCompare(string firstRunId, string secondRunId, DatabaseManager databaseManager)</code></pre>
+    <pre><code class="lang-csharp hljs">public bool TryCompare(string? firstRunId, string secondRunId, DatabaseManager databaseManager)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -412,7 +388,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.String</span></td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><span class="parametername">firstRunId</span></td>
         <td><p>The Base run id.</p>
 </td>
