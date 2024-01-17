@@ -1,5 +1,9 @@
 name: Publish GH - Pages
 
+permissions:
+  contents: read
+  pages: write
+
 on:
   push:
     branches: [ main, release/v2.2, release/v2.3 ]
