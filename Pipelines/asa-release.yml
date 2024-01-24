@@ -35,7 +35,7 @@ stages:
     parameters:
       jobName: 'dotnet_test_windows'
       dotnetVersions: ['6.0.x','7.0.x','8.0.x']
-      vmImage: 'oss-tools-win2022_1es-managed'
+      vmImage: 'win2022-image-base'
       projectPath: 'Tests/Tests.csproj'
 
 - stage: SDL
@@ -95,7 +95,7 @@ stages:
     displayName: Code Sign, Generate Hashes, Publish Public Releases
     pool:
       name: 'OSS-Tools-1ESPool'
-      vmImage: 'oss-tools-win2022_1es-managed'
+      vmImage: 'win2022-image-base'
     steps:
     - task: UseDotNet@2 # For ESRP. Do not use variable.
       inputs:
