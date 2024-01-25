@@ -1,38 +1,34 @@
 name: Publish GH - Pages
+# Based on https://github.com/actions/starter-workflows/blob/main/pages/static.yml
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 on:
   push:
-    branches: [ main, release/v2.2, release/v2.3 ]
-
+    branches: [ release/v2.3 ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 jobs:
-  build:
-
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Set Docs Locations
-      id: branch
-      run: |
-        $branchName = "${{ github.ref }}"
-        # refs/heads/ is 11 characters
-        $branchName = $branchName.Substring(11)
-
-        if($branchName.StartsWith("release/")) 
-        { 
-          $branchName = $branchName.Substring(8)
-        }
-        elseif ($branchName -eq "main")
-        {
-          $branchName = ""
-        }
-        echo "::set-output name=DOCS_LOCATION::$branchName" 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -43,11 +39,13 @@ jobs:
       run: choco install docfx
     - name: Run DocFx
       run: docfx docfx/docfx.json
-    - name: Upload to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3.7.0-8
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: docfx/_site
-        destination_dir: ${{ steps.branch.outputs.DOCS_LOCATION }}
-        keep_files: true
-        full_commit_message: Deploy ${{ steps.branch.outputs.DOCS_LOCATION }} to GitHub Pages
+        # Upload build docfx site
+        path: 'docfx/_site'
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
