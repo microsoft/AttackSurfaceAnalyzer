@@ -84,7 +84,6 @@ stages:
       preBuild:
       - template: nbgv-set-version-steps.yml@templates
 
-###### WIP #########
 - stage: Release
   dependsOn:
   - SDL
@@ -94,7 +93,7 @@ stages:
   - job: sign_hash_release
     displayName: Code Sign, Generate Hashes, Publish Public Releases
     pool:
-      name: 'OSS-Tools-1ESPool'
+      name: 'CSPA'
       vmImage: 'win2022-image-base'
     steps:
     - task: UseDotNet@2 # For ESRP. Do not use variable.
