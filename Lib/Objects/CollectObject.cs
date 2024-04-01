@@ -38,7 +38,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return Serialized.GetHashCode().ToString(CultureInfo.InvariantCulture);
+                return CryptoHelpers.CreateHash(Serialized);
             }
         }
         

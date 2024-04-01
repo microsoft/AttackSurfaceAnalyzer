@@ -3,7 +3,6 @@ using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using ProtoBuf;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
@@ -27,19 +26,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         ///     If this is windows executable what DLL Characteristics are set
         /// </summary>
-        [ProtoMember(23)]
+        [ProtoMember(3)]
         public List<DLLCHARACTERISTICS>? Characteristics { get; set; }
 
         /// <summary>
         ///     A hash of the file (if collected)
         /// </summary>
-        [ProtoMember(4)]
+        [ProtoMember(1)]
         public string? ContentHash { get; set; }
 
         /// <summary>
         ///     When was the file created in UTC
         /// </summary>
-        [ProtoMember(24)]
+        [ProtoMember(2)]
         public DateTime Created { get; set; }
 
         /// <summary>
@@ -144,7 +143,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         ///     If this is a link where does it point to.
         /// </summary>
-        [ProtoMember(22)] 
+        [ProtoMember(4)] 
         public string? Target { get; set; }
 
         public bool ShouldSerializeCharacteristics()

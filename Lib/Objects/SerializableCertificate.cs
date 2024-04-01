@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
-    [ProtoContract]
+    [ProtoContract(SkipConstructor = true)]
     public class SerializableCertificate
     {
         public SerializableCertificate(X509Certificate2 certificate)

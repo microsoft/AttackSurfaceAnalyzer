@@ -29,13 +29,57 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public static byte[] Dehydrate(CollectObject colObj)
         {
             using var ms = new MemoryStream();
-            if (colObj is FileSystemObject fileObject)
+            switch (colObj)
             {
-                Serializer.Serialize(ms, fileObject);
-                return ms.ToArray();
+                case CertificateObject certificateObject:
+                    Serializer.Serialize(ms, certificateObject);
+                    break;
+                case FileSystemObject fileSystemObject:
+                    Serializer.Serialize(ms, fileSystemObject);
+                    break;
+                case OpenPortObject openPortObject:
+                    Serializer.Serialize(ms, openPortObject);
+                    break;
+                case RegistryObject registryObject:
+                    Serializer.Serialize(ms, registryObject);
+                    break;
+                case ServiceObject serviceObject:
+                    Serializer.Serialize(ms, serviceObject);
+                    break;
+                case UserAccountObject userAccountObject:
+                    Serializer.Serialize(ms, userAccountObject);
+                    break;
+                case GroupAccountObject groupAccountObject:
+                    Serializer.Serialize(ms, groupAccountObject);
+                    break;
+                case FirewallObject firewallObject:
+                    Serializer.Serialize(ms, firewallObject);
+                    break;
+                case ComObject comObject:
+                    Serializer.Serialize(ms, comObject);
+                    break;
+                case EventLogObject eventLogObject:
+                    Serializer.Serialize(ms, eventLogObject);
+                    break;
+                case TpmObject tpmObject:
+                    Serializer.Serialize(ms, tpmObject);
+                    break;
+                case CryptographicKeyObject cryptographicKeyObject:
+                    Serializer.Serialize(ms, cryptographicKeyObject);
+                    break;
+                case ProcessObject processObject:
+                    Serializer.Serialize(ms, processObject);
+                    break;
+                case DriverObject driverObject:
+                    Serializer.Serialize(ms, driverObject);
+                    break;
+                case FileMonitorObject fileMonitorObject:
+                    Serializer.Serialize(ms, fileMonitorObject);
+                    break;
+                default:
+                    throw new NotSupportedException();
             }
-            return new byte[0];
-//          return JsonConvert.SerializeObject(colObj, jsonSettings);
+            return ms.ToArray();
         }
 
         /// <summary>
@@ -57,46 +101,32 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             {
                 case RESULT_TYPE.CERTIFICATE:
                     return Serializer.Deserialize<CertificateObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.FILE:
                     return Serializer.Deserialize<FileSystemObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.PORT:
                     return Serializer.Deserialize<OpenPortObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.REGISTRY:
                     return Serializer.Deserialize<RegistryObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.SERVICE:
                     return Serializer.Deserialize<ServiceObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.USER:
                     return Serializer.Deserialize<UserAccountObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.GROUP:
                     return Serializer.Deserialize<GroupAccountObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.FIREWALL:
                     return Serializer.Deserialize<FirewallObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.COM:
                     return Serializer.Deserialize<ComObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.LOG:
                     return Serializer.Deserialize<EventLogObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.TPM:
                     return Serializer.Deserialize<TpmObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.KEY:
                     return Serializer.Deserialize<CryptographicKeyObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.PROCESS:
                     return Serializer.Deserialize<ProcessObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.DRIVER:
                     return Serializer.Deserialize<DriverObject>(new MemoryStream(serialized));
-
                 case RESULT_TYPE.FILEMONITOR:
                     return Serializer.Deserialize<FileMonitorObject>(new MemoryStream(serialized));
                 default:

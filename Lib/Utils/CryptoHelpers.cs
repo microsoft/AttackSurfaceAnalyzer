@@ -19,6 +19,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         {
             try
             {
+                using HashAlgorithm sha512 = SHA512.Create();
                 byte[] hashOutput = sha512.ComputeHash(Encoding.UTF8.GetBytes(input));
                 return Convert.ToBase64String(hashOutput);
             }
@@ -29,10 +30,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
         }
 
+        public static string CreateHash(byte[] input)
+        {
+            try
+            {
+                using HashAlgorithm sha512 = SHA512.Create();
+                byte[] hashOutput = sha512.ComputeHash(input);
+                return Convert.ToBase64String(hashOutput);
+            }
+            catch (CryptographicException e)
+            {
+                Log.Warning(e, Strings.Get("Err_CreateHash"), "[byte array]");
+                return string.Empty;
+            }
+        }
+
         public static string CreateHash(Stream stream)
         {
             try
             {
+                using HashAlgorithm sha512 = SHA512.Create();
                 return Convert.ToBase64String(sha512.ComputeHash(stream) ?? Array.Empty<byte>());
             }
             catch (CryptographicException e)
@@ -63,7 +80,5 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         public static string GetRandomString(int characters) => new(Enumerable.Range(1, characters).Select(_ => chars[GetRandomPositiveIndex(chars.Length)]).ToArray());
 
         private const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        private static readonly HashAlgorithm sha512 = SHA512.Create();
     }
 }

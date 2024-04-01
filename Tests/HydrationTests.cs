@@ -105,7 +105,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
             var serialized = JsonUtils.Dehydrate(po);
-            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
+            Assert.IsTrue(po.RowKey.Equals(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)?.RowKey));
         }
 
         [TestMethod]
