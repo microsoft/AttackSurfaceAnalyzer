@@ -271,3 +271,4 @@ asa.sqlite
 *asa.log.txt
 *.sqlite
 *.litedb
+Cli/Properties/launchSettings.json

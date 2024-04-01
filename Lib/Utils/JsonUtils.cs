@@ -2,10 +2,14 @@
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
+using ProtoBuf;
 using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.Unicode;
 using Tpm2Lib;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
@@ -22,9 +26,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         /// </summary>
         /// <param name="colObj"> The object to serialize </param>
         /// <returns> The bytes of the serialized object </returns>
-        public static string Dehydrate(CollectObject colObj)
+        public static byte[] Dehydrate(CollectObject colObj)
         {
-            return JsonConvert.SerializeObject(colObj, jsonSettings);
+            using var ms = new MemoryStream();
+            if (colObj is FileSystemObject fileObject)
+            {
+                Serializer.Serialize(ms, fileObject);
+                return ms.ToArray();
+            }
+            return new byte[0];
+//          return JsonConvert.SerializeObject(colObj, jsonSettings);
         }
 
         /// <summary>
@@ -35,7 +46,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
         ///     An appropriately typed collect object based on the collect result passed in, or null if the
         ///     RESULT_TYPE is unknown.
         /// </returns>
-        public static CollectObject? Hydrate(string serialized, RESULT_TYPE type)
+        public static CollectObject? Hydrate(byte[] serialized, RESULT_TYPE type)
         {
             if (serialized == null)
             {
@@ -45,48 +56,49 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             switch (type)
             {
                 case RESULT_TYPE.CERTIFICATE:
-                    return JsonConvert.DeserializeObject<CertificateObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<CertificateObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.FILE:
-                    return JsonConvert.DeserializeObject<FileSystemObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<FileSystemObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.PORT:
-                    return JsonConvert.DeserializeObject<OpenPortObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<OpenPortObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.REGISTRY:
-                    return JsonConvert.DeserializeObject<RegistryObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<RegistryObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.SERVICE:
-                    return JsonConvert.DeserializeObject<ServiceObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<ServiceObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.USER:
-                    return JsonConvert.DeserializeObject<UserAccountObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<UserAccountObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.GROUP:
-                    return JsonConvert.DeserializeObject<GroupAccountObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<GroupAccountObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.FIREWALL:
-                    return JsonConvert.DeserializeObject<FirewallObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<FirewallObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.COM:
-                    return JsonConvert.DeserializeObject<ComObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<ComObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.LOG:
-                    return JsonConvert.DeserializeObject<EventLogObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<EventLogObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.TPM:
-                    return JsonConvert.DeserializeObject<TpmObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<TpmObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.KEY:
-                    return JsonConvert.DeserializeObject<CryptographicKeyObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<CryptographicKeyObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.PROCESS:
-                    return JsonConvert.DeserializeObject<ProcessObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<ProcessObject>(new MemoryStream(serialized));
 
                 case RESULT_TYPE.DRIVER:
-                    return JsonConvert.DeserializeObject<DriverObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<DriverObject>(new MemoryStream(serialized));
+
                 case RESULT_TYPE.FILEMONITOR:
-                    return JsonConvert.DeserializeObject<FileMonitorObject>(serialized, jsonSettings);
+                    return Serializer.Deserialize<FileMonitorObject>(new MemoryStream(serialized));
                 default:
                     return null;
             }

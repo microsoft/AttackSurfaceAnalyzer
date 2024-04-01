@@ -28,9 +28,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public string RowKey { get; }
         public string RunId { get; }
-        public string Serialized { get; }
+        public byte[] Serialized { get; }
 
-        public static WriteObject? FromString(string SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        public static WriteObject? FromString(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             var deserialized = JsonUtils.Hydrate(SerializedIn, ResultTypeIn);
 
