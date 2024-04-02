@@ -80,7 +80,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
             else
             {
-                return SHA512.Create();
+                return SHA256.Create();
             }
         }
 
