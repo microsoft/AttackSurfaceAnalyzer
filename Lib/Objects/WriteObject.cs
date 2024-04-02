@@ -30,7 +30,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string RunId { get; }
         public byte[] Serialized { get; }
 
-        public static WriteObject? FromString(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
+        public static WriteObject? FromSerialized(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
             var deserialized = ProtoBufUtils.Hydrate(SerializedIn, ResultTypeIn);
 

@@ -225,7 +225,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var resultTypeString = reader["result_type"].ToString();
                     if (runId != null && resultTypeString != null)
                     {
-                        var wo = WriteObject.FromString((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                        var wo = WriteObject.FromSerialized((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                         if (wo is WriteObject WO)
                         {
                             output.Add(WO);
@@ -256,8 +256,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
                     if (aRunId != null && bRunId != null && aResultType != null && bResultType != null)
                     {
-                        var val1 = WriteObject.FromString((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
-                        var val2 = WriteObject.FromString((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
+                        var val1 = WriteObject.FromSerialized((byte[])reader["a_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), aResultType), aRunId);
+                        var val2 = WriteObject.FromSerialized((byte[])reader["b_serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), bResultType), bRunId);
 
                         if (val1 is WriteObject V1 && val2 is WriteObject V2)
                         {
@@ -389,7 +389,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     var resultTypeString = reader["result_type"].ToString();
                     if (runId != null && resultTypeString != null)
                     {
-                        var val = WriteObject.FromString((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
+                        var val = WriteObject.FromSerialized((byte[])reader["serialized"], (RESULT_TYPE)Enum.Parse(typeof(RESULT_TYPE), resultTypeString), runId);
                         if (val is WriteObject valid)
                             yield return valid;
                     }
