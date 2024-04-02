@@ -54,5 +54,53 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string Subject { get; set; }
         [ProtoMember(9)]
         public string Thumbprint { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            if(ReferenceEquals(this, obj)) return true;
+            if (obj is SerializableCertificate) return Equals((SerializableCertificate)obj);
+            return false;
+        }
+
+        public bool Equals(SerializableCertificate other)
+        {
+            if (!CertHashString.Equals(other.CertHashString))
+            {
+                return false;
+            }
+            if (!Issuer.Equals(other.Issuer))
+            {
+                return false;
+            }
+            if (!NotAfter.Equals(other.NotAfter))
+            {
+                return false;
+            }
+            if (!NotBefore.Equals(other.NotBefore))
+            {
+                return false;
+            }
+            if (!Pkcs7.Equals(other.Pkcs7))
+            {
+                return false;
+            }
+            if (!PublicKey.Equals(other.PublicKey))
+            {
+                return false;
+            }
+            if (!SerialNumber.Equals(other.SerialNumber))
+            {
+                return false;
+            }
+            if (!Subject.Equals(other.Subject))
+            {
+                return false;
+            }
+            if (!Thumbprint.Equals(other.Thumbprint))
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }
