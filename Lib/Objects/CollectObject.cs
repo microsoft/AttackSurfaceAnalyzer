@@ -38,9 +38,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                return CryptoHelpers.CreateHash(Serialized);
+                if (string.IsNullOrEmpty(_rowKey))
+                {
+                    _rowKey = CryptoHelpers.CreateHash(Serialized);
+                }
+                return _rowKey;
             }
         }
+
+        private string _rowKey = string.Empty;
         
         [SkipCompare]
         [JsonIgnore]
@@ -50,7 +56,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             {
                 if (_serialized == null)
                 {
-                    _serialized = JsonUtils.Dehydrate(this);
+                    _serialized = ProtoBufUtils.Dehydrate(this);
                 }
 
                 return _serialized;

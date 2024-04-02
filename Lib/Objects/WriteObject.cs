@@ -32,7 +32,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public static WriteObject? FromString(byte[] SerializedIn, RESULT_TYPE ResultTypeIn, string RunIdIn)
         {
-            var deserialized = JsonUtils.Hydrate(SerializedIn, ResultTypeIn);
+            var deserialized = ProtoBufUtils.Hydrate(SerializedIn, ResultTypeIn);
 
             if (deserialized is CollectObject)
             {

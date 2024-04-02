@@ -8,15 +8,13 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Unicode;
 using Tpm2Lib;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 {
-    public static class JsonUtils
+    public static class ProtoBufUtils
     {
-        static JsonUtils()
+        static ProtoBufUtils()
         {
             TypeDescriptor.AddAttributes(typeof((TpmAlgId, uint)), new TypeConverterAttribute(typeof(TpmPcrTupleConverter<TpmAlgId, uint>)));
         }
