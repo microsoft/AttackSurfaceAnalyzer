@@ -14,11 +14,7 @@ trigger: none
   #   - Pipelines
   #   - analyses.json
 #pr: none
-pr:
-  branches:
-    include:
-    - main
-    - release/*
+pr: none
 
 resources:
   repositories:
