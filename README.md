@@ -21,7 +21,6 @@ Documentation for the [API](https://microsoft.github.io/AttackSurfaceAnalyzer/ap
 - New Blazor GUI with Rule Authoring and Testing Sandbox
 - New Collectors
 - Improved collection and analysis performance.
-- Support for C# 9/.NET 5
 
 ## Overview
 
