@@ -2,6 +2,7 @@
 
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Newtonsoft.Json;
+using ProtoBuf;
 using Serilog;
 using System;
 using System.Security.Cryptography;
@@ -9,6 +10,7 @@ using Tpm2Lib;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract(SkipConstructor = true)]
     public class CryptographicKeyObject : CollectObject
     {
         public CryptographicKeyObject(string Source, TpmAlgId tpmAlgId)
@@ -27,16 +29,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [ProtoMember(1)]
         public RsaKeyDetails? RsaDetails { get; set; }
+        [ProtoMember(2)]
         public string Source { get; set; }
-
+        [ProtoMember(3)]
         public TpmAlgId tpmAlgId { get; set; } = TpmAlgId.Null;
     }
 
+    [ProtoContract]
     public class KeyDetailObject
     {
     }
 
+    [ProtoContract(SkipConstructor = true)]
     public class RsaKeyDetails : KeyDetailObject
     {
         public RsaKeyDetails(byte[] modulus, byte[] d, byte[]? p = null, byte[]? q = null)
@@ -82,7 +88,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 Log.Debug(e, "Failed to import RSA key.");
             }
         }
-
         public string? FullString
         {
             get

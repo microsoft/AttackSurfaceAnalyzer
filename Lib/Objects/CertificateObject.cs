@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using ProtoBuf;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract]
     public class CertificateObject : CollectObject
     {
         public CertificateObject(string StoreLocation, string StoreName, SerializableCertificate Certificate)
@@ -11,11 +13,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             this.StoreName = StoreName;
             this.Certificate = Certificate;
         }
+        public CertificateObject() { }
         public override RESULT_TYPE ResultType => RESULT_TYPE.CERTIFICATE;
 
         /// <summary>
         ///     A serializable representation of the Certificate.
         /// </summary>
+        [ProtoMember(1)]
         public SerializableCertificate Certificate { get; set; }
 
         /// <summary>
@@ -43,11 +47,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         ///     The Store Location or Location on Disk where the Certificate was found
         /// </summary>
+        [ProtoMember(2)]
         public string StoreLocation { get; set; }
 
         /// <summary>
         ///     The Name of an X509 Store or another source (like the filesystem)
         /// </summary>
+        [ProtoMember(3)]
         public string StoreName { get; set; }
 
         /// <summary>

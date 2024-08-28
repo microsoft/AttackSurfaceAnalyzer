@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using ProtoBuf;
+using System.Collections.Generic;
 using Tpm2Lib;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract]
     public class AsaNvIndex
     {
+        [ProtoMember(1)]
         public NvAttr Attributes { get; set; }
 
         // These are all derived properties of the NvAttr flags. Separating them like this allows analysis
@@ -17,6 +20,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public bool Counter { get { return Attributes.HasFlag(NvAttr.Counter); } }
         public bool Extend { get { return Attributes.HasFlag(NvAttr.Extend); } }
         public bool GlobalLock { get { return Attributes.HasFlag(NvAttr.Globallock); } }
+        [ProtoMember(2)]
         public uint Index { get; set; }
         public bool NoDa { get { return Attributes.HasFlag(NvAttr.NoDa); } }
         public bool None { get { return Attributes.HasFlag(NvAttr.None); } }
@@ -41,6 +45,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public bool TpmNtBitLength { get { return Attributes.HasFlag(NvAttr.TpmNtBitLength); } }
         public bool TpmNtBitMask { get { return Attributes.HasFlag(NvAttr.TpmNtBitMask); } }
         public bool TpmNtBitOffset { get { return Attributes.HasFlag(NvAttr.TpmNtBitOffset); } }
+        [ProtoMember(3)]
         public List<byte>? value { get; set; }
         public bool Writeall { get { return Attributes.HasFlag(NvAttr.Writeall); } }
         public bool Writedefine { get { return Attributes.HasFlag(NvAttr.Writedefine); } }
