@@ -1,26 +1,12 @@
-# Azure Pipelines
-# https://aka.ms/yaml
-
 name: ASA_Release_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger: none
-  # batch: true
-  # branches:
-  #   include:
-  #   - release/v2.3
-  # paths:
-  #   include:
-  #   - Cli
-  #   - Lib
-  #   - Pipelines
-  #   - analyses.json
-#pr: none
 pr: none
 
 resources:
   repositories:
     - repository: templates
       type: git
-      name: SecurityEngineering/OSS-Tools-Pipeline-Templates
+      name: Data/OSS-Tools-Pipeline-Templates
       ref: refs/tags/v2.0.0
     - repository: 1esPipelines
       type: git
@@ -35,6 +21,11 @@ variables:
 extends:
   template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
+    sdl:
+      sourceRepositoriesToScan:
+        exclude:
+          - repository: 1esPipelines
+          - repository: templates
     pool:
       name: MSSecurity-1ES-Build-Agents-Pool
       image: MSSecurity-1ES-Windows-2022
@@ -51,7 +42,6 @@ extends:
           poolImage: MSSecurity-1ES-Windows-2022
           poolOs: windows
           projectPath: 'Tests/Tests.csproj'
-
     - stage: Build
       dependsOn: Test
       jobs:
@@ -96,3 +86,454 @@ extends:
           artifactName: 'nuget-cli-archive'
           preBuild:
           - template: nbgv-set-version-steps.yml@templates
+ 
+    - stage: Release
+      dependsOn:
+      - Build
+      condition: succeeded()
+      jobs:
+      - job: sign_hash_release
+        displayName: Code Sign, Generate Hashes, Publish Public Releases
+        templateContext:
+          outputs:
+          - output: pipelineArtifact
+            path: '$(Build.StagingDirectory)'
+            artifact: 'Signed_Binaries_$(System.JobId)_$(System.JobAttempt)'
+        steps:
+        - task: UseDotNet@2
+          inputs:
+            packageType: 'sdk'
+            version: '6.0.x' # ESRP signing currently limited to 6
+        - template: nbgv-set-version-steps.yml@templates
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            displayName: 'Download linux-mac-archive'  
+            buildType: 'current'
+            artifactName: 'linux-mac-archive'
+            targetPath: $(Build.BinariesDirectory)\Unsigned_Binaries\
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            displayName: 'Download nuget-cli-archive'  
+            buildType: 'current'
+            artifactName: 'nuget-cli-archive'
+            targetPath: $(Build.BinariesDirectory)\Unsigned_Binaries\
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            displayName: 'Download nuget-lib-archive'  
+            buildType: 'current'
+            artifactName: 'nuget-lib-archive'
+            targetPath: $(Build.BinariesDirectory)\Unsigned_Binaries\
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            displayName: 'Download cli-archive'  
+            buildType: 'current'
+            artifactName: 'cli-archive'
+            targetPath: $(Build.BinariesDirectory)\Unsigned_Binaries\
+        - task: ExtractFiles@1
+          displayName: Extract Artifacts for Signing
+          inputs:
+            archiveFilePatterns: '$(Build.BinariesDirectory)\Unsigned_Binaries\*.zip'
+            destinationFolder: '$(Build.BinariesDirectory)'
+            cleanDestinationFolder: false
+            overwriteExistingFiles: true
+        - task: AntiMalware@4
+          displayName: Anti-Malware Scan
+          inputs:
+            InputType: 'Basic'
+            ScanType: 'CustomScan'
+            FileDirPath: '$(Build.BinariesDirectory)'
+            EnableServices: true
+            SupportLogOnError: true
+            TreatSignatureUpdateFailureAs: 'Warning'
+            SignatureFreshness: 'UpToDate'
+            TreatStaleSignatureAs: 'Warning'
+        # First party code signing
+        - task: EsrpCodeSigning@5
+          displayName: First Party Code Sign - Linux
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
+            Pattern: 'Asa.dll, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - task: EsrpCodeSigning@5
+          displayName: First Party Code Sign - MacOS
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
+            Pattern: 'Asa.dll, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - task: EsrpCodeSigning@5
+          displayName: First Party Code Sign - Windows
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
+            Pattern: 'Asa.dll, Asa.exe, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - task: EsrpCodeSigning@5
+          displayName: First Party Code Sign - .NET Core App
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
+            Pattern: 'Asa.dll, Asa.exe, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-230012",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        # Third party code signing
+        - task: EsrpCodeSigning@5
+          displayName: Third Party Code Sign - Linux
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
+            Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - task: EsrpCodeSigning@5
+          displayName: Third Party Code Sign - MacOS
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
+            Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - task: EsrpCodeSigning@5
+          displayName: Third Party Code Sign - Windows
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
+            Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - task: EsrpCodeSigning@5
+          displayName: Third Party Code Sign - .NET Core App
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
+            Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolSign",
+                          "Parameters" : {
+                              "OpusName" : "Microsoft",
+                              "OpusInfo" : "http://www.microsoft.com",
+                              "FileDigest" : "/fd \"SHA256\"",
+                              "PageHash" : "/NPH",
+                              "TimeStamp" : "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                          },
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-231522",
+                          "OperationCode" : "SigntoolVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        # Nuget package code signing
+        - task: EsrpCodeSigning@5
+          displayName: Code Sign Nuget Packages
+          inputs:
+            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+            AuthAKVName: 'oss-signing-vault'
+            AuthCertName: 'oss-asa-auth-cert'
+            AuthSignCertName: 'oss-asa-signing-cert'
+            FolderPath: '$(Build.BinariesDirectory)'
+            Pattern: '*.nupkg, *.snupkg'
+            signConfigType: 'inlineSignParams'
+            inlineOperation: |
+              [
+                      {
+                          "KeyCode" : "CP-401405",
+                          "OperationCode" : "NuGetSign",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      },
+                      {
+                          "KeyCode" : "CP-401405",
+                          "OperationCode" : "NuGetVerify",
+                          "Parameters" : {},
+                          "ToolName" : "sign",
+                          "ToolVersion" : "1.0"
+                      }
+                  ]
+            SessionTimeout: '60'
+            MaxConcurrency: '50'
+            MaxRetryAttempts: '5'
+        - powershell: 'Get-ChildItem -Path ''$(Build.BinariesDirectory)'' -Recurse CodeSign* | foreach { Remove-Item -Path $_.FullName }'
+          displayName: 'Delete Code Sign Summaries'
+        - task: ArchiveFiles@2
+          displayName: Archive Artifact - Linux
+          inputs:
+            rootFolderOrFile: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
+            includeRootFolder: true
+            archiveType: 'zip'
+            archiveFile: '$(Build.StagingDirectory)/ASA_linux_$(ReleaseVersion).zip'
+            replaceExistingArchive: true
+        - task: ArchiveFiles@2
+          displayName: Archive Artifact - MacOS
+          inputs:
+            rootFolderOrFile: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
+            includeRootFolder: true
+            archiveType: 'zip'
+            archiveFile: '$(Build.StagingDirectory)/ASA_macos_$(ReleaseVersion).zip'
+            replaceExistingArchive: true
+        - task: ArchiveFiles@2
+          displayName: Archive Artifact - Windows
+          inputs:
+            rootFolderOrFile: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
+            includeRootFolder: true
+            archiveType: 'zip'
+            archiveFile: '$(Build.StagingDirectory)/ASA_win_$(ReleaseVersion).zip'
+            replaceExistingArchive: true
+        - task: ArchiveFiles@2
+          displayName: Archive Artifact - .NET Core App
+          inputs:
+            rootFolderOrFile: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
+            includeRootFolder: true
+            archiveType: 'zip'
+            archiveFile: '$(Build.StagingDirectory)/ASA_netcoreapp_$(ReleaseVersion).zip'
+            replaceExistingArchive: true
+        - task: PowerShell@2
+          displayName: Generate Hashes
+          inputs:
+            targetType: 'inline'
+            script: |
+              Get-ChildItem $(Build.StagingDirectory) | Foreach-Object {
+                $name = $_.Name
+                $tmp = (Get-FileHash "$(Build.StagingDirectory)\$name").Hash
+                Add-Content $(Build.StagingDirectory)\HASHES.txt "$tmp`t$name"
+              }
+        - task: PowerShell@2
+          displayName: Move NuGet Packages
+          inputs:
+            targetType: 'inline'
+            script: |
+              mv $env:BUILD_BINARIESDIRECTORY/*.nupkg $env:BUILD_STAGINGDIRECTORY/
+              mv $env:BUILD_BINARIESDIRECTORY/*.snupkg $env:BUILD_STAGINGDIRECTORY/
