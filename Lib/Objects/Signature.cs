@@ -1,11 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Newtonsoft.Json;
 using PeNet.Header.Authenticode;
+using ProtoBuf;
 using System;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract]
     public class Signature
     {
         public Signature(AuthenticodeInfo authenticodeInfo)
@@ -50,9 +52,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [ProtoMember(1)]
         public bool IsAuthenticodeValid { get; set; }
+        [ProtoMember(2)]
         public string? SignedHash { get; set; }
+        [ProtoMember(3)]
         public string? SignerSerialNumber { get; set; }
+        [ProtoMember(4)]
         public SerializableCertificate? SigningCertificate { get; set; }
     }
 }

@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using ProtoBuf;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract]
     public class ProcessModuleObject
     {
         public ProcessModuleObject(string? FileName, string? ModuleName, SerializableFileVersionInfo? FileVersionInfo)
@@ -15,8 +17,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public ProcessModuleObject() { }
 
+        [ProtoMember(1)]
         public string? FileName { get; set; }
+        [ProtoMember(2)]
         public SerializableFileVersionInfo? FileVersionInfo { get; set; }
+        [ProtoMember(3)]
         public string? ModuleName { get; set; }
 
         internal static ProcessModuleObject FromProcessModule(ProcessModule mainModule)
