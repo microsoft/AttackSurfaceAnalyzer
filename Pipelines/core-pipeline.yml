@@ -26,7 +26,7 @@ extends:
       image: MSSecurity-1ES-Windows-2022
       os: windows
     stages:
-    - stage: Test
+    - stage: NoOp
       dependsOn: []
       jobs:
       - job: NoOp
