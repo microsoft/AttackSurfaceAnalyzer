@@ -29,5 +29,7 @@ extends:
     - stage: Test
       dependsOn: []
       jobs:
-      steps:
-      - script: echo Placeholder
+      - job: NoOp
+        displayName: NoOp
+        steps:
+        - script: echo Placeholder
