@@ -16,7 +16,7 @@ variables:
   DotnetTargetFramework: 'net8.0'
 
 extends:
-  template: v1/1ES.Unofficial.PipelineTemplate.yml@1esPipelines
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
     pool:
       name: MSSecurity-1ES-Build-Agents-Pool
