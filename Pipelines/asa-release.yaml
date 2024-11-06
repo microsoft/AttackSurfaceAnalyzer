@@ -1,8 +1,0 @@
-# note - temporary, empty pipeline file to facilitate ADO pipeline creation for release branches
-name: RecursiveExtractor_Release_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
-trigger: none
-pr: none
-
-steps:
-- script: echo 'this pipeline does nothing'
-  displayName: 'echo message'

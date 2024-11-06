@@ -1,8 +1,32 @@
-# note - temporary, empty pipeline file to facilitate ADO pipeline creation for release branches
-name: RecursiveExtractor_Release_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+name: ASA_Release_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger: none
-pr: none
+pr: 
+- main
 
-steps:
-- script: echo 'this pipeline does nothing'
-  displayName: 'echo message'
+resources:
+  repositories:
+    - repository: 1esPipelines
+      type: git
+      name: 1ESPipelineTemplates/1ESPipelineTemplates
+      ref: refs/tags/release
+
+variables:
+  BuildConfiguration: 'Release'
+  DotnetVersion: '8.0.x'
+  DotnetTargetFramework: 'net8.0'
+
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      name: MSSecurity-1ES-Build-Agents-Pool
+      image: MSSecurity-1ES-Windows-2022
+      os: windows
+    stages:
+    - stage: NoOp
+      dependsOn: []
+      jobs:
+      - job: NoOp
+        displayName: NoOp
+        steps:
+        - script: echo Placeholder
