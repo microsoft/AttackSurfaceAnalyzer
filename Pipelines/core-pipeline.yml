@@ -3,7 +3,8 @@
 
 name: ASA_PR_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger: none
-pr: main
+pr: 
+- main
 
 resources:
   repositories:
