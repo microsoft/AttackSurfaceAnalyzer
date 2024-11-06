@@ -1,6 +1,6 @@
 name: ASA_Release_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger: none
-pr: none
+pr: main
 
 resources:
   repositories:
