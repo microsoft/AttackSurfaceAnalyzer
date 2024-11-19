@@ -85,6 +85,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         /// <summary>
         ///     Requires Admin
         /// </summary>
+        [Ignore] // Needs to be converted to mocked test
         [TestMethod]
         public void TestEventCollectorWindows()
         {
@@ -396,6 +397,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         /// <summary>
         ///     Requires Administrator Priviledges.
         /// </summary>
+        [Ignore] // Needs to be converted to mocked test
         [TestMethod]
         public void TestServiceCollectorWindows()
         {
@@ -531,6 +533,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         /// <summary>
         ///     Requires Administrator Priviledges.
         /// </summary>
+        [Ignore] // Needs to be converted to mocked test
         [TestMethod]
         public void TestUserCollectorWindows()
         {
@@ -561,6 +564,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         /// <summary>
         ///     Requires Administrator Priviledges.
         /// </summary>
+        [Ignore] // Needs to be converted to mocked test
         [TestMethod]
         public void TestGroupCollectorWindows()
         {
