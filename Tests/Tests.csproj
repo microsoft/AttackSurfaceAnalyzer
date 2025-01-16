@@ -16,6 +16,12 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.7.1" />
     <PackageReference Include="MSTest.TestFramework" Version="3.7.1" />
+    <PackageReference Update="MSTest.Analyzers" Version="3.7.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="1.5.1" />
+    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="17.13.1" />
   </ItemGroup>
 
   <ItemGroup>
