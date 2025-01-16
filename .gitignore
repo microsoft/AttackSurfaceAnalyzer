@@ -264,6 +264,9 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Mac OS Metadata
+**/.DS_Store
+
 Application Insights/
 *.sqlite-journal
 Tools/
