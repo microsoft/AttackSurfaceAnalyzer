@@ -5,6 +5,10 @@
     <IsPackable>false</IsPackable>
     <AssemblyName>AsaTests</AssemblyName>
     <ReleaseVersion>2.1-alpha</ReleaseVersion>
+	<EnableMSTestRunner>true</EnableMSTestRunner>
+	<OutputType>Exe</OutputType>
+	<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+	<TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,9 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.5" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.5" />
+    <PackageReference Include="MSTest" Version="3.7.1" />
   </ItemGroup>
 
   <ItemGroup>
