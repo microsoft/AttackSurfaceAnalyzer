@@ -1,7 +1,7 @@
 ﻿using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 0)]
+//[assembly: Parallelize(Scope = ExecutionScope.MethodLevel, Workers = 0)]
 [assembly: ClassCleanupExecution(ClassCleanupBehavior.EndOfClass)]
 
 [TestClass]
