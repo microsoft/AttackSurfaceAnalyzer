@@ -12,17 +12,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class AsaAnalyzerTests
     {
-        public AsaAnalyzerTests()
-        {
-        }
-
-        [ClassInitialize]
-        public static void ClassSetup(TestContext _)
-        {
-            Logger.Setup(false, true);
-            Strings.Setup();
-        }
-
         [TestMethod]
         public void VerifyEmbeddedRulesAreValid()
         {

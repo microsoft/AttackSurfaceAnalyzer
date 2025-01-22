@@ -13,13 +13,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class InMemoryComparatorTests
     {
-        [ClassInitialize]
-        public static void ClassSetup(TestContext _)
-        {
-            Logger.Setup(false, true);
-            Strings.Setup();
-        }
-
         [TestMethod]
         public void TestAddedInMemory()
         {

@@ -10,13 +10,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class HydrationTests
     {
-        [ClassInitialize]
-        public static void ClassSetup(TestContext _)
-        {
-            Logger.Setup(false, true);
-            Strings.Setup();
-        }
-
         [TestMethod]
         public void TestSerializeAndDeserializeCertificateObject()
         {
