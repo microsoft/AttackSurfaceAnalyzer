@@ -907,10 +907,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
                     artifact.SetProperty("ResultType", compareResult.ResultType);
 
-                    artifacts.Add(artifact);
-                    int index = artifacts.Count - 1;
                     if (compareResult.Rules.Any())
                     {
+                        artifacts.Add(artifact);
+                        int index = artifacts.Count - 1;
+
                         foreach (var rule in compareResult.Rules)
                         {
                             var sarifResult = new Result();
@@ -943,6 +944,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     {
                         if (!disableImplicitFindings)
                         {
+                            artifacts.Add(artifact);
+                            int index = artifacts.Count - 1;
+
                             var sarifResult = new Result();
                             sarifResult.Locations = new List<Location>()
                             {
