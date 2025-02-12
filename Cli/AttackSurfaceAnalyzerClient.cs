@@ -803,8 +803,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Formatting = Formatting.Indented,
             };
 
+            using var target = File.CreateText(outputFilePath);
             JsonSerializer serializer = JsonSerializer.Create(settings);
-            serializer.Serialize(File.CreateText(outputFilePath), log);
+            serializer.Serialize(target, log);
         }
 
         public static SarifLog GenerateSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, bool disableImplicitFindings)
