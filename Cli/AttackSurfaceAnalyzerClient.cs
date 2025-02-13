@@ -1488,36 +1488,41 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                 opts.EnableNetworkPortCollector = true;
                                 break;
 
+                            case RESULT_TYPE.REGISTRY:
+                                opts.EnableRegistryCollector = true;
+                                break;
+
                             case RESULT_TYPE.CERTIFICATE:
                                 opts.EnableCertificateCollector = true;
-                                break;
-
-                            case RESULT_TYPE.COM:
-                                opts.EnableComObjectCollector = true;
-                                break;
-
-                            case RESULT_TYPE.FIREWALL:
-                                opts.EnableFirewallCollector = true;
-                                break;
-
-                            case RESULT_TYPE.LOG:
-                                opts.EnableEventLogCollector = true;
                                 break;
 
                             case RESULT_TYPE.SERVICE:
                                 opts.EnableServiceCollector = true;
                                 break;
 
+                            // Groups are a separate result type but are collected with the user collector
                             case RESULT_TYPE.USER:
                                 opts.EnableUserCollector = true;
                                 break;
 
-                            case RESULT_TYPE.KEY:
-                                opts.EnableKeyCollector = true;
+                            case RESULT_TYPE.FIREWALL:
+                                opts.EnableFirewallCollector = true;
+                                break;
+
+                            case RESULT_TYPE.COM:
+                                opts.EnableComObjectCollector = true;
+                                break;
+
+                            case RESULT_TYPE.LOG:
+                                opts.EnableEventLogCollector = true;
                                 break;
 
                             case RESULT_TYPE.TPM:
                                 opts.EnableTpmCollector = true;
+                                break;
+
+                            case RESULT_TYPE.KEY:
+                                opts.EnableKeyCollector = true;
                                 break;
 
                             case RESULT_TYPE.PROCESS:
