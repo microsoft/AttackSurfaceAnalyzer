@@ -21,7 +21,7 @@ using WindowsFirewallHelper;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
-    [TestClass]
+    [TestClass, TestCategory("PipelineSafeTests")]
     public class RuleFileTests
     {
         [ClassInitialize]
