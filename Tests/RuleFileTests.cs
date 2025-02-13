@@ -1,27 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
-using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.CST.AttackSurfaceAnalyzer.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Win32;
-using Serilog;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Tpm2Lib;
-using WindowsFirewallHelper;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
-    [TestClass]
+    [TestClass, TestCategory("PipelineSafeTests")]
     public class RuleFileTests
     {
         [ClassInitialize]
