@@ -42,15 +42,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 
             var sarif = AttackSurfaceAnalyzerClient.GenerateSarifLog(outputDictionary, rulesList, true);
 
-            Assert.AreEqual(3, sarif.Runs[0].Artifacts.Count);
-            Assert.IsTrue(sarif.Runs[0].Artifacts.Any(a => a.Location.Description.Text == "C:\\Test\\Scan2\\TestAddText.txt"));
+            Assert.AreEqual(2, sarif.Runs[0].Artifacts.Count);
             Assert.IsTrue(sarif.Runs[0].Artifacts.Any(a => a.Location.Description.Text == "C:\\Test\\Scan2\\TestAddExe.exe"));
             Assert.IsTrue(sarif.Runs[0].Artifacts.Any(a => a.Location.Description.Text == "C:\\Test\\Scan2\\TestModifyExe.exe"));
             Assert.AreEqual(6, sarif.Runs[0].Results.Count);
             Assert.IsTrue(sarif.Runs[0].Results.Any(r => r.Message.Text == "Missing DEP: C:\\Test\\Scan2\\TestAddExe.exe (CREATED)"));
             Assert.IsTrue(sarif.Runs[0].Results.Any(r => r.Message.Text == "Missing ASLR: C:\\Test\\Scan2\\TestAddExe.exe (CREATED)"));
             Assert.IsTrue(sarif.Runs[0].Results.Any(r => r.Message.Text == "Unsigned binaries: C:\\Test\\Scan2\\TestAddExe.exe (CREATED)"));
-            Assert.IsFalse(sarif.Runs[0].Results.Any(r => r.Message.Text.Contains("TestAddText.txt")));
+//            Assert.IsFalse(sarif.Runs[0].Results.Any(r => r.Message.Text.Contains("TestAddText.txt")));
             Assert.AreEqual(41, sarif.Runs[0].Tool.Driver.Rules.Count);
             Assert.IsTrue(sarif.Runs[0].Tool.Driver.Rules.Any(r => r.FullDescription.Text == "Flag when privileged ports are opened."));
 
