@@ -10,13 +10,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class HydrationTests
     {
-        [ClassInitialize]
-        public static void ClassSetup(TestContext _)
-        {
-            Logger.Setup(false, true);
-            Strings.Setup();
-        }
-
         [TestMethod]
         public void TestSerializeAndDeserializeCertificateObject()
         {
@@ -56,8 +49,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             var driverObject = new DriverObject(DriverName);
             var serialized = JsonUtils.Dehydrate(driverObject);
             var rehydrated = JsonUtils.Hydrate(serialized, RESULT_TYPE.DRIVER);
-            Assert.IsTrue(serialized == JsonUtils.Dehydrate(rehydrated));
-            Assert.IsTrue(rehydrated.Identity == DriverName);
+            Assert.AreEqual(JsonUtils.Dehydrate(rehydrated), serialized);
+            Assert.AreEqual(DriverName, rehydrated.Identity);
         }
 
         [TestMethod]
@@ -105,7 +98,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         {
             var po = ProcessObject.FromProcess(Process.GetCurrentProcess());
             var serialized = JsonUtils.Dehydrate(po);
-            Assert.IsTrue(serialized == JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)));
+            Assert.AreEqual(JsonUtils.Dehydrate(JsonUtils.Hydrate(serialized, RESULT_TYPE.PROCESS)), serialized);
         }
 
         [TestMethod]

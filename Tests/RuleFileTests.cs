@@ -24,13 +24,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
     [TestClass]
     public class RuleFileTests
     {
-        [ClassInitialize]
-        public static void ClassSetup(TestContext _)
-        {
-            Logger.Setup(false, true);
-            Strings.Setup();
-        }
-
         /// <summary>
         ///     Verify that embedded rules have no issues
         /// </summary>
