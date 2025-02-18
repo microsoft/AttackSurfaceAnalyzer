@@ -110,11 +110,11 @@ extends:
             publishPackageMetadata: true 
             publishFeedCredentials: 'sdl-oss-nuget-publish'
         steps:
+        - template: nbgv-set-version-steps.yml@templates
         - task: UseDotNet@2
           inputs:
             packageType: 'sdk'
             version: '6.0.x' # ESRP signing currently limited to 6
-        - template: nbgv-set-version-steps.yml@templates
         - task: DownloadPipelineArtifact@2
           inputs:
             displayName: 'Download linux-mac-archive'  
