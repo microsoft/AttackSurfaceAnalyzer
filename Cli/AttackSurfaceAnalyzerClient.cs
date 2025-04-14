@@ -714,7 +714,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         internal static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
-            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             if (opts.DisableImplicitFindings) 
             {
                 var resultKeys = resultsIn.Keys;
@@ -724,6 +723,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     resultsIn[key] = newBag;
                 }
             }
+            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -747,10 +747,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
                 {
-                    string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
+                    string filePath = Path.Combine(path, $"{AsaHelpers.MakeValidFileName(key)}.sarif");
                     if (opts.OutputSarif)
                     {
-                        WriteSarifLog(new Dictionary<string, object>() { { key, results[key] } }, rules, filePath, opts.DisableImplicitFindings);
+                        if (key != "metadata")
+                        {
+                            WriteSarifLog(new Dictionary<string, object>() { { "metadata", metadata }, { "results", new Dictionary<string, object>() { { key, results[key] } } } }, rules, filePath, opts.DisableImplicitFindings);
+                        }
                     }
                     else
                     {
