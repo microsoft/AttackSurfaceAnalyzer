@@ -29,7 +29,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             JsonSerializerSettings jsonSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                TypeNameHandling = TypeNameHandling.Auto,
+                TypeNameHandling = TypeNameHandling.None,
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 DateFormatHandling = DateFormatHandling.IsoDateFormat
