@@ -3,15 +3,17 @@ Attack Surface Analyzer is a [Microsoft](https://github.com/microsoft/) develope
 surface of a target system and reports on potential security vulnerabilities introduced during
 the installation of software or system misconfiguration. 
 
-## Getting Attack Surface Analyzer
-[![CodeQL](https://github.com/microsoft/AttackSurfaceAnalyzer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/microsoft/AttackSurfaceAnalyzer/actions/workflows/codeql-analysis.yml) [![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) ![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
+[![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) [![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
-If you have the [.NET SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with `dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
+## Getting Attack Surface Analyzer
+
+If you have the [.NET SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with 
+`dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`.
 
 Platform specific binaries for Attack Surface Analyzer are distributed via our GitHub [releases](https://github.com/Microsoft/AttackSurfaceAnalyzer/releases/latest) page.
 
 ### Dependencies on Linux/Docker
-Attack Surface Analyzer is built on .NET so [.NET's linux dependencies](https://github.com/dotnet/core/blob/main/release-notes/6.0/linux-packages.md) must be installed to run ASA.  Some linux distributions may not contain these packages by default.
+Attack Surface Analyzer is built on .NET so [.NET's linux dependencies](https://github.com/dotnet/core/blob/main/release-notes/9.0/install-linux.md) must be installed to run ASA.  Some linux distributions may not contain these packages by default.
 
 For running Attack Surface Analyzer in Docker you should use the [.NET Docker Image Base](https://hub.docker.com/_/microsoft-dotnet-sdk/) or another image that has the .NET SDK installed, and then install the ASA tool from Nuget in your Dockerfile like `RUN dotnet tool install -g Microsoft.CST.AttackSurfaceAnalyzer.CLI`
 
