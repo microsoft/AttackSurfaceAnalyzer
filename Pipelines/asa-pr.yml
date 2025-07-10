@@ -22,7 +22,7 @@ resources:
     - repository: templates
       type: git
       name: SecurityEngineering/OSS-Tools-Pipeline-Templates
-      ref: refs/tags/v2.0.1
+      ref: refs/tags/v2.0.4
     - repository: 1esPipelines
       type: git
       name: 1ESPipelineTemplates/1ESPipelineTemplates
@@ -53,6 +53,11 @@ extends:
           poolOs: windows
           projectPath: 'Tests/Tests.csproj'
           dotnetTestArgs: '--filter TestCategory=PipelineSafeTests'
+          includeNuGetOrg: false
+          nugetFeedsToUse: 'config'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          onInit:
+            - task: NuGetAuthenticate@1
 
     - stage: Build
       dependsOn: Test
@@ -66,6 +71,11 @@ extends:
           projectName: 'ASA'
           exePath: 'Asa'
           artifactName: 'linux-mac-archive'
+          includeNuGetOrg: false
+          nugetFeedsToUse: 'config'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          onInit:
+            - task: NuGetAuthenticate@1
           preBuild:
           - template: nbgv-set-version-steps.yml@templates
       - template: dotnet-publish-win-netcore-job.yml@templates
@@ -76,6 +86,11 @@ extends:
           projectPath: 'Cli/Cli.csproj'
           projectName: 'ASA'
           artifactName: 'cli-archive'
+          includeNuGetOrg: false
+          nugetFeedsToUse: 'config'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          onInit:
+            - task: NuGetAuthenticate@1
           preBuild:
           - template: nbgv-set-version-steps.yml@templates
       - template: nuget-build-job.yml@templates
@@ -86,6 +101,11 @@ extends:
           projectPath: 'Lib/Lib.csproj'
           projectName: 'ASA_Lib'
           artifactName: 'nuget-lib-archive'
+          includeNuGetOrg: false
+          nugetFeedsToUse: 'config'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          onInit:
+            - task: NuGetAuthenticate@1
           preBuild:
           - template: nbgv-set-version-steps.yml@templates
       - template: nuget-build-job.yml@templates
@@ -96,5 +116,10 @@ extends:
           projectPath: 'Cli/Cli.csproj'
           projectName: 'ASA_Cli'
           artifactName: 'nuget-cli-archive'
+          includeNuGetOrg: false
+          nugetFeedsToUse: 'config'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          onInit:
+            - task: NuGetAuthenticate@1
           preBuild:
           - template: nbgv-set-version-steps.yml@templates
