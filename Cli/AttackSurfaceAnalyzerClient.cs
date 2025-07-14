@@ -754,7 +754,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     }
                     else
                     {
-                        using StreamWriter sw = new(filePath); //lgtm[cs/path-injection]
+                        using StreamWriter sw = new(filePath); //lgtm[cs/path-injection] The purpose is to write to the user provided path
                         using JsonWriter writer = new JsonTextWriter(sw);
                         serializer.Serialize(writer, results[key]);
                     }
@@ -776,7 +776,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
                 else
                 {
-                    using (StreamWriter sw = new(path)) //lgtm[cs/path-injection]
+                    using (StreamWriter sw = new(path)) //lgtm[cs/path-injection] False Positive: The purpose is to output to user provided path
                     {
                         using JsonWriter writer = new JsonTextWriter(sw);
                         serializer.Serialize(writer, output);
@@ -1115,7 +1115,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             output["metadata"] = AsaHelpers.GenerateMetadata();
             string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
 
-            using (StreamWriter sw = new(path)) //lgtm [cs/path-injection]
+            using (StreamWriter sw = new(path)) //lgtm [cs/path-injection] False Positive: The purpose is to output to user provided path
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, output);
@@ -1177,7 +1177,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"), opts.Duration, Strings.Get("Minutes"));
                 using var aTimer = new System.Timers.Timer
                 {
-                    Interval = opts.Duration * 60 * 1000, //lgtm [cs/loss-of-precision]
+                    Interval = opts.Duration * 60 * 1000.0, 
                     AutoReset = false,
                 };
                 aTimer.Elapsed += (source, e) => { exitEvent.Set(); };
@@ -1697,7 +1697,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 return;
             }
-            var prevFlush = DatabaseManager.QueueSize;
+            var prevFlush = (double)DatabaseManager.QueueSize;
             var totFlush = prevFlush;
 
             var printInterval = new TimeSpan(0, 0, 10);
@@ -1725,13 +1725,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 if (now - then > printInterval)
                 {
                     var actualDuration = now - then;
-                    var sample = DatabaseManager.QueueSize;
-                    var curRate = prevFlush - sample;
+                    var sample = (double)DatabaseManager.QueueSize;
+                    var curRate = (double)prevFlush - sample;
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
 
                     try
                     {
-                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999);
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,
