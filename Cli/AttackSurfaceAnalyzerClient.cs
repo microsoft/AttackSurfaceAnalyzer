@@ -735,9 +735,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 ContractResolver = new AsaExportContractResolver()
             });
             var outputPath = opts.OutputPath;
+
             if (outputPath is null)
             {
                 outputPath = Directory.GetCurrentDirectory();
+            }
+            if (outputPath.Contains(".."))
+            {
+                Log.Error("Please specify a valid output path (i.e. no '..').");
+                return ASA_ERROR.INVALID_PATH;
             }
             var metadata = AsaHelpers.GenerateMetadata();
             metadata.Add("analyses-hash", analysesHash);
@@ -756,7 +762,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     }
                     else
                     {
-                        using StreamWriter sw = new(filePath); //lgtm[cs/path-injection] The purpose is to write to the user provided path
+                        using StreamWriter sw = new(filePath);
                         using JsonWriter writer = new JsonTextWriter(sw);
                         serializer.Serialize(writer, results[key]);
                     }
@@ -776,7 +782,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 }
                 else
                 {
-                    using (StreamWriter sw = new(path)) //lgtm[cs/path-injection] False Positive: The purpose is to output to user provided path
+                    using (StreamWriter sw = new(path))
                     {
                         using JsonWriter writer = new JsonTextWriter(sw);
                         serializer.Serialize(writer, outputObject);
@@ -1089,39 +1095,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             }
 
             return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash, ruleFile.Rules);
-        }
-
-        public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
-        {
-            if (DatabaseManager is null)
-            {
-                Log.Error("Err_DatabaseManagerNull", "WriteMonitorJson");
-                return;
-            }
-            var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
-            OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
-
-            List<FileMonitorEvent> records = DatabaseManager.GetSerializedMonitorResults(RunId);
-
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                Converters = new List<JsonConverter>() { new StringEnumConverter() }
-            });
-            var output = new Dictionary<string, Object>();
-            output["results"] = records;
-            output["metadata"] = AsaHelpers.GenerateMetadata();
-            string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
-
-            using (StreamWriter sw = new(path)) //lgtm [cs/path-injection] False Positive: The purpose is to output to user provided path
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, output);
-            }
-
-            Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
         }
 
         private static ASA_ERROR RunMonitorCommand(MonitorCommandOptions opts)
