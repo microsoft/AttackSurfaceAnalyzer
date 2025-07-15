@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using AttackSurfaceAnalyzer.Objects;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -714,7 +715,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         internal static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
-            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             if (opts.DisableImplicitFindings) 
             {
                 var resultKeys = resultsIn.Keys;
@@ -724,6 +724,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     resultsIn[key] = newBag;
                 }
             }
+            
+            var results = resultsIn.Select(x => new KeyValuePair<string, ConcurrentBag<CompareResult>>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -741,16 +743,16 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             metadata.Add("analyses-hash", analysesHash);
             if (opts.ExplodedOutput)
             {
-                results.Add("metadata", metadata);
 
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
-                {
+                { 
+                    AsaResults outputObject = new(metadata, new Dictionary<string, ConcurrentBag<CompareResult>>(){ {key, results[key]} });
                     string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
                     if (opts.OutputSarif)
                     {
-                        WriteSarifLog(new Dictionary<string, object>() { { key, results[key] } }, rules, filePath, opts.DisableImplicitFindings);
+                        WriteSarifLog(outputObject, rules, filePath, opts.DisableImplicitFindings);
                     }
                     else
                     {
@@ -764,14 +766,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             else
             {
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.json.txt"));
-                var output = new Dictionary<string, object>();
-                output["results"] = results;
-                output["metadata"] = metadata;
+                AsaResults outputObject = new(metadata, results);
 
                 if (opts.OutputSarif)
                 {
                     string pathSarif = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.Sarif"));
-                    WriteSarifLog(output, rules, pathSarif, opts.DisableImplicitFindings);
+                    WriteSarifLog(outputObject, rules, pathSarif, opts.DisableImplicitFindings);
                     Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(pathSarif)).FullName);
                 }
                 else
@@ -779,7 +779,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     using (StreamWriter sw = new(path)) //lgtm[cs/path-injection] False Positive: The purpose is to output to user provided path
                     {
                         using JsonWriter writer = new JsonTextWriter(sw);
-                        serializer.Serialize(writer, output);
+                        serializer.Serialize(writer, outputObject);
                     }
                     Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
                 }
@@ -794,7 +794,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         /// <param name="rules">list of rules used</param>
         /// <param name="outputFilePath">file path of the Sarif log</param>
         /// <param name="disableImplicitFindings">If the output should exclude results with no explicit level</param>
-        internal static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath, bool disableImplicitFindings)
+        internal static void WriteSarifLog(AsaResults output, IEnumerable<AsaRule> rules, string outputFilePath, bool disableImplicitFindings)
         {
             var log = GenerateSarifLog(output, rules, disableImplicitFindings);
 
@@ -808,10 +808,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             serializer.Serialize(target, log);
         }
 
-        public static SarifLog GenerateSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, bool disableImplicitFindings)
+        public static SarifLog GenerateSarifLog(AsaResults output, IEnumerable<AsaRule> rules, bool disableImplicitFindings)
         {
-            var metadata = (Dictionary<string, string>)output["metadata"];
-            var results = (Dictionary<string, object>)output["results"];
+            var metadata = output.Metadata;
+            var results = output.Results;
             var version = metadata["compare-version"];
 
             var log = new SarifLog();
