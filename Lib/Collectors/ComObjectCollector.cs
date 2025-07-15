@@ -190,11 +190,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e) when (//lgtm [cs/empty-catch-block]
+            catch (Exception e) when (
                 e is ArgumentException
                 || e is UnauthorizedAccessException
                 || e is System.Security.SecurityException)
             {
+                Log.Verbose("Exception when parsing COM objects: {0}:{1}", e.GetType(), e.Message);
             }
 
             try
@@ -219,11 +220,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     }
                 }
             }
-            catch (Exception e) when (//lgtm [cs/empty-catch-block]
+            catch (Exception e) when (
                 e is ArgumentException
                 || e is UnauthorizedAccessException
                 || e is System.Security.SecurityException)
             {
+                Log.Verbose("Exception when parsing COM objects: {0}:{1}", e.GetType(), e.Message);
             }
         }
     }
