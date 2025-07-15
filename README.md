@@ -5,6 +5,9 @@ the installation of software or system misconfiguration.
 
 [![Nuget](https://img.shields.io/nuget/dt/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI) [![Nuget](https://img.shields.io/nuget/v/Microsoft.CST.AttackSurfaceAnalyzer.CLI)](https://www.nuget.org/packages/Microsoft.CST.AttackSurfaceAnalyzer.CLI)
 
+## Latest Version
+Development for Attack Surface Analyzer is focused on the [release/v2.3](https://github.com/microsoft/AttackSurfaceAnalyzer/tree/release/v2.3) branch. 
+
 ## Getting Attack Surface Analyzer
 
 If you have the [.NET SDK](https://dotnet.microsoft.com/download) installed you can install Attack Surface Analyzer with 
