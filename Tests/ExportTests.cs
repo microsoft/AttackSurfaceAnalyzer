@@ -171,7 +171,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                                   Flag=ANALYSIS_RESULT_TYPE.WARNING,
                                   Tags = []
                                 },
-                                new AsaRule("Unsigned Binaries"){
+                                new AsaRule("Unsigned binaries"){
                                   ChangeTypes = [
                                     CHANGE_TYPE.CREATED,
                                     CHANGE_TYPE.MODIFIED
@@ -207,6 +207,167 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                                   Target = "FileSystemObject",
                                   Tags = [],
                                   Flag = ANALYSIS_RESULT_TYPE.WARNING
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "FILE_MODIFIED", new ConcurrentBag<CompareResult>()
+                    {
+                        new()
+                        {
+                            Analysis = ANALYSIS_RESULT_TYPE.WARNING,
+                            Base = new FileSystemObject("C:\\Test\\Scan2\\TestModifyExe.exe")
+                            {
+                                ContentHash = "7QGAoQeCLD64FeGxlSoeW5eHcACmyBrT1HIv+YOGVi2Of6c88DR6+Uk1O2zemHCGXAeJrtc+COi8yqHrnpX8Zg==",
+                                Created = DateTime.Parse("2021-10-14T23:36:58.0340629Z"),
+                                Group = "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+                                IsExecutable = true,
+                                LastModified = DateTime.Parse("2021-10-13T03:05:24.3286411Z"),
+                                Owner = "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+                                Permissions = new Dictionary<string, string>()
+                                {
+                                    { "S-1-5-11", "Modify, Synchronize" },
+                                    { "S-1-5-18", "FullControl" },
+                                    { "S-1-5-32-544", "FullControl" },
+                                    { "S-1-5-32-545", "ReadAndExecute, Synchronize" }
+                                },
+                                Size = 726896
+                            },
+                            BaseRunId = "2021-10-14T16:40:08.6642182-07:00",
+                            Compare = new FileSystemObject("C:\\Test\\Scan2\\TestModifyExe.exe")
+                            {
+                                ContentHash = "Qpr6h4sgWi9HvNaKn1kWmznUifwU+8Uw6RjczVpkzx/LlGSyJgEhQ9pkMe6sX3wo9gwLmZicOIelU2b9NncLiw==",
+                                Created = DateTime.Parse("2021-10-14T23:36:58.0340629Z"),
+                                Group = "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+                                IsExecutable = true,
+                                LastModified = DateTime.Parse("2021-10-14T23:41:11.6798321Z"),
+                                Owner = "S-1-12-1-1613650695-1152925323-3004084401-3676713700",
+                                Permissions = new Dictionary<string, string>()
+                                {
+                                    { "S-1-5-11", "Modify, Synchronize" },
+                                    { "S-1-5-18", "FullControl" },
+                                    { "S-1-5-32-544", "FullControl" },
+                                    { "S-1-5-32-545", "ReadAndExecute, Synchronize" }
+                                },
+                                SignatureStatus = new Objects.Signature(),
+                                Size = 343480
+                            },
+                            CompareRunId = "2021-10-14T16:44:27.3260573-07:00",
+                            Diffs = [
+                                new Diff("ContentHash", 
+                                    "7QGAoQeCLD64FeGxlSoeW5eHcACmyBrT1HIv+YOGVi2Of6c88DR6+Uk1O2zemHCGXAeJrtc+COi8yqHrnpX8Zg==",
+                                    "Qpr6h4sgWi9HvNaKn1kWmznUifwU+8Uw6RjczVpkzx/LlGSyJgEhQ9pkMe6sX3wo9gwLmZicOIelU2b9NncLiw=="),
+                                new Diff("LastModified", 
+                                    "2021-10-13T03:05:24.3286411Z",
+                                    "2021-10-14T23:41:11.6798321Z"),
+                                new Diff("SignatureStatus"),
+                                new Diff("Size", 726896, 343480)
+                            ],
+                            AnalysesHash = "yXvUiHy+rkKstAubfKrepSYhf7tGW6Fmpq72cvzjHu/IFkPu1P6FEstdy15fnGvxhAyIcIzdWFTILRTZ6wy0yA==",
+                            Rules = [
+                                new AsaRule("Unsigned binaries"){
+                                  ChangeTypes = [
+                                    CHANGE_TYPE.CREATED,
+                                    CHANGE_TYPE.MODIFIED
+                                  ],
+                                  Platforms = [
+                                    PLATFORM.LINUX, PLATFORM.MACOS, PLATFORM.WINDOWS
+                                  ],
+                                  Clauses = [
+                                    new Clause(Operation.IsTrue){
+                                      Data = [],
+                                      DictData = [],
+                                      Field = "IsExecutable",
+                                      Label = "is_exe",
+                                      Arguments = []
+                                    },
+                                    new Clause(Operation.IsTrue){
+                                      Data = [],
+                                      DictData = [],
+                                      Field = "SignatureStatus.IsAuthenticodeValid",
+                                      Label = "valid_windows_signature",
+                                      Arguments = []
+                                    },
+                                    new Clause(Operation.IsNull){
+                                      Data = [],
+                                      DictData = [],
+                                      Field = "MacSignatureStatus",
+                                      Label = "null_mac_signature",
+                                      Arguments = []
+                                    }
+                                  ],
+                                  Description = "Flag when unsigned/incorrectly signed binaries are added.",
+                                  Expression = "is_exe AND NOT valid_windows_signature AND null_mac_signature",
+                                  Target = "FileSystemObject",
+                                  Tags = [],
+                                  Flag = ANALYSIS_RESULT_TYPE.WARNING
+                                },
+                                new AsaRule("Missing DEP"){
+                                  ChangeTypes = [
+                                    CHANGE_TYPE.CREATED,
+                                    CHANGE_TYPE.MODIFIED
+                                  ],
+                                  Platforms = [
+                                    PLATFORM.WINDOWS
+                                  ],
+                                  Clauses = [
+                                    new Clause(Operation.IsTrue){
+                                      Data = [],
+                                      DictData = [],
+                                      Field = "IsExecutable",
+                                      Label = "EXE",
+                                      Arguments = []
+                                    },
+                                    new Clause(Operation.Contains){
+                                      Data = [
+                                        "IMAGE_DLLCHARACTERISTICS_NX_COMPAT"
+                                      ],
+                                      DictData = [],
+                                      Field = "Characteristics",
+                                      Label = "DEP",
+                                      Arguments = []
+                                    }
+                                  ],
+                                  Description = "Flag when executables are created without DEP.",
+                                  Expression = "EXE AND NOT DEP",
+                                  Target = "FileSystemObject",
+                                  Flag = ANALYSIS_RESULT_TYPE.WARNING,
+                                  Tags = []
+                                },
+                                new AsaRule("Missing ASLR"){
+                                  ChangeTypes = [
+                                    CHANGE_TYPE.CREATED,
+                                    CHANGE_TYPE.MODIFIED
+                                  ],
+                                  Platforms = [
+                                    PLATFORM.WINDOWS
+                                  ],
+                                  Clauses = [
+                                    new Clause(Operation.IsTrue){
+                                      Data = [],
+                                      DictData = [],
+                                      Field = "IsExecutable",
+                                      Label = "EXE",
+                                      Arguments = []
+                                    },
+                                    new Clause(Operation.Contains){
+                                      Data = [
+                                        "IMAGE_DLLCHARACTERISTICS_DYNAMIC_BASE",
+                                        "IMAGE_DLLCHARACTERISTICS_HIGH_ENTROPY_VA"
+                                      ],
+                                      DictData = [],
+                                      Field = "Characteristics",
+                                      Label = "ASLR",
+                                      Arguments = []
+                                    }
+                                  ],
+                                  Description = "Flag when executables are created without ASLR.",
+                                  Expression = "EXE AND NOT ASLR",
+                                  Target = "FileSystemObject",
+                                  Flag = ANALYSIS_RESULT_TYPE.WARNING,
+                                  Tags = []
                                 }
                             ]
                         }
