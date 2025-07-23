@@ -58,7 +58,7 @@ jobs:
     inputs:
       command: 'restore'
       feedsToUse: config
-      nugetConfigPath: NuGet.Config.AzureArtifacts
+      nugetConfigPath: nuget.release.config
       projects: ${{ parameters.projectPath }}
       verbosityRestore: 'Normal'
   - task: DotNetCoreCLI@2
