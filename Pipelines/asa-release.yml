@@ -45,7 +45,7 @@ extends:
           dotnetTestArgs: '--filter TestCategory=PipelineSafeTests'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts.Release'
           onInit:
             - task: NuGetAuthenticate@1
 
@@ -63,7 +63,7 @@ extends:
           artifactName: 'linux-mac-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts.Release'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
@@ -78,7 +78,7 @@ extends:
           artifactName: 'cli-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts.Release'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
@@ -93,7 +93,7 @@ extends:
           artifactName: 'nuget-lib-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts.Release'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
@@ -108,7 +108,7 @@ extends:
           artifactName: 'nuget-cli-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'NuGet.Config.AzureArtifacts.Release'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
