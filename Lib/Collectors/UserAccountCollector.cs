@@ -56,6 +56,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 e is ArgumentNullException ||
                 e is NullReferenceException)
             {
+                Log.Verbose("Exception when parsing Hidden User accounts registry values: {0}:{1}", e.GetType(), e.Message);
             }
             return false;
         }

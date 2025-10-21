@@ -49,7 +49,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
             var differentObjectsAdded = FirstRunObjects.Where(x => !SecondRunObjects.Any(y => x.Identity == y.Identity && x.ResultType == y.ResultType)).Select(y => (y, firstRunId));
             var differentObjectsRemoved = SecondRunObjects.Where(x => !FirstRunObjects.Any(y => x.Identity == y.Identity && x.ResultType == y.ResultType)).Select(y => (y, secondRunId));
-            var differentObjects = differentObjectsAdded.Union(differentObjectsRemoved);
+            var differentObjects = differentObjectsAdded.Concat(differentObjectsRemoved);
 
             var modifiedObjects = FirstRunObjects.SelectMany(x => SecondRunObjects.Where(y => x.Identity == y.Identity && x.ResultType == y.ResultType && x.RowKey != y.RowKey).
                                     Select(z => (x, z)));

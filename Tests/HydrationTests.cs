@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
-    [TestClass]
+    [TestClass, TestCategory("PipelineSafeTests")]
     public class HydrationTests
     {
         [ClassInitialize]
