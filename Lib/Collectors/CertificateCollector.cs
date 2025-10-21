@@ -104,7 +104,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     if (ExternalCommandRunner.RunExternalCommand("openssl", $"pkcs12 -export -nokeys -out {pkPath} -passout pass:pass -in {tmpPath}", out string _, out string _) == 0)
                     {
                         X509Certificate2Collection xcert = new();
-                        xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet); //lgtm [cs/hardcoded-credentials]
+                        xcert.Import(pkPath, "pass", X509KeyStorageFlags.DefaultKeySet); //lgtm [cs/hardcoded-credentials] Not a real credential - the api to parse the certs requires them to be pkcs12 format, but there are just the public certs from the root keychain above so they were already not protected by password on disk 
 
                         File.Delete(tmpPath);
                         File.Delete(pkPath);

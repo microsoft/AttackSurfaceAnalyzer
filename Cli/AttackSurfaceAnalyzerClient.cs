@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using AttackSurfaceAnalyzer.Objects;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -714,7 +715,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
         internal static ASA_ERROR ExportCompareResults(ConcurrentDictionary<(RESULT_TYPE, CHANGE_TYPE), ConcurrentBag<CompareResult>> resultsIn, ExportOptions opts, string baseFileName, string analysesHash, IEnumerable<AsaRule> rules)
         {
-            var results = resultsIn.Select(x => new KeyValuePair<string, object>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             if (opts.DisableImplicitFindings) 
             {
                 var resultKeys = resultsIn.Keys;
@@ -724,6 +724,8 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     resultsIn[key] = newBag;
                 }
             }
+            
+            var results = resultsIn.Select(x => new KeyValuePair<string, ConcurrentBag<CompareResult>>($"{x.Key.Item1}_{x.Key.Item2}", x.Value)).ToDictionary(x => x.Key, x => x.Value);
             JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
@@ -733,28 +735,34 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 ContractResolver = new AsaExportContractResolver()
             });
             var outputPath = opts.OutputPath;
+
             if (outputPath is null)
             {
                 outputPath = Directory.GetCurrentDirectory();
+            }
+            if (outputPath.Contains(".."))
+            {
+                Log.Error("Please specify a valid output path (i.e. no '..').");
+                return ASA_ERROR.INVALID_PATH;
             }
             var metadata = AsaHelpers.GenerateMetadata();
             metadata.Add("analyses-hash", analysesHash);
             if (opts.ExplodedOutput)
             {
-                results.Add("metadata", metadata);
 
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName));
                 Directory.CreateDirectory(path);
                 foreach (var key in results.Keys)
-                {
+                { 
+                    AsaResults outputObject = new(metadata, new Dictionary<string, ConcurrentBag<CompareResult>>(){ {key, results[key]} });
                     string filePath = Path.Combine(path, AsaHelpers.MakeValidFileName(key));
                     if (opts.OutputSarif)
                     {
-                        WriteSarifLog(new Dictionary<string, object>() { { key, results[key] } }, rules, filePath, opts.DisableImplicitFindings);
+                        WriteSarifLog(outputObject, rules, filePath, opts.DisableImplicitFindings);
                     }
                     else
                     {
-                        using StreamWriter sw = new(filePath); //lgtm[cs/path-injection]
+                        using StreamWriter sw = new(filePath);
                         using JsonWriter writer = new JsonTextWriter(sw);
                         serializer.Serialize(writer, results[key]);
                     }
@@ -764,22 +772,20 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             else
             {
                 string path = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.json.txt"));
-                var output = new Dictionary<string, object>();
-                output["results"] = results;
-                output["metadata"] = metadata;
+                AsaResults outputObject = new(metadata, results);
 
                 if (opts.OutputSarif)
                 {
                     string pathSarif = Path.Combine(outputPath, AsaHelpers.MakeValidFileName(baseFileName + "_summary.Sarif"));
-                    WriteSarifLog(output, rules, pathSarif, opts.DisableImplicitFindings);
+                    WriteSarifLog(outputObject, rules, pathSarif, opts.DisableImplicitFindings);
                     Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(pathSarif)).FullName);
                 }
                 else
                 {
-                    using (StreamWriter sw = new(path)) //lgtm[cs/path-injection]
+                    using (StreamWriter sw = new(path))
                     {
                         using JsonWriter writer = new JsonTextWriter(sw);
-                        serializer.Serialize(writer, output);
+                        serializer.Serialize(writer, outputObject);
                     }
                     Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
                 }
@@ -794,7 +800,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
         /// <param name="rules">list of rules used</param>
         /// <param name="outputFilePath">file path of the Sarif log</param>
         /// <param name="disableImplicitFindings">If the output should exclude results with no explicit level</param>
-        internal static void WriteSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, string outputFilePath, bool disableImplicitFindings)
+        internal static void WriteSarifLog(AsaResults output, IEnumerable<AsaRule> rules, string outputFilePath, bool disableImplicitFindings)
         {
             var log = GenerateSarifLog(output, rules, disableImplicitFindings);
 
@@ -803,13 +809,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Formatting = Formatting.Indented,
             };
 
-            File.WriteAllText(outputFilePath, JsonConvert.SerializeObject(log, settings));
+            using var target = File.CreateText(outputFilePath);
+            JsonSerializer serializer = JsonSerializer.Create(settings);
+            serializer.Serialize(target, log);
         }
 
-        public static SarifLog GenerateSarifLog(Dictionary<string, object> output, IEnumerable<AsaRule> rules, bool disableImplicitFindings)
+        public static SarifLog GenerateSarifLog(AsaResults output, IEnumerable<AsaRule> rules, bool disableImplicitFindings)
         {
-            var metadata = (Dictionary<string, string>)output["metadata"];
-            var results = (Dictionary<string, object>)output["results"];
+            var metadata = output.Metadata;
+            var results = output.Results;
             var version = metadata["compare-version"];
 
             var log = new SarifLog();
@@ -906,10 +914,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
 
                     artifact.SetProperty("ResultType", compareResult.ResultType);
 
-                    artifacts.Add(artifact);
-                    int index = artifacts.Count - 1;
                     if (compareResult.Rules.Any())
                     {
+                        artifacts.Add(artifact);
+                        int index = artifacts.Count - 1;
+
                         foreach (var rule in compareResult.Rules)
                         {
                             var sarifResult = new Result();
@@ -942,6 +951,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                     {
                         if (!disableImplicitFindings)
                         {
+                            artifacts.Add(artifact);
+                            int index = artifacts.Count - 1;
+
                             var sarifResult = new Result();
                             sarifResult.Locations = new List<Location>()
                             {
@@ -1085,39 +1097,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             return ExportCompareResults(monitorResult, opts, AsaHelpers.MakeValidFileName(opts.RunId), analysesHash, ruleFile.Rules);
         }
 
-        public static void WriteMonitorJson(string RunId, int ResultType, string OutputPath)
-        {
-            if (DatabaseManager is null)
-            {
-                Log.Error("Err_DatabaseManagerNull", "WriteMonitorJson");
-                return;
-            }
-            var invalidFileNameChars = Path.GetInvalidPathChars().ToList();
-            OutputPath = new string(OutputPath.Select(ch => invalidFileNameChars.Contains(ch) ? Convert.ToChar(invalidFileNameChars.IndexOf(ch) + 65) : ch).ToArray());
-
-            List<FileMonitorEvent> records = DatabaseManager.GetSerializedMonitorResults(RunId);
-
-            JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings()
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-                Converters = new List<JsonConverter>() { new StringEnumConverter() }
-            });
-            var output = new Dictionary<string, Object>();
-            output["results"] = records;
-            output["metadata"] = AsaHelpers.GenerateMetadata();
-            string path = Path.Combine(OutputPath, AsaHelpers.MakeValidFileName(RunId + "_Monitoring_" + ((RESULT_TYPE)ResultType).ToString() + ".json.txt"));
-
-            using (StreamWriter sw = new(path)) //lgtm [cs/path-injection]
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, output);
-            }
-
-            Log.Information(Strings.Get("OutputWrittenTo"), (new FileInfo(path)).FullName);
-        }
-
         private static ASA_ERROR RunMonitorCommand(MonitorCommandOptions opts)
         {
             if (DatabaseManager is null)
@@ -1171,7 +1150,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 Log.Information("{0} {1} {2}.", Strings.Get("MonitorStartedFor"), opts.Duration, Strings.Get("Minutes"));
                 using var aTimer = new System.Timers.Timer
                 {
-                    Interval = opts.Duration * 60 * 1000, //lgtm [cs/loss-of-precision]
+                    Interval = opts.Duration * 60 * 1000.0, 
                     AutoReset = false,
                 };
                 aTimer.Elapsed += (source, e) => { exitEvent.Set(); };
@@ -1482,36 +1461,41 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                                 opts.EnableNetworkPortCollector = true;
                                 break;
 
+                            case RESULT_TYPE.REGISTRY:
+                                opts.EnableRegistryCollector = true;
+                                break;
+
                             case RESULT_TYPE.CERTIFICATE:
                                 opts.EnableCertificateCollector = true;
-                                break;
-
-                            case RESULT_TYPE.COM:
-                                opts.EnableComObjectCollector = true;
-                                break;
-
-                            case RESULT_TYPE.FIREWALL:
-                                opts.EnableFirewallCollector = true;
-                                break;
-
-                            case RESULT_TYPE.LOG:
-                                opts.EnableEventLogCollector = true;
                                 break;
 
                             case RESULT_TYPE.SERVICE:
                                 opts.EnableServiceCollector = true;
                                 break;
 
+                            // Groups are a separate result type but are collected with the user collector
                             case RESULT_TYPE.USER:
                                 opts.EnableUserCollector = true;
                                 break;
 
-                            case RESULT_TYPE.KEY:
-                                opts.EnableKeyCollector = true;
+                            case RESULT_TYPE.FIREWALL:
+                                opts.EnableFirewallCollector = true;
+                                break;
+
+                            case RESULT_TYPE.COM:
+                                opts.EnableComObjectCollector = true;
+                                break;
+
+                            case RESULT_TYPE.LOG:
+                                opts.EnableEventLogCollector = true;
                                 break;
 
                             case RESULT_TYPE.TPM:
                                 opts.EnableTpmCollector = true;
+                                break;
+
+                            case RESULT_TYPE.KEY:
+                                opts.EnableKeyCollector = true;
                                 break;
 
                             case RESULT_TYPE.PROCESS:
@@ -1686,7 +1670,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 return;
             }
-            var prevFlush = DatabaseManager.QueueSize;
+            var prevFlush = (double)DatabaseManager.QueueSize;
             var totFlush = prevFlush;
 
             var printInterval = new TimeSpan(0, 0, 10);
@@ -1714,13 +1698,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                 if (now - then > printInterval)
                 {
                     var actualDuration = now - then;
-                    var sample = DatabaseManager.QueueSize;
-                    var curRate = prevFlush - sample;
+                    var sample = (double)DatabaseManager.QueueSize;
+                    var curRate = (double)prevFlush - sample;
                     var totRate = (double)(totFlush - sample) / StopWatch.ElapsedMilliseconds;
 
                     try
                     {
-                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999); //lgtm[cs/loss-of-precision]
+                        t = (curRate > 0) ? TimeSpan.FromMilliseconds(actualDuration.TotalMilliseconds * sample / curRate) : TimeSpan.FromMilliseconds(99999999);
                         answer = string.Format(CultureInfo.InvariantCulture, "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms",
                                                 t.Hours,
                                                 t.Minutes,

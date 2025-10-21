@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
-    [TestClass]
+    [TestClass, TestCategory("PipelineSafeTests")]
     public class HydrationTests
     {
         [ClassInitialize]

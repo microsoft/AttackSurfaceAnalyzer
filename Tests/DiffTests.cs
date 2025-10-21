@@ -10,7 +10,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests;
 /// <summary>
 /// Test that the compare logic generates the correct diffs for various object configurations
 /// </summary>
-[TestClass]
+[TestClass, TestCategory("PipelineSafeTests")]
 public class DiffTests
 {
     [DataRow("owner1", "owner2", 1)]
