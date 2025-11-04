@@ -39,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.2.87" />
     <PackageReference Include="Microsoft.CST.OAT.Scripting" Version="1.2.87" />
-    <PackageReference Include="Sarif.Sdk" Version="4.5.4" />
+    <PackageReference Include="Sarif.Sdk" Version="4.6.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="3.4.0.24340" />
   </ItemGroup>
 </Project>
