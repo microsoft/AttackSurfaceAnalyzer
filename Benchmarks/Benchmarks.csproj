@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.5" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
     <PackageReference Include="murmurhash" Version="1.0.3" />
   </ItemGroup>

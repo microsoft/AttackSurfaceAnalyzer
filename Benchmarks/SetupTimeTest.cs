@@ -98,7 +98,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         private DatabaseManager dbManager;
 
         [Benchmark]
-        private void Setup()
+        public void Setup()
         {
             dbManager = new SqliteDatabaseManager(filename: $"AsaBenchmark_{Shards}.sqlite", new DBSettings()
             {
