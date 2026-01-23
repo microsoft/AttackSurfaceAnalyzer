@@ -1,6 +1,3 @@
-# Azure Pipelines
-# https://aka.ms/yaml
-
 name: ASA_PR_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger: none
 pr:
@@ -21,7 +18,7 @@ resources:
   repositories:
     - repository: templates
       type: git
-      name: SecurityEngineering/OSS-Tools-Pipeline-Templates
+      name: General/OSS-Tools-Pipeline-Templates
       ref: refs/tags/v2.0.4
     - repository: 1esPipelines
       type: git
@@ -55,7 +52,7 @@ extends:
           dotnetTestArgs: '--filter TestCategory=PipelineSafeTests'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'nuget.config'
           onInit:
             - task: NuGetAuthenticate@1
 
@@ -73,7 +70,7 @@ extends:
           artifactName: 'linux-mac-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'nuget.config'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
@@ -88,7 +85,7 @@ extends:
           artifactName: 'cli-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'nuget.config'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
@@ -103,7 +100,7 @@ extends:
           artifactName: 'nuget-lib-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'nuget.config'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
@@ -118,7 +115,7 @@ extends:
           artifactName: 'nuget-cli-archive'
           includeNuGetOrg: false
           nugetFeedsToUse: 'config'
-          nugetConfigPath: 'NuGet.Config.AzureArtifacts'
+          nugetConfigPath: 'nuget.config'
           onInit:
             - task: NuGetAuthenticate@1
           preBuild:
