@@ -9,8 +9,8 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
@@ -220,73 +220,38 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                 foreach (var signerInfo in signedCms.SignerInfos)
                 {
-                    // Check counter-signers for the timestamp (Authenticode timestamp)
+                    // Counter-signers contain the Authenticode timestamp
                     foreach (var counterSigner in signerInfo.CounterSignerInfos)
                     {
-                        foreach (var attr in counterSigner.SignedAttributes)
-                        {
-                            if (attr.Oid?.Value == "1.2.840.113549.1.9.5") // OID for signing-time
-                            {
-                                foreach (var val in attr.Values)
-                                {
-                                    var signingTime = new Pkcs9SigningTime(val.RawData);
-                                    return signingTime.SigningTime;
-                                }
-                            }
-                        }
+                        var time = GetPkcs9SigningTime(counterSigner.SignedAttributes);
+                        if (time.HasValue)
+                            return time;
                     }
 
-                    // Check unsigned attributes for RFC 3161 timestamp token
-                    foreach (var attr in signerInfo.UnsignedAttributes)
-                    {
-                        if (attr.Oid?.Value == "1.2.840.113549.1.9.16.2.14") // OID for id-aa-signatureTimeStampToken (RFC 3161)
-                        {
-                            foreach (var val in attr.Values)
-                            {
-                                var counterCms = new SignedCms();
-                                try
-                                {
-                                    counterCms.Decode(val.RawData);
-                                    foreach (var csi in counterCms.SignerInfos)
-                                    {
-                                        foreach (var csAttr in csi.SignedAttributes)
-                                        {
-                                            if (csAttr.Oid?.Value == "1.2.840.113549.1.9.5")
-                                            {
-                                                foreach (var csVal in csAttr.Values)
-                                                {
-                                                    var signingTime = new Pkcs9SigningTime(csVal.RawData);
-                                                    return signingTime.SigningTime;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                catch (Exception)
-                                {
-                                    // Not a valid CMS structure, skip
-                                }
-                            }
-                        }
-                    }
-
-                    // Fallback: check the signer's own signed attributes for signing time
-                    foreach (var attr in signerInfo.SignedAttributes)
-                    {
-                        if (attr.Oid?.Value == "1.2.840.113549.1.9.5")
-                        {
-                            foreach (var val in attr.Values)
-                            {
-                                var signingTime = new Pkcs9SigningTime(val.RawData);
-                                return signingTime.SigningTime;
-                            }
-                        }
-                    }
+                    // Fallback: check the signer's own signed attributes
+                    var signerTime = GetPkcs9SigningTime(signerInfo.SignedAttributes);
+                    if (signerTime.HasValue)
+                        return signerTime;
                 }
             }
             catch (Exception e)
             {
                 Log.Verbose("Failed to extract signing time: {0}", e.Message);
+            }
+            return null;
+        }
+
+        private static DateTime? GetPkcs9SigningTime(CryptographicAttributeObjectCollection attributes)
+        {
+            foreach (var attr in attributes)
+            {
+                foreach (var val in attr.Values)
+                {
+                    if (val is Pkcs9SigningTime signingTime)
+                    {
+                        return signingTime.SigningTime;
+                    }
+                }
             }
             return null;
         }
