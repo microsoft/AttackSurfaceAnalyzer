@@ -228,6 +228,29 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             return time;
                     }
 
+                    // Check unsigned attributes for RFC 3161 timestamp tokens
+                    foreach (var attr in signerInfo.UnsignedAttributes)
+                    {
+                        foreach (var val in attr.Values)
+                        {
+                            try
+                            {
+                                var tokenCms = new SignedCms();
+                                tokenCms.Decode(val.RawData);
+                                foreach (var tokenSigner in tokenCms.SignerInfos)
+                                {
+                                    var time = GetPkcs9SigningTime(tokenSigner.SignedAttributes);
+                                    if (time.HasValue)
+                                        return time;
+                                }
+                            }
+                            catch (CryptographicException)
+                            {
+                                // Not a valid CMS structure, skip
+                            }
+                        }
+                    }
+
                     // Fallback: check the signer's own signed attributes
                     var signerTime = GetPkcs9SigningTime(signerInfo.SignedAttributes);
                     if (signerTime.HasValue)
@@ -236,7 +259,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             }
             catch (Exception e)
             {
-                Log.Verbose("Failed to extract signing time: {0}", e.Message);
+                Log.Verbose(e, "Failed to extract signing time ({0}:{1})", e.GetType(), e.Message);
             }
             return null;
         }

@@ -1556,8 +1556,8 @@
       ]
     },
     {
-      "Name": "Binaries signed outside certificate validity period",
-      "Description": "These binaries were signed when the signing certificate was not yet valid or had already expired.",
+      "Name": "Binaries with unverified signature validity",
+      "Description": "These binaries have signatures where the signing time could not be verified as being within the certificate's validity period. The signing time may be outside the validity period or could not be determined.",
       "Flag": "WARNING",
       "ResultType": "FILE",
       "ChangeTypes": [
@@ -1573,8 +1573,8 @@
       ]
     },
     {
-      "Name": "Binaries signed outside certificate validity period",
-      "Description": "These binaries were signed when the signing certificate was not yet valid or had already expired.",
+      "Name": "Binaries with unverified signature validity",
+      "Description": "These binaries have signatures where the signing time could not be verified as being within the certificate's validity period. The signing time may be outside the validity period or could not be determined.",
       "Flag": "WARNING",
       "ResultType": "FILEMONITOR",
       "ChangeTypes": [
