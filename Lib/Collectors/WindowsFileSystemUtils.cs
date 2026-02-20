@@ -239,7 +239,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     // Check unsigned attributes for RFC 3161 timestamp token
                     foreach (var attr in signerInfo.UnsignedAttributes)
                     {
-                        if (attr.Oid?.Value == "1.2.840.113549.1.9.6") // OID for countersignature
+                        if (attr.Oid?.Value == "1.2.840.113549.1.9.16.2.14") // OID for id-aa-signatureTimeStampToken (RFC 3161)
                         {
                             foreach (var val in attr.Values)
                             {

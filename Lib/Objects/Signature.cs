@@ -44,7 +44,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             {
                 if (SigningCertificate != null && SigningTime is DateTime signingTime)
                 {
-                    return signingTime > SigningCertificate.NotBefore && signingTime < SigningCertificate.NotAfter;
+                    return signingTime >= SigningCertificate.NotBefore && signingTime <= SigningCertificate.NotAfter;
                 }
                 return false;
             }

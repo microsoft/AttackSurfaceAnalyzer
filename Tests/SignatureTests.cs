@@ -94,5 +94,37 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
             };
             Assert.IsTrue(sig.IsTimeValid);
         }
+
+        [TestMethod]
+        public void IsTimeValid_SignedExactlyAtNotBefore_ReturnsTrue()
+        {
+            var notBefore = new DateTime(2020, 1, 1);
+            var sig = new Signature()
+            {
+                SigningCertificate = new SerializableCertificate(
+                    "thumbprint", "CN=Test", "key",
+                    new DateTime(2025, 12, 31),
+                    notBefore,
+                    "CN=Issuer", "serial", "hash", "pkcs7"),
+                SigningTime = notBefore // Signed exactly at NotBefore boundary
+            };
+            Assert.IsTrue(sig.IsTimeValid);
+        }
+
+        [TestMethod]
+        public void IsTimeValid_SignedExactlyAtNotAfter_ReturnsTrue()
+        {
+            var notAfter = new DateTime(2025, 12, 31);
+            var sig = new Signature()
+            {
+                SigningCertificate = new SerializableCertificate(
+                    "thumbprint", "CN=Test", "key",
+                    notAfter,
+                    new DateTime(2020, 1, 1),
+                    "CN=Issuer", "serial", "hash", "pkcs7"),
+                SigningTime = notAfter // Signed exactly at NotAfter boundary
+            };
+            Assert.IsTrue(sig.IsTimeValid);
+        }
     }
 }
