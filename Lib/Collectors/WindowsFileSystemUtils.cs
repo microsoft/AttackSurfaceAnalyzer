@@ -220,7 +220,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                 foreach (var signerInfo in signedCms.SignerInfos)
                 {
-                    // Counter-signers contain the Authenticode timestamp
+                    // Check counter-signers for the Authenticode timestamp
                     foreach (var counterSigner in signerInfo.CounterSignerInfos)
                     {
                         var time = GetPkcs9SigningTime(counterSigner.SignedAttributes);
