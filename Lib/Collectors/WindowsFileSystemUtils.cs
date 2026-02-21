@@ -203,7 +203,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
         /// <summary>
         /// Extracts the signing timestamp from a PE file's Authenticode signature.
-        /// The timestamp is obtained from the countersigner info in the PKCS#7 data.
+        /// The method first attempts to use the countersigner info in the PKCS#7 data,
+        /// then checks for RFC3161 timestamp tokens in the signer's UnsignedAttributes,
+        /// and finally falls back to the signer's own SignedAttributes if needed.
         /// </summary>
         internal static DateTime? GetSigningTime(PeFile peFile)
         {
@@ -231,22 +233,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     // Check unsigned attributes for RFC 3161 timestamp tokens
                     foreach (var attr in signerInfo.UnsignedAttributes)
                     {
-                        foreach (var val in attr.Values)
+                        // RFC 3161 timestamp token OID: 1.2.840.113549.1.9.16.2.14 (signatureTimeStampToken)
+                        if (string.Equals(attr.Oid?.Value, "1.2.840.113549.1.9.16.2.14", StringComparison.Ordinal))
                         {
-                            try
+                            foreach (var val in attr.Values)
                             {
-                                var tokenCms = new SignedCms();
-                                tokenCms.Decode(val.RawData);
-                                foreach (var tokenSigner in tokenCms.SignerInfos)
+                                try
                                 {
-                                    var time = GetPkcs9SigningTime(tokenSigner.SignedAttributes);
-                                    if (time.HasValue)
-                                        return time;
+                                    var tokenCms = new SignedCms();
+                                    tokenCms.Decode(val.RawData);
+                                    foreach (var tokenSigner in tokenCms.SignerInfos)
+                                    {
+                                        var time = GetPkcs9SigningTime(tokenSigner.SignedAttributes);
+                                        if (time.HasValue)
+                                            return time;
+                                    }
                                 }
-                            }
-                            catch (CryptographicException)
-                            {
-                                // Not a valid CMS structure, skip
+                                catch (CryptographicException)
+                                {
+                                    // Not a valid CMS structure, skip
+                                }
                             }
                         }
                     }
