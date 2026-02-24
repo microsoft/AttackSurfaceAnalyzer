@@ -1566,6 +1566,10 @@
       ],
       "Clauses": [
         {
+          "Field": "SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
+        },
+        {
           "Field": "SignatureStatus.IsTimeValid",
           "Operation": "IsTrue",
           "Invert": true
@@ -1582,6 +1586,10 @@
         "CREATED"
       ],
       "Clauses": [
+        {
+          "Field": "FileSystemObject.SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
+        },
         {
           "Field": "FileSystemObject.SignatureStatus.IsTimeValid",
           "Operation": "IsTrue",
