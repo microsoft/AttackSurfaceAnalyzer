@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
+using Microsoft.CST.AttackSurfaceAnalyzer.Collectors;
 using Microsoft.CST.AttackSurfaceAnalyzer.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
 {
@@ -125,6 +127,64 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 SigningTime = notAfter // Signed exactly at NotAfter boundary
             };
             Assert.IsTrue(sig.IsTimeValid);
+        }
+
+        [TestMethod]
+        public void GetSignatureStatus_WithSignedPeFile_PopulatesSigningTime()
+        {
+            // vcruntime140d.dll is a signed Microsoft PE binary already in the repo
+            var path = Path.Combine(AppContext.BaseDirectory, "TpmSim", "vcruntime140d.dll");
+            if (!File.Exists(path))
+                Assert.Inconclusive("Test binary not found at: " + path);
+
+            using var stream = File.OpenRead(path);
+            var sig = WindowsFileSystemUtils.GetSignatureStatus(path, stream);
+
+            Assert.IsNotNull(sig, "Should parse a PE file's signature");
+            Assert.IsNotNull(sig.SigningTime, "Signed binary should have an extracted SigningTime");
+            Assert.IsTrue(sig.IsAuthenticodeValid, "Known-signed binary should be authenticode valid");
+            // The signing time should be within a reasonable historical range
+            Assert.IsTrue(sig.SigningTime.Value > new DateTime(2000, 1, 1), "SigningTime should be a reasonable date");
+            Assert.IsTrue(sig.SigningTime.Value < DateTime.UtcNow, "SigningTime should be in the past");
+        }
+
+        [TestMethod]
+        public void GetSignatureStatus_WithSignedPeFile_IsTimeValidReflectsSigningWindow()
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "TpmSim", "vcruntime140d.dll");
+            if (!File.Exists(path))
+                Assert.Inconclusive("Test binary not found at: " + path);
+
+            using var stream = File.OpenRead(path);
+            var sig = WindowsFileSystemUtils.GetSignatureStatus(path, stream);
+
+            Assert.IsNotNull(sig);
+            Assert.IsNotNull(sig.SigningTime);
+            Assert.IsNotNull(sig.SigningCertificate);
+            // The binary was signed while the certificate was valid
+            Assert.IsTrue(sig.SigningTime.Value >= sig.SigningCertificate.NotBefore,
+                $"SigningTime {sig.SigningTime} should be >= cert NotBefore {sig.SigningCertificate.NotBefore}");
+            Assert.IsTrue(sig.SigningTime.Value <= sig.SigningCertificate.NotAfter,
+                $"SigningTime {sig.SigningTime} should be <= cert NotAfter {sig.SigningCertificate.NotAfter}");
+            Assert.IsTrue(sig.IsTimeValid, "A properly timestamped binary should have IsTimeValid = true");
+        }
+
+        [TestMethod]
+        public void GetSignatureStatus_WithUnsignedPeFile_HasNullSigningTime()
+        {
+            var path = Path.Combine(AppContext.BaseDirectory, "TpmSim", "Simulator.exe");
+            if (!File.Exists(path))
+                Assert.Inconclusive("Test binary not found at: " + path);
+
+            using var stream = File.OpenRead(path);
+            var sig = WindowsFileSystemUtils.GetSignatureStatus(path, stream);
+
+            // Unsigned PE should either return null signature or have null SigningTime
+            if (sig != null)
+            {
+                Assert.IsNull(sig.SigningTime, "Unsigned binary should not have a SigningTime");
+                Assert.IsFalse(sig.IsTimeValid, "Unsigned binary should have IsTimeValid = false");
+            }
         }
     }
 }
