@@ -1556,8 +1556,8 @@
       ]
     },
     {
-      "Name": "Binaries with expired signatures",
-      "Description": "These binaries have expired signatures.",
+      "Name": "Binaries with unverified signature validity",
+      "Description": "These binaries have signatures where the signing time could not be verified as being within the certificate's validity period. The signing time may be outside the validity period or could not be determined.",
       "Flag": "WARNING",
       "ResultType": "FILE",
       "ChangeTypes": [
@@ -1566,14 +1566,19 @@
       ],
       "Clauses": [
         {
-          "Field": "SignatureStatus.SigningCertificate.NotAfter",
-          "Operation": "IsExpired"
+          "Field": "SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
+        },
+        {
+          "Field": "SignatureStatus.IsTimeValid",
+          "Operation": "IsTrue",
+          "Invert": true
         }
       ]
     },
     {
-      "Name": "Binaries with expired signatures",
-      "Description": "These binaries have expired signatures.",
+      "Name": "Binaries with unverified signature validity",
+      "Description": "These binaries have signatures where the signing time could not be verified as being within the certificate's validity period. The signing time may be outside the validity period or could not be determined.",
       "Flag": "WARNING",
       "ResultType": "FILEMONITOR",
       "ChangeTypes": [
@@ -1582,8 +1587,13 @@
       ],
       "Clauses": [
         {
-          "Field": "FileSystemObject.SignatureStatus.SigningCertificate.NotAfter",
-          "Operation": "IsExpired"
+          "Field": "FileSystemObject.SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
+        },
+        {
+          "Field": "FileSystemObject.SignatureStatus.IsTimeValid",
+          "Operation": "IsTrue",
+          "Invert": true
         }
       ]
     },

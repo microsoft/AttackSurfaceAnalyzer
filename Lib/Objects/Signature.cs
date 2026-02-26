@@ -42,9 +42,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
             get
             {
-                if (SigningCertificate != null)
+                if (SigningCertificate != null && SigningTime is DateTime signingTime)
                 {
-                    return DateTime.Now > SigningCertificate.NotBefore && DateTime.Now < SigningCertificate.NotAfter;
+                    return signingTime >= SigningCertificate.NotBefore && signingTime <= SigningCertificate.NotAfter;
                 }
                 return false;
             }
@@ -54,5 +54,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string? SignedHash { get; set; }
         public string? SignerSerialNumber { get; set; }
         public SerializableCertificate? SigningCertificate { get; set; }
+        public DateTime? SigningTime { get; set; }
     }
 }

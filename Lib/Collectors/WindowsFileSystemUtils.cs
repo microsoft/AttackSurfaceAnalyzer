@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Security.Cryptography.Pkcs;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 {
@@ -148,6 +150,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     var peHeader = new PeFile(stream);
                     var authenticodeInfo = new AuthenticodeInfo(peHeader);
                     var sig = new Signature(authenticodeInfo);
+                    sig.SigningTime = GetSigningTime(peHeader);
                     return sig;
                 }
             }
@@ -172,6 +175,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                     var peHeader = new PeFile(mmf);
                     var ai = new AuthenticodeInfo(peHeader);
                     var sig = new Signature(ai);
+                    sig.SigningTime = GetSigningTime(peHeader);
                     return sig;
                 }
             }
@@ -193,6 +197,90 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
             catch (Exception e)
             {
                 Log.Verbose("Failed to get signature for {0} ({1}:{2})", Path, e.GetType(), e.Message);
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Extracts the signing timestamp from a PE file's Authenticode signature.
+        /// The method first attempts to use the countersigner info in the PKCS#7 data,
+        /// then checks for RFC3161 timestamp tokens in the signer's UnsignedAttributes,
+        /// and finally falls back to the signer's own SignedAttributes if needed.
+        /// </summary>
+        internal static DateTime? GetSigningTime(PeFile peFile)
+        {
+            try
+            {
+                var certData = peFile.WinCertificate?.BCertificate.ToArray();
+                if (certData is null)
+                {
+                    return null;
+                }
+
+                var signedCms = new SignedCms();
+                signedCms.Decode(certData);
+
+                foreach (var signerInfo in signedCms.SignerInfos)
+                {
+                    // Check counter-signers for the Authenticode timestamp
+                    foreach (var counterSigner in signerInfo.CounterSignerInfos)
+                    {
+                        var time = GetPkcs9SigningTime(counterSigner.SignedAttributes);
+                        if (time.HasValue)
+                            return time;
+                    }
+
+                    // Check unsigned attributes for RFC 3161 timestamp tokens
+                    foreach (var attr in signerInfo.UnsignedAttributes)
+                    {
+                        // RFC 3161 timestamp token OID: 1.2.840.113549.1.9.16.2.14 (signatureTimeStampToken)
+                        if (string.Equals(attr.Oid?.Value, "1.2.840.113549.1.9.16.2.14", StringComparison.Ordinal))
+                        {
+                            foreach (var val in attr.Values)
+                            {
+                                try
+                                {
+                                    var tokenCms = new SignedCms();
+                                    tokenCms.Decode(val.RawData);
+                                    foreach (var tokenSigner in tokenCms.SignerInfos)
+                                    {
+                                        var time = GetPkcs9SigningTime(tokenSigner.SignedAttributes);
+                                        if (time.HasValue)
+                                            return time;
+                                    }
+                                }
+                                catch (CryptographicException)
+                                {
+                                    // Not a valid CMS structure, skip
+                                }
+                            }
+                        }
+                    }
+
+                    // Fallback: check the signer's own signed attributes
+                    var signerTime = GetPkcs9SigningTime(signerInfo.SignedAttributes);
+                    if (signerTime.HasValue)
+                        return signerTime;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Verbose(e, "Failed to extract signing time ({0}:{1})", e.GetType(), e.Message);
+            }
+            return null;
+        }
+
+        private static DateTime? GetPkcs9SigningTime(CryptographicAttributeObjectCollection attributes)
+        {
+            foreach (var attr in attributes)
+            {
+                foreach (var val in attr.Values)
+                {
+                    if (val is Pkcs9SigningTime signingTime)
+                    {
+                        return signingTime.SigningTime;
+                    }
+                }
             }
             return null;
         }
