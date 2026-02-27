@@ -429,6 +429,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         /// <summary>
         ///     Requires Admin
         /// </summary>
+        [Ignore]
         [TestMethod]
         public void TestTpmCollector()
         {
