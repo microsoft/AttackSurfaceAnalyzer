@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using ProtoBuf;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract(SkipConstructor = true)]
     public class ComObject : CollectObject
     {
         /// <summary>
@@ -29,16 +31,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         ///     The Registry Key which specifies this COM object
         /// </summary>
+        [ProtoMember(1)]
         public RegistryObject Key { get; set; }
 
         /// <summary>
         ///     The associated binary found (if any) in the x64 view of the registry
         /// </summary>
+        [ProtoMember(2)]
         public FileSystemObject? x64_Binary { get; set; }
 
         /// <summary>
         ///     The associated binary found (if any) in the x86 view of the registry
         /// </summary>
+        [ProtoMember(3)]
         public FileSystemObject? x86_Binary { get; set; }
     }
 }
