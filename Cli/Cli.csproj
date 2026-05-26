@@ -24,7 +24,7 @@
     <PackageIcon>icon-128.png</PackageIcon>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,9 +37,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.2.87" />
-    <PackageReference Include="Microsoft.CST.OAT.Scripting" Version="1.2.87" />
-    <PackageReference Include="Sarif.Sdk" Version="4.6.0" />
+    <PackageReference Include="Microsoft.CST.OAT.Blazor.Components" Version="1.2.91" />
+    <PackageReference Include="Microsoft.CST.OAT.Scripting" Version="1.2.91" />
+    <PackageReference Include="Sarif.Sdk" Version="5.0.0" />
     <PackageReference Include="Tewr.Blazor.FileReader" Version="3.4.0.24340" />
   </ItemGroup>
 </Project>

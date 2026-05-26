@@ -4,7 +4,7 @@
     <IsPackable>false</IsPackable>
     <AssemblyName>AsaTests</AssemblyName>
     <ReleaseVersion>0.0.0-placeholder</ReleaseVersion>
-    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,15 +13,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-    <PackageReference Include="MSTest.TestAdapter" Version="4.0.2" />
-    <PackageReference Include="MSTest.TestFramework" Version="4.0.2" />
-    <PackageReference Update="MSTest.Analyzers" Version="3.7.1">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.2.3" />
+    <PackageReference Include="MSTest.TestFramework" Version="4.2.3" />
+    <PackageReference Update="MSTest.Analyzers" Version="4.2.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="1.5.1" />
-    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="17.13.1" />
+    <PackageReference Update="Microsoft.Testing.Extensions.TrxReport" Version="2.2.3" />
+    <PackageReference Update="Microsoft.Testing.Extensions.CodeCoverage" Version="18.7.0" />
   </ItemGroup>
 
   <ItemGroup>
