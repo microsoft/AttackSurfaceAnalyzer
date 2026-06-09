@@ -26,7 +26,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
     {
         internal const string MonoPosixAssemblyName = "Mono.Posix.NETStandard";
 
-        // RID-specific subfolders that ship a managed Mono.Posix.NETStandard.dll, ordered by preference.
+        // RID-specific subfolders to probe, ordered by preference. win-arm64 is listed first so a
+        // matching asset is preferred should one ever ship (the 1.0.0 package does not provide one);
+        // the remaining RIDs all ship a managed Mono.Posix.NETStandard.dll that is identical IL.
         internal static readonly string[] CandidateRuntimeIdentifiers = new[]
         {
             "win-arm64",
@@ -45,11 +47,6 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         internal static Assembly? ResolveMonoPosix(AssemblyLoadContext context, AssemblyName assemblyName)
         {
-            if (context is null)
-            {
-                return null;
-            }
-
             var path = FindAssemblyPath(AppContext.BaseDirectory, assemblyName?.Name);
             if (path is null)
             {
