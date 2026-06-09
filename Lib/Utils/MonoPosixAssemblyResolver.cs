@@ -24,10 +24,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
     /// </summary>
     internal static class MonoPosixAssemblyResolver
     {
-        private const string MonoPosixAssemblyName = "Mono.Posix.NETStandard";
+        internal const string MonoPosixAssemblyName = "Mono.Posix.NETStandard";
 
         // RID-specific subfolders that ship a managed Mono.Posix.NETStandard.dll, ordered by preference.
-        private static readonly string[] CandidateRuntimeIdentifiers = new[]
+        internal static readonly string[] CandidateRuntimeIdentifiers = new[]
         {
             "win-arm64",
             "win-x64",
@@ -45,17 +45,38 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
         internal static Assembly? ResolveMonoPosix(AssemblyLoadContext context, AssemblyName assemblyName)
         {
-            if (context is null || !string.Equals(assemblyName?.Name, MonoPosixAssemblyName, StringComparison.OrdinalIgnoreCase))
+            if (context is null)
+            {
+                return null;
+            }
+
+            var path = FindAssemblyPath(AppContext.BaseDirectory, assemblyName?.Name);
+            if (path is null)
+            {
+                return null;
+            }
+
+            return context.LoadFromAssemblyPath(path);
+        }
+
+        /// <summary>
+        ///     Returns the path to a shipped managed Mono.Posix.NETStandard.dll under the given base
+        ///     directory, or null if the requested assembly is not Mono.Posix.NETStandard or no
+        ///     shipped copy could be found.
+        /// </summary>
+        internal static string? FindAssemblyPath(string baseDirectory, string? assemblyName)
+        {
+            if (string.IsNullOrEmpty(baseDirectory) || !string.Equals(assemblyName, MonoPosixAssemblyName, StringComparison.OrdinalIgnoreCase))
             {
                 return null;
             }
 
             foreach (var rid in CandidateRuntimeIdentifiers)
             {
-                var candidate = Path.Combine(AppContext.BaseDirectory, "runtimes", rid, "lib", "netstandard2.0", $"{MonoPosixAssemblyName}.dll");
+                var candidate = Path.Combine(baseDirectory, "runtimes", rid, "lib", "netstandard2.0", $"{MonoPosixAssemblyName}.dll");
                 if (File.Exists(candidate))
                 {
-                    return context.LoadFromAssemblyPath(candidate);
+                    return candidate;
                 }
             }
 
