@@ -39,19 +39,39 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
 
             try
             {
-                foreach (RegistryAccessRule? rule in key.GetAccessControl().GetAccessRules(true, true, typeof(SecurityIdentifier)))
+                var security = key.GetAccessControl();
+
+                try
+                {
+                    regObj.PermissionsString = security.GetSecurityDescriptorSddlForm(AccessControlSections.All);
+                }
+                catch (Exception e)
+                {
+                    Log.Verbose("Failed to get SDDL for {0} ({1}:{2})", regObj.Key, e.GetType(), e.Message);
+                }
+
+                foreach (RegistryAccessRule? rule in security.GetAccessRules(true, true, typeof(SecurityIdentifier)))
                 {
                     if (rule != null)
                     {
                         string name = AsaHelpers.SidToName(rule.IdentityReference);
 
-                        if (regObj.Permissions.ContainsKey(name))
+                        if (!regObj.Permissions.TryGetValue(name, out List<string>? rights))
                         {
-                            regObj.Permissions[name].Add(rule.RegistryRights.ToString());
+                            rights = new List<string>();
+                            regObj.Permissions.Add(name, rights);
                         }
-                        else
+
+                        // RegistryRights.ToString() returns a comma joined combined mask. Split it so
+                        // individual rights are matchable, and prefix each with the access control type so
+                        // Allow and Deny are distinguishable.
+                        foreach (var right in rule.RegistryRights.ToString().Split(','))
                         {
-                            regObj.Permissions.Add(name, new List<string>() { rule.RegistryRights.ToString() });
+                            var entry = $"{rule.AccessControlType}:{right.Trim()}";
+                            if (!rights.Contains(entry))
+                            {
+                                rights.Add(entry);
+                            }
                         }
                     }
                 }

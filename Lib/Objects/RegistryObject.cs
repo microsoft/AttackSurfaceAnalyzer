@@ -31,6 +31,15 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string Key { get; set; }
 
         public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
+
+        /// <summary>
+        ///     The key's security descriptor in SDDL form.
+        /// </summary>
+        /// <remarks>
+        ///     A flat string, so analysis rules can match ACE patterns against it with Regex. The
+        ///     Permissions dictionary cannot be matched that way: OAT's regex operation discards the
+        ///     dictionary half of a field's values.
+        /// </remarks>
         public string? PermissionsString { get; set; }
 
         public int SubkeyCount
