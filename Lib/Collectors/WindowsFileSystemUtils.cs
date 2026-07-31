@@ -8,6 +8,7 @@ using PeNet.Header.Pe;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -202,10 +203,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
+        /// Microsoft's Authenticode RFC 3161 timestamp unsigned attribute (szOID_RFC3161_counterSign).
+        /// This is what modern Windows binaries are timestamped with.
+        /// </summary>
+        private const string MicrosoftRfc3161TimestampOid = "1.3.6.1.4.1.311.3.3.1";
+
+        /// <summary>
+        /// The standard RFC 3161 signature timestamp unsigned attribute (id-aa-signatureTimeStampToken).
+        /// </summary>
+        private const string Rfc3161TimestampOid = "1.2.840.113549.1.9.16.2.14";
+
+        /// <summary>
+        /// The content type of the TSTInfo encapsulated in an RFC 3161 timestamp token (id-ct-TSTInfo).
+        /// </summary>
+        private const string TstInfoContentTypeOid = "1.2.840.113549.1.9.16.1.4";
+
+        /// <summary>
         /// Extracts the signing timestamp from a PE file's Authenticode signature.
-        /// The method first attempts to use the countersigner info in the PKCS#7 data,
-        /// then checks for RFC3161 timestamp tokens in the signer's UnsignedAttributes,
-        /// and finally falls back to the signer's own SignedAttributes if needed.
+        /// The method first attempts to use the countersigner info in the PKCS#7 data (the legacy
+        /// Authenticode timestamp format), then checks for RFC 3161 timestamp tokens in the signer's
+        /// UnsignedAttributes, and finally falls back to the signer's own SignedAttributes if needed.
         /// </summary>
         internal static DateTime? GetSigningTime(PeFile peFile)
         {
@@ -222,7 +239,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                 foreach (var signerInfo in signedCms.SignerInfos)
                 {
-                    // Check counter-signers for the Authenticode timestamp
+                    // Legacy Authenticode timestamps are PKCS#9 countersignatures carrying a signingTime attribute
                     foreach (var counterSigner in signerInfo.CounterSignerInfos)
                     {
                         var time = GetPkcs9SigningTime(counterSigner.SignedAttributes);
@@ -230,34 +247,25 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                             return time;
                     }
 
-                    // Check unsigned attributes for RFC 3161 timestamp tokens
+                    // Modern Authenticode timestamps are RFC 3161 tokens carried in an unsigned attribute
                     foreach (var attr in signerInfo.UnsignedAttributes)
                     {
-                        // RFC 3161 timestamp token OID: 1.2.840.113549.1.9.16.2.14 (signatureTimeStampToken)
-                        if (string.Equals(attr.Oid?.Value, "1.2.840.113549.1.9.16.2.14", StringComparison.Ordinal))
+                        if (!string.Equals(attr.Oid?.Value, MicrosoftRfc3161TimestampOid, StringComparison.Ordinal) &&
+                            !string.Equals(attr.Oid?.Value, Rfc3161TimestampOid, StringComparison.Ordinal))
                         {
-                            foreach (var val in attr.Values)
-                            {
-                                try
-                                {
-                                    var tokenCms = new SignedCms();
-                                    tokenCms.Decode(val.RawData);
-                                    foreach (var tokenSigner in tokenCms.SignerInfos)
-                                    {
-                                        var time = GetPkcs9SigningTime(tokenSigner.SignedAttributes);
-                                        if (time.HasValue)
-                                            return time;
-                                    }
-                                }
-                                catch (CryptographicException)
-                                {
-                                    // Not a valid CMS structure, skip
-                                }
-                            }
+                            continue;
+                        }
+
+                        foreach (var val in attr.Values)
+                        {
+                            var time = GetRfc3161TimestampTime(val.RawData);
+                            if (time.HasValue)
+                                return time;
                         }
                     }
 
-                    // Fallback: check the signer's own signed attributes
+                    // Fallback: check the signer's own signed attributes. This time is asserted by the
+                    // signer rather than by a trusted timestamp authority.
                     var signerTime = GetPkcs9SigningTime(signerInfo.SignedAttributes);
                     if (signerTime.HasValue)
                         return signerTime;
@@ -268,6 +276,63 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 Log.Verbose(e, "Failed to extract signing time ({0}:{1})", e.GetType(), e.Message);
             }
             return null;
+        }
+
+        /// <summary>
+        /// Extracts the trusted time from an RFC 3161 timestamp token. The authoritative value is the
+        /// genTime of the encapsulated TSTInfo; timestamp authorities are not required to also place a
+        /// PKCS#9 signingTime attribute on the token's signer, so that is only used as a fallback.
+        /// </summary>
+        private static DateTime? GetRfc3161TimestampTime(byte[] tokenData)
+        {
+            try
+            {
+                var tokenCms = new SignedCms();
+                tokenCms.Decode(tokenData);
+
+                if (string.Equals(tokenCms.ContentInfo.ContentType?.Value, TstInfoContentTypeOid, StringComparison.Ordinal))
+                {
+                    var genTime = GetTstInfoGenTime(tokenCms.ContentInfo.Content);
+                    if (genTime.HasValue)
+                        return genTime;
+                }
+
+                foreach (var tokenSigner in tokenCms.SignerInfos)
+                {
+                    var time = GetPkcs9SigningTime(tokenSigner.SignedAttributes);
+                    if (time.HasValue)
+                        return time;
+                }
+            }
+            catch (CryptographicException)
+            {
+                // Not a valid CMS structure, skip
+            }
+            catch (AsnContentException)
+            {
+                // Malformed ASN.1, skip
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Reads the genTime field out of a DER encoded RFC 3161 TSTInfo structure.
+        /// </summary>
+        private static DateTime? GetTstInfoGenTime(byte[] tstInfo)
+        {
+            try
+            {
+                var reader = new AsnReader(tstInfo, AsnEncodingRules.BER).ReadSequence();
+                reader.ReadInteger();          // version
+                reader.ReadObjectIdentifier(); // policy
+                reader.ReadSequence();         // messageImprint
+                reader.ReadInteger();          // serialNumber
+                return reader.ReadGeneralizedTime().UtcDateTime;
+            }
+            catch (AsnContentException)
+            {
+                return null;
+            }
         }
 
         private static DateTime? GetPkcs9SigningTime(CryptographicAttributeObjectCollection attributes)
