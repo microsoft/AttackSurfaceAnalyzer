@@ -65,9 +65,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                         // RegistryRights.ToString() returns a comma joined combined mask. Split it so
                         // individual rights are matchable, and prefix each with the access control type so
                         // Allow and Deny are distinguishable.
-                        foreach (var right in rule.RegistryRights.ToString().Split(','))
+                        foreach (var right in PermissionUtils.SplitRights(rule.RegistryRights.ToString()))
                         {
-                            var entry = $"{rule.AccessControlType}:{right.Trim()}";
+                            var entry = PermissionUtils.EncodeRight(rule.AccessControlType, right);
                             if (!rights.Contains(entry))
                             {
                                 rights.Add(entry);
@@ -82,9 +82,61 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
             }
 
             regObj.Values = RegistryObject.GetValues(key);
+            PopulateReferences(regObj);
 
             return regObj;
         }
+
+        /// <summary>
+        ///     Cracks file paths and CLSIDs out of the key's values so that analysis rules, which cannot
+        ///     follow a reference from one collected object to another, can interrogate them directly.
+        /// </summary>
+        private static void PopulateReferences(RegistryObject regObj)
+        {
+            if (regObj.Values is null || regObj.Values.Count == 0)
+            {
+                return;
+            }
+
+            HashSet<string> paths = new(StringComparer.OrdinalIgnoreCase);
+            HashSet<string> clsids = new(StringComparer.OrdinalIgnoreCase);
+
+            foreach (var value in regObj.Values.Values)
+            {
+                if (paths.Count >= MaxReferencesPerKey && clsids.Count >= MaxReferencesPerKey)
+                {
+                    break;
+                }
+
+                if (paths.Count < MaxReferencesPerKey)
+                {
+                    foreach (var path in RegistryReferenceParser.ExtractPaths(value))
+                    {
+                        if (paths.Add(path))
+                        {
+                            regObj.ReferencedPaths.Add(path);
+                        }
+                    }
+                }
+
+                if (clsids.Count < MaxReferencesPerKey)
+                {
+                    foreach (var clsid in RegistryReferenceParser.ExtractClsids(value))
+                    {
+                        if (clsids.Add(clsid))
+                        {
+                            regObj.ReferencedClsids.Add(clsid);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Caps the references retained for a single key so that a pathological key cannot blow up the
+        ///     collected object.
+        /// </summary>
+        private const int MaxReferencesPerKey = 128;
 
         public static IEnumerable<string> WalkHive(RegistryHive Hive, RegistryView View, string startingKey = "")
         {

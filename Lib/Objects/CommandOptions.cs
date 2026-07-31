@@ -32,6 +32,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
                 EnableFileSystemCollector = opts.EnableFileSystemCollector,
                 EnableFirewallCollector = opts.EnableFirewallCollector,
                 EnableKeyCollector = opts.EnableKeyCollector,
+                EnableLoadPointCollector = opts.EnableLoadPointCollector,
                 EnableNetworkPortCollector = opts.EnableNetworkPortCollector,
                 EnableProcessCollector = opts.EnableProcessCollector,
                 EnableRegistryCollector = opts.EnableRegistryCollector,
@@ -84,6 +85,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option('k', "keys", Required = false, HelpText = "Gather information about the cryptographic keys on the system.")]
         public bool EnableKeyCollector { get; set; }
+
+        [Option('L', "load-points", Required = false, HelpText = "Enable the load point collector, which joins registry load points to the binaries they resolve to")]
+        public bool EnableLoadPointCollector { get; set; }
 
         [Option('p', "network-port", Required = false, HelpText = "Enable the network port collector")]
         public bool EnableNetworkPortCollector { get; set; }

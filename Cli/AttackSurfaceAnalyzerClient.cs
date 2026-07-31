@@ -1509,6 +1509,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
                             case RESULT_TYPE.WIFI:
                                 opts.EnableWifiCollector = true;
                                 break;
+
+                            case RESULT_TYPE.LOADPOINT:
+                                opts.EnableLoadPointCollector = true;
+                                break;
                         }
                     }
                 }
@@ -1587,6 +1591,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Cli
             {
                 collectors.Add(new WifiCollector(opts, defaultChangeHandler));
                 dict.Add(RESULT_TYPE.WIFI);
+            }
+            if (opts.EnableLoadPointCollector || (opts.EnableAllCollectors && RuntimeInformation.IsOSPlatform(OSPlatform.Windows)))
+            {
+                collectors.Add(new LoadPointCollector(opts, defaultChangeHandler));
+                dict.Add(RESULT_TYPE.LOADPOINT);
             }
 
             if (collectors.Count == 0)

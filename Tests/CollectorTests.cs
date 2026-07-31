@@ -67,7 +67,47 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 coc.TryExecute();
 
                 Assert.IsTrue(results.Any(x => x is ComObject y && y.x86_Binary != null));
+
+                // The 64-bit view is parsed too, and no resolved path may still contain an unexpanded
+                // environment variable.
+                Assert.IsTrue(results.Any(x => x is ComObject y && y.x64_Binary != null));
+                Assert.IsFalse(results.Any(x => x is ComObject y
+                    && ((y.x86_Binary?.Path.Contains('%') ?? false) || (y.x64_Binary?.Path.Contains('%') ?? false))));
             }
+        }
+
+        /// <summary>
+        ///     Requires admin. Load points are Windows only; off Windows only the platform gate is asserted.
+        /// </summary>
+        [TestMethod]
+        public void TestLoadPointCollector()
+        {
+            var lpc = new LoadPointCollector(new CollectorOptions() { SingleThread = true });
+
+            Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), lpc.CanRunOnPlatform());
+
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return;
+            }
+
+            ConcurrentStack<CollectObject> results = new();
+            lpc = new LoadPointCollector(new CollectorOptions() { SingleThread = true }, x => results.Push(x));
+            lpc.TryExecute();
+
+            Assert.IsTrue(results.Any(x => x is LoadPointObject y && !string.IsNullOrEmpty(y.TargetPath)));
+
+            // Services are one of the default definitions and always resolve to something on a real system.
+            Assert.IsTrue(results.Any(x => x is LoadPointObject y && y.LoadPointType == "Service"));
+
+            // Every object must say whether its target exists and where its verdict came from.
+            Assert.IsTrue(results.OfType<LoadPointObject>().All(y =>
+                y.TargetAclSource is "Target" or "NearestExistingParent" or "None"));
+
+            // System32 binaries must never be reported as writable by unprivileged users.
+            Assert.IsFalse(results.OfType<LoadPointObject>().Any(y =>
+                y.TargetUserWritable
+                && (y.TargetPath?.StartsWith(Environment.SystemDirectory, StringComparison.OrdinalIgnoreCase) ?? false)));
         }
 
         /// <summary>

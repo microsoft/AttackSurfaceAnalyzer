@@ -87,6 +87,10 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Utils
                     return JsonConvert.DeserializeObject<DriverObject>(serialized, jsonSettings);
                 case RESULT_TYPE.FILEMONITOR:
                     return JsonConvert.DeserializeObject<FileMonitorObject>(serialized, jsonSettings);
+
+                case RESULT_TYPE.LOADPOINT:
+                    return JsonConvert.DeserializeObject<LoadPointObject>(serialized, jsonSettings);
+
                 default:
                     return null;
             }

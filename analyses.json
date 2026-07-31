@@ -2059,6 +2059,110 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "Load Point Writable by Unprivileged Users",
+      "Description": "The registry key that tells Windows what code to load here can be modified by unprivileged users, who can therefore redirect it at code of their choosing. If the code is then loaded by a privileged process this is a privilege escalation.",
+      "Flag": "WARNING",
+      "ResultType": "LOADPOINT",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Clauses": [
+        {
+          "Field": "SourceKeyUserWritable",
+          "Operation": "IsTrue"
+        }
+      ]
+    },
+    {
+      "Name": "Load Point Target Writable by Unprivileged Users",
+      "Description": "The binary this load point resolves to can be replaced by unprivileged users. Any privileged process that loads it will run their code.",
+      "Flag": "WARNING",
+      "ResultType": "LOADPOINT",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "TARGET_WRITABLE AND TARGET_EXISTS AND NOT ACL_UNAVAILABLE",
+      "Clauses": [
+        {
+          "Label": "TARGET_WRITABLE",
+          "Field": "TargetUserWritable",
+          "Operation": "IsTrue"
+        },
+        {
+          "Label": "TARGET_EXISTS",
+          "Field": "TargetExists",
+          "Operation": "IsTrue"
+        },
+        {
+          "Label": "ACL_UNAVAILABLE",
+          "Field": "TargetAclUnavailable",
+          "Operation": "IsTrue"
+        }
+      ]
+    },
+    {
+      "Name": "Load Point Target Missing from Unprivileged Writable Directory",
+      "Description": "This load point resolves to a binary that does not exist, in a directory unprivileged users can write to. An attacker can simply create the file and wait for a privileged process to load it.",
+      "Flag": "WARNING",
+      "ResultType": "LOADPOINT",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "PARENT_WRITABLE AND PARENT_ACL AND NOT TARGET_EXISTS AND NOT ACL_UNAVAILABLE",
+      "Clauses": [
+        {
+          "Label": "PARENT_WRITABLE",
+          "Field": "TargetUserWritable",
+          "Operation": "IsTrue"
+        },
+        {
+          "Label": "PARENT_ACL",
+          "Field": "TargetAclSource",
+          "Operation": "Equals",
+          "Data": [
+            "NearestExistingParent"
+          ]
+        },
+        {
+          "Label": "TARGET_EXISTS",
+          "Field": "TargetExists",
+          "Operation": "IsTrue"
+        },
+        {
+          "Label": "ACL_UNAVAILABLE",
+          "Field": "TargetAclUnavailable",
+          "Operation": "IsTrue"
+        }
+      ]
+    },
+    {
+      "Name": "Privilege Escalation via Unprivileged Load Point",
+      "Description": "Both ends of this load point are under unprivileged control: the registry key naming the code can be modified, and the binary it resolves to is writable or absent from a writable directory. This is the shape of a lay-and-wait DLL load privilege escalation.",
+      "Flag": "WARNING",
+      "ResultType": "LOADPOINT",
+      "Platforms": [
+        "WINDOWS"
+      ],
+      "Expression": "SOURCE_WRITABLE AND TARGET_WRITABLE AND NOT ACL_UNAVAILABLE",
+      "Clauses": [
+        {
+          "Label": "SOURCE_WRITABLE",
+          "Field": "SourceKeyUserWritable",
+          "Operation": "IsTrue"
+        },
+        {
+          "Label": "TARGET_WRITABLE",
+          "Field": "TargetUserWritable",
+          "Operation": "IsTrue"
+        },
+        {
+          "Label": "ACL_UNAVAILABLE",
+          "Field": "TargetAclUnavailable",
+          "Operation": "IsTrue"
+        }
+      ]
     }
   ],
   "DefaultLevels": {
@@ -2078,6 +2182,7 @@
     "KEY": "INFORMATION",
     "PROCESS": "INFORMATION",
     "DRIVER": "INFORMATION",
-    "WIFI": "INFORMATION"
+    "WIFI": "INFORMATION",
+    "LOADPOINT": "INFORMATION"
   }
 }

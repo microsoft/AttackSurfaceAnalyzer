@@ -42,6 +42,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// </remarks>
         public string? PermissionsString { get; set; }
 
+        /// <summary>
+        ///     CLSID-shaped GUIDs referenced by this key's values, in braced uppercase form.
+        /// </summary>
+        /// <remarks>
+        ///     Pre-parsed at collection time because analysis rules cannot follow a reference from one
+        ///     object to another. A List&lt;string&gt; so that Regex, Contains, StartsWith, and EndsWith all
+        ///     work against it.
+        /// </remarks>
+        public List<string> ReferencedClsids { get; set; } = new List<string>();
+
+        /// <summary>
+        ///     File paths referenced by this key's values, environment-expanded and normalized.
+        /// </summary>
+        public List<string> ReferencedPaths { get; set; } = new List<string>();
+
         public int SubkeyCount
         {
             get { return Subkeys?.Count ?? 0; }
