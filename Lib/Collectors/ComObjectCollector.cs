@@ -26,7 +26,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="SearchKey"> The Registry Key to search </param>
         /// <param name="View"> The View of the registry to use </param>
-        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false)
+        /// <param name="SingleThreaded"> Whether to parse subkeys serially </param>
+        /// <param name="FollowNetworkPaths">
+        ///     Whether to collect metadata for servers that resolve to another machine. Off by default, since
+        ///     reaching one connects to a host named by whoever could write the CLSID.
+        /// </param>
+        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false, bool FollowNetworkPaths = false)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) { return new List<CollectObject>(); }
             if (SearchKey == null) { return new List<CollectObject>(); }
@@ -45,7 +50,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         if (RegObj != null)
                         {
                             ComObject comObject = new(RegObj);
-                            var binary = ResolveServerBinary(CurrentKey, View, fsc);
+                            var binary = ResolveServerBinary(CurrentKey, View, fsc, FollowNetworkPaths);
 
                             if (binary is not null)
                             {
@@ -122,7 +127,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         ///     Reads the default value of the first server subkey present under a CLSID and resolves it to a
         ///     file on disk.
         /// </summary>
-        private static FileSystemObject? ResolveServerBinary(RegistryKey clsidKey, RegistryView view, FileSystemCollector fsc)
+        /// <remarks>
+        ///     A server registered on another machine is reported by path only unless <paramref
+        ///     name="followNetworkPaths" /> is set. Collecting its metadata would connect to a host named by
+        ///     whoever could write the CLSID, as the account running the collection.
+        /// </remarks>
+        private static FileSystemObject? ResolveServerBinary(RegistryKey clsidKey, RegistryView view, FileSystemCollector fsc, bool followNetworkPaths)
         {
             string[] subKeyNames;
 
@@ -165,6 +175,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
 
                 if (path is not null)
                 {
+                    if (!followNetworkPaths && PathUtils.IsNetworkPath(path))
+                    {
+                        Log.Verbose("Not resolving network COM server path {0} for {1}. Pass --follow-network-paths to include it.", path, clsidKey.Name);
+                        return new FileSystemObject(path);
+                    }
+
                     return fsc.FilePathToFileSystemObject(path);
                 }
             }
@@ -198,7 +214,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 var CLSIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 if (CLSIDs is not null)
                 {
-                    foreach (var comObj in ParseComObjects(CLSIDs, view, opts.SingleThread))
+                    foreach (var comObj in ParseComObjects(CLSIDs, view, opts.SingleThread, opts.FollowNetworkPaths))
                     {
                         if (cancellationToken.IsCancellationRequested) { return; }
                         HandleChange(comObj);
@@ -227,7 +243,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         using var ComKey = SearchKey.OpenSubKey(subkeyName)?.OpenSubKey("CLSID");
                         if (ComKey is not null)
                         {
-                            foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
+                            foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread, opts.FollowNetworkPaths))
                             {
                                 HandleChange(comObj);
                             }

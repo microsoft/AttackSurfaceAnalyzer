@@ -158,6 +158,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 TargetUserWritable = true,
                 TargetAclSource = "NearestExistingParent",
                 NearestExistingParentPath = @"C:\ProgramData",
+                TargetIsNetworkPath = false,
                 View = Microsoft.Win32.RegistryView.Registry64,
                 ResolutionChain = { "step one", "step two" },
             };
@@ -171,6 +172,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 Assert.AreEqual(lp.TargetUserWritable, lp2.TargetUserWritable);
                 Assert.AreEqual(lp.TargetExists, lp2.TargetExists);
                 Assert.AreEqual(lp.TargetAclSource, lp2.TargetAclSource);
+                Assert.AreEqual(lp.TargetIsNetworkPath, lp2.TargetIsNetworkPath);
                 Assert.AreEqual(lp.TargetPath, lp2.TargetPath);
                 Assert.AreEqual(lp.NearestExistingParentPath, lp2.NearestExistingParentPath);
                 Assert.AreEqual(lp.SourceKey.Key, lp2.SourceKey.Key);

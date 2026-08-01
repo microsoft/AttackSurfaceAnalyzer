@@ -40,6 +40,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
                 EnableTpmCollector = opts.EnableTpmCollector,
                 EnableUserCollector = opts.EnableUserCollector,
                 EnableWifiCollector = opts.EnableWifiCollector,
+                FollowNetworkPaths = opts.FollowNetworkPaths,
                 GatherHashes = opts.GatherHashes,
                 GatherVerboseLogs = opts.GatherVerboseLogs,
                 GatherWifiPasswords = opts.GatherWifiPasswords,
@@ -109,6 +110,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer
 
         [Option('w', "wifi", Required = false, HelpText = "Enable the saved Wifi information collector")]
         public bool EnableWifiCollector { get; set; }
+
+        [Option("follow-network-paths", Required = false, HelpText = "Resolve load point and COM server paths that name network locations (UNC paths or mapped network drives). Off by default: reaching one connects to a host named by whoever could write the registry value and authenticates as the account running the collection.")]
+        public bool FollowNetworkPaths { get; set; }
 
         [Option('h', "gather-hashes", Required = false, HelpText = "Hashes every file when using the File Collector.  May dramatically increase run time of the scan.")]
         public bool GatherHashes { get; set; }

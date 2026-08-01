@@ -106,6 +106,14 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string TargetAclSource { get; set; } = "None";
 
         /// <summary>
+        ///     True when the target names a location on another machine, either a UNC path or a path through
+        ///     a mapped network drive. The target is reported but is not resolved unless collection was asked
+        ///     to follow network paths, because reaching it connects to a host named by whoever could write
+        ///     the source key and authenticates as the account running the collection.
+        /// </summary>
+        public bool TargetIsNetworkPath { get; set; }
+
+        /// <summary>
         ///     True when an unprivileged user can write the target binary, or when the target is missing and
         ///     an unprivileged user can create it in the nearest existing parent directory.
         /// </summary>

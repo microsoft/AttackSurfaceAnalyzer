@@ -6,5 +6,9 @@
             <input type="checkbox" class="form-check-input" id="enableLoadPointCollectionCheckbox" @bind="appData.CollectOptions.EnableLoadPointCollector" />
             <label class="form-check-label" for="enableLoadPointCollectionCheckbox">Enable Load Point Collector</label>
         </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="followNetworkPathsCheckbox" @bind="appData.CollectOptions.FollowNetworkPaths" />
+            <label class="form-check-label" for="followNetworkPathsCheckbox">Follow Network Paths (load point and COM server targets)</label>
+        </div>
     </div>
 </div>

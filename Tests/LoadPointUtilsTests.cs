@@ -147,6 +147,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void IsNetworkPathDetectsUncPaths()
+        {
+            Assert.IsTrue(PathUtils.IsNetworkPath(@"\\attacker\share\planted.dll"));
+            Assert.IsTrue(PathUtils.IsNetworkPath(@"  \\attacker\share\planted.dll  "));
+            Assert.IsTrue(PathUtils.IsNetworkPath(@"\\?\UNC\attacker\share\planted.dll"));
+            Assert.IsTrue(PathUtils.IsNetworkPath(@"\\?\unc\attacker\share\planted.dll"));
+        }
+
+        [TestMethod]
+        public void IsNetworkPathAcceptsLocalPaths()
+        {
+            Assert.IsFalse(PathUtils.IsNetworkPath(@"C:\Windows\System32\shell32.dll"));
+            // The extended-length prefix does not by itself mean the path is remote.
+            Assert.IsFalse(PathUtils.IsNetworkPath(@"\\?\C:\Windows\System32\shell32.dll"));
+            Assert.IsFalse(PathUtils.IsNetworkPath("shell32.dll"));
+            Assert.IsFalse(PathUtils.IsNetworkPath(null));
+            Assert.IsFalse(PathUtils.IsNetworkPath("   "));
+        }
+
+        [TestMethod]
         public void RegistryPermissionsAreUserWritableWhenInteractiveMaySetValue()
         {
             var permissions = new Dictionary<string, List<string>>

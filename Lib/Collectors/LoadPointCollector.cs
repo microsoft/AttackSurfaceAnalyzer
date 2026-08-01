@@ -234,7 +234,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         }
 
         [SupportedOSPlatform("windows")]
-        private static IEnumerable<LoadPointObject> ParseUnit(LoadPointDefinition definition, RegistryKey unit, RegistryView view, RegistryKey? hiveRoot, FileSystemCollector fsc)
+        private IEnumerable<LoadPointObject> ParseUnit(LoadPointDefinition definition, RegistryKey unit, RegistryView view, RegistryKey? hiveRoot, FileSystemCollector fsc)
         {
             List<LoadPointObject> results = new();
 
@@ -298,7 +298,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         }
 
         [SupportedOSPlatform("windows")]
-        private static IEnumerable<LoadPointObject> ResolveReferences(
+        private IEnumerable<LoadPointObject> ResolveReferences(
             LoadPointDefinition definition,
             LoadPointValueSource source,
             RegistryObject sourceObj,
@@ -442,13 +442,26 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         ///     exploitable shape this collector exists to find.
         /// </summary>
         [SupportedOSPlatform("windows")]
-        private static void PopulateTarget(LoadPointObject loadPoint, string? path, FileSystemCollector fsc)
+        private void PopulateTarget(LoadPointObject loadPoint, string? path, FileSystemCollector fsc)
         {
             loadPoint.TargetPath = path;
 
             if (string.IsNullOrEmpty(path))
             {
                 loadPoint.TargetAclSource = "None";
+                return;
+            }
+
+            loadPoint.TargetIsNetworkPath = PathUtils.IsNetworkPath(path);
+
+            // A load point can name a share on another machine, and whoever can write the value picks which
+            // machine. Resolving it would connect to that host as the account running the collection, so the
+            // path is recorded and left alone unless it was asked for.
+            if (loadPoint.TargetIsNetworkPath && !opts.FollowNetworkPaths)
+            {
+                Log.Verbose("Not resolving network load point target {0}. Pass --follow-network-paths to include it.", path);
+                loadPoint.TargetAclSource = "None";
+                loadPoint.TargetAclUnavailable = true;
                 return;
             }
 
