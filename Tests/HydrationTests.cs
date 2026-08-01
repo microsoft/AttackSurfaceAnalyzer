@@ -117,6 +117,74 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
         }
 
         [TestMethod]
+        public void TestSerializeAndDeserializeRegistryObjectReferences()
+        {
+            var ro = new RegistryObject("Test Key", Microsoft.Win32.RegistryView.Default)
+            {
+                PermissionsString = "O:BAG:SYD:(A;;KA;;;IU)",
+                ReferencedPaths = { @"C:\ProgramData\Contoso\plugin.dll" },
+                ReferencedClsids = { "{E9F83CF2-E0C0-4CA7-AF01-E90C70BEF496}" },
+            };
+            ro.Permissions.Add("NT AUTHORITY\\INTERACTIVE", new System.Collections.Generic.List<string> { "Allow:SetValue" });
+
+            if (JsonUtils.Hydrate(JsonUtils.Dehydrate(ro), RESULT_TYPE.REGISTRY) is RegistryObject ro2)
+            {
+                Assert.AreEqual(ro.RowKey, ro2.RowKey);
+                Assert.AreEqual(ro.PermissionsString, ro2.PermissionsString);
+                CollectionAssert.AreEqual(ro.ReferencedPaths, ro2.ReferencedPaths);
+                CollectionAssert.AreEqual(ro.ReferencedClsids, ro2.ReferencedClsids);
+                CollectionAssert.AreEqual(ro.Permissions["NT AUTHORITY\\INTERACTIVE"], ro2.Permissions["NT AUTHORITY\\INTERACTIVE"]);
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void TestSerializeAndDeserializeLoadPointObject()
+        {
+            var sourceKey = new RegistryObject(@"HKEY_LOCAL_MACHINE\SOFTWARE\Test", Microsoft.Win32.RegistryView.Registry64);
+            sourceKey.Permissions.Add("NT AUTHORITY\\INTERACTIVE", new System.Collections.Generic.List<string> { "Allow:SetValue" });
+
+            var lp = new LoadPointObject("StaticPluginMap", sourceKey)
+            {
+                SourceValueName = "StaticPluginMap",
+                SourceValueData = "1:{E9F83CF2-E0C0-4CA7-AF01-E90C70BEF496}",
+                SourceKeyUserWritable = true,
+                TargetClsid = "{E9F83CF2-E0C0-4CA7-AF01-E90C70BEF496}",
+                TargetPath = @"C:\ProgramData\CrossDevice\CrossDevice.Streaming.Source.dll",
+                TargetExists = false,
+                TargetUserWritable = true,
+                TargetAclSource = "NearestExistingParent",
+                NearestExistingParentPath = @"C:\ProgramData",
+                TargetIsNetworkPath = false,
+                View = Microsoft.Win32.RegistryView.Registry64,
+                ResolutionChain = { "step one", "step two" },
+            };
+
+            if (JsonUtils.Hydrate(JsonUtils.Dehydrate(lp), RESULT_TYPE.LOADPOINT) is LoadPointObject lp2)
+            {
+                Assert.AreEqual(lp.RowKey, lp2.RowKey);
+                Assert.AreEqual(lp.Identity, lp2.Identity);
+                Assert.AreEqual(lp.LoadPointType, lp2.LoadPointType);
+                Assert.AreEqual(lp.SourceKeyUserWritable, lp2.SourceKeyUserWritable);
+                Assert.AreEqual(lp.TargetUserWritable, lp2.TargetUserWritable);
+                Assert.AreEqual(lp.TargetExists, lp2.TargetExists);
+                Assert.AreEqual(lp.TargetAclSource, lp2.TargetAclSource);
+                Assert.AreEqual(lp.TargetIsNetworkPath, lp2.TargetIsNetworkPath);
+                Assert.AreEqual(lp.TargetPath, lp2.TargetPath);
+                Assert.AreEqual(lp.NearestExistingParentPath, lp2.NearestExistingParentPath);
+                Assert.AreEqual(lp.SourceKey.Key, lp2.SourceKey.Key);
+                CollectionAssert.AreEqual(lp.ResolutionChain, lp2.ResolutionChain);
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
         public void TestSerializeAndDeserializeServiceObject()
         {
             var so = new ServiceObject("TestService");

@@ -26,7 +26,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         /// </summary>
         /// <param name="SearchKey"> The Registry Key to search </param>
         /// <param name="View"> The View of the registry to use </param>
-        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false)
+        /// <param name="SingleThreaded"> Whether to parse subkeys serially </param>
+        /// <param name="FollowNetworkPaths">
+        ///     Whether to collect metadata for servers that resolve to another machine. Off by default, since
+        ///     reaching one connects to a host named by whoever could write the CLSID.
+        /// </param>
+        public static IEnumerable<CollectObject> ParseComObjects(RegistryKey SearchKey, RegistryView View, bool SingleThreaded = false, bool FollowNetworkPaths = false)
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) { return new List<CollectObject>(); }
             if (SearchKey == null) { return new List<CollectObject>(); }
@@ -45,70 +50,21 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         if (RegObj != null)
                         {
                             ComObject comObject = new(RegObj);
+                            var binary = ResolveServerBinary(CurrentKey, View, fsc, FollowNetworkPaths);
 
-                            foreach (string ComDetails in CurrentKey.GetSubKeyNames())
+                            if (binary is not null)
                             {
-                                if (ComDetails.Contains("InprocServer32"))
+                                // Which view the object came from is what determines the bitness of the
+                                // server it registers; the key name does not. InprocServer32 holds the
+                                // 64-bit server in the 64-bit view and the 32-bit server in the 32-bit view
+                                // (where it is redirected to Wow6432Node).
+                                if (View == RegistryView.Registry32)
                                 {
-                                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                    if (ComKey is not null)
-                                    {
-                                        var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
-                                        string? BinaryPath32 = null;
-
-                                        if (obj != null && obj.Values?.TryGetValue("", out BinaryPath32) is bool successful)
-                                        {
-                                            if (successful && BinaryPath32 != null)
-                                            {
-                                                // Clean up cases where some extra spaces are thrown into the start
-                                                // (breaks our permission checker)
-                                                BinaryPath32 = BinaryPath32.Trim();
-                                                // Clean up cases where the binary is quoted (also breaks permission checker)
-                                                if (BinaryPath32.StartsWith("\"") && BinaryPath32.EndsWith("\""))
-                                                {
-                                                    BinaryPath32 = BinaryPath32.AsSpan().Slice(1, BinaryPath32.Length - 2).ToString();
-                                                }
-                                                // Unqualified binary name probably comes from Windows\System32
-                                                if (!BinaryPath32.Contains("\\") && !BinaryPath32.Contains("%"))
-                                                {
-                                                    BinaryPath32 = Path.Combine(Environment.SystemDirectory, BinaryPath32.Trim());
-                                                }
-
-                                                comObject.x86_Binary = fsc.FilePathToFileSystemObject(BinaryPath32.Trim());
-                                            }
-                                        }
-                                    }
+                                    comObject.x86_Binary = binary;
                                 }
-                                if (ComDetails.Contains("InprocServer64"))
+                                else
                                 {
-                                    var ComKey = CurrentKey.OpenSubKey(ComDetails);
-                                    if (ComKey is not null)
-                                    {
-                                        var obj = RegistryWalker.RegistryKeyToRegistryObject(ComKey, View);
-                                        string? BinaryPath64 = null;
-
-                                        if (obj != null && obj.Values?.TryGetValue("", out BinaryPath64) is bool successful)
-                                        {
-                                            if (successful && BinaryPath64 != null)
-                                            {
-                                                // Clean up cases where some extra spaces are thrown into the start
-                                                // (breaks our permission checker)
-                                                BinaryPath64 = BinaryPath64.Trim();
-                                                // Clean up cases where the binary is quoted (also breaks permission checker)
-                                                if (BinaryPath64.StartsWith("\"") && BinaryPath64.EndsWith("\""))
-                                                {
-                                                    BinaryPath64 = BinaryPath64.AsSpan().Slice(1, BinaryPath64.Length - 2).ToString();
-                                                }
-                                                // Unqualified binary name probably comes from Windows\System32
-                                                if (!BinaryPath64.Contains("\\") && !BinaryPath64.Contains("%"))
-                                                {
-                                                    BinaryPath64 = Path.Combine(Environment.SystemDirectory, BinaryPath64.Trim());
-                                                }
-
-                                                comObject.x64_Binary = fsc.FilePathToFileSystemObject(BinaryPath64.Trim());
-                                            }
-                                        }
-                                    }
+                                    comObject.x64_Binary = binary;
                                 }
                             }
 
@@ -158,6 +114,81 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
         }
 
         /// <summary>
+        ///     The subkeys of a CLSID that name the server implementing it, in the order they are preferred.
+        ///     An in-process server is listed first because a DLL loaded into the calling process is the more
+        ///     interesting load point.
+        /// </summary>
+        /// <remarks>
+        ///     There is no InprocServer64 key; bitness is selected by the registry view.
+        /// </remarks>
+        private static readonly string[] ServerSubKeyNames = { "InprocServer32", "LocalServer32", "LocalServer" };
+
+        /// <summary>
+        ///     Reads the default value of the first server subkey present under a CLSID and resolves it to a
+        ///     file on disk.
+        /// </summary>
+        /// <remarks>
+        ///     A server registered on another machine is reported by path only unless <paramref
+        ///     name="followNetworkPaths" /> is set. Collecting its metadata would connect to a host named by
+        ///     whoever could write the CLSID, as the account running the collection.
+        /// </remarks>
+        private static FileSystemObject? ResolveServerBinary(RegistryKey clsidKey, RegistryView view, FileSystemCollector fsc, bool followNetworkPaths)
+        {
+            string[] subKeyNames;
+
+            try
+            {
+                subKeyNames = clsidKey.GetSubKeyNames();
+            }
+            catch (Exception e)
+            {
+                Log.Verbose("Failed to enumerate subkeys of {0} ({1}:{2})", clsidKey.Name, e.GetType(), e.Message);
+                return null;
+            }
+
+            foreach (var serverName in ServerSubKeyNames)
+            {
+                var match = Array.Find(subKeyNames, name => name.Equals(serverName, StringComparison.OrdinalIgnoreCase));
+                if (match is null)
+                {
+                    continue;
+                }
+
+                using var serverKey = clsidKey.OpenSubKey(match);
+                if (serverKey is null)
+                {
+                    continue;
+                }
+
+                var serverObj = RegistryWalker.RegistryKeyToRegistryObject(serverKey, view);
+                if (serverObj?.Values is null
+                    || !serverObj.Values.TryGetValue(string.Empty, out var raw)
+                    || string.IsNullOrWhiteSpace(raw))
+                {
+                    continue;
+                }
+
+                // LocalServer values are command lines, not bare paths.
+                var path = serverName.StartsWith("LocalServer", StringComparison.OrdinalIgnoreCase)
+                    ? RegistryReferenceParser.ExtractExecutablePath(raw)
+                    : RegistryReferenceParser.NormalizePath(raw);
+
+                if (path is not null)
+                {
+                    if (!followNetworkPaths && PathUtils.IsNetworkPath(path))
+                    {
+                        Log.Verbose("Not resolving network COM server path {0} for {1}. Pass --follow-network-paths to include it.", path, clsidKey.Name);
+                        return new FileSystemObject(path);
+                    }
+
+                    return fsc.FilePathToFileSystemObject(path);
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
         ///     Execute the Com Collector. We collect the list of Com Objects registered in the registry and
         ///     then examine each binary on the disk they point to.
         /// </summary>
@@ -183,7 +214,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                 var CLSIDs = SearchKey.OpenSubKey("SOFTWARE\\Classes\\CLSID");
                 if (CLSIDs is not null)
                 {
-                    foreach (var comObj in ParseComObjects(CLSIDs, view, opts.SingleThread))
+                    foreach (var comObj in ParseComObjects(CLSIDs, view, opts.SingleThread, opts.FollowNetworkPaths))
                     {
                         if (cancellationToken.IsCancellationRequested) { return; }
                         HandleChange(comObj);
@@ -212,7 +243,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Collectors
                         using var ComKey = SearchKey.OpenSubKey(subkeyName)?.OpenSubKey("CLSID");
                         if (ComKey is not null)
                         {
-                            foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread))
+                            foreach (var comObj in ParseComObjects(ComKey, view, opts.SingleThread, opts.FollowNetworkPaths))
                             {
                                 HandleChange(comObj);
                             }

@@ -303,7 +303,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Types
         /// <summary>
         ///     A wifi network
         /// </summary>
-        WIFI
+        WIFI,
+
+        /// <summary>
+        ///     See LoadPointObject
+        /// </summary>
+        LOADPOINT
     };
 
     /// <summary>

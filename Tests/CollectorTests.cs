@@ -67,6 +67,101 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Tests
                 coc.TryExecute();
 
                 Assert.IsTrue(results.Any(x => x is ComObject y && y.x86_Binary != null));
+
+                // The 64-bit view is parsed too, and no resolved path may still contain an unexpanded
+                // environment variable.
+                Assert.IsTrue(results.Any(x => x is ComObject y && y.x64_Binary != null));
+                Assert.IsFalse(results.Any(x => x is ComObject y
+                    && ((y.x86_Binary?.Path.Contains('%') ?? false) || (y.x64_Binary?.Path.Contains('%') ?? false))));
+            }
+        }
+
+        /// <summary>
+        ///     Requires admin. Load points are Windows only; off Windows only the platform gate is asserted.
+        /// </summary>
+        [TestMethod]
+        public void TestLoadPointCollector()
+        {
+            var lpc = new LoadPointCollector(new CollectorOptions() { SingleThread = true });
+
+            Assert.AreEqual(RuntimeInformation.IsOSPlatform(OSPlatform.Windows), lpc.CanRunOnPlatform());
+
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return;
+            }
+
+            ConcurrentStack<CollectObject> results = new();
+            lpc = new LoadPointCollector(new CollectorOptions() { SingleThread = true }, x => results.Push(x));
+            lpc.TryExecute();
+
+            Assert.IsTrue(results.Any(x => x is LoadPointObject y && !string.IsNullOrEmpty(y.TargetPath)));
+
+            // Services are one of the default definitions and always resolve to something on a real system.
+            Assert.IsTrue(results.Any(x => x is LoadPointObject y && y.LoadPointType == "Service"));
+
+            // Every object must say whether its target exists and where its verdict came from.
+            Assert.IsTrue(results.OfType<LoadPointObject>().All(y =>
+                y.TargetAclSource is "Target" or "NearestExistingParent" or "None"));
+
+            // System32 binaries must never be reported as writable by unprivileged users.
+            Assert.IsFalse(results.OfType<LoadPointObject>().Any(y =>
+                y.TargetUserWritable
+                && (y.TargetPath?.StartsWith(Environment.SystemDirectory, StringComparison.OrdinalIgnoreCase) ?? false)));
+
+            // Nothing off this machine may be touched without being asked for.
+            Assert.IsFalse(results.OfType<LoadPointObject>().Any(y => y.TargetIsNetworkPath && y.Target is not null));
+        }
+
+        /// <summary>
+        ///     A load point naming a share on another machine is reported, but resolving it would connect to a
+        ///     host chosen by whoever could write the key, so it is left alone by default. Does not require
+        ///     administrator, and does not touch the network.
+        /// </summary>
+        [TestMethod]
+        public void TestLoadPointCollectorDoesNotFollowNetworkPaths()
+        {
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                return;
+            }
+
+            const string NetworkTarget = @"\\asa-test-invalid-host\share\planted.dll";
+
+            var name = Guid.NewGuid().ToString();
+            var key = Registry.CurrentUser.CreateSubKey(name);
+            key.SetValue("ServiceDll", NetworkTarget);
+            key.Close();
+
+            try
+            {
+                var definition = new LoadPointDefinition("Test", RegistryHive.CurrentUser, name, false,
+                    new LoadPointValueSource(null, "ServiceDll", LoadPointTargetKind.Path));
+
+                var lpc = new LoadPointCollector(new CollectorOptions() { SingleThread = true }, definitions: new[] { definition });
+                var loadPoints = lpc.ParseDefinition(definition, RegistryView.Default).ToList();
+
+                Assert.AreEqual(1, loadPoints.Count);
+
+                var loadPoint = loadPoints[0];
+
+                // The path is still reported, so a rule can see where the load point points.
+                Assert.AreEqual(NetworkTarget, loadPoint.TargetPath);
+                Assert.IsTrue(loadPoint.TargetIsNetworkPath);
+
+                // Nothing about the remote end was read, and the object says so rather than implying the
+                // target is absent or safe.
+                Assert.IsNull(loadPoint.Target);
+                Assert.IsNull(loadPoint.NearestExistingParent);
+                Assert.IsNull(loadPoint.NearestExistingParentPath);
+                Assert.IsFalse(loadPoint.TargetExists);
+                Assert.IsFalse(loadPoint.TargetUserWritable);
+                Assert.IsTrue(loadPoint.TargetAclUnavailable);
+                Assert.AreEqual("None", loadPoint.TargetAclSource);
+            }
+            finally
+            {
+                Registry.CurrentUser.DeleteSubKey(name);
             }
         }
 
