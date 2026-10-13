@@ -38,13 +38,24 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         {
         }
 
+        /// <summary>
+        ///     True when the signature carries a signing time which falls inside the signing
+        ///     certificate's validity period. A binary that was correctly signed and timestamped stays
+        ///     valid here even after its certificate expires. False when the signing time could not be
+        ///     determined, so callers that need to distinguish "signed outside validity" from "signing
+        ///     time unknown" should also inspect <see cref="SigningTime"/>.
+        /// </summary>
         public bool IsTimeValid
         {
             get
             {
-                if (SigningCertificate != null && SigningTime is DateTime signingTime)
+                if (SigningCertificate is SerializableCertificate certificate && SigningTime is DateTime signingTime)
                 {
-                    return signingTime >= SigningCertificate.NotBefore && signingTime <= SigningCertificate.NotAfter;
+                    // Signing times are recovered as UTC while certificate validity comes back from
+                    // X509Certificate2 as local time, so both sides are normalized before comparing.
+                    var signedAtUtc = signingTime.ToUniversalTime();
+                    return signedAtUtc >= certificate.NotBefore.ToUniversalTime() &&
+                           signedAtUtc <= certificate.NotAfter.ToUniversalTime();
                 }
                 return false;
             }
@@ -54,6 +65,11 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string? SignedHash { get; set; }
         public string? SignerSerialNumber { get; set; }
         public SerializableCertificate? SigningCertificate { get; set; }
+
+        /// <summary>
+        ///     The time the binary was signed, recovered from the Authenticode timestamp when one is
+        ///     present. Null when the signature is absent or carries no recoverable timestamp.
+        /// </summary>
         public DateTime? SigningTime { get; set; }
     }
 }

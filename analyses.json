@@ -1556,8 +1556,8 @@
       ]
     },
     {
-      "Name": "Binaries with unverified signature validity",
-      "Description": "These binaries have signatures where the signing time could not be verified as being within the certificate's validity period. The signing time may be outside the validity period or could not be determined.",
+      "Name": "Binaries signed outside certificate validity period",
+      "Description": "These binaries carry a signing time which falls outside the signing certificate's validity period, so the signature was not applied while the certificate was valid.",
       "Flag": "WARNING",
       "ResultType": "FILE",
       "ChangeTypes": [
@@ -1570,6 +1570,11 @@
           "Operation": "IsTrue"
         },
         {
+          "Field": "SignatureStatus.SigningTime",
+          "Operation": "IsNull",
+          "Invert": true
+        },
+        {
           "Field": "SignatureStatus.IsTimeValid",
           "Operation": "IsTrue",
           "Invert": true
@@ -1577,8 +1582,28 @@
       ]
     },
     {
-      "Name": "Binaries with unverified signature validity",
-      "Description": "These binaries have signatures where the signing time could not be verified as being within the certificate's validity period. The signing time may be outside the validity period or could not be determined.",
+      "Name": "Binaries with an undeterminable signing time",
+      "Description": "These binaries are signed but carry no recoverable signing time, so the signature cannot be confirmed as having been applied while the signing certificate was valid.",
+      "Flag": "INFORMATION",
+      "ResultType": "FILE",
+      "ChangeTypes": [
+        "MODIFIED",
+        "CREATED"
+      ],
+      "Clauses": [
+        {
+          "Field": "SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
+        },
+        {
+          "Field": "SignatureStatus.SigningTime",
+          "Operation": "IsNull"
+        }
+      ]
+    },
+    {
+      "Name": "Binaries signed outside certificate validity period",
+      "Description": "These binaries carry a signing time which falls outside the signing certificate's validity period, so the signature was not applied while the certificate was valid.",
       "Flag": "WARNING",
       "ResultType": "FILEMONITOR",
       "ChangeTypes": [
@@ -1591,9 +1616,34 @@
           "Operation": "IsTrue"
         },
         {
+          "Field": "FileSystemObject.SignatureStatus.SigningTime",
+          "Operation": "IsNull",
+          "Invert": true
+        },
+        {
           "Field": "FileSystemObject.SignatureStatus.IsTimeValid",
           "Operation": "IsTrue",
           "Invert": true
+        }
+      ]
+    },
+    {
+      "Name": "Binaries with an undeterminable signing time",
+      "Description": "These binaries are signed but carry no recoverable signing time, so the signature cannot be confirmed as having been applied while the signing certificate was valid.",
+      "Flag": "INFORMATION",
+      "ResultType": "FILEMONITOR",
+      "ChangeTypes": [
+        "MODIFIED",
+        "CREATED"
+      ],
+      "Clauses": [
+        {
+          "Field": "FileSystemObject.SignatureStatus.IsAuthenticodeValid",
+          "Operation": "IsTrue"
+        },
+        {
+          "Field": "FileSystemObject.SignatureStatus.SigningTime",
+          "Operation": "IsNull"
         }
       ]
     },
