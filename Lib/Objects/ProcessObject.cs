@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
+using ProtoBuf;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract(SkipConstructor = true)]
     public class ProcessObject : CollectObject
     {
         public ProcessObject(int Id, string ProcessName)
@@ -17,10 +19,13 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 
         public override RESULT_TYPE ResultType => RESULT_TYPE.PROCESS;
 
+        [ProtoMember(1)]
         public int BasePriority { get; set; }
 
+        [ProtoMember(2)]
         public bool HasExited { get; set; }
 
+        [ProtoMember(3)]
         public int Id { get; }
 
         /// <summary>
@@ -34,14 +39,19 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             }
         }
 
+        [ProtoMember(4)]
         public ProcessModuleObject? MainModule { get; set; }
 
+        [ProtoMember(5)]
         public List<ProcessModuleObject> Modules { get; set; } = new List<ProcessModuleObject>();
 
+        [ProtoMember(6)]
         public ProcessPriorityClass PriorityClass { get; set; }
 
+        [ProtoMember(7)]
         public string ProcessName { get; set; }
 
+        [ProtoMember(8)]
         public DateTime StartTime { get; set; }
 
         public static ProcessObject? FromProcess(Process process)

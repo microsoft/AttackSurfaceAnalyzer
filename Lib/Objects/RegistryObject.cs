@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License.
 using Microsoft.CST.AttackSurfaceAnalyzer.Types;
 using Microsoft.Win32;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
 {
+    [ProtoContract(SkipConstructor = true)]
     public class RegistryObject : CollectObject
     {
         public RegistryObject(string Key, RegistryView View)
@@ -28,9 +30,12 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         /// <summary>
         ///     The Full Path to the Key in the Registry
         /// </summary>
+        [ProtoMember(1)]
         public string Key { get; set; }
 
+        [ProtoMember(2)]
         public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
+        [ProtoMember(3)]
         public string? PermissionsString { get; set; }
 
         public int SubkeyCount
@@ -38,6 +43,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             get { return Subkeys?.Count ?? 0; }
         }
 
+        [ProtoMember(4)]
         public List<string>? Subkeys { get; set; }
 
         public int ValueCount
@@ -45,7 +51,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
             get { return Values?.Count ?? 0; }
         }
 
+        [ProtoMember(5)]
         public Dictionary<string, string>? Values { get; set; }
+        [ProtoMember(6)]
         public RegistryView View { get; private set; }
 
         public static Dictionary<string, string> GetValues(RegistryKey key)

@@ -29,7 +29,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
         [Params(1000)]
         public int ObjectPadding { get; set; }
 
-        [Benchmark]
+        //[Benchmark]
         public void Generate_N_Murmur_Hashes()
         {
             for (int i = 0; i < N; i++)
@@ -65,7 +65,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
-        [Benchmark]
+        //[Benchmark]
         public void Generate_N_SHA256Managed_Hashes()
         {
             for (int i = 0; i < N; i++)
@@ -101,7 +101,7 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Benchmarks
             }
         }
 
-        [Benchmark]
+        //[Benchmark]
         public void Generate_N_SHA512_Managed_Hashes()
         {
             for (int i = 0; i < N; i++)
