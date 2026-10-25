@@ -31,7 +31,31 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
         public string Key { get; set; }
 
         public Dictionary<string, List<string>> Permissions { get; set; } = new Dictionary<string, List<string>>();
+
+        /// <summary>
+        ///     The key's security descriptor in SDDL form.
+        /// </summary>
+        /// <remarks>
+        ///     A flat string, so analysis rules can match ACE patterns against it with Regex. The
+        ///     Permissions dictionary cannot be matched that way: OAT's regex operation discards the
+        ///     dictionary half of a field's values.
+        /// </remarks>
         public string? PermissionsString { get; set; }
+
+        /// <summary>
+        ///     CLSID-shaped GUIDs referenced by this key's values, in braced uppercase form.
+        /// </summary>
+        /// <remarks>
+        ///     Pre-parsed at collection time because analysis rules cannot follow a reference from one
+        ///     object to another. A List&lt;string&gt; so that Regex, Contains, StartsWith, and EndsWith all
+        ///     work against it.
+        /// </remarks>
+        public List<string> ReferencedClsids { get; set; } = new List<string>();
+
+        /// <summary>
+        ///     File paths referenced by this key's values, environment-expanded and normalized.
+        /// </summary>
+        public List<string> ReferencedPaths { get; set; } = new List<string>();
 
         public int SubkeyCount
         {

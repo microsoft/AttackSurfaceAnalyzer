@@ -70,6 +70,9 @@ namespace Microsoft.CST.AttackSurfaceAnalyzer.Objects
                 case RESULT_TYPE.KEY:
                     return typeof(CryptographicKeyObject).Name;
 
+                case RESULT_TYPE.LOADPOINT:
+                    return typeof(LoadPointObject).Name;
+
                 case RESULT_TYPE.LOG:
                     return typeof(EventLogObject).Name;
 
