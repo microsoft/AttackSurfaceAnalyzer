@@ -17,6 +17,11 @@ variables:
   BuildConfiguration: 'Release'
   DotnetVersion: '10.0.x'
   DotnetTargetFramework: 'net10.0'
+  EsrpConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
+  EsrpAppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
+  EsrpAppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
+  EsrpAuthAKVName: 'oss-signing-vault'
+  EsrpAuthSignCertName: 'oss-asa-signing-cert'
 
 extends:
   template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
@@ -193,12 +198,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: First Party Code Sign - Linux
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
             Pattern: 'Asa.dll, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
             signConfigType: 'inlineSignParams'
@@ -231,12 +236,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: First Party Code Sign - MacOS
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
             Pattern: 'Asa.dll, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
             signConfigType: 'inlineSignParams'
@@ -269,12 +274,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: First Party Code Sign - Windows
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
             Pattern: 'Asa.dll, Asa.exe, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
             signConfigType: 'inlineSignParams'
@@ -307,12 +312,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: First Party Code Sign - .NET Core App
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
             Pattern: 'Asa.dll, Asa.exe, AsaLib.dll, OAT.Blazor.Components.dll, OAT.dll, OAT.Scripting.dll, RecursiveExtractor.dll, Sarif.dll'
             signConfigType: 'inlineSignParams'
@@ -346,12 +351,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: Third Party Code Sign - Linux
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/linux/ASA_linux_$(ReleaseVersion)'
             Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
             signConfigType: 'inlineSignParams'
@@ -384,12 +389,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: Third Party Code Sign - MacOS
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/macos/ASA_macos_$(ReleaseVersion)'
             Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
             signConfigType: 'inlineSignParams'
@@ -422,12 +427,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: Third Party Code Sign - Windows
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/win/ASA_win_$(ReleaseVersion)'
             Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
             signConfigType: 'inlineSignParams'
@@ -460,12 +465,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: Third Party Code Sign - .NET Core App
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)/netcoreapp/ASA_netcoreapp_$(ReleaseVersion)'
             Pattern: 'CommandLine.dll, DiscUtils.*.dll, Glob.dll, ICSharpCode.*.dll, KellermanSoftware.*.dll, lzo.*.dll, MedallionShell.dll, Mono.*.dll, Newtonsoft.*.dll, NLog.dll, PeNet.dll, PeNet.Asn1.dll, Serilog.dll, Serilog.*.dll, SharpCompress.dll, SQLitePCLRaw.*.dll, Tewr.*.dll, TSS.*.dll, WindowsBase.dll, WindowsFirewallHelper.dll'
             signConfigType: 'inlineSignParams'
@@ -499,12 +504,12 @@ extends:
         - task: EsrpCodeSigning@5
           displayName: Code Sign Nuget Packages
           inputs:
-            ConnectedServiceName: 'oss-esrp-signing-asa-v5-connection'
-            AppRegistrationClientId: '8614a980-8e8d-49b8-9c9d-8a5cde7d4a2f'
-            AppRegistrationTenantId: '33e01921-4d64-4f8c-a055-5bdaffd5e33d'
-            AuthAKVName: 'oss-signing-vault'
+            ConnectedServiceName: '$(EsrpConnectedServiceName)'
+            AppRegistrationClientId: '$(EsrpAppRegistrationClientId)'
+            AppRegistrationTenantId: '$(EsrpAppRegistrationTenantId)'
+            AuthAKVName: '$(EsrpAuthAKVName)'
             AuthCertName: 'oss-asa-auth-cert'
-            AuthSignCertName: 'oss-asa-signing-cert'
+            AuthSignCertName: '$(EsrpAuthSignCertName)'
             FolderPath: '$(Build.BinariesDirectory)'
             Pattern: '*.nupkg, *.snupkg'
             signConfigType: 'inlineSignParams'
